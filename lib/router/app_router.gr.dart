@@ -59,6 +59,26 @@ class _$AppRouter extends RootStackRouter {
         child: const HomePage(),
       );
     },
+    FolderDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<FolderDetailsRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: FolderDetailsPage(
+          key: args.key,
+          folderId: args.folderId,
+        ),
+      );
+    },
+    WorkbookDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<WorkbookDetailsRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: WorkbookDetailsPage(
+          key: args.key,
+          workbookId: args.workbookId,
+        ),
+      );
+    },
     SearchWorkbookRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -100,7 +120,17 @@ class _$AppRouter extends RootStackRouter {
                   HomeRoute.name,
                   path: '',
                   parent: HomeTabRoute.name,
-                )
+                ),
+                RouteConfig(
+                  FolderDetailsRoute.name,
+                  path: 'folder-details-page',
+                  parent: HomeTabRoute.name,
+                ),
+                RouteConfig(
+                  WorkbookDetailsRoute.name,
+                  path: 'workbook-details-page',
+                  parent: HomeTabRoute.name,
+                ),
               ],
             ),
             RouteConfig(
@@ -244,6 +274,74 @@ class HomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+}
+
+/// generated route for
+/// [FolderDetailsPage]
+class FolderDetailsRoute extends PageRouteInfo<FolderDetailsRouteArgs> {
+  FolderDetailsRoute({
+    Key? key,
+    required String folderId,
+  }) : super(
+          FolderDetailsRoute.name,
+          path: 'folder-details-page',
+          args: FolderDetailsRouteArgs(
+            key: key,
+            folderId: folderId,
+          ),
+        );
+
+  static const String name = 'FolderDetailsRoute';
+}
+
+class FolderDetailsRouteArgs {
+  const FolderDetailsRouteArgs({
+    this.key,
+    required this.folderId,
+  });
+
+  final Key? key;
+
+  final String folderId;
+
+  @override
+  String toString() {
+    return 'FolderDetailsRouteArgs{key: $key, folderId: $folderId}';
+  }
+}
+
+/// generated route for
+/// [WorkbookDetailsPage]
+class WorkbookDetailsRoute extends PageRouteInfo<WorkbookDetailsRouteArgs> {
+  WorkbookDetailsRoute({
+    Key? key,
+    required String workbookId,
+  }) : super(
+          WorkbookDetailsRoute.name,
+          path: 'workbook-details-page',
+          args: WorkbookDetailsRouteArgs(
+            key: key,
+            workbookId: workbookId,
+          ),
+        );
+
+  static const String name = 'WorkbookDetailsRoute';
+}
+
+class WorkbookDetailsRouteArgs {
+  const WorkbookDetailsRouteArgs({
+    this.key,
+    required this.workbookId,
+  });
+
+  final Key? key;
+
+  final String workbookId;
+
+  @override
+  String toString() {
+    return 'WorkbookDetailsRouteArgs{key: $key, workbookId: $workbookId}';
+  }
 }
 
 /// generated route for
