@@ -60,6 +60,7 @@ void _migrateIOSWorkbooks(Migration migration) {
           )
           ?.folderId;
 
+
       newWorkbook
         ..workbookId = oldWorkbook.dynamic.get<String>('id')
         ..title = oldWorkbook.dynamic.get<String>('title')
@@ -139,18 +140,32 @@ void _migrateAndroidWorkbooks(Migration migration) {
             )
             ?.folderId;
 
-        return _androidOldWorkbookToRealmWorkbook(
-          oldWorkbook,
-          folderId,
+        final workbookId = Uuid.v4().toString();
+        final childQuestions = oldWorkbook.dynamic.getList('questions').map(
+              (e) => _androidOldQuestionToRealmQuestion(
+                  e! as RealmObjectBase, workbookId),
+            );
+        migration.newRealm.addAll(childQuestions);
+
+        return RealmWorkbook(
+          workbookId,
+          oldWorkbook.dynamic.get<String?>('title') ?? '',
+          oldWorkbook.dynamic.get<int>('order'),
+          ColorTheme.from(oldWorkbook.dynamic.get<String>('themeColor')).index,
+          folderId: folderId,
         );
       },
     ),
   );
 }
 
-RealmQuestion _androidOldQuestionToRealmQuestion(RealmObjectBase oldQuestion) =>
+RealmQuestion _androidOldQuestionToRealmQuestion(
+  RealmObjectBase oldQuestion,
+  String workbookId,
+) =>
     RealmQuestion(
       Uuid.v4().toString(),
+      workbookId,
       oldQuestion.dynamic.get<int>('type'),
       oldQuestion.dynamic.get<String>('problem'),
       oldQuestion.dynamic.get<String>('answer'),
@@ -175,21 +190,3 @@ RealmQuestion _androidOldQuestionToRealmQuestion(RealmObjectBase oldQuestion) =>
               (e! as RealmObjectBase).dynamic.get<String?>('select') ?? '')
           .toList(),
     );
-
-RealmWorkbook _androidOldWorkbookToRealmWorkbook(
-  RealmObjectBase oldWorkbook,
-  String? folderId,
-) {
-  final childQuestions = oldWorkbook.dynamic.getList('questions').map(
-        (e) => _androidOldQuestionToRealmQuestion(e! as RealmObjectBase),
-      );
-
-  return RealmWorkbook(
-    Uuid.v4().toString(),
-    oldWorkbook.dynamic.get<String?>('title') ?? '',
-    oldWorkbook.dynamic.get<int>('order'),
-    ColorTheme.from(oldWorkbook.dynamic.get<String>('themeColor')).index,
-    folderId: folderId,
-    questions: childQuestions,
-  );
-}

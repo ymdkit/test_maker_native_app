@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:test_maker_native_app/model/question.dart';
 
 part 'workbook.freezed.dart';
 
@@ -11,6 +10,5 @@ class Workbook with _$Workbook {
     required int order,
     required int color,
     required String? folderId,
-    required List<Question> questions,
   }) = _Workbook;
 }

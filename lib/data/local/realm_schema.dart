@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:realm/realm.dart';
-import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
 import 'package:test_maker_native_app/model/enum/answer_status.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
 import 'package:test_maker_native_app/model/folder.dart';
@@ -15,6 +14,7 @@ class _RealmQuestion {
   @PrimaryKey()
   late String questionId;
 
+  late String workbookId;
   late int questionType;
   late String problem;
   late String? problemImageUrl;
@@ -31,6 +31,7 @@ class _RealmQuestion {
   Question toQuestion() {
     return Question(
       questionId: questionId,
+      workbookId: workbookId,
       questionType: QuestionType.from(questionType),
       problem: problem,
       problemImageUrl: problemImageUrl,
@@ -60,8 +61,6 @@ class _RealmWorkbook {
   late int color;
   late String? folderId;
 
-  late List<_RealmQuestion> questions;
-
   Workbook toWorkbook() {
     return Workbook(
       workbookId: workbookId,
@@ -69,7 +68,6 @@ class _RealmWorkbook {
       order: order,
       color: color,
       folderId: folderId,
-      questions: questions.map((e) => e.toQuestion()).toList(),
     );
   }
 }

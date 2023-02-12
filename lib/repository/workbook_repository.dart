@@ -35,7 +35,6 @@ class WorkbookRepository {
       order: newOrder,
       color: color,
       folderId: folderId,
-      questions: [],
     );
 
     localDB.write(() {

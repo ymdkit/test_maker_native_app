@@ -8,6 +8,7 @@ part 'question.freezed.dart';
 class Question with _$Question {
   const factory Question({
     required String questionId,
+    required String workbookId,
     required QuestionType questionType,
     required String problem,
     required String? problemImageUrl,

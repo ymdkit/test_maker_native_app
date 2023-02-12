@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Question {
   String get questionId => throw _privateConstructorUsedError;
+  String get workbookId => throw _privateConstructorUsedError;
   QuestionType get questionType => throw _privateConstructorUsedError;
   String get problem => throw _privateConstructorUsedError;
   String? get problemImageUrl => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $QuestionCopyWith<$Res> {
   @useResult
   $Res call(
       {String questionId,
+      String workbookId,
       QuestionType questionType,
       String problem,
       String? problemImageUrl,
@@ -68,6 +70,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   @override
   $Res call({
     Object? questionId = null,
+    Object? workbookId = null,
     Object? questionType = null,
     Object? problem = null,
     Object? problemImageUrl = freezed,
@@ -84,6 +87,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
+              as String,
+      workbookId: null == workbookId
+          ? _value.workbookId
+          : workbookId // ignore: cast_nullable_to_non_nullable
               as String,
       questionType: null == questionType
           ? _value.questionType
@@ -142,6 +149,7 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
   @useResult
   $Res call(
       {String questionId,
+      String workbookId,
       QuestionType questionType,
       String problem,
       String? problemImageUrl,
@@ -167,6 +175,7 @@ class __$$_QuestionCopyWithImpl<$Res>
   @override
   $Res call({
     Object? questionId = null,
+    Object? workbookId = null,
     Object? questionType = null,
     Object? problem = null,
     Object? problemImageUrl = freezed,
@@ -183,6 +192,10 @@ class __$$_QuestionCopyWithImpl<$Res>
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
+              as String,
+      workbookId: null == workbookId
+          ? _value.workbookId
+          : workbookId // ignore: cast_nullable_to_non_nullable
               as String,
       questionType: null == questionType
           ? _value.questionType
@@ -237,6 +250,7 @@ class __$$_QuestionCopyWithImpl<$Res>
 class _$_Question implements _Question {
   const _$_Question(
       {required this.questionId,
+      required this.workbookId,
       required this.questionType,
       required this.problem,
       required this.problemImageUrl,
@@ -253,6 +267,8 @@ class _$_Question implements _Question {
 
   @override
   final String questionId;
+  @override
+  final String workbookId;
   @override
   final QuestionType questionType;
   @override
@@ -290,7 +306,7 @@ class _$_Question implements _Question {
 
   @override
   String toString() {
-    return 'Question(questionId: $questionId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, answers: $answers, wrongChoices: $wrongChoices, explanation: $explanation, explanationImageUrl: $explanationImageUrl, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus)';
+    return 'Question(questionId: $questionId, workbookId: $workbookId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, answers: $answers, wrongChoices: $wrongChoices, explanation: $explanation, explanationImageUrl: $explanationImageUrl, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus)';
   }
 
   @override
@@ -300,6 +316,8 @@ class _$_Question implements _Question {
             other is _$_Question &&
             (identical(other.questionId, questionId) ||
                 other.questionId == questionId) &&
+            (identical(other.workbookId, workbookId) ||
+                other.workbookId == workbookId) &&
             (identical(other.questionType, questionType) ||
                 other.questionType == questionType) &&
             (identical(other.problem, problem) || other.problem == problem) &&
@@ -327,6 +345,7 @@ class _$_Question implements _Question {
   int get hashCode => Object.hash(
       runtimeType,
       questionId,
+      workbookId,
       questionType,
       problem,
       problemImageUrl,
@@ -349,6 +368,7 @@ class _$_Question implements _Question {
 abstract class _Question implements Question {
   const factory _Question(
       {required final String questionId,
+      required final String workbookId,
       required final QuestionType questionType,
       required final String problem,
       required final String? problemImageUrl,
@@ -363,6 +383,8 @@ abstract class _Question implements Question {
 
   @override
   String get questionId;
+  @override
+  String get workbookId;
   @override
   QuestionType get questionType;
   @override

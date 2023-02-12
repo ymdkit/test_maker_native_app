@@ -8,6 +8,7 @@ extension RealmQuestionConverting on RealmQuestion {
   static RealmQuestion fromQuestion(Question question) {
     return RealmQuestion(
       question.questionId,
+      question.workbookId,
       question.questionType.index,
       question.problem,
       question.answers.firstOrNull ?? '',
@@ -32,9 +33,6 @@ extension RealmWorkbookConverting on RealmWorkbook {
       workbook.order,
       workbook.color,
       folderId: workbook.folderId,
-      questions: workbook.questions
-          .map((e) => RealmQuestionConverting.fromQuestion(e))
-          .toList(),
     );
   }
 }

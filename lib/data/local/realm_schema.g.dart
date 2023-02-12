@@ -10,6 +10,7 @@ class RealmQuestion extends _RealmQuestion
     with RealmEntity, RealmObjectBase, RealmObject {
   RealmQuestion(
     String questionId,
+    String workbookId,
     int questionType,
     String problem,
     String answer,
@@ -24,6 +25,7 @@ class RealmQuestion extends _RealmQuestion
     Iterable<String> wrongChoices = const [],
   }) {
     RealmObjectBase.set(this, 'questionId', questionId);
+    RealmObjectBase.set(this, 'workbookId', workbookId);
     RealmObjectBase.set(this, 'questionType', questionType);
     RealmObjectBase.set(this, 'problem', problem);
     RealmObjectBase.set(this, 'problemImageUrl', problemImageUrl);
@@ -49,6 +51,13 @@ class RealmQuestion extends _RealmQuestion
   @override
   set questionId(String value) =>
       RealmObjectBase.set(this, 'questionId', value);
+
+  @override
+  String get workbookId =>
+      RealmObjectBase.get<String>(this, 'workbookId') as String;
+  @override
+  set workbookId(String value) =>
+      RealmObjectBase.set(this, 'workbookId', value);
 
   @override
   int get questionType => RealmObjectBase.get<int>(this, 'questionType') as int;
@@ -141,6 +150,7 @@ class RealmQuestion extends _RealmQuestion
     return const SchemaObject(
         ObjectType.realmObject, RealmQuestion, 'Question', [
       SchemaProperty('questionId', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('workbookId', RealmPropertyType.string),
       SchemaProperty('questionType', RealmPropertyType.int),
       SchemaProperty('problem', RealmPropertyType.string),
       SchemaProperty('problemImageUrl', RealmPropertyType.string,
@@ -169,15 +179,12 @@ class RealmWorkbook extends _RealmWorkbook
     int order,
     int color, {
     String? folderId,
-    Iterable<RealmQuestion> questions = const [],
   }) {
     RealmObjectBase.set(this, 'workbookId', workbookId);
     RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'order', order);
     RealmObjectBase.set(this, 'color', color);
     RealmObjectBase.set(this, 'folderId', folderId);
-    RealmObjectBase.set<RealmList<RealmQuestion>>(
-        this, 'questions', RealmList<RealmQuestion>(questions));
   }
 
   RealmWorkbook._();
@@ -211,14 +218,6 @@ class RealmWorkbook extends _RealmWorkbook
   set folderId(String? value) => RealmObjectBase.set(this, 'folderId', value);
 
   @override
-  RealmList<RealmQuestion> get questions =>
-      RealmObjectBase.get<RealmQuestion>(this, 'questions')
-          as RealmList<RealmQuestion>;
-  @override
-  set questions(covariant RealmList<RealmQuestion> value) =>
-      throw RealmUnsupportedSetError();
-
-  @override
   Stream<RealmObjectChanges<RealmWorkbook>> get changes =>
       RealmObjectBase.getChanges<RealmWorkbook>(this);
 
@@ -235,8 +234,6 @@ class RealmWorkbook extends _RealmWorkbook
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('color', RealmPropertyType.int),
       SchemaProperty('folderId', RealmPropertyType.string, optional: true),
-      SchemaProperty('questions', RealmPropertyType.object,
-          linkTarget: 'Question', collectionType: RealmCollectionType.list),
     ]);
   }
 }
