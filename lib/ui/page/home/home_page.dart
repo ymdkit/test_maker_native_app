@@ -6,8 +6,10 @@ import 'package:test_maker_native_app/state/folders_state.dart';
 import 'package:test_maker_native_app/state/workbooks_state.dart';
 import 'package:test_maker_native_app/ui/page/folder/folder_list_item.dart';
 import 'package:test_maker_native_app/ui/page/workbook/workbook_list_item.dart';
+import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
 import 'package:test_maker_native_app/ui/widget/app_sliver_section.dart';
 import 'package:test_maker_native_app/ui/widget/app_sliver_space.dart';
+import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
@@ -21,48 +23,56 @@ class HomePage extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text('暗記メーカー'),
       ),
-      body: CustomScrollView(
-        slivers: [
-          const AppSliverSpace(height: 16),
-          AppSliverSection(
-            title: 'フォルダ',
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return FolderListItem(
-                    folder: folders[index],
-                    onTap: (folder) => context.router.push(
-                      FolderDetailsRoute(
-                        folderId: folder.folderId,
-                      ),
-                    ),
-                  );
-                },
-                childCount: folders.length,
+      body: folders.isEmpty && workbooks.isEmpty
+          ? AppEmptyContent.workbook(
+              // TODO(ymdkit): 問題集作成画面への遷移
+              onPressedFallbackButton: () => showAppSnackBar(
+                context,
+                '問題集を作成する',
               ),
-            ),
-          ),
-          const AppSliverSpace(height: 16),
-          AppSliverSection(
-            title: '問題集',
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return WorkbookListItem(
-                    workbook: workbooks[index],
-                    onTap: (workbook) => context.router.push(
-                      WorkbookDetailsRoute(
-                        workbookId: workbook.workbookId,
-                      ),
+            )
+          : CustomScrollView(
+              slivers: [
+                const AppSliverSpace(height: 16),
+                AppSliverSection(
+                  title: 'フォルダ',
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return FolderListItem(
+                          folder: folders[index],
+                          onTap: (folder) => context.router.push(
+                            FolderDetailsRoute(
+                              folderId: folder.folderId,
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: folders.length,
                     ),
-                  );
-                },
-                childCount: workbooks.length,
-              ),
+                  ),
+                ),
+                const AppSliverSpace(height: 16),
+                AppSliverSection(
+                  title: '問題集',
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return WorkbookListItem(
+                          workbook: workbooks[index],
+                          onTap: (workbook) => context.router.push(
+                            WorkbookDetailsRoute(
+                              workbookId: workbook.workbookId,
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: workbooks.length,
+                    ),
+                  ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
     );
   }
 }
