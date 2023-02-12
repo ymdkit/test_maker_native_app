@@ -9,7 +9,6 @@ import 'package:test_maker_native_app/ui/page/workbook/workbook_list_item.dart';
 import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
 import 'package:test_maker_native_app/ui/widget/app_sliver_section.dart';
 import 'package:test_maker_native_app/ui/widget/app_sliver_space.dart';
-import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
@@ -25,10 +24,8 @@ class HomePage extends HookConsumerWidget {
       ),
       body: folders.isEmpty && workbooks.isEmpty
           ? AppEmptyContent.workbook(
-              // TODO(ymdkit): 問題集作成画面への遷移
-              onPressedFallbackButton: () => showAppSnackBar(
-                context,
-                '問題集を作成する',
+              onPressedFallbackButton: () => context.router.push(
+                const CreateWorkbookRoute(),
               ),
             )
           : CustomScrollView(
@@ -73,6 +70,12 @@ class HomePage extends HookConsumerWidget {
                 )
               ],
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.router.push(
+          const CreateWorkbookRoute(),
+        ),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

@@ -69,6 +69,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    CreateWorkbookRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CreateWorkbookPage(),
+      );
+    },
     WorkbookDetailsRoute.name: (routeData) {
       final args = routeData.argsAs<WorkbookDetailsRouteArgs>();
       return MaterialPageX<dynamic>(
@@ -124,6 +130,11 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(
                   FolderDetailsRoute.name,
                   path: 'folder-details-page',
+                  parent: HomeTabRoute.name,
+                ),
+                RouteConfig(
+                  CreateWorkbookRoute.name,
+                  path: 'create-workbook-page',
                   parent: HomeTabRoute.name,
                 ),
                 RouteConfig(
@@ -308,6 +319,18 @@ class FolderDetailsRouteArgs {
   String toString() {
     return 'FolderDetailsRouteArgs{key: $key, folderId: $folderId}';
   }
+}
+
+/// generated route for
+/// [CreateWorkbookPage]
+class CreateWorkbookRoute extends PageRouteInfo<void> {
+  const CreateWorkbookRoute()
+      : super(
+          CreateWorkbookRoute.name,
+          path: 'create-workbook-page',
+        );
+
+  static const String name = 'CreateWorkbookRoute';
 }
 
 /// generated route for
