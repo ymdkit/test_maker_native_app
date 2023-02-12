@@ -7,7 +7,7 @@ analyzer:
     strict-raw-types: true
   exclude:
     - lib/**.freezed.dart
-    - lib/proto_generated/**
+    - lib/**.g.dart
     - lib/router/app_router.gr.dart
     - test/**.mocks.dart
 linter:
