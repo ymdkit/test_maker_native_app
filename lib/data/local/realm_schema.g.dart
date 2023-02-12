@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'realm_question.dart';
+part of 'realm_schema.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
@@ -157,6 +157,77 @@ class RealmQuestion extends _RealmQuestion
       SchemaProperty('isCheckAnswerOrder', RealmPropertyType.bool),
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('answerStatus', RealmPropertyType.string),
+    ]);
+  }
+}
+
+class RealmWorkbook extends _RealmWorkbook
+    with RealmEntity, RealmObjectBase, RealmObject {
+  RealmWorkbook(
+    String workbookId,
+    String title,
+    int order,
+    int color, {
+    Iterable<RealmQuestion> questions = const [],
+  }) {
+    RealmObjectBase.set(this, 'workbookId', workbookId);
+    RealmObjectBase.set(this, 'title', title);
+    RealmObjectBase.set(this, 'order', order);
+    RealmObjectBase.set(this, 'color', color);
+    RealmObjectBase.set<RealmList<RealmQuestion>>(
+        this, 'questions', RealmList<RealmQuestion>(questions));
+  }
+
+  RealmWorkbook._();
+
+  @override
+  String get workbookId =>
+      RealmObjectBase.get<String>(this, 'workbookId') as String;
+  @override
+  set workbookId(String value) =>
+      RealmObjectBase.set(this, 'workbookId', value);
+
+  @override
+  String get title => RealmObjectBase.get<String>(this, 'title') as String;
+  @override
+  set title(String value) => RealmObjectBase.set(this, 'title', value);
+
+  @override
+  int get order => RealmObjectBase.get<int>(this, 'order') as int;
+  @override
+  set order(int value) => RealmObjectBase.set(this, 'order', value);
+
+  @override
+  RealmList<RealmQuestion> get questions =>
+      RealmObjectBase.get<RealmQuestion>(this, 'questions')
+          as RealmList<RealmQuestion>;
+  @override
+  set questions(covariant RealmList<RealmQuestion> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  int get color => RealmObjectBase.get<int>(this, 'color') as int;
+  @override
+  set color(int value) => RealmObjectBase.set(this, 'color', value);
+
+  @override
+  Stream<RealmObjectChanges<RealmWorkbook>> get changes =>
+      RealmObjectBase.getChanges<RealmWorkbook>(this);
+
+  @override
+  RealmWorkbook freeze() => RealmObjectBase.freezeObject<RealmWorkbook>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(RealmWorkbook._);
+    return const SchemaObject(ObjectType.realmObject, RealmWorkbook, 'Test', [
+      SchemaProperty('workbookId', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('title', RealmPropertyType.string),
+      SchemaProperty('order', RealmPropertyType.int),
+      SchemaProperty('questions', RealmPropertyType.object,
+          linkTarget: 'Question', collectionType: RealmCollectionType.list),
+      SchemaProperty('color', RealmPropertyType.int),
     ]);
   }
 }

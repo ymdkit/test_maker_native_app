@@ -1,6 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/state/questions_state.dart';
+import 'package:test_maker_native_app/state/workbooks_state.dart';
 
 void main() {
   runApp(
@@ -30,24 +32,46 @@ class MyHomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final questions = ref.watch(questionsProvider);
+    final workbooks = ref.watch(workbooksProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('暗記メーカー'),
       ),
-      body: ListView.separated(
-        itemCount: questions.length,
+      body: ListView.builder(
+        itemCount: workbooks.length,
         itemBuilder: (context, index) {
-          final question = questions[index];
+          final workbook = workbooks[index];
           return ListTile(
-            title: Text(question.problem),
-            subtitle: Text(question.answer.isNotEmpty
-                ? question.answer
-                : question.answers.join(' ')),
+            title: Text(workbook.title),
+            subtitle: Text(workbook.workbookId),
+            onTap: () {
+              inspect(workbook);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Scaffold(
+                    appBar: AppBar(
+                      title: Text(workbook.title),
+                    ),
+                    body: ListView.builder(
+                      itemCount: workbook.questions.length,
+                      itemBuilder: (context, index) {
+                        final question = workbook.questions[index];
+                        return ListTile(
+                          title: Text(question.problem, maxLines: 2),
+                          subtitle: Text(question.answer.isNotEmpty
+                              ? question.answer
+                              : question.answers.join(' ')),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
           );
         },
-        separatorBuilder: (context, index) => const SizedBox(height: 4),
       ),
     );
   }

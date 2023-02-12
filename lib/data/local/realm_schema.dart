@@ -1,6 +1,6 @@
 import 'package:realm/realm.dart';
 
-part 'realm_question.g.dart';
+part 'realm_schema.g.dart';
 
 @RealmModel()
 @MapTo('Question')
@@ -20,4 +20,16 @@ class _RealmQuestion {
   late bool isCheckAnswerOrder;
   late int order;
   late String answerStatus;
+}
+
+@RealmModel()
+@MapTo('Test')
+class _RealmWorkbook {
+  @PrimaryKey()
+  late String workbookId;
+
+  late String title;
+  late int order;
+  late List<_RealmQuestion> questions;
+  late int color;
 }
