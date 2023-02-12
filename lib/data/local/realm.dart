@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:realm/realm.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
+import 'package:test_maker_native_app/model/enum/answer_status.dart';
+import 'package:test_maker_native_app/model/enum/color_theme.dart';
 
 final realmProvider = Provider(
   (ref) => Realm(
@@ -20,7 +22,8 @@ final realmProvider = Provider(
             _migrateIOSWorkbooks(migration);
             _migrateIOSFolders(migration);
           } else if (Platform.isAndroid) {
-            // TODO(ymdkit): Android migration
+            _migrateAndroidWorkbooks(migration);
+            _migrateAndroidFolders(migration);
           }
         }
       },
@@ -106,4 +109,86 @@ void _migrateIOSFolders(Migration migration) {
       );
     }
   }
+}
+
+void _migrateAndroidWorkbooks(Migration migration) {
+  final oldWorkbooks = migration.oldRealm.all('RealmTest');
+
+  migration.newRealm.addAll(
+    oldWorkbooks.map(
+      (oldWorkbook) {
+        final childQuestions = oldWorkbook.dynamic.getList('questions').map(
+          (e) {
+            final oldQuestion = e! as RealmObjectBase;
+
+            return RealmQuestion(
+              Uuid.v4().toString(),
+              oldQuestion.dynamic.get<int>('type'),
+              oldQuestion.dynamic.get<String>('problem'),
+              oldQuestion.dynamic.get<String>('answer'),
+              oldQuestion.dynamic.get<bool>('auto'),
+              oldQuestion.dynamic.get<bool>('isCheckOrder'),
+              oldQuestion.dynamic.get<int>('order'),
+              oldQuestion.dynamic.get<bool>('correct')
+                  ? AnswerStatus.correct.value
+                  : AnswerStatus.wrong.value,
+              problemImageUrl: oldQuestion.dynamic.get<String>('imagePath'),
+              explanation: oldQuestion.dynamic.get<String>('explanation'),
+              explanationImageUrl:
+                  oldQuestion.dynamic.get<String>('explanationImageUrl'),
+              answers: oldQuestion.dynamic
+                  .getList('answers')
+                  .map((e) =>
+                      (e! as RealmObjectBase).dynamic.get<String?>('select') ??
+                      '')
+                  .toList(),
+              wrongChoices: oldQuestion.dynamic
+                  .getList('selections')
+                  .map((e) =>
+                      (e! as RealmObjectBase).dynamic.get<String?>('select') ??
+                      '')
+                  .toList(),
+            );
+          },
+        );
+
+        return RealmWorkbook(
+          Uuid.v4().toString(),
+          oldWorkbook.dynamic.get<String?>('title') ?? '',
+          oldWorkbook.dynamic.get<int>('order'),
+          ColorTheme.from(oldWorkbook.dynamic.get<String>('themeColor')).index,
+          questions: childQuestions,
+        );
+      },
+    ),
+  );
+}
+
+void _migrateAndroidFolders(Migration migration) {
+  final oldFolders = migration.oldRealm.all('RealmCategory');
+
+  migration.newRealm.addAll(
+    oldFolders.map(
+      (oldFolder) {
+        final childWorkbooks = migration.oldRealm.all('RealmTest').where(
+            (element) =>
+                element.dynamic.get('category') ==
+                oldFolder.dynamic.get('name'));
+        return RealmFolder(
+          Uuid.v4().toString(),
+          oldFolder.dynamic.get<String>('name'),
+          oldFolder.dynamic.get<int>('order'),
+          ColorTheme.from(oldFolder.dynamic.get<String>('themeColor')).index,
+          workbooks: childWorkbooks
+              .where(
+                (e) => migration.findInNewRealm<RealmWorkbook>(e) != null,
+              )
+              .map(
+                (e) => migration.findInNewRealm<RealmWorkbook>(e)!,
+              )
+              .toList(),
+        );
+      },
+    ),
+  );
 }
