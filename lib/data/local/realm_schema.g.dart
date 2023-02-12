@@ -247,15 +247,12 @@ class RealmFolder extends _RealmFolder
     String folderId,
     String title,
     int order,
-    int color, {
-    Iterable<RealmWorkbook> workbooks = const [],
-  }) {
+    int color,
+  ) {
     RealmObjectBase.set(this, 'folderId', folderId);
     RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'order', order);
     RealmObjectBase.set(this, 'color', color);
-    RealmObjectBase.set<RealmList<RealmWorkbook>>(
-        this, 'workbooks', RealmList<RealmWorkbook>(workbooks));
   }
 
   RealmFolder._();
@@ -282,14 +279,6 @@ class RealmFolder extends _RealmFolder
   set color(int value) => RealmObjectBase.set(this, 'color', value);
 
   @override
-  RealmList<RealmWorkbook> get workbooks =>
-      RealmObjectBase.get<RealmWorkbook>(this, 'workbooks')
-          as RealmList<RealmWorkbook>;
-  @override
-  set workbooks(covariant RealmList<RealmWorkbook> value) =>
-      throw RealmUnsupportedSetError();
-
-  @override
   Stream<RealmObjectChanges<RealmFolder>> get changes =>
       RealmObjectBase.getChanges<RealmFolder>(this);
 
@@ -305,8 +294,6 @@ class RealmFolder extends _RealmFolder
       SchemaProperty('title', RealmPropertyType.string),
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('color', RealmPropertyType.int),
-      SchemaProperty('workbooks', RealmPropertyType.object,
-          linkTarget: 'Test', collectionType: RealmCollectionType.list),
     ]);
   }
 }

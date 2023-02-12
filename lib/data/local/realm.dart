@@ -24,7 +24,7 @@ final realmProvider = Provider(
             _migrateIOSQuestions(migration);
           } else if (Platform.isAndroid) {
             _migrateAndroidFolders(migration);
-            _migrateAndroidWorkbooksWithNoFolder(migration);
+            _migrateAndroidWorkbooks(migration);
           }
         }
       },
@@ -36,25 +36,13 @@ void _migrateIOSFolders(Migration migration) {
   final oldFolders = migration.oldRealm.all('Category');
   for (final oldFolder in oldFolders) {
     final newFolder = migration.findInNewRealm<RealmFolder>(oldFolder);
-    final childWorkbooks = migration.oldRealm.all('Test').where((element) =>
-        element.dynamic.get('category') == oldFolder.dynamic.get('category'));
+
     if (newFolder != null) {
       newFolder
         ..folderId = oldFolder.dynamic.get<String>('id')
         ..title = oldFolder.dynamic.get<String>('category')
         ..order = oldFolder.dynamic.get<int>('order')
         ..color = oldFolder.dynamic.get<int>('themeColor');
-
-      newFolder.workbooks.addAll(
-        childWorkbooks
-            .where(
-              (e) => migration.findInNewRealm<RealmWorkbook>(e) != null,
-            )
-            .map(
-              (e) => migration.findInNewRealm<RealmWorkbook>(e)!
-                ..folderId = newFolder.folderId,
-            ),
-      );
     }
   }
 }
@@ -127,42 +115,35 @@ void _migrateAndroidFolders(Migration migration) {
 
   migration.newRealm.addAll(
     oldFolders.map(
-      (oldFolder) {
-        final childWorkbooks = migration.oldRealm.all('RealmTest').where(
-            (element) =>
-                element.dynamic.get('category') ==
-                oldFolder.dynamic.get('name'));
-
-        final folderId = Uuid.v4().toString();
-
-        return RealmFolder(
-          folderId,
-          oldFolder.dynamic.get<String>('name'),
-          oldFolder.dynamic.get<int>('order'),
-          ColorTheme.from(oldFolder.dynamic.get<String>('themeColor')).index,
-          workbooks: childWorkbooks.map(
-            (oldWorkbook) =>
-                _androidOldWorkbookToRealmWorkbook(oldWorkbook, folderId),
-          ),
-        );
-      },
+      (oldFolder) => RealmFolder(
+        Uuid.v4().toString(),
+        oldFolder.dynamic.get<String>('name'),
+        oldFolder.dynamic.get<int>('order'),
+        ColorTheme.from(oldFolder.dynamic.get<String>('themeColor')).index,
+      ),
     ),
   );
 }
 
-void _migrateAndroidWorkbooksWithNoFolder(Migration migration) {
-  final folderNames = migration.oldRealm
-      .all('RealmCategory')
-      .map((e) => e.dynamic.get('name'))
-      .toList();
-
-  final oldWorkbooks = migration.oldRealm.all('RealmTest').where(
-        (e) => !folderNames.contains(e.dynamic.get('category')),
-      );
+void _migrateAndroidWorkbooks(Migration migration) {
+  final folders = migration.newRealm.all<RealmFolder>();
+  final oldWorkbooks = migration.oldRealm.all('RealmTest');
 
   migration.newRealm.addAll(
     oldWorkbooks.map(
-      (oldWorkbook) => _androidOldWorkbookToRealmWorkbook(oldWorkbook, null),
+      (oldWorkbook) {
+        final folderId = folders
+            .firstWhereOrNull(
+              (element) =>
+                  element.title == oldWorkbook.dynamic.get<String?>('category'),
+            )
+            ?.folderId;
+
+        return _androidOldWorkbookToRealmWorkbook(
+          oldWorkbook,
+          folderId,
+        );
+      },
     ),
   );
 }

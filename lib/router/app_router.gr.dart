@@ -70,9 +70,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     CreateWorkbookRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateWorkbookRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const CreateWorkbookPage(),
+        child: CreateWorkbookPage(
+          key: args.key,
+          folder: args.folder,
+        ),
       );
     },
     WorkbookDetailsRoute.name: (routeData) {
@@ -323,14 +327,36 @@ class FolderDetailsRouteArgs {
 
 /// generated route for
 /// [CreateWorkbookPage]
-class CreateWorkbookRoute extends PageRouteInfo<void> {
-  const CreateWorkbookRoute()
-      : super(
+class CreateWorkbookRoute extends PageRouteInfo<CreateWorkbookRouteArgs> {
+  CreateWorkbookRoute({
+    Key? key,
+    required Folder? folder,
+  }) : super(
           CreateWorkbookRoute.name,
           path: 'create-workbook-page',
+          args: CreateWorkbookRouteArgs(
+            key: key,
+            folder: folder,
+          ),
         );
 
   static const String name = 'CreateWorkbookRoute';
+}
+
+class CreateWorkbookRouteArgs {
+  const CreateWorkbookRouteArgs({
+    this.key,
+    required this.folder,
+  });
+
+  final Key? key;
+
+  final Folder? folder;
+
+  @override
+  String toString() {
+    return 'CreateWorkbookRouteArgs{key: $key, folder: $folder}';
+  }
 }
 
 /// generated route for

@@ -12,6 +12,7 @@ class Question with _$Question {
     required String problem,
     required String? problemImageUrl,
     required List<String> answers,
+    required List<String> wrongChoices,
     required String? explanation,
     required String? explanationImageUrl,
     required bool isAutoGenerateWrongChoices,

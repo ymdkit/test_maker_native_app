@@ -25,7 +25,7 @@ class HomePage extends HookConsumerWidget {
       body: folders.isEmpty && workbooks.isEmpty
           ? AppEmptyContent.workbook(
               onPressedFallbackButton: () => context.router.push(
-                const CreateWorkbookRoute(),
+                CreateWorkbookRoute(folder: null),
               ),
             )
           : CustomScrollView(
@@ -72,7 +72,7 @@ class HomePage extends HookConsumerWidget {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.router.push(
-          const CreateWorkbookRoute(),
+          CreateWorkbookRoute(folder: null),
         ),
         child: const Icon(Icons.add),
       ),

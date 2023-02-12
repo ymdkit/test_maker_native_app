@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:realm/realm.dart';
+import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
 import 'package:test_maker_native_app/model/enum/answer_status.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
 import 'package:test_maker_native_app/model/folder.dart';
@@ -34,6 +35,7 @@ class _RealmQuestion {
       problem: problem,
       problemImageUrl: problemImageUrl,
       answers: answers,
+      wrongChoices: wrongChoices,
       explanation: explanation,
       explanationImageUrl: explanationImageUrl,
       isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
@@ -82,15 +84,12 @@ class _RealmFolder {
   late int order;
   late int color;
 
-  late List<_RealmWorkbook> workbooks;
-
   Folder toFolder() {
     return Folder(
       folderId: folderId,
       title: title,
       order: order,
       color: color,
-      workbooks: workbooks.map((e) => e.toWorkbook()).toList(),
     );
   }
 }

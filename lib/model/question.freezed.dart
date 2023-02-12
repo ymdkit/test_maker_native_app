@@ -21,6 +21,7 @@ mixin _$Question {
   String get problem => throw _privateConstructorUsedError;
   String? get problemImageUrl => throw _privateConstructorUsedError;
   List<String> get answers => throw _privateConstructorUsedError;
+  List<String> get wrongChoices => throw _privateConstructorUsedError;
   String? get explanation => throw _privateConstructorUsedError;
   String? get explanationImageUrl => throw _privateConstructorUsedError;
   bool get isAutoGenerateWrongChoices => throw _privateConstructorUsedError;
@@ -44,6 +45,7 @@ abstract class $QuestionCopyWith<$Res> {
       String problem,
       String? problemImageUrl,
       List<String> answers,
+      List<String> wrongChoices,
       String? explanation,
       String? explanationImageUrl,
       bool isAutoGenerateWrongChoices,
@@ -70,6 +72,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? problem = null,
     Object? problemImageUrl = freezed,
     Object? answers = null,
+    Object? wrongChoices = null,
     Object? explanation = freezed,
     Object? explanationImageUrl = freezed,
     Object? isAutoGenerateWrongChoices = null,
@@ -97,6 +100,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
       answers: null == answers
           ? _value.answers
           : answers // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      wrongChoices: null == wrongChoices
+          ? _value.wrongChoices
+          : wrongChoices // ignore: cast_nullable_to_non_nullable
               as List<String>,
       explanation: freezed == explanation
           ? _value.explanation
@@ -139,6 +146,7 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       String problem,
       String? problemImageUrl,
       List<String> answers,
+      List<String> wrongChoices,
       String? explanation,
       String? explanationImageUrl,
       bool isAutoGenerateWrongChoices,
@@ -163,6 +171,7 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? problem = null,
     Object? problemImageUrl = freezed,
     Object? answers = null,
+    Object? wrongChoices = null,
     Object? explanation = freezed,
     Object? explanationImageUrl = freezed,
     Object? isAutoGenerateWrongChoices = null,
@@ -190,6 +199,10 @@ class __$$_QuestionCopyWithImpl<$Res>
       answers: null == answers
           ? _value._answers
           : answers // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      wrongChoices: null == wrongChoices
+          ? _value._wrongChoices
+          : wrongChoices // ignore: cast_nullable_to_non_nullable
               as List<String>,
       explanation: freezed == explanation
           ? _value.explanation
@@ -228,13 +241,15 @@ class _$_Question implements _Question {
       required this.problem,
       required this.problemImageUrl,
       required final List<String> answers,
+      required final List<String> wrongChoices,
       required this.explanation,
       required this.explanationImageUrl,
       required this.isAutoGenerateWrongChoices,
       required this.isCheckAnswerOrder,
       required this.order,
       required this.answerStatus})
-      : _answers = answers;
+      : _answers = answers,
+        _wrongChoices = wrongChoices;
 
   @override
   final String questionId;
@@ -252,6 +267,14 @@ class _$_Question implements _Question {
     return EqualUnmodifiableListView(_answers);
   }
 
+  final List<String> _wrongChoices;
+  @override
+  List<String> get wrongChoices {
+    if (_wrongChoices is EqualUnmodifiableListView) return _wrongChoices;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_wrongChoices);
+  }
+
   @override
   final String? explanation;
   @override
@@ -267,7 +290,7 @@ class _$_Question implements _Question {
 
   @override
   String toString() {
-    return 'Question(questionId: $questionId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, answers: $answers, explanation: $explanation, explanationImageUrl: $explanationImageUrl, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus)';
+    return 'Question(questionId: $questionId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, answers: $answers, wrongChoices: $wrongChoices, explanation: $explanation, explanationImageUrl: $explanationImageUrl, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus)';
   }
 
   @override
@@ -283,6 +306,8 @@ class _$_Question implements _Question {
             (identical(other.problemImageUrl, problemImageUrl) ||
                 other.problemImageUrl == problemImageUrl) &&
             const DeepCollectionEquality().equals(other._answers, _answers) &&
+            const DeepCollectionEquality()
+                .equals(other._wrongChoices, _wrongChoices) &&
             (identical(other.explanation, explanation) ||
                 other.explanation == explanation) &&
             (identical(other.explanationImageUrl, explanationImageUrl) ||
@@ -306,6 +331,7 @@ class _$_Question implements _Question {
       problem,
       problemImageUrl,
       const DeepCollectionEquality().hash(_answers),
+      const DeepCollectionEquality().hash(_wrongChoices),
       explanation,
       explanationImageUrl,
       isAutoGenerateWrongChoices,
@@ -327,6 +353,7 @@ abstract class _Question implements Question {
       required final String problem,
       required final String? problemImageUrl,
       required final List<String> answers,
+      required final List<String> wrongChoices,
       required final String? explanation,
       required final String? explanationImageUrl,
       required final bool isAutoGenerateWrongChoices,
@@ -344,6 +371,8 @@ abstract class _Question implements Question {
   String? get problemImageUrl;
   @override
   List<String> get answers;
+  @override
+  List<String> get wrongChoices;
   @override
   String? get explanation;
   @override
