@@ -198,17 +198,17 @@ class RealmWorkbook extends _RealmWorkbook
   set order(int value) => RealmObjectBase.set(this, 'order', value);
 
   @override
+  int get color => RealmObjectBase.get<int>(this, 'color') as int;
+  @override
+  set color(int value) => RealmObjectBase.set(this, 'color', value);
+
+  @override
   RealmList<RealmQuestion> get questions =>
       RealmObjectBase.get<RealmQuestion>(this, 'questions')
           as RealmList<RealmQuestion>;
   @override
   set questions(covariant RealmList<RealmQuestion> value) =>
       throw RealmUnsupportedSetError();
-
-  @override
-  int get color => RealmObjectBase.get<int>(this, 'color') as int;
-  @override
-  set color(int value) => RealmObjectBase.set(this, 'color', value);
 
   @override
   Stream<RealmObjectChanges<RealmWorkbook>> get changes =>
@@ -225,9 +225,79 @@ class RealmWorkbook extends _RealmWorkbook
       SchemaProperty('workbookId', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('title', RealmPropertyType.string),
       SchemaProperty('order', RealmPropertyType.int),
+      SchemaProperty('color', RealmPropertyType.int),
       SchemaProperty('questions', RealmPropertyType.object,
           linkTarget: 'Question', collectionType: RealmCollectionType.list),
+    ]);
+  }
+}
+
+class RealmFolder extends _RealmFolder
+    with RealmEntity, RealmObjectBase, RealmObject {
+  RealmFolder(
+    String folderId,
+    String title,
+    int order,
+    int color, {
+    Iterable<RealmWorkbook> workbooks = const [],
+  }) {
+    RealmObjectBase.set(this, 'folderId', folderId);
+    RealmObjectBase.set(this, 'title', title);
+    RealmObjectBase.set(this, 'order', order);
+    RealmObjectBase.set(this, 'color', color);
+    RealmObjectBase.set<RealmList<RealmWorkbook>>(
+        this, 'workbooks', RealmList<RealmWorkbook>(workbooks));
+  }
+
+  RealmFolder._();
+
+  @override
+  String get folderId =>
+      RealmObjectBase.get<String>(this, 'folderId') as String;
+  @override
+  set folderId(String value) => RealmObjectBase.set(this, 'folderId', value);
+
+  @override
+  String get title => RealmObjectBase.get<String>(this, 'title') as String;
+  @override
+  set title(String value) => RealmObjectBase.set(this, 'title', value);
+
+  @override
+  int get order => RealmObjectBase.get<int>(this, 'order') as int;
+  @override
+  set order(int value) => RealmObjectBase.set(this, 'order', value);
+
+  @override
+  int get color => RealmObjectBase.get<int>(this, 'color') as int;
+  @override
+  set color(int value) => RealmObjectBase.set(this, 'color', value);
+
+  @override
+  RealmList<RealmWorkbook> get workbooks =>
+      RealmObjectBase.get<RealmWorkbook>(this, 'workbooks')
+          as RealmList<RealmWorkbook>;
+  @override
+  set workbooks(covariant RealmList<RealmWorkbook> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<RealmFolder>> get changes =>
+      RealmObjectBase.getChanges<RealmFolder>(this);
+
+  @override
+  RealmFolder freeze() => RealmObjectBase.freezeObject<RealmFolder>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(RealmFolder._);
+    return const SchemaObject(ObjectType.realmObject, RealmFolder, 'Category', [
+      SchemaProperty('folderId', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('title', RealmPropertyType.string),
+      SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('color', RealmPropertyType.int),
+      SchemaProperty('workbooks', RealmPropertyType.object,
+          linkTarget: 'Test', collectionType: RealmCollectionType.list),
     ]);
   }
 }

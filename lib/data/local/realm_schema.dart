@@ -30,6 +30,20 @@ class _RealmWorkbook {
 
   late String title;
   late int order;
-  late List<_RealmQuestion> questions;
   late int color;
+
+  late List<_RealmQuestion> questions;
+}
+
+@RealmModel()
+@MapTo('Category')
+class _RealmFolder {
+  @PrimaryKey()
+  late String folderId;
+
+  late String title;
+  late int order;
+  late int color;
+
+  late List<_RealmWorkbook> workbooks;
 }
