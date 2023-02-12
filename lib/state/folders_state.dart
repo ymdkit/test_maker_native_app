@@ -4,5 +4,5 @@ import 'package:test_maker_native_app/data/local/realm_schema.dart';
 
 final foldersProvider = Provider((ref) {
   final realm = ref.watch(realmProvider);
-  return realm.all<RealmFolder>();
+  return realm.all<RealmFolder>().map((e) => e.toFolder()).toList();
 });

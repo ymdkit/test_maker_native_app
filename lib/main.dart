@@ -85,10 +85,9 @@ class MyHomePage extends HookConsumerWidget {
                                             return ListTile(
                                               title: Text(question.problem,
                                                   maxLines: 2),
-                                              subtitle: Text(question
-                                                      .answer.isNotEmpty
-                                                  ? question.answer
-                                                  : question.answers.join(' ')),
+                                              subtitle: Text(
+                                                question.answers.join(' '),
+                                              ),
                                             );
                                           },
                                         ),
@@ -128,9 +127,7 @@ class MyHomePage extends HookConsumerWidget {
                               final question = workbook.questions[index];
                               return ListTile(
                                 title: Text(question.problem, maxLines: 2),
-                                subtitle: Text(question.answer.isNotEmpty
-                                    ? question.answer
-                                    : question.answers.join(' ')),
+                                subtitle: Text(question.answers.join(' ')),
                               );
                             },
                           ),

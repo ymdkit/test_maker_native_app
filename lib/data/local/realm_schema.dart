@@ -1,4 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:realm/realm.dart';
+import 'package:test_maker_native_app/model/enum/answer_status.dart';
+import 'package:test_maker_native_app/model/enum/question_type.dart';
+import 'package:test_maker_native_app/model/folder.dart';
+import 'package:test_maker_native_app/model/question.dart';
+import 'package:test_maker_native_app/model/workbook.dart';
 
 part 'realm_schema.g.dart';
 
@@ -20,6 +26,25 @@ class _RealmQuestion {
   late bool isCheckAnswerOrder;
   late int order;
   late String answerStatus;
+
+  Question toQuestion() {
+    return Question(
+      questionId: questionId,
+      questionType: QuestionType.from(questionType),
+      problem: problem,
+      problemImageUrl: problemImageUrl,
+      answers: answers,
+      explanation: explanation,
+      explanationImageUrl: explanationImageUrl,
+      isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
+      isCheckAnswerOrder: isCheckAnswerOrder,
+      order: order,
+      answerStatus: AnswerStatus.values.firstWhereOrNull(
+            (e) => e.toString() == answerStatus,
+          ) ??
+          AnswerStatus.unAnswered,
+    );
+  }
 }
 
 @RealmModel()
@@ -33,6 +58,16 @@ class _RealmWorkbook {
   late int color;
 
   late List<_RealmQuestion> questions;
+
+  Workbook toWorkbook() {
+    return Workbook(
+      workbookId: workbookId,
+      title: title,
+      order: order,
+      color: color,
+      questions: questions.map((e) => e.toQuestion()).toList(),
+    );
+  }
 }
 
 @RealmModel()
@@ -46,4 +81,14 @@ class _RealmFolder {
   late int color;
 
   late List<_RealmWorkbook> workbooks;
+
+  Folder toFolder() {
+    return Folder(
+      folderId: folderId,
+      title: title,
+      order: order,
+      color: color,
+      workbooks: workbooks.map((e) => e.toWorkbook()).toList(),
+    );
+  }
 }
