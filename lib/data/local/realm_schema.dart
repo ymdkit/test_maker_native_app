@@ -56,6 +56,7 @@ class _RealmWorkbook {
   late String title;
   late int order;
   late int color;
+  late String? folderId;
 
   late List<_RealmQuestion> questions;
 
@@ -65,6 +66,7 @@ class _RealmWorkbook {
       title: title,
       order: order,
       color: color,
+      folderId: folderId,
       questions: questions.map((e) => e.toQuestion()).toList(),
     );
   }

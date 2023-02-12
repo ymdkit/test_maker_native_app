@@ -10,6 +10,7 @@ class Workbook with _$Workbook {
     required String title,
     required int order,
     required int color,
+    required String? folderId,
     required List<Question> questions,
   }) = _Workbook;
 }

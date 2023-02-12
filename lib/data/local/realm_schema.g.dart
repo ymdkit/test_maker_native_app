@@ -168,12 +168,14 @@ class RealmWorkbook extends _RealmWorkbook
     String title,
     int order,
     int color, {
+    String? folderId,
     Iterable<RealmQuestion> questions = const [],
   }) {
     RealmObjectBase.set(this, 'workbookId', workbookId);
     RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'order', order);
     RealmObjectBase.set(this, 'color', color);
+    RealmObjectBase.set(this, 'folderId', folderId);
     RealmObjectBase.set<RealmList<RealmQuestion>>(
         this, 'questions', RealmList<RealmQuestion>(questions));
   }
@@ -203,6 +205,12 @@ class RealmWorkbook extends _RealmWorkbook
   set color(int value) => RealmObjectBase.set(this, 'color', value);
 
   @override
+  String? get folderId =>
+      RealmObjectBase.get<String>(this, 'folderId') as String?;
+  @override
+  set folderId(String? value) => RealmObjectBase.set(this, 'folderId', value);
+
+  @override
   RealmList<RealmQuestion> get questions =>
       RealmObjectBase.get<RealmQuestion>(this, 'questions')
           as RealmList<RealmQuestion>;
@@ -226,6 +234,7 @@ class RealmWorkbook extends _RealmWorkbook
       SchemaProperty('title', RealmPropertyType.string),
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('color', RealmPropertyType.int),
+      SchemaProperty('folderId', RealmPropertyType.string, optional: true),
       SchemaProperty('questions', RealmPropertyType.object,
           linkTarget: 'Question', collectionType: RealmCollectionType.list),
     ]);

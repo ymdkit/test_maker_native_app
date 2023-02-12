@@ -20,6 +20,7 @@ mixin _$Workbook {
   String get title => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
   int get color => throw _privateConstructorUsedError;
+  String? get folderId => throw _privateConstructorUsedError;
   List<Question> get questions => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,6 +38,7 @@ abstract class $WorkbookCopyWith<$Res> {
       String title,
       int order,
       int color,
+      String? folderId,
       List<Question> questions});
 }
 
@@ -57,6 +59,7 @@ class _$WorkbookCopyWithImpl<$Res, $Val extends Workbook>
     Object? title = null,
     Object? order = null,
     Object? color = null,
+    Object? folderId = freezed,
     Object? questions = null,
   }) {
     return _then(_value.copyWith(
@@ -76,6 +79,10 @@ class _$WorkbookCopyWithImpl<$Res, $Val extends Workbook>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as int,
+      folderId: freezed == folderId
+          ? _value.folderId
+          : folderId // ignore: cast_nullable_to_non_nullable
+              as String?,
       questions: null == questions
           ? _value.questions
           : questions // ignore: cast_nullable_to_non_nullable
@@ -96,6 +103,7 @@ abstract class _$$_WorkbookCopyWith<$Res> implements $WorkbookCopyWith<$Res> {
       String title,
       int order,
       int color,
+      String? folderId,
       List<Question> questions});
 }
 
@@ -114,6 +122,7 @@ class __$$_WorkbookCopyWithImpl<$Res>
     Object? title = null,
     Object? order = null,
     Object? color = null,
+    Object? folderId = freezed,
     Object? questions = null,
   }) {
     return _then(_$_Workbook(
@@ -133,6 +142,10 @@ class __$$_WorkbookCopyWithImpl<$Res>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as int,
+      folderId: freezed == folderId
+          ? _value.folderId
+          : folderId // ignore: cast_nullable_to_non_nullable
+              as String?,
       questions: null == questions
           ? _value._questions
           : questions // ignore: cast_nullable_to_non_nullable
@@ -149,6 +162,7 @@ class _$_Workbook implements _Workbook {
       required this.title,
       required this.order,
       required this.color,
+      required this.folderId,
       required final List<Question> questions})
       : _questions = questions;
 
@@ -160,6 +174,8 @@ class _$_Workbook implements _Workbook {
   final int order;
   @override
   final int color;
+  @override
+  final String? folderId;
   final List<Question> _questions;
   @override
   List<Question> get questions {
@@ -170,7 +186,7 @@ class _$_Workbook implements _Workbook {
 
   @override
   String toString() {
-    return 'Workbook(workbookId: $workbookId, title: $title, order: $order, color: $color, questions: $questions)';
+    return 'Workbook(workbookId: $workbookId, title: $title, order: $order, color: $color, folderId: $folderId, questions: $questions)';
   }
 
   @override
@@ -183,13 +199,15 @@ class _$_Workbook implements _Workbook {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.order, order) || other.order == order) &&
             (identical(other.color, color) || other.color == color) &&
+            (identical(other.folderId, folderId) ||
+                other.folderId == folderId) &&
             const DeepCollectionEquality()
                 .equals(other._questions, _questions));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, workbookId, title, order, color,
-      const DeepCollectionEquality().hash(_questions));
+      folderId, const DeepCollectionEquality().hash(_questions));
 
   @JsonKey(ignore: true)
   @override
@@ -204,6 +222,7 @@ abstract class _Workbook implements Workbook {
       required final String title,
       required final int order,
       required final int color,
+      required final String? folderId,
       required final List<Question> questions}) = _$_Workbook;
 
   @override
@@ -214,6 +233,8 @@ abstract class _Workbook implements Workbook {
   int get order;
   @override
   int get color;
+  @override
+  String? get folderId;
   @override
   List<Question> get questions;
   @override

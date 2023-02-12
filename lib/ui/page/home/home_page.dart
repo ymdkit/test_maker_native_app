@@ -9,7 +9,7 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final folders = ref.watch(foldersProvider);
-    final workbooks = ref.watch(workbooksProvider);
+    final workbooks = ref.watch(workbooksProvider(null));
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +40,7 @@ class HomePage extends HookConsumerWidget {
                               final workbook = folder.workbooks[index];
                               return ListTile(
                                 title: Text(workbook.title),
-                                subtitle: Text(workbook.workbookId),
+                                subtitle: Text(workbook.folderId ?? ''),
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -84,7 +84,7 @@ class HomePage extends HookConsumerWidget {
                 final workbook = workbooks[index];
                 return ListTile(
                   title: Text(workbook.title),
-                  subtitle: Text(workbook.workbookId),
+                  subtitle: Text(workbook.folderId ?? ''),
                   onTap: () {
                     Navigator.push(
                       context,
