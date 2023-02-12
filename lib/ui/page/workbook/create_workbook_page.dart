@@ -105,26 +105,30 @@ class CreateWorkbookPage extends HookConsumerWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ElevatedButton(
-              onPressed: () {
-                if (formKey.currentState?.validate() ?? false) {
-                  workbookNotifier.addWorkbook(
-                    title: workbookTitleController.text,
-                    color: selectedColor.value,
-                    folderId: selectedFolder.value?.folderId,
-                  );
-                  showAppSnackBar(context, '問題集を作成しました');
-                  context.router.pop();
-                } else {
-                  showAppSnackBar(context, '入力内容に不備があります');
-                }
-              },
-              child: const Text('問題集を作成する'),
-            ),
+          Column(
+            children: [
+              const Divider(height: 1),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState?.validate() ?? false) {
+                      workbookNotifier.addWorkbook(
+                        title: workbookTitleController.text,
+                        color: selectedColor.value,
+                        folderId: selectedFolder.value?.folderId,
+                      );
+                      showAppSnackBar(context, '問題集を作成しました');
+                      context.router.pop();
+                    } else {
+                      showAppSnackBar(context, '入力内容に不備があります');
+                    }
+                  },
+                  child: const Text('問題集を作成する'),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
         ],
       ),
     );

@@ -13,7 +13,7 @@ class AppSectionTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title),
+        Text(title, style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 16),
       ],
     );
