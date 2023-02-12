@@ -8,35 +8,32 @@ part of 'realm_question.dart';
 
 class RealmQuestion extends _RealmQuestion
     with RealmEntity, RealmObjectBase, RealmObject {
-  static var _defaultsSet = false;
-
   RealmQuestion(
     String questionId,
     int questionType,
     String problem,
+    String answer,
     bool isAutoGenerateWrongChoices,
-    bool isCheckAnswerOrder, {
+    bool isCheckAnswerOrder,
+    int order,
+    String answerStatus, {
     String? problemImageUrl,
     String? explanation,
     String? explanationImageUrl,
-    int answerStatus = 0,
     Iterable<String> answers = const [],
     Iterable<String> wrongChoices = const [],
   }) {
-    if (!_defaultsSet) {
-      _defaultsSet = RealmObjectBase.setDefaults<RealmQuestion>({
-        'answerStatus': 0,
-      });
-    }
     RealmObjectBase.set(this, 'questionId', questionId);
     RealmObjectBase.set(this, 'questionType', questionType);
     RealmObjectBase.set(this, 'problem', problem);
     RealmObjectBase.set(this, 'problemImageUrl', problemImageUrl);
+    RealmObjectBase.set(this, 'answer', answer);
     RealmObjectBase.set(this, 'explanation', explanation);
     RealmObjectBase.set(this, 'explanationImageUrl', explanationImageUrl);
     RealmObjectBase.set(
         this, 'isAutoGenerateWrongChoices', isAutoGenerateWrongChoices);
     RealmObjectBase.set(this, 'isCheckAnswerOrder', isCheckAnswerOrder);
+    RealmObjectBase.set(this, 'order', order);
     RealmObjectBase.set(this, 'answerStatus', answerStatus);
     RealmObjectBase.set<RealmList<String>>(
         this, 'answers', RealmList<String>(answers));
@@ -70,6 +67,11 @@ class RealmQuestion extends _RealmQuestion
   @override
   set problemImageUrl(String? value) =>
       RealmObjectBase.set(this, 'problemImageUrl', value);
+
+  @override
+  String get answer => RealmObjectBase.get<String>(this, 'answer') as String;
+  @override
+  set answer(String value) => RealmObjectBase.set(this, 'answer', value);
 
   @override
   RealmList<String> get answers =>
@@ -114,9 +116,15 @@ class RealmQuestion extends _RealmQuestion
       RealmObjectBase.set(this, 'isCheckAnswerOrder', value);
 
   @override
-  int get answerStatus => RealmObjectBase.get<int>(this, 'answerStatus') as int;
+  int get order => RealmObjectBase.get<int>(this, 'order') as int;
   @override
-  set answerStatus(int value) =>
+  set order(int value) => RealmObjectBase.set(this, 'order', value);
+
+  @override
+  String get answerStatus =>
+      RealmObjectBase.get<String>(this, 'answerStatus') as String;
+  @override
+  set answerStatus(String value) =>
       RealmObjectBase.set(this, 'answerStatus', value);
 
   @override
@@ -131,12 +139,13 @@ class RealmQuestion extends _RealmQuestion
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(RealmQuestion._);
     return const SchemaObject(
-        ObjectType.realmObject, RealmQuestion, 'RealmQuestion', [
-      SchemaProperty('questionId', RealmPropertyType.string),
+        ObjectType.realmObject, RealmQuestion, 'Question', [
+      SchemaProperty('questionId', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('questionType', RealmPropertyType.int),
       SchemaProperty('problem', RealmPropertyType.string),
       SchemaProperty('problemImageUrl', RealmPropertyType.string,
           optional: true),
+      SchemaProperty('answer', RealmPropertyType.string),
       SchemaProperty('answers', RealmPropertyType.string,
           collectionType: RealmCollectionType.list),
       SchemaProperty('wrongChoices', RealmPropertyType.string,
@@ -146,7 +155,8 @@ class RealmQuestion extends _RealmQuestion
           optional: true),
       SchemaProperty('isAutoGenerateWrongChoices', RealmPropertyType.bool),
       SchemaProperty('isCheckAnswerOrder', RealmPropertyType.bool),
-      SchemaProperty('answerStatus', RealmPropertyType.int),
+      SchemaProperty('order', RealmPropertyType.int),
+      SchemaProperty('answerStatus', RealmPropertyType.string),
     ]);
   }
 }

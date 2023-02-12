@@ -3,17 +3,21 @@ import 'package:realm/realm.dart';
 part 'realm_question.g.dart';
 
 @RealmModel()
+@MapTo('Question')
 class _RealmQuestion {
+  @PrimaryKey()
   late String questionId;
+
   late int questionType;
   late String problem;
-  String? problemImageUrl;
+  late String? problemImageUrl;
+  late String answer;
   late List<String> answers;
   late List<String> wrongChoices;
-  String? explanation;
-  String? explanationImageUrl;
+  late String? explanation;
+  late String? explanationImageUrl;
   late bool isAutoGenerateWrongChoices;
   late bool isCheckAnswerOrder;
   late int order;
-  late int answerStatus = 0;
+  late String answerStatus;
 }

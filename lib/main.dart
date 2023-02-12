@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/data/local/realm.dart';
+import 'package:test_maker_native_app/state/questions_state.dart';
 
 void main() {
   runApp(
@@ -30,13 +30,25 @@ class MyHomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final realm = ref.watch(realmProvider);
+    final questions = ref.watch(questionsProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('暗記メーカー'),
       ),
-      body: const Center(),
+      body: ListView.separated(
+        itemCount: questions.length,
+        itemBuilder: (context, index) {
+          final question = questions[index];
+          return ListTile(
+            title: Text(question.problem),
+            subtitle: Text(question.answer.isNotEmpty
+                ? question.answer
+                : question.answers.join(' ')),
+          );
+        },
+        separatorBuilder: (context, index) => const SizedBox(height: 4),
+      ),
     );
   }
 }
