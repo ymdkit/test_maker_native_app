@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:test_maker_native_app/ui/widget/app_sliver_space.dart';
+import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
 
 class AppSliverSection extends StatelessWidget {
   const AppSliverSection({
@@ -19,10 +19,9 @@ class AppSliverSection extends StatelessWidget {
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           sliver: SliverToBoxAdapter(
-            child: Text(title),
+            child: AppSectionTitle(title: title),
           ),
         ),
-        const AppSliverSpace(height: 8),
         sliver,
       ],
     );
