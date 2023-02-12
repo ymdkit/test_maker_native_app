@@ -21,7 +21,6 @@ final realmProvider = Provider(
           if (Platform.isIOS) {
             _migrateIOSFolders(migration);
             _migrateIOSWorkbooks(migration);
-            _migrateIOSQuestions(migration);
           } else if (Platform.isAndroid) {
             _migrateAndroidFolders(migration);
             _migrateAndroidWorkbooks(migration);
@@ -60,24 +59,37 @@ void _migrateIOSWorkbooks(Migration migration) {
           )
           ?.folderId;
 
-
       newWorkbook
         ..workbookId = oldWorkbook.dynamic.get<String>('id')
         ..title = oldWorkbook.dynamic.get<String>('title')
         ..order = oldWorkbook.dynamic.get<int>('order')
         ..color = oldWorkbook.dynamic.get<int>('themeColor')
         ..folderId = folderId;
+
+
+      final oldQuestions = oldWorkbook.dynamic
+          .getList('questions')
+          .map(
+            (e) => e! as RealmObject,
+          )
+          .toList();
+      _migrateIOSQuestions(
+        migration,
+        newWorkbook.workbookId,
+        oldQuestions,
+      );
     }
   }
 }
 
-void _migrateIOSQuestions(Migration migration) {
-  final oldQuestions = migration.oldRealm.all('Question');
+void _migrateIOSQuestions(
+    Migration migration, String workbookId, List<RealmObject> oldQuestions) {
   for (final oldQuestion in oldQuestions) {
     final newQuestion = migration.findInNewRealm<RealmQuestion>(oldQuestion);
     if (newQuestion != null) {
       newQuestion
         ..questionId = oldQuestion.dynamic.get<String>('id')
+        ..workbookId = workbookId
         ..questionType = oldQuestion.dynamic.get<int>('type')
         ..problem = oldQuestion.dynamic.get<String>('problem')
         ..answer = oldQuestion.dynamic.get<String>('answer')
