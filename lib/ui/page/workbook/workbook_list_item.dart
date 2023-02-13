@@ -14,6 +14,10 @@ class WorkbookListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      leading: Icon(
+        Icons.edit_document,
+        color: workbook.color.displayColor(),
+      ),
       title: Text(workbook.title),
       subtitle: Text('問題数 ${workbook.questionCount}'),
       onTap: () => onTap(workbook),

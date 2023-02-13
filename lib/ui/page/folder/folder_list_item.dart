@@ -14,6 +14,10 @@ class FolderListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      leading: Icon(
+        Icons.folder,
+        color: folder.color.displayColor(),
+      ),
       title: Text(folder.title),
       subtitle: Text('問題集数 ${folder.workbookCount}'),
       onTap: () => onTap(folder),
