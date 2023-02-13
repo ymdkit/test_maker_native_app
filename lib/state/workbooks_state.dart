@@ -32,4 +32,33 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
     );
     state = [...state, newWorkbook];
   }
+
+  void updateWorkbook({
+    required Workbook currentWorkbook,
+    required String title,
+    required ColorTheme color,
+    required String? folderId,
+  }) {
+    final updatedWorkbook = currentWorkbook.copyWith(
+      title: title,
+      color: color.index,
+      folderId: folderId,
+    );
+    workbookRepository.updateWorkbook(updatedWorkbook);
+
+    state = state.map(
+      (e) {
+        if (e.workbookId == updatedWorkbook.workbookId) {
+          return updatedWorkbook;
+        } else {
+          return e;
+        }
+      },
+    ).toList();
+  }
+
+  void deleteWorkbook(Workbook workbook) {
+    workbookRepository.deleteWorkbook(workbook);
+    state = state.where((e) => e.workbookId != workbook.workbookId).toList();
+  }
 }

@@ -5,7 +5,6 @@ import 'package:test_maker_native_app/data/local/realm.dart';
 import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
 import 'package:test_maker_native_app/model/enum/color_theme.dart';
-import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/model/workbook.dart';
 
 final workbookRepositoryProvider = Provider<WorkbookRepository>(
@@ -53,7 +52,10 @@ class WorkbookRepository {
         .where((e) => e.folderId == folderId)
         .map(
       (e) {
-        final questionCount = getQuestions(e.workbookId).length;
+        final questionCount = localDB
+            .all<RealmQuestion>()
+            .where((element) => element.workbookId == e.workbookId)
+            .length;
         return e.toWorkbook(questionCount: questionCount);
       },
     ).toList();
@@ -64,15 +66,27 @@ class WorkbookRepository {
         .all<RealmWorkbook>()
         .firstWhere((e) => e.workbookId == workbookId);
 
-    final questionCount = getQuestions(realmWorkbook.workbookId).length;
+    final questionCount = localDB
+        .all<RealmQuestion>()
+        .where((element) => element.workbookId == realmWorkbook.workbookId)
+        .length;
+
     return realmWorkbook.toWorkbook(questionCount: questionCount);
   }
 
-  List<Question> getQuestions(String workbookId) {
-    return localDB
-        .all<RealmQuestion>()
-        .where((e) => e.workbookId == workbookId)
-        .map((e) => e.toQuestion())
-        .toList();
+  void updateWorkbook(Workbook workbook) {
+    localDB.write(() {
+      localDB.add<RealmWorkbook>(
+        RealmWorkbookConverting.fromWorkbook(workbook),
+      );
+    });
+  }
+
+  void deleteWorkbook(Workbook workbook) {
+    localDB.write(() {
+      localDB.delete<RealmWorkbook>(
+        RealmWorkbookConverting.fromWorkbook(workbook),
+      );
+    });
   }
 }

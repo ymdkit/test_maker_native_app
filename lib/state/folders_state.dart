@@ -27,4 +27,31 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
     );
     state = [...state, newFolder];
   }
+
+  void updateFolder({
+    required Folder currentFolder,
+    required String title,
+    required ColorTheme color,
+  }) {
+    final updatedFolder = currentFolder.copyWith(
+      title: title,
+      color: color.index,
+    );
+    folderRepository.updateFolder(updatedFolder);
+
+    state = state.map(
+      (e) {
+        if (e.folderId == updatedFolder.folderId) {
+          return updatedFolder;
+        } else {
+          return e;
+        }
+      },
+    ).toList();
+  }
+
+  void deleteFolder(Folder folder) {
+    folderRepository.deleteFolder(folder);
+    state = state.where((e) => e.folderId != folder.folderId).toList();
+  }
 }

@@ -56,4 +56,20 @@ class FolderRepository {
       );
     }).toList(growable: false);
   }
+
+  void updateFolder(Folder folder) {
+    localDB.write(() {
+      localDB.add<RealmFolder>(
+        RealmFolderConverting.fromFolder(folder),
+      );
+    });
+  }
+
+  void deleteFolder(Folder folder) {
+    localDB.write(() {
+      localDB.delete<RealmFolder>(
+        RealmFolderConverting.fromFolder(folder),
+      );
+    });
+  }
 }
