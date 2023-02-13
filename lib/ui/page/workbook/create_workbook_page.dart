@@ -8,7 +8,7 @@ import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/folders_state.dart';
 import 'package:test_maker_native_app/state/workbooks_state.dart';
 import 'package:test_maker_native_app/ui/widget/app_color_drop_down_button_form_field.dart';
-import 'package:test_maker_native_app/ui/widget/app_dropdown_button_form_field.dart';
+import 'package:test_maker_native_app/ui/widget/app_folder_dropdown_button_form_field.dart';
 import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
 import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
 import 'package:test_maker_native_app/ui/widget/app_text_form_field.dart';
@@ -62,17 +62,10 @@ class CreateWorkbookPage extends HookConsumerWidget {
                             selectedColor.value = colorTheme,
                       ),
                       const SizedBox(height: 16),
-                      AppDropdownButtonFormField(
-                        value: selectedFolder.value,
-                        items: folders
-                            .map((folder) => DropdownMenuItem<Folder?>(
-                                  value: folder,
-                                  child: Text(folder.title),
-                                ))
-                            .toList(),
+                      AppFolderDropdownButtonFormField(
+                        selectedFolder: selectedFolder.value,
+                        folders: folders,
                         onChanged: (folder) => selectedFolder.value = folder,
-                        labelText: 'フォルダ',
-                        hintText: 'フォルダを選択してください',
                       ),
                       Row(
                         children: [
