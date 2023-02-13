@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:test_maker_native_app/model/folder.dart';
 import 'package:test_maker_native_app/ui/widget/app_dropdown_button_form_field.dart';
@@ -16,11 +17,11 @@ class AppFolderDropdownButtonFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppDropdownButtonFormField<Folder?>(
-      value: selectedFolder,
+    return AppDropdownButtonFormField<String?>(
+      value: selectedFolder?.folderId,
       items: folders
-          .map((folder) => DropdownMenuItem<Folder?>(
-                value: folder,
+          .map((folder) => DropdownMenuItem<String?>(
+                value: folder.folderId,
                 child: Row(
                   children: [
                     Icon(
@@ -33,7 +34,9 @@ class AppFolderDropdownButtonFormField extends StatelessWidget {
                 ),
               ))
           .toList(),
-      onChanged: onChanged,
+      onChanged: (folderId) => onChanged(
+        folders.firstWhereOrNull((folder) => folder.folderId == folderId),
+      ),
       labelText: 'フォルダ',
       hintText: 'フォルダを選択してください',
     );

@@ -44,7 +44,10 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
       color: color,
       folderId: folderId,
     );
-    state = [...state, newWorkbook];
+
+    if (this.folderId == folderId) {
+      state = [...state, newWorkbook];
+    }
     onMutateWorkbookStream.sink.add(newWorkbook);
   }
 
