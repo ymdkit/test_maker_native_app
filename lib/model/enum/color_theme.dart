@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 
 enum ColorTheme {
   blue('blue'),
@@ -39,6 +40,31 @@ enum ColorTheme {
         return 'インディゴ';
       case ColorTheme.brown:
         return 'ブラウン';
+    }
+  }
+
+  Color displayColor() {
+    switch (this) {
+      case ColorTheme.blue:
+        return Colors.blue;
+      case ColorTheme.red:
+        return Colors.red;
+      case ColorTheme.green:
+        return Colors.green;
+      case ColorTheme.orange:
+        return Colors.orange;
+      case ColorTheme.yellow:
+        return Colors.yellow;
+      case ColorTheme.pink:
+        return Colors.pink;
+      case ColorTheme.purple:
+        return Colors.purple;
+      case ColorTheme.teal:
+        return Colors.teal;
+      case ColorTheme.indigo:
+        return Colors.indigo;
+      case ColorTheme.brown:
+        return Colors.brown;
     }
   }
 

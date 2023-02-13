@@ -7,6 +7,7 @@ import 'package:test_maker_native_app/model/folder.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/folders_state.dart';
 import 'package:test_maker_native_app/state/workbooks_state.dart';
+import 'package:test_maker_native_app/ui/widget/app_color_drop_down_button_form_field.dart';
 import 'package:test_maker_native_app/ui/widget/app_dropdown_button_form_field.dart';
 import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
 import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
@@ -55,20 +56,10 @@ class CreateWorkbookPage extends HookConsumerWidget {
                             value?.isEmpty ?? true ? '問題集のタイトルを入力してください' : null,
                       ),
                       const SizedBox(height: 16),
-                      AppDropdownButtonFormField(
-                        value: selectedColor.value,
-                        items: ColorTheme.values
-                            .map(
-                              (colorTheme) => DropdownMenuItem<ColorTheme?>(
-                                value: colorTheme,
-                                child: Text(colorTheme.displayString()),
-                              ),
-                            )
-                            .toList(),
+                      AppColorDropdownButtonFormField(
+                        selectedColor: selectedColor.value,
                         onChanged: (colorTheme) =>
-                            selectedColor.value = colorTheme ?? ColorTheme.blue,
-                        labelText: 'カラー',
-                        hintText: 'カラーを選択してください',
+                            selectedColor.value = colorTheme,
                       ),
                       const SizedBox(height: 16),
                       AppDropdownButtonFormField(
