@@ -27,7 +27,7 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
   }) {
     final newWorkbook = workbookRepository.addWorkbook(
       title: title,
-      color: color.index,
+      color: color,
       folderId: folderId,
     );
     state = [...state, newWorkbook];

@@ -3,6 +3,7 @@ import 'package:auto_route/empty_router_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:test_maker_native_app/main.dart';
 import 'package:test_maker_native_app/model/folder.dart';
+import 'package:test_maker_native_app/ui/page/folder/create_folder_page.dart';
 import 'package:test_maker_native_app/ui/page/folder/folder_details_page.dart';
 import 'package:test_maker_native_app/ui/page/group/group_list_page.dart';
 import 'package:test_maker_native_app/ui/page/home/home_page.dart';
@@ -29,6 +30,7 @@ part 'app_router.gr.dart';
             AutoRoute(page: HomePage, initial: true),
             AutoRoute(page: FolderDetailsPage),
             AutoRoute(page: CreateWorkbookPage),
+            AutoRoute(page: CreateFolderPage),
             AutoRoute(page: WorkbookDetailsPage),
           ],
         ),

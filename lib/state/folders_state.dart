@@ -1,20 +1,30 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/data/local/realm.dart';
-import 'package:test_maker_native_app/data/local/realm_schema.dart';
+import 'package:test_maker_native_app/model/enum/color_theme.dart';
+import 'package:test_maker_native_app/model/folder.dart';
+import 'package:test_maker_native_app/repository/folder_repository.dart';
 
-final foldersProvider = Provider(
-  (ref) {
-    final realm = ref.watch(realmProvider);
-    return realm.all<RealmFolder>().map(
-      (e) {
-        final workbookCount = realm
-            .all<RealmWorkbook>()
-            .where((element) => element.folderId == e.folderId)
-            .length;
-        return e.toFolder(
-          workbookCount: workbookCount,
-        );
-      },
-    ).toList();
-  },
+final foldersProvider =
+    StateNotifierProvider.autoDispose<FoldersStateNotifier, List<Folder>>(
+  (ref) => FoldersStateNotifier(
+    folderRepository: ref.watch(folderRepositoryProvider),
+  ),
 );
+
+class FoldersStateNotifier extends StateNotifier<List<Folder>> {
+  FoldersStateNotifier({
+    required this.folderRepository,
+  }) : super(folderRepository.getFolders());
+
+  final FolderRepository folderRepository;
+
+  void addFolder({
+    required String title,
+    required ColorTheme color,
+  }) {
+    final newFolder = folderRepository.addFolder(
+      title: title,
+      color: color,
+    );
+    state = [...state, newFolder];
+  }
+}

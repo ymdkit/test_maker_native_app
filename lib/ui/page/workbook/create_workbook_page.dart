@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/model/folder.dart';
+import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/folders_state.dart';
 import 'package:test_maker_native_app/state/workbooks_state.dart';
 import 'package:test_maker_native_app/ui/widget/app_dropdown_button_form_field.dart';
@@ -27,9 +28,6 @@ class CreateWorkbookPage extends HookConsumerWidget {
     final workbookTitleController = useTextEditingController();
     final selectedColor = useState(ColorTheme.blue);
     final selectedFolder = useState<Folder?>(folder);
-
-    final workbookNotifier =
-        ref.watch(workbooksProvider(folder?.folderId).notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -73,7 +71,6 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         hintText: 'カラーを選択してください',
                       ),
                       const SizedBox(height: 16),
-                      // TODO(ymdkit): フォルダの新規作成をサポート
                       AppDropdownButtonFormField(
                         value: selectedFolder.value,
                         items: folders
@@ -90,7 +87,9 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         children: [
                           const Spacer(),
                           TextButton.icon(
-                            onPressed: () => showAppSnackBar(context, 'フォルダ作成'),
+                            onPressed: () => context.router.push(
+                              const CreateFolderRoute(),
+                            ),
                             label: const Text('フォルダ作成'),
                             icon: const Icon(Icons.add),
                           ),
@@ -125,11 +124,13 @@ class CreateWorkbookPage extends HookConsumerWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState?.validate() ?? false) {
-                      workbookNotifier.addWorkbook(
-                        title: workbookTitleController.text,
-                        color: selectedColor.value,
-                        folderId: selectedFolder.value?.folderId,
-                      );
+                      ref
+                          .read(workbooksProvider(folder?.folderId).notifier)
+                          .addWorkbook(
+                            title: workbookTitleController.text,
+                            color: selectedColor.value,
+                            folderId: selectedFolder.value?.folderId,
+                          );
                       showAppSnackBar(context, '問題集を作成しました');
                       context.router.pop();
                     } else {
