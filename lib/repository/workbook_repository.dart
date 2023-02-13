@@ -32,7 +32,7 @@ class WorkbookRepository {
       workbookId: Uuid.v4().toString(),
       title: title,
       order: newOrder,
-      color: color.index,
+      color: color,
       folderId: folderId,
       questionCount: 0,
     );

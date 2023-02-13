@@ -19,7 +19,7 @@ mixin _$Workbook {
   String get workbookId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
-  int get color => throw _privateConstructorUsedError;
+  ColorTheme get color => throw _privateConstructorUsedError;
   String? get folderId => throw _privateConstructorUsedError;
   int get questionCount => throw _privateConstructorUsedError;
 
@@ -37,7 +37,7 @@ abstract class $WorkbookCopyWith<$Res> {
       {String workbookId,
       String title,
       int order,
-      int color,
+      ColorTheme color,
       String? folderId,
       int questionCount});
 }
@@ -78,7 +78,7 @@ class _$WorkbookCopyWithImpl<$Res, $Val extends Workbook>
       color: null == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as int,
+              as ColorTheme,
       folderId: freezed == folderId
           ? _value.folderId
           : folderId // ignore: cast_nullable_to_non_nullable
@@ -102,7 +102,7 @@ abstract class _$$_WorkbookCopyWith<$Res> implements $WorkbookCopyWith<$Res> {
       {String workbookId,
       String title,
       int order,
-      int color,
+      ColorTheme color,
       String? folderId,
       int questionCount});
 }
@@ -141,7 +141,7 @@ class __$$_WorkbookCopyWithImpl<$Res>
       color: null == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as int,
+              as ColorTheme,
       folderId: freezed == folderId
           ? _value.folderId
           : folderId // ignore: cast_nullable_to_non_nullable
@@ -172,7 +172,7 @@ class _$_Workbook implements _Workbook {
   @override
   final int order;
   @override
-  final int color;
+  final ColorTheme color;
   @override
   final String? folderId;
   @override
@@ -215,7 +215,7 @@ abstract class _Workbook implements Workbook {
       {required final String workbookId,
       required final String title,
       required final int order,
-      required final int color,
+      required final ColorTheme color,
       required final String? folderId,
       required final int questionCount}) = _$_Workbook;
 
@@ -226,7 +226,7 @@ abstract class _Workbook implements Workbook {
   @override
   int get order;
   @override
-  int get color;
+  ColorTheme get color;
   @override
   String? get folderId;
   @override

@@ -46,4 +46,8 @@ enum ColorTheme {
     return ColorTheme.values.firstWhereOrNull((e) => e.value == value) ??
         ColorTheme.blue;
   }
+
+  static ColorTheme fromIndex(int index) {
+    return ColorTheme.values.elementAtOrNull(index) ?? ColorTheme.blue;
+  }
 }

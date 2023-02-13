@@ -35,7 +35,7 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
   }) {
     final updatedFolder = currentFolder.copyWith(
       title: title,
-      color: color.index,
+      color: color,
     );
     folderRepository.updateFolder(updatedFolder);
 

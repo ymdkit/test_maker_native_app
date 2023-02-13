@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:realm/realm.dart';
 import 'package:test_maker_native_app/model/enum/answer_status.dart';
+import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
 import 'package:test_maker_native_app/model/folder.dart';
 import 'package:test_maker_native_app/model/question.dart';
@@ -68,7 +69,7 @@ class _RealmWorkbook {
         workbookId: workbookId,
         title: title,
         order: order,
-        color: color,
+        color: ColorTheme.fromIndex(color),
         folderId: folderId,
         questionCount: questionCount);
   }
@@ -91,7 +92,7 @@ class _RealmFolder {
       folderId: folderId,
       title: title,
       order: order,
-      color: color,
+      color: ColorTheme.fromIndex(color),
       workbookCount: workbookCount,
     );
   }

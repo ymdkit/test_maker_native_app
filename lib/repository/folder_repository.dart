@@ -31,7 +31,7 @@ class FolderRepository {
       folderId: Uuid.v4().toString(),
       title: title,
       order: newOrder,
-      color: color.index,
+      color: color,
       workbookCount: 0,
     );
 

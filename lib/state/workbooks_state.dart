@@ -41,7 +41,7 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
   }) {
     final updatedWorkbook = currentWorkbook.copyWith(
       title: title,
-      color: color.index,
+      color: color,
       folderId: folderId,
     );
     workbookRepository.updateWorkbook(updatedWorkbook);
