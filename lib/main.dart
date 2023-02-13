@@ -20,11 +20,22 @@ class MyApp extends HookConsumerWidget {
     final appRouter = useMemoized(() => AppRouter());
 
     return MaterialApp.router(
-      // TODO(ymdkit): ダークテーマ対応
       // TODO(ymdkit): Dynamic Links のハンドリング
       // TODO(ymdkit): ローカライズ
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      theme: ThemeData.light().copyWith(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size.fromHeight(48),
+            elevation: 0,
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            minimumSize: const Size.fromHeight(48),
+          ),
+        ),
+      ),
+      darkTheme: ThemeData.dark().copyWith(
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             minimumSize: const Size.fromHeight(48),

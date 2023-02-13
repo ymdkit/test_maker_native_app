@@ -86,7 +86,19 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         labelText: 'フォルダ',
                         hintText: 'フォルダを選択してください',
                       ),
-                      const SizedBox(height: 32),
+                      Row(
+                        children: [
+                          const Spacer(),
+                          TextButton.icon(
+                            onPressed: () => showAppSnackBar(context, 'フォルダ作成'),
+                            label: const Text('フォルダ作成'),
+                            icon: const Icon(Icons.add),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      const Divider(),
+                      const SizedBox(height: 16),
                       const AppSectionTitle(title: 'その他の方法で作成'),
                       OutlinedButton(
                         // TODO(ymdkit): ファイルのインポート機能を実装する

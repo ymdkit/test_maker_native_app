@@ -21,6 +21,7 @@ class AppTextFormField extends StatelessWidget {
       autofocus: true,
       controller: controller,
       decoration: InputDecoration(
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         contentPadding: const EdgeInsets.symmetric(
           vertical: 16,
           horizontal: 16,
