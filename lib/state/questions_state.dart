@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
 import 'package:test_maker_native_app/model/question.dart';
@@ -6,10 +8,10 @@ import 'package:test_maker_native_app/repository/question_repository.dart';
 final questionsProvider = StateNotifierProvider.family<QuestionsStateNotifier,
     List<Question>, String>(
   (ref, workbookId) {
-    final questionRepository = ref.watch(questionRepositoryProvider);
     return QuestionsStateNotifier(
-      questionRepository: questionRepository,
+      questionRepository: ref.watch(questionRepositoryProvider),
       workbookId: workbookId,
+      onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
     );
   },
 );
@@ -18,10 +20,12 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
   QuestionsStateNotifier({
     required this.questionRepository,
     required this.workbookId,
+    required this.onMutateQuestionStream,
   }) : super(questionRepository.getQuestions(workbookId));
 
   final QuestionRepository questionRepository;
   final String workbookId;
+  final StreamController<Question> onMutateQuestionStream;
 
   void addQuestion({
     required String workbookId,
@@ -48,6 +52,7 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
       isCheckAnswerOrder: isCheckAnswerOrder,
     );
     state = [...state, question];
+    onMutateQuestionStream.sink.add(question);
   }
 
   void updateQuestion({
@@ -80,10 +85,16 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
         return e;
       }
     }).toList();
+    onMutateQuestionStream.sink.add(newQuestion);
   }
 
   void deleteQuestion(Question question) {
     questionRepository.deleteQuestion(question);
     state = state.where((e) => e.questionId != question.questionId).toList();
+    onMutateQuestionStream.sink.add(question);
   }
 }
+
+final onMutateQuestionStreamProvider = Provider(
+  (ref) => StreamController<Question>.broadcast(),
+);
