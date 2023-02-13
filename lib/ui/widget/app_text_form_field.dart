@@ -7,18 +7,20 @@ class AppTextFormField extends StatelessWidget {
     required this.hintText,
     required this.labelText,
     this.validator,
+    this.autofocus = false,
   });
 
   final TextEditingController controller;
   final String hintText;
   final String labelText;
   final String? Function(String?)? validator;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      autofocus: true,
+      autofocus: autofocus,
       controller: controller,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,

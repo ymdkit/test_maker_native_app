@@ -37,7 +37,6 @@ class CreateWorkbookPage extends HookConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 16),
           Expanded(
             child: SingleChildScrollView(
               child: Form(
@@ -49,6 +48,7 @@ class CreateWorkbookPage extends HookConsumerWidget {
                     children: [
                       const AppSectionTitle(title: 'アプリで作成'),
                       AppTextFormField(
+                        autofocus: true,
                         controller: workbookTitleController,
                         hintText: '問題集のタイトルを入力してください',
                         labelText: '問題集のタイトル',

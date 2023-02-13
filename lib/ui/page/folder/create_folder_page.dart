@@ -37,6 +37,7 @@ class CreateFolderPage extends HookConsumerWidget {
                     children: [
                       const SizedBox(height: 16),
                       AppTextFormField(
+                        autofocus: true,
                         controller: folderTitleController,
                         hintText: 'フォルダ名を入力してください',
                         labelText: 'フォルダ名',
