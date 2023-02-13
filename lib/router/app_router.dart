@@ -7,6 +7,7 @@ import 'package:test_maker_native_app/ui/page/folder/create_folder_page.dart';
 import 'package:test_maker_native_app/ui/page/folder/folder_details_page.dart';
 import 'package:test_maker_native_app/ui/page/group/group_list_page.dart';
 import 'package:test_maker_native_app/ui/page/home/home_page.dart';
+import 'package:test_maker_native_app/ui/page/question/create_question_page.dart';
 import 'package:test_maker_native_app/ui/page/record/record_page.dart';
 import 'package:test_maker_native_app/ui/page/search/search_workbook_page.dart';
 import 'package:test_maker_native_app/ui/page/setting/setting_page.dart';
@@ -32,6 +33,7 @@ part 'app_router.gr.dart';
             AutoRoute(page: CreateWorkbookPage),
             AutoRoute(page: CreateFolderPage),
             AutoRoute(page: WorkbookDetailsPage),
+            AutoRoute(page: CreateQuestionPage),
           ],
         ),
         AutoRoute(

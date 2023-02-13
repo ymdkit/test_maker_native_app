@@ -95,6 +95,16 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    CreateQuestionRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateQuestionRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: CreateQuestionPage(
+          key: args.key,
+          workbookId: args.workbookId,
+        ),
+      );
+    },
     SearchWorkbookRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -155,6 +165,11 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(
                   WorkbookDetailsRoute.name,
                   path: 'workbook-details-page',
+                  parent: HomeTabRoute.name,
+                ),
+                RouteConfig(
+                  CreateQuestionRoute.name,
+                  path: 'create-question-page',
                   parent: HomeTabRoute.name,
                 ),
               ],
@@ -413,6 +428,40 @@ class WorkbookDetailsRouteArgs {
   @override
   String toString() {
     return 'WorkbookDetailsRouteArgs{key: $key, workbookId: $workbookId}';
+  }
+}
+
+/// generated route for
+/// [CreateQuestionPage]
+class CreateQuestionRoute extends PageRouteInfo<CreateQuestionRouteArgs> {
+  CreateQuestionRoute({
+    Key? key,
+    required String workbookId,
+  }) : super(
+          CreateQuestionRoute.name,
+          path: 'create-question-page',
+          args: CreateQuestionRouteArgs(
+            key: key,
+            workbookId: workbookId,
+          ),
+        );
+
+  static const String name = 'CreateQuestionRoute';
+}
+
+class CreateQuestionRouteArgs {
+  const CreateQuestionRouteArgs({
+    this.key,
+    required this.workbookId,
+  });
+
+  final Key? key;
+
+  final String workbookId;
+
+  @override
+  String toString() {
+    return 'CreateQuestionRouteArgs{key: $key, workbookId: $workbookId}';
   }
 }
 

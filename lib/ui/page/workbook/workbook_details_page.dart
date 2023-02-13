@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/questions_state.dart';
 import 'package:test_maker_native_app/state/workbook_state.dart';
 import 'package:test_maker_native_app/ui/page/question/question_list_item.dart';
@@ -25,8 +27,9 @@ class WorkbookDetailsPage extends HookConsumerWidget {
       ),
       body: questions.isEmpty
           ? AppEmptyContent.question(
-              onPressedFallbackButton: () =>
-                  showAppSnackBar(context, '問題を作成する'),
+              onPressedFallbackButton: () => context.router.push(
+                CreateQuestionRoute(workbookId: workbook.workbookId),
+              ),
             )
           : ListView.builder(
               itemCount: questions.length,
@@ -36,7 +39,9 @@ class WorkbookDetailsPage extends HookConsumerWidget {
               ),
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => showAppSnackBar(context, '問題を作成する'),
+        onPressed: () => context.router.push(
+          CreateQuestionRoute(workbookId: workbook.workbookId),
+        ),
         child: const Icon(Icons.add),
       ),
     );
