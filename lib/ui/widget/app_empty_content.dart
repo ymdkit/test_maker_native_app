@@ -21,6 +21,13 @@ class AppEmptyContent extends StatelessWidget {
         text = '保存されている問題集はありません\n問題集を作成してください',
         fallbackButtonText = '問題集を作成する';
 
+  const AppEmptyContent.question({
+    super.key,
+    required this.onPressedFallbackButton,
+  })  : icon = Icons.edit,
+        text = '保存されている問題はありません\n問題を作成してください',
+        fallbackButtonText = '問題を作成する';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
