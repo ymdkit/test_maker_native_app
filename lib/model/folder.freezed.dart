@@ -20,6 +20,7 @@ mixin _$Folder {
   String get title => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
   int get color => throw _privateConstructorUsedError;
+  int get workbookCount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FolderCopyWith<Folder> get copyWith => throw _privateConstructorUsedError;
@@ -30,7 +31,8 @@ abstract class $FolderCopyWith<$Res> {
   factory $FolderCopyWith(Folder value, $Res Function(Folder) then) =
       _$FolderCopyWithImpl<$Res, Folder>;
   @useResult
-  $Res call({String folderId, String title, int order, int color});
+  $Res call(
+      {String folderId, String title, int order, int color, int workbookCount});
 }
 
 /// @nodoc
@@ -50,6 +52,7 @@ class _$FolderCopyWithImpl<$Res, $Val extends Folder>
     Object? title = null,
     Object? order = null,
     Object? color = null,
+    Object? workbookCount = null,
   }) {
     return _then(_value.copyWith(
       folderId: null == folderId
@@ -68,6 +71,10 @@ class _$FolderCopyWithImpl<$Res, $Val extends Folder>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as int,
+      workbookCount: null == workbookCount
+          ? _value.workbookCount
+          : workbookCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -78,7 +85,8 @@ abstract class _$$_FolderCopyWith<$Res> implements $FolderCopyWith<$Res> {
       __$$_FolderCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String folderId, String title, int order, int color});
+  $Res call(
+      {String folderId, String title, int order, int color, int workbookCount});
 }
 
 /// @nodoc
@@ -95,6 +103,7 @@ class __$$_FolderCopyWithImpl<$Res>
     Object? title = null,
     Object? order = null,
     Object? color = null,
+    Object? workbookCount = null,
   }) {
     return _then(_$_Folder(
       folderId: null == folderId
@@ -113,6 +122,10 @@ class __$$_FolderCopyWithImpl<$Res>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as int,
+      workbookCount: null == workbookCount
+          ? _value.workbookCount
+          : workbookCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -124,7 +137,8 @@ class _$_Folder implements _Folder {
       {required this.folderId,
       required this.title,
       required this.order,
-      required this.color});
+      required this.color,
+      required this.workbookCount});
 
   @override
   final String folderId;
@@ -134,10 +148,12 @@ class _$_Folder implements _Folder {
   final int order;
   @override
   final int color;
+  @override
+  final int workbookCount;
 
   @override
   String toString() {
-    return 'Folder(folderId: $folderId, title: $title, order: $order, color: $color)';
+    return 'Folder(folderId: $folderId, title: $title, order: $order, color: $color, workbookCount: $workbookCount)';
   }
 
   @override
@@ -149,11 +165,14 @@ class _$_Folder implements _Folder {
                 other.folderId == folderId) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.order, order) || other.order == order) &&
-            (identical(other.color, color) || other.color == color));
+            (identical(other.color, color) || other.color == color) &&
+            (identical(other.workbookCount, workbookCount) ||
+                other.workbookCount == workbookCount));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, folderId, title, order, color);
+  int get hashCode =>
+      Object.hash(runtimeType, folderId, title, order, color, workbookCount);
 
   @JsonKey(ignore: true)
   @override
@@ -167,7 +186,8 @@ abstract class _Folder implements Folder {
       {required final String folderId,
       required final String title,
       required final int order,
-      required final int color}) = _$_Folder;
+      required final int color,
+      required final int workbookCount}) = _$_Folder;
 
   @override
   String get folderId;
@@ -177,6 +197,8 @@ abstract class _Folder implements Folder {
   int get order;
   @override
   int get color;
+  @override
+  int get workbookCount;
   @override
   @JsonKey(ignore: true)
   _$$_FolderCopyWith<_$_Folder> get copyWith =>

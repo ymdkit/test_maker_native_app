@@ -10,5 +10,6 @@ class Workbook with _$Workbook {
     required int order,
     required int color,
     required String? folderId,
+    required int questionCount,
   }) = _Workbook;
 }

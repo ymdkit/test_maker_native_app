@@ -21,6 +21,7 @@ mixin _$Workbook {
   int get order => throw _privateConstructorUsedError;
   int get color => throw _privateConstructorUsedError;
   String? get folderId => throw _privateConstructorUsedError;
+  int get questionCount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WorkbookCopyWith<Workbook> get copyWith =>
@@ -37,7 +38,8 @@ abstract class $WorkbookCopyWith<$Res> {
       String title,
       int order,
       int color,
-      String? folderId});
+      String? folderId,
+      int questionCount});
 }
 
 /// @nodoc
@@ -58,6 +60,7 @@ class _$WorkbookCopyWithImpl<$Res, $Val extends Workbook>
     Object? order = null,
     Object? color = null,
     Object? folderId = freezed,
+    Object? questionCount = null,
   }) {
     return _then(_value.copyWith(
       workbookId: null == workbookId
@@ -80,6 +83,10 @@ class _$WorkbookCopyWithImpl<$Res, $Val extends Workbook>
           ? _value.folderId
           : folderId // ignore: cast_nullable_to_non_nullable
               as String?,
+      questionCount: null == questionCount
+          ? _value.questionCount
+          : questionCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -96,7 +103,8 @@ abstract class _$$_WorkbookCopyWith<$Res> implements $WorkbookCopyWith<$Res> {
       String title,
       int order,
       int color,
-      String? folderId});
+      String? folderId,
+      int questionCount});
 }
 
 /// @nodoc
@@ -115,6 +123,7 @@ class __$$_WorkbookCopyWithImpl<$Res>
     Object? order = null,
     Object? color = null,
     Object? folderId = freezed,
+    Object? questionCount = null,
   }) {
     return _then(_$_Workbook(
       workbookId: null == workbookId
@@ -137,6 +146,10 @@ class __$$_WorkbookCopyWithImpl<$Res>
           ? _value.folderId
           : folderId // ignore: cast_nullable_to_non_nullable
               as String?,
+      questionCount: null == questionCount
+          ? _value.questionCount
+          : questionCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -149,7 +162,8 @@ class _$_Workbook implements _Workbook {
       required this.title,
       required this.order,
       required this.color,
-      required this.folderId});
+      required this.folderId,
+      required this.questionCount});
 
   @override
   final String workbookId;
@@ -161,10 +175,12 @@ class _$_Workbook implements _Workbook {
   final int color;
   @override
   final String? folderId;
+  @override
+  final int questionCount;
 
   @override
   String toString() {
-    return 'Workbook(workbookId: $workbookId, title: $title, order: $order, color: $color, folderId: $folderId)';
+    return 'Workbook(workbookId: $workbookId, title: $title, order: $order, color: $color, folderId: $folderId, questionCount: $questionCount)';
   }
 
   @override
@@ -178,12 +194,14 @@ class _$_Workbook implements _Workbook {
             (identical(other.order, order) || other.order == order) &&
             (identical(other.color, color) || other.color == color) &&
             (identical(other.folderId, folderId) ||
-                other.folderId == folderId));
+                other.folderId == folderId) &&
+            (identical(other.questionCount, questionCount) ||
+                other.questionCount == questionCount));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, workbookId, title, order, color, folderId);
+  int get hashCode => Object.hash(
+      runtimeType, workbookId, title, order, color, folderId, questionCount);
 
   @JsonKey(ignore: true)
   @override
@@ -198,7 +216,8 @@ abstract class _Workbook implements Workbook {
       required final String title,
       required final int order,
       required final int color,
-      required final String? folderId}) = _$_Workbook;
+      required final String? folderId,
+      required final int questionCount}) = _$_Workbook;
 
   @override
   String get workbookId;
@@ -210,6 +229,8 @@ abstract class _Workbook implements Workbook {
   int get color;
   @override
   String? get folderId;
+  @override
+  int get questionCount;
   @override
   @JsonKey(ignore: true)
   _$$_WorkbookCopyWith<_$_Workbook> get copyWith =>

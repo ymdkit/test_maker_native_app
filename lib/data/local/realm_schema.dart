@@ -61,14 +61,16 @@ class _RealmWorkbook {
   late int color;
   late String? folderId;
 
-  Workbook toWorkbook() {
+  Workbook toWorkbook({
+    required int questionCount,
+  }) {
     return Workbook(
-      workbookId: workbookId,
-      title: title,
-      order: order,
-      color: color,
-      folderId: folderId,
-    );
+        workbookId: workbookId,
+        title: title,
+        order: order,
+        color: color,
+        folderId: folderId,
+        questionCount: questionCount);
   }
 }
 
@@ -82,12 +84,15 @@ class _RealmFolder {
   late int order;
   late int color;
 
-  Folder toFolder() {
+  Folder toFolder({
+    required int workbookCount,
+  }) {
     return Folder(
       folderId: folderId,
       title: title,
       order: order,
       color: color,
+      workbookCount: workbookCount,
     );
   }
 }

@@ -9,5 +9,6 @@ class Folder with _$Folder {
     required String title,
     required int order,
     required int color,
+    required int workbookCount,
   }) = _Folder;
 }

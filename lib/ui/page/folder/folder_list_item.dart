@@ -15,7 +15,7 @@ class FolderListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(folder.title),
-      subtitle: Text(folder.folderId),
+      subtitle: Text('問題集数 ${folder.workbookCount}'),
       onTap: () => onTap(folder),
     );
   }

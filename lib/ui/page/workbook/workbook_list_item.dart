@@ -15,7 +15,7 @@ class WorkbookListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(workbook.title),
-      subtitle: Text(workbook.folderId ?? ''),
+      subtitle: Text('問題数 ${workbook.questionCount}'),
       onTap: () => onTap(workbook),
     );
   }
