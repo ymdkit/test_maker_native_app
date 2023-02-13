@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/folders_state.dart';
 import 'package:test_maker_native_app/state/workbooks_state.dart';
@@ -31,40 +32,53 @@ class HomePage extends HookConsumerWidget {
           : CustomScrollView(
               slivers: [
                 const AppSliverSpace(height: 16),
-                AppSliverSection(
-                  title: 'フォルダ',
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return FolderListItem(
-                          folder: folders[index],
-                          onTap: (folder) => context.router.push(
-                            FolderDetailsRoute(
-                              folderId: folder.folderId,
-                            ),
+                SliverVisibility(
+                  visible: folders.isNotEmpty,
+                  sliver: MultiSliver(
+                    children: [
+                      AppSliverSection(
+                        title: 'フォルダ',
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return FolderListItem(
+                                folder: folders[index],
+                                onTap: (folder) => context.router.push(
+                                  FolderDetailsRoute(
+                                    folderId: folder.folderId,
+                                  ),
+                                ),
+                              );
+                            },
+                            childCount: folders.length,
                           ),
-                        );
-                      },
-                      childCount: folders.length,
-                    ),
+                        ),
+                      ),
+                      const AppSliverSpace(height: 16),
+                      const SliverToBoxAdapter(
+                          child: Divider(indent: 16, endIndent: 16)),
+                      const AppSliverSpace(height: 16),
+                    ],
                   ),
                 ),
-                const AppSliverSpace(height: 16),
-                AppSliverSection(
-                  title: '問題集',
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return WorkbookListItem(
-                          workbook: workbooks[index],
-                          onTap: (workbook) => context.router.push(
-                            WorkbookDetailsRoute(
-                              workbookId: workbook.workbookId,
+                SliverVisibility(
+                  visible: workbooks.isNotEmpty,
+                  sliver: AppSliverSection(
+                    title: '問題集',
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return WorkbookListItem(
+                            workbook: workbooks[index],
+                            onTap: (workbook) => context.router.push(
+                              WorkbookDetailsRoute(
+                                workbookId: workbook.workbookId,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      childCount: workbooks.length,
+                          );
+                        },
+                        childCount: workbooks.length,
+                      ),
                     ),
                   ),
                 )
