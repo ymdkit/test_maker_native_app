@@ -173,8 +173,8 @@ class EditQuestionForm extends HookConsumerWidget {
                               TextButton.icon(
                                 onPressed: () =>
                                     showAppSnackBar(context, '画像撮影'),
-                                label: const Text('画像を追加'),
-                                icon: const Icon(Icons.add),
+                                label: const Text('画像を設定'),
+                                icon: const Icon(Icons.photo),
                               ),
                             ],
                           ),
@@ -293,8 +293,8 @@ class EditQuestionForm extends HookConsumerWidget {
                               TextButton.icon(
                                 onPressed: () =>
                                     showAppSnackBar(context, '画像撮影'),
-                                label: const Text('画像を追加'),
-                                icon: const Icon(Icons.add),
+                                label: const Text('画像を設定'),
+                                icon: const Icon(Icons.photo),
                               ),
                             ],
                           ),
