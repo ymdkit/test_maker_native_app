@@ -36,7 +36,7 @@ class QuestionRepository {
     final newOrder =
         (localDB.all<RealmQuestion>().maxBy((e) => e.order)?.order ?? 0) + 1;
 
-    final question = Question(
+    final question = Question.from(
       questionId: Uuid.v4().toString(),
       questionType: questionType,
       workbookId: workbookId,

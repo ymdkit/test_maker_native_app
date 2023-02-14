@@ -21,4 +21,87 @@ class Question with _$Question {
     required int order,
     required AnswerStatus answerStatus,
   }) = _Question;
+
+  factory Question.from({
+    required String questionId,
+    required String workbookId,
+    required QuestionType questionType,
+    required String problem,
+    required String? problemImageUrl,
+    required List<String> answers,
+    required List<String> wrongChoices,
+    required String? explanation,
+    required String? explanationImageUrl,
+    required bool isAutoGenerateWrongChoices,
+    required bool isCheckAnswerOrder,
+    required int order,
+    required AnswerStatus answerStatus,
+  }) {
+    switch (questionType) {
+      case QuestionType.write:
+        return Question(
+          questionId: questionId,
+          workbookId: workbookId,
+          questionType: QuestionType.write,
+          problem: problem,
+          problemImageUrl: problemImageUrl,
+          answers: [answers.first],
+          wrongChoices: [],
+          explanation: explanation,
+          explanationImageUrl: explanationImageUrl,
+          isAutoGenerateWrongChoices: false,
+          isCheckAnswerOrder: false,
+          order: order,
+          answerStatus: answerStatus,
+        );
+      case QuestionType.select:
+        return Question(
+          questionId: questionId,
+          workbookId: workbookId,
+          questionType: QuestionType.select,
+          problem: problem,
+          problemImageUrl: problemImageUrl,
+          answers: [answers.first],
+          wrongChoices: wrongChoices,
+          explanation: explanation,
+          explanationImageUrl: explanationImageUrl,
+          isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
+          isCheckAnswerOrder: false,
+          order: order,
+          answerStatus: answerStatus,
+        );
+      case QuestionType.complete:
+        return Question(
+          questionId: questionId,
+          workbookId: workbookId,
+          questionType: QuestionType.complete,
+          problem: problem,
+          problemImageUrl: problemImageUrl,
+          answers: answers,
+          wrongChoices: [],
+          explanation: explanation,
+          explanationImageUrl: explanationImageUrl,
+          isAutoGenerateWrongChoices: false,
+          isCheckAnswerOrder: isCheckAnswerOrder,
+          order: order,
+          answerStatus: answerStatus,
+        );
+      case QuestionType.selectComplete:
+        return Question(
+          questionId: questionId,
+          workbookId: workbookId,
+          questionType: QuestionType.selectComplete,
+          problem: problem,
+          problemImageUrl: problemImageUrl,
+          answers: answers,
+          wrongChoices: wrongChoices,
+          explanation: explanation,
+          explanationImageUrl: explanationImageUrl,
+          isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
+          isCheckAnswerOrder: isCheckAnswerOrder,
+          order: order,
+          answerStatus: answerStatus,
+        );
+    }
+  }
 }
