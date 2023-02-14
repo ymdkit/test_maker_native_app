@@ -78,6 +78,7 @@ class WorkbookRepository {
     localDB.write(() {
       localDB.add<RealmWorkbook>(
         RealmWorkbookConverting.fromWorkbook(workbook),
+        update: true,
       );
     });
   }

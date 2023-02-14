@@ -73,6 +73,7 @@ class QuestionRepository {
     localDB.write(() {
       localDB.add<RealmQuestion>(
         RealmQuestionConverting.fromQuestion(question),
+        update: true,
       );
     });
   }

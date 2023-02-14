@@ -61,6 +61,7 @@ class FolderRepository {
     localDB.write(() {
       localDB.add<RealmFolder>(
         RealmFolderConverting.fromFolder(folder),
+        update: true,
       );
     });
   }
