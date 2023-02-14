@@ -24,6 +24,14 @@ class WorkbookDetailsPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(workbook.title),
+        actions: [
+          IconButton(
+            onPressed: () => context.router.push(
+              EditWorkbookRoute(workbook: workbook),
+            ),
+            icon: const Icon(Icons.edit),
+          ),
+        ],
       ),
       body: questions.isEmpty
           ? AppEmptyContent.question(

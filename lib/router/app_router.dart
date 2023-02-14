@@ -19,6 +19,7 @@ import 'package:test_maker_native_app/ui/page/setting/setting_page.dart';
 import 'package:test_maker_native_app/ui/page/workbook/answer_workbook_page.dart';
 import 'package:test_maker_native_app/ui/page/workbook/answer_workbook_result_page.dart';
 import 'package:test_maker_native_app/ui/page/workbook/create_workbook_page.dart';
+import 'package:test_maker_native_app/ui/page/workbook/edit_workbook_page.dart';
 import 'package:test_maker_native_app/ui/page/workbook/workbook_details_page.dart';
 
 part 'app_router.gr.dart';
@@ -41,6 +42,7 @@ part 'app_router.gr.dart';
             AutoRoute(page: CreateWorkbookPage),
             AutoRoute(page: CreateFolderPage),
             AutoRoute(page: WorkbookDetailsPage),
+            AutoRoute(page: EditWorkbookPage),
             AutoRoute(page: CreateQuestionPage),
             AutoRoute(page: EditQuestionPage),
             AutoRoute(page: AnswerWorkbookPage),

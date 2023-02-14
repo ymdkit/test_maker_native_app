@@ -105,6 +105,16 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    EditWorkbookRoute.name: (routeData) {
+      final args = routeData.argsAs<EditWorkbookRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: EditWorkbookPage(
+          key: args.key,
+          workbook: args.workbook,
+        ),
+      );
+    },
     CreateQuestionRoute.name: (routeData) {
       final args = routeData.argsAs<CreateQuestionRouteArgs>();
       return MaterialPageX<dynamic>(
@@ -216,6 +226,11 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(
                   WorkbookDetailsRoute.name,
                   path: 'workbook-details-page',
+                  parent: HomeTabRoute.name,
+                ),
+                RouteConfig(
+                  EditWorkbookRoute.name,
+                  path: 'edit-workbook-page',
                   parent: HomeTabRoute.name,
                 ),
                 RouteConfig(
@@ -533,6 +548,40 @@ class WorkbookDetailsRouteArgs {
   @override
   String toString() {
     return 'WorkbookDetailsRouteArgs{key: $key, workbookId: $workbookId}';
+  }
+}
+
+/// generated route for
+/// [EditWorkbookPage]
+class EditWorkbookRoute extends PageRouteInfo<EditWorkbookRouteArgs> {
+  EditWorkbookRoute({
+    Key? key,
+    required Workbook workbook,
+  }) : super(
+          EditWorkbookRoute.name,
+          path: 'edit-workbook-page',
+          args: EditWorkbookRouteArgs(
+            key: key,
+            workbook: workbook,
+          ),
+        );
+
+  static const String name = 'EditWorkbookRoute';
+}
+
+class EditWorkbookRouteArgs {
+  const EditWorkbookRouteArgs({
+    this.key,
+    required this.workbook,
+  });
+
+  final Key? key;
+
+  final Workbook workbook;
+
+  @override
+  String toString() {
+    return 'EditWorkbookRouteArgs{key: $key, workbook: $workbook}';
   }
 }
 
