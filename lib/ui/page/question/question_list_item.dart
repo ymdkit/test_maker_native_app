@@ -14,8 +14,13 @@ class QuestionListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(question.problem),
-      subtitle: Text(question.answers.join(' ')),
+      title: Text(
+        question.problem,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(question.answers.join(' '),
+          maxLines: 1, overflow: TextOverflow.ellipsis),
       onTap: () => onTap(question),
     );
   }
