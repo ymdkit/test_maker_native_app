@@ -68,6 +68,42 @@ class CreateQuestionPage extends HookConsumerWidget {
                               onChanged: (value) {
                                 if (value != null) {
                                   questionType.value = value;
+
+                                  switch (value) {
+                                    case QuestionType.write:
+                                      answerControllers.value = [
+                                        TextEditingController(),
+                                      ];
+                                      wrongChoiceControllers.value = [];
+                                      break;
+                                    case QuestionType.select:
+                                      answerControllers.value = [
+                                        TextEditingController(),
+                                      ];
+                                      wrongChoiceControllers.value = [
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                      ];
+                                      break;
+                                    case QuestionType.complete:
+                                      answerControllers.value = [
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                      ];
+                                      wrongChoiceControllers.value = [];
+                                      break;
+                                    case QuestionType.selectComplete:
+                                      answerControllers.value = [
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                      ];
+                                      wrongChoiceControllers.value = [
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                      ];
+                                      break;
+                                  }
                                 }
                               },
                               labelText: '問題形式',
