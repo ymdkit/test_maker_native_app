@@ -69,6 +69,16 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    EditFolderRoute.name: (routeData) {
+      final args = routeData.argsAs<EditFolderRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: EditFolderPage(
+          key: args.key,
+          folder: args.folder,
+        ),
+      );
+    },
     CreateWorkbookRoute.name: (routeData) {
       final args = routeData.argsAs<CreateWorkbookRouteArgs>();
       return MaterialPageX<dynamic>(
@@ -105,6 +115,36 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    EditQuestionRoute.name: (routeData) {
+      final args = routeData.argsAs<EditQuestionRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: EditQuestionPage(
+          key: args.key,
+          question: args.question,
+        ),
+      );
+    },
+    AnswerWorkbookRoute.name: (routeData) {
+      final args = routeData.argsAs<AnswerWorkbookRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: AnswerWorkbookPage(
+          key: args.key,
+          workbook: args.workbook,
+        ),
+      );
+    },
+    AnswerWorkbookResultRoute.name: (routeData) {
+      final args = routeData.argsAs<AnswerWorkbookResultRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: AnswerWorkbookResultPage(
+          key: args.key,
+          workbook: args.workbook,
+        ),
+      );
+    },
     SearchWorkbookRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -115,6 +155,12 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const GroupListPage(),
+      );
+    },
+    GroupDetailsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const GroupDetailsPage(),
       );
     },
     RecordRoute.name: (routeData) {
@@ -153,6 +199,11 @@ class _$AppRouter extends RootStackRouter {
                   parent: HomeTabRoute.name,
                 ),
                 RouteConfig(
+                  EditFolderRoute.name,
+                  path: 'edit-folder-page',
+                  parent: HomeTabRoute.name,
+                ),
+                RouteConfig(
                   CreateWorkbookRoute.name,
                   path: 'create-workbook-page',
                   parent: HomeTabRoute.name,
@@ -170,6 +221,21 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(
                   CreateQuestionRoute.name,
                   path: 'create-question-page',
+                  parent: HomeTabRoute.name,
+                ),
+                RouteConfig(
+                  EditQuestionRoute.name,
+                  path: 'edit-question-page',
+                  parent: HomeTabRoute.name,
+                ),
+                RouteConfig(
+                  AnswerWorkbookRoute.name,
+                  path: 'answer-workbook-page',
+                  parent: HomeTabRoute.name,
+                ),
+                RouteConfig(
+                  AnswerWorkbookResultRoute.name,
+                  path: 'answer-workbook-result-page',
                   parent: HomeTabRoute.name,
                 ),
               ],
@@ -195,7 +261,12 @@ class _$AppRouter extends RootStackRouter {
                   GroupListRoute.name,
                   path: 'group-list-page',
                   parent: GroupTabRoute.name,
-                )
+                ),
+                RouteConfig(
+                  GroupDetailsRoute.name,
+                  path: 'group-details-page',
+                  parent: GroupTabRoute.name,
+                ),
               ],
             ),
             RouteConfig(
@@ -352,6 +423,40 @@ class FolderDetailsRouteArgs {
 }
 
 /// generated route for
+/// [EditFolderPage]
+class EditFolderRoute extends PageRouteInfo<EditFolderRouteArgs> {
+  EditFolderRoute({
+    Key? key,
+    required Folder folder,
+  }) : super(
+          EditFolderRoute.name,
+          path: 'edit-folder-page',
+          args: EditFolderRouteArgs(
+            key: key,
+            folder: folder,
+          ),
+        );
+
+  static const String name = 'EditFolderRoute';
+}
+
+class EditFolderRouteArgs {
+  const EditFolderRouteArgs({
+    this.key,
+    required this.folder,
+  });
+
+  final Key? key;
+
+  final Folder folder;
+
+  @override
+  String toString() {
+    return 'EditFolderRouteArgs{key: $key, folder: $folder}';
+  }
+}
+
+/// generated route for
 /// [CreateWorkbookPage]
 class CreateWorkbookRoute extends PageRouteInfo<CreateWorkbookRouteArgs> {
   CreateWorkbookRoute({
@@ -466,6 +571,109 @@ class CreateQuestionRouteArgs {
 }
 
 /// generated route for
+/// [EditQuestionPage]
+class EditQuestionRoute extends PageRouteInfo<EditQuestionRouteArgs> {
+  EditQuestionRoute({
+    Key? key,
+    required Question question,
+  }) : super(
+          EditQuestionRoute.name,
+          path: 'edit-question-page',
+          args: EditQuestionRouteArgs(
+            key: key,
+            question: question,
+          ),
+        );
+
+  static const String name = 'EditQuestionRoute';
+}
+
+class EditQuestionRouteArgs {
+  const EditQuestionRouteArgs({
+    this.key,
+    required this.question,
+  });
+
+  final Key? key;
+
+  final Question question;
+
+  @override
+  String toString() {
+    return 'EditQuestionRouteArgs{key: $key, question: $question}';
+  }
+}
+
+/// generated route for
+/// [AnswerWorkbookPage]
+class AnswerWorkbookRoute extends PageRouteInfo<AnswerWorkbookRouteArgs> {
+  AnswerWorkbookRoute({
+    Key? key,
+    required Workbook workbook,
+  }) : super(
+          AnswerWorkbookRoute.name,
+          path: 'answer-workbook-page',
+          args: AnswerWorkbookRouteArgs(
+            key: key,
+            workbook: workbook,
+          ),
+        );
+
+  static const String name = 'AnswerWorkbookRoute';
+}
+
+class AnswerWorkbookRouteArgs {
+  const AnswerWorkbookRouteArgs({
+    this.key,
+    required this.workbook,
+  });
+
+  final Key? key;
+
+  final Workbook workbook;
+
+  @override
+  String toString() {
+    return 'AnswerWorkbookRouteArgs{key: $key, workbook: $workbook}';
+  }
+}
+
+/// generated route for
+/// [AnswerWorkbookResultPage]
+class AnswerWorkbookResultRoute
+    extends PageRouteInfo<AnswerWorkbookResultRouteArgs> {
+  AnswerWorkbookResultRoute({
+    Key? key,
+    required Workbook workbook,
+  }) : super(
+          AnswerWorkbookResultRoute.name,
+          path: 'answer-workbook-result-page',
+          args: AnswerWorkbookResultRouteArgs(
+            key: key,
+            workbook: workbook,
+          ),
+        );
+
+  static const String name = 'AnswerWorkbookResultRoute';
+}
+
+class AnswerWorkbookResultRouteArgs {
+  const AnswerWorkbookResultRouteArgs({
+    this.key,
+    required this.workbook,
+  });
+
+  final Key? key;
+
+  final Workbook workbook;
+
+  @override
+  String toString() {
+    return 'AnswerWorkbookResultRouteArgs{key: $key, workbook: $workbook}';
+  }
+}
+
+/// generated route for
 /// [SearchWorkbookPage]
 class SearchWorkbookRoute extends PageRouteInfo<void> {
   const SearchWorkbookRoute()
@@ -487,6 +695,18 @@ class GroupListRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'GroupListRoute';
+}
+
+/// generated route for
+/// [GroupDetailsPage]
+class GroupDetailsRoute extends PageRouteInfo<void> {
+  const GroupDetailsRoute()
+      : super(
+          GroupDetailsRoute.name,
+          path: 'group-details-page',
+        );
+
+  static const String name = 'GroupDetailsRoute';
 }
 
 /// generated route for
