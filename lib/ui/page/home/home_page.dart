@@ -6,6 +6,7 @@ import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/folders_state.dart';
 import 'package:test_maker_native_app/state/workbooks_state.dart';
 import 'package:test_maker_native_app/ui/page/folder/folder_list_item.dart';
+import 'package:test_maker_native_app/ui/page/workbook/operate_workbook_sheet.dart';
 import 'package:test_maker_native_app/ui/page/workbook/workbook_list_item.dart';
 import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
 import 'package:test_maker_native_app/ui/widget/app_sliver_section.dart';
@@ -70,11 +71,8 @@ class HomePage extends HookConsumerWidget {
                         (context, index) {
                           return WorkbookListItem(
                             workbook: workbooks[index],
-                            onTap: (workbook) => context.router.push(
-                              WorkbookDetailsRoute(
-                                workbookId: workbook.workbookId,
-                              ),
-                            ),
+                            onTap: (workbook) async =>
+                                showOperateWorkbookSheet(context, workbook),
                           );
                         },
                         childCount: workbooks.length,
