@@ -6,7 +6,6 @@ import 'package:test_maker_native_app/state/questions_state.dart';
 import 'package:test_maker_native_app/state/workbook_state.dart';
 import 'package:test_maker_native_app/ui/page/question/question_list_item.dart';
 import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
-import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
 
 class WorkbookDetailsPage extends HookConsumerWidget {
   const WorkbookDetailsPage({
@@ -43,7 +42,12 @@ class WorkbookDetailsPage extends HookConsumerWidget {
               itemCount: questions.length,
               itemBuilder: (context, index) => QuestionListItem(
                 question: questions[index],
-                onTap: (question) => showAppSnackBar(context, question.problem),
+                onTap: (question) => context.router.push(
+                  EditQuestionRoute(
+                    workbookId: workbook.workbookId,
+                    question: question,
+                  ),
+                ),
               ),
             ),
       floatingActionButton: FloatingActionButton(

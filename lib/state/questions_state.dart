@@ -57,6 +57,7 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
 
   void updateQuestion({
     required Question currentQuestion,
+    required QuestionType questionType,
     required String problem,
     required String? problemImageUrl,
     required List<String> answers,
@@ -67,6 +68,7 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
     required bool isCheckAnswerOrder,
   }) {
     final newQuestion = currentQuestion.copyWith(
+      questionType: questionType,
       problem: problem,
       problemImageUrl: problemImageUrl,
       answers: answers,

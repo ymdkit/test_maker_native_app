@@ -131,6 +131,7 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: EditQuestionPage(
           key: args.key,
+          workbookId: args.workbookId,
           question: args.question,
         ),
       );
@@ -624,12 +625,14 @@ class CreateQuestionRouteArgs {
 class EditQuestionRoute extends PageRouteInfo<EditQuestionRouteArgs> {
   EditQuestionRoute({
     Key? key,
+    required String workbookId,
     required Question question,
   }) : super(
           EditQuestionRoute.name,
           path: 'edit-question-page',
           args: EditQuestionRouteArgs(
             key: key,
+            workbookId: workbookId,
             question: question,
           ),
         );
@@ -640,16 +643,19 @@ class EditQuestionRoute extends PageRouteInfo<EditQuestionRouteArgs> {
 class EditQuestionRouteArgs {
   const EditQuestionRouteArgs({
     this.key,
+    required this.workbookId,
     required this.question,
   });
 
   final Key? key;
 
+  final String workbookId;
+
   final Question question;
 
   @override
   String toString() {
-    return 'EditQuestionRouteArgs{key: $key, question: $question}';
+    return 'EditQuestionRouteArgs{key: $key, workbookId: $workbookId, question: $question}';
   }
 }
 
