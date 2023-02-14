@@ -8,6 +8,9 @@ class AppTextFormField extends StatelessWidget {
     required this.labelText,
     this.validator,
     this.autofocus = false,
+    this.textInputAction,
+    this.minLines = 1,
+    this.maxLines = 1,
   });
 
   final TextEditingController controller;
@@ -15,6 +18,9 @@ class AppTextFormField extends StatelessWidget {
   final String labelText;
   final String? Function(String?)? validator;
   final bool autofocus;
+  final TextInputAction? textInputAction;
+  final int minLines;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +39,9 @@ class AppTextFormField extends StatelessWidget {
         labelText: labelText,
       ),
       validator: validator,
+      textInputAction: textInputAction,
+      minLines: minLines,
+      maxLines: maxLines,
     );
   }
 }

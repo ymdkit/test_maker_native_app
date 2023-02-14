@@ -74,6 +74,7 @@ class CreateQuestionPage extends HookConsumerWidget {
                         labelText: '問題文',
                         validator: (value) =>
                             value?.isEmpty ?? true ? '問題文を入力してください' : null,
+                        maxLines: 5,
                       ),
                       Row(
                         children: [
@@ -95,6 +96,7 @@ class CreateQuestionPage extends HookConsumerWidget {
                               labelText: '答え',
                               validator: (value) =>
                                   value?.isEmpty ?? true ? '答えを入力してください' : null,
+                              textInputAction: TextInputAction.next,
                             ),
                             const SizedBox(height: 16),
                           ],
@@ -188,6 +190,7 @@ class CreateQuestionPage extends HookConsumerWidget {
                         controller: explanationController,
                         hintText: '解説を入力してください',
                         labelText: '解説',
+                        maxLines: 5,
                       ),
                       Row(
                         children: [
@@ -222,7 +225,6 @@ class CreateQuestionPage extends HookConsumerWidget {
                             }
                           },
                           title: const Text('解答順序をチェックする'),
-                          subtitle: const Text('正しい順序で答える必要があります。'),
                         ),
                       ),
                     ],
