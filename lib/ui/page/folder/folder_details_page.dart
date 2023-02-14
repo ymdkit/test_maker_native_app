@@ -21,6 +21,14 @@ class FolderDetailsPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(folder.title),
+        actions: [
+          IconButton(
+            onPressed: () => context.router.push(
+              EditFolderRoute(folder: folder),
+            ),
+            icon: const Icon(Icons.edit),
+          ),
+        ],
       ),
       body: workbooks.isEmpty
           ? AppEmptyContent.workbook(
