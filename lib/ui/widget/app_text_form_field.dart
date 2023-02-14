@@ -11,6 +11,7 @@ class AppTextFormField extends StatelessWidget {
     this.textInputAction,
     this.minLines = 1,
     this.maxLines = 1,
+    this.focusNode,
   });
 
   final TextEditingController controller;
@@ -21,11 +22,12 @@ class AppTextFormField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final int minLines;
   final int maxLines;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      focusNode: focusNode,
       autofocus: autofocus,
       controller: controller,
       decoration: InputDecoration(
