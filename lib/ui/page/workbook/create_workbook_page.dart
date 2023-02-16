@@ -2,11 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/web_url.dart';
 import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/model/folder.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/folders_state.dart';
 import 'package:test_maker_native_app/state/workbooks_state.dart';
+import 'package:test_maker_native_app/ui/utils/url_launcher.dart';
 import 'package:test_maker_native_app/ui/widget/app_color_drop_down_button_form_field.dart';
 import 'package:test_maker_native_app/ui/widget/app_folder_dropdown_button_form_field.dart';
 import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
@@ -89,10 +91,12 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         child: const Text('ファイルのインポート'),
                       ),
                       const SizedBox(height: 16),
-                      OutlinedButton(
-                        onPressed: () =>
-                            showAppSnackBar(context, 'ファイルのインポートとは？'),
-                        child: const Text('ファイルのインポートとは？'),
+                      OutlinedButton.icon(
+                        onPressed: () => ref
+                            .read(urlLauncherProvider)
+                            .launch(WebUrl.importHelp),
+                        label: const Text('ファイルのインポートとは？'),
+                        icon: const Icon(Icons.launch),
                       ),
                     ],
                   ),
