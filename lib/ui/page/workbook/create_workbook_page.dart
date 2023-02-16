@@ -90,13 +90,17 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         onPressed: () => showAppSnackBar(context, 'ファイルのインポート'),
                         child: const Text('ファイルのインポート'),
                       ),
-                      const SizedBox(height: 16),
-                      OutlinedButton.icon(
-                        onPressed: () => ref
-                            .read(urlLauncherProvider)
-                            .launch(WebUrl.importHelp),
-                        label: const Text('ファイルのインポートとは？'),
-                        icon: const Icon(Icons.launch),
+                      Row(
+                        children: [
+                          const Spacer(),
+                          TextButton.icon(
+                            onPressed: () => ref
+                                .read(urlLauncherProvider)
+                                .launch(WebUrl.importHelp),
+                            label: const Text('ファイルのインポートとは？'),
+                            icon: const Icon(Icons.launch),
+                          ),
+                        ],
                       ),
                     ],
                   ),
