@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:test_maker_native_app/model/question.dart';
 
@@ -21,6 +23,12 @@ class QuestionListItem extends StatelessWidget {
       ),
       subtitle: Text(question.answers.join(' '),
           maxLines: 1, overflow: TextOverflow.ellipsis),
+      trailing: question.problemImageUrl != null
+          ? Image.file(
+              File(question.problemImageUrl!),
+              fit: BoxFit.contain,
+            )
+          : null,
       onTap: () => onTap(question),
     );
   }

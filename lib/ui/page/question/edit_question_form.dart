@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
 import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/ui/widget/app_dropdown_button_form_field.dart';
+import 'package:test_maker_native_app/ui/widget/app_pick_image_button.dart';
 import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
 import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
 import 'package:test_maker_native_app/ui/widget/app_text_form_field.dart';
@@ -170,11 +171,11 @@ class EditQuestionForm extends HookConsumerWidget {
                           Row(
                             children: [
                               const Spacer(),
-                              TextButton.icon(
-                                onPressed: () =>
-                                    showAppSnackBar(context, '画像撮影'),
-                                label: const Text('画像を設定'),
-                                icon: const Icon(Icons.photo),
+                              AppPickImageButton(
+                                imageUrl: problemImageUrl.value,
+                                onPicked: (filePath) async {
+                                  problemImageUrl.value = filePath;
+                                },
                               ),
                             ],
                           ),
@@ -290,11 +291,11 @@ class EditQuestionForm extends HookConsumerWidget {
                           Row(
                             children: [
                               const Spacer(),
-                              TextButton.icon(
-                                onPressed: () =>
-                                    showAppSnackBar(context, '画像撮影'),
-                                label: const Text('画像を設定'),
-                                icon: const Icon(Icons.photo),
+                              AppPickImageButton(
+                                imageUrl: explanationImageUrl.value,
+                                onPicked: (filePath) async {
+                                  explanationImageUrl.value = filePath;
+                                },
                               ),
                             ],
                           ),
