@@ -56,9 +56,16 @@ class HomePage extends HookConsumerWidget {
                         ),
                       ),
                       const AppSliverSpace(height: 16),
-                      const SliverToBoxAdapter(
+                    ],
+                  ),
+                ),
+                SliverVisibility(
+                  visible: folders.isNotEmpty && workbooks.isNotEmpty,
+                  sliver: MultiSliver(
+                    children: const [
+                      SliverToBoxAdapter(
                           child: Divider(indent: 16, endIndent: 16)),
-                      const AppSliverSpace(height: 16),
+                      AppSliverSpace(height: 16),
                     ],
                   ),
                 ),
