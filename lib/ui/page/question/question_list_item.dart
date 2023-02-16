@@ -23,7 +23,8 @@ class QuestionListItem extends StatelessWidget {
       ),
       subtitle: Text(question.answers.join(' '),
           maxLines: 1, overflow: TextOverflow.ellipsis),
-      trailing: question.problemImageUrl != null
+      trailing: question.problemImageUrl != null &&
+              File(question.problemImageUrl!).existsSync()
           ? Image.file(
               File(question.problemImageUrl!),
               fit: BoxFit.contain,

@@ -34,7 +34,8 @@ class AnswerQuestionForm extends HookWidget {
                 children: [
                   Text(question.problem),
                   const SizedBox(height: 16),
-                  if (question.problemImageUrl != null)
+                  if (question.problemImageUrl != null &&
+                      File(question.problemImageUrl!).existsSync())
                     Column(
                       children: [
                         Image.file(

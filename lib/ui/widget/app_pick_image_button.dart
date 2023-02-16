@@ -17,7 +17,7 @@ class AppPickImageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (imageUrl != null)
+        if (imageUrl != null && File(imageUrl!).existsSync())
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: InkWell(
