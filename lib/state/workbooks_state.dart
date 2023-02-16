@@ -34,7 +34,7 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
   final StreamController<Workbook> onMutateWorkbookStream;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
 
-  void addWorkbook({
+  Workbook addWorkbook({
     required String title,
     required ColorTheme color,
     required String? folderId,
@@ -49,6 +49,7 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
       state = [...state, newWorkbook];
     }
     onMutateWorkbookStream.sink.add(newWorkbook);
+    return newWorkbook;
   }
 
   void updateWorkbook({

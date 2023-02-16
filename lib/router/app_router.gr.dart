@@ -188,6 +188,12 @@ class _$AppRouter extends RootStackRouter {
         child: const SettingPage(),
       );
     },
+    DebugRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const DebugPage(),
+      );
+    },
   };
 
   @override
@@ -298,7 +304,12 @@ class _$AppRouter extends RootStackRouter {
                   SettingRoute.name,
                   path: '',
                   parent: SettingTabRoute.name,
-                )
+                ),
+                RouteConfig(
+                  DebugRoute.name,
+                  path: 'debug-page',
+                  parent: SettingTabRoute.name,
+                ),
               ],
             ),
           ],
@@ -786,4 +797,16 @@ class SettingRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SettingRoute';
+}
+
+/// generated route for
+/// [DebugPage]
+class DebugRoute extends PageRouteInfo<void> {
+  const DebugRoute()
+      : super(
+          DebugRoute.name,
+          path: 'debug-page',
+        );
+
+  static const String name = 'DebugRoute';
 }
