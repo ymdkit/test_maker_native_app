@@ -51,14 +51,14 @@ part 'app_router.gr.dart';
           page: EmptyRouterPage,
           name: 'SearchTabRoute',
           children: [
-            AutoRoute(page: SearchWorkbookPage),
+            AutoRoute(page: SearchWorkbookPage, initial: true),
           ],
         ),
         AutoRoute(
           page: EmptyRouterPage,
           name: 'GroupTabRoute',
           children: [
-            AutoRoute(page: GroupListPage),
+            AutoRoute(page: GroupListPage, initial: true),
             AutoRoute(page: GroupDetailsPage),
           ],
         ),
@@ -66,14 +66,14 @@ part 'app_router.gr.dart';
           page: EmptyRouterPage,
           name: 'RecordTabRoute',
           children: [
-            AutoRoute(page: RecordPage),
+            AutoRoute(page: RecordPage, initial: true),
           ],
         ),
         AutoRoute(
           page: EmptyRouterPage,
           name: 'SettingTabRoute',
           children: [
-            AutoRoute(page: SettingPage),
+            AutoRoute(page: SettingPage, initial: true),
           ],
         ),
       ],

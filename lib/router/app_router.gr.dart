@@ -255,7 +255,7 @@ class _$AppRouter extends RootStackRouter {
               children: [
                 RouteConfig(
                   SearchWorkbookRoute.name,
-                  path: 'search-workbook-page',
+                  path: '',
                   parent: SearchTabRoute.name,
                 )
               ],
@@ -267,7 +267,7 @@ class _$AppRouter extends RootStackRouter {
               children: [
                 RouteConfig(
                   GroupListRoute.name,
-                  path: 'group-list-page',
+                  path: '',
                   parent: GroupTabRoute.name,
                 ),
                 RouteConfig(
@@ -284,7 +284,7 @@ class _$AppRouter extends RootStackRouter {
               children: [
                 RouteConfig(
                   RecordRoute.name,
-                  path: 'record-page',
+                  path: '',
                   parent: RecordTabRoute.name,
                 )
               ],
@@ -296,7 +296,7 @@ class _$AppRouter extends RootStackRouter {
               children: [
                 RouteConfig(
                   SettingRoute.name,
-                  path: 'setting-page',
+                  path: '',
                   parent: SettingTabRoute.name,
                 )
               ],
@@ -734,7 +734,7 @@ class SearchWorkbookRoute extends PageRouteInfo<void> {
   const SearchWorkbookRoute()
       : super(
           SearchWorkbookRoute.name,
-          path: 'search-workbook-page',
+          path: '',
         );
 
   static const String name = 'SearchWorkbookRoute';
@@ -746,7 +746,7 @@ class GroupListRoute extends PageRouteInfo<void> {
   const GroupListRoute()
       : super(
           GroupListRoute.name,
-          path: 'group-list-page',
+          path: '',
         );
 
   static const String name = 'GroupListRoute';
@@ -770,7 +770,7 @@ class RecordRoute extends PageRouteInfo<void> {
   const RecordRoute()
       : super(
           RecordRoute.name,
-          path: 'record-page',
+          path: '',
         );
 
   static const String name = 'RecordRoute';
@@ -782,7 +782,7 @@ class SettingRoute extends PageRouteInfo<void> {
   const SettingRoute()
       : super(
           SettingRoute.name,
-          path: 'setting-page',
+          path: '',
         );
 
   static const String name = 'SettingRoute';
