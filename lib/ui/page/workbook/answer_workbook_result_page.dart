@@ -23,7 +23,9 @@ class AnswerWorkbookResultPage extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: ElevatedButton(
             onPressed: () {
-              context.router.replace(const RootRoute());
+              context.router.replaceAll(
+                [const RootRoute()],
+              );
             },
             child: const Text('ホームに戻る'),
           ),
