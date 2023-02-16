@@ -1,3 +1,4 @@
+import 'package:dartx/dartx.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:test_maker_native_app/model/enum/answer_status.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
@@ -6,6 +7,7 @@ part 'question.freezed.dart';
 
 @freezed
 class Question with _$Question {
+  const Question._();
   const factory Question({
     required String questionId,
     required String workbookId,
@@ -103,5 +105,9 @@ class Question with _$Question {
           answerStatus: answerStatus,
         );
     }
+  }
+
+  List<String> get shuffledChoices {
+    return [...answers, ...wrongChoices].shuffled();
   }
 }

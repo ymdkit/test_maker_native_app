@@ -21,6 +21,7 @@ class AnswerWorkbookPage extends HookConsumerWidget {
     final workbook = ref.watch(workbookProvider(workbookId));
     final questions = ref.watch(questionsProvider(workbookId));
     final index = useState(0);
+    final isLoading = useState(true);
 
     return Focus(
       focusNode: screenFocusNode,
@@ -56,18 +57,26 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                     ],
                   ),
                 )
-              : AnswerQuestionContent(
-                  question: questions[index.value],
-                  onAnswered: () {
-                    if (index.value < questions.length - 1) {
-                      index.value++;
-                    } else {
-                      context.router.push(
-                        AnswerWorkbookResultRoute(workbook: workbook),
-                      );
-                    }
-                  },
-                ),
+              : isLoading.value
+                  ? AnswerQuestionForm(
+                      question: questions[index.value],
+                      onAnswered: () async {
+                        if (index.value < questions.length - 1) {
+                          //NOTE: AnswerQuestionForm を表示したままだと前問解答時の状態が残るため、
+                          //一旦 AnswerQuestionForm を破棄してから再表示する
+                          isLoading.value = false;
+                          await Future<void>.delayed(
+                              const Duration(milliseconds: 10));
+                          isLoading.value = true;
+                          index.value++;
+                        } else {
+                          await context.router.push(
+                            AnswerWorkbookResultRoute(workbook: workbook),
+                          );
+                        }
+                      },
+                    )
+                  : const SizedBox.expand(),
         ),
       ),
     );

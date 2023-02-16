@@ -12,6 +12,7 @@ class AppTextFormField extends StatelessWidget {
     this.minLines = 1,
     this.maxLines = 1,
     this.focusNode,
+    this.onChanged,
   });
 
   final TextEditingController controller;
@@ -23,6 +24,7 @@ class AppTextFormField extends StatelessWidget {
   final int minLines;
   final int maxLines;
   final FocusNode? focusNode;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class AppTextFormField extends StatelessWidget {
       textInputAction: textInputAction,
       minLines: minLines,
       maxLines: maxLines,
+      onChanged: onChanged
     );
   }
 }

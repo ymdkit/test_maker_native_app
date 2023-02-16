@@ -247,7 +247,7 @@ class __$$_QuestionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Question implements _Question {
+class _$_Question extends _Question {
   const _$_Question(
       {required this.questionId,
       required this.workbookId,
@@ -263,7 +263,8 @@ class _$_Question implements _Question {
       required this.order,
       required this.answerStatus})
       : _answers = answers,
-        _wrongChoices = wrongChoices;
+        _wrongChoices = wrongChoices,
+        super._();
 
   @override
   final String questionId;
@@ -365,7 +366,7 @@ class _$_Question implements _Question {
       __$$_QuestionCopyWithImpl<_$_Question>(this, _$identity);
 }
 
-abstract class _Question implements Question {
+abstract class _Question extends Question {
   const factory _Question(
       {required final String questionId,
       required final String workbookId,
@@ -380,6 +381,7 @@ abstract class _Question implements Question {
       required final bool isCheckAnswerOrder,
       required final int order,
       required final AnswerStatus answerStatus}) = _$_Question;
+  const _Question._() : super._();
 
   @override
   String get questionId;
