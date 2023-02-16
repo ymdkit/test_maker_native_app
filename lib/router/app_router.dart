@@ -45,8 +45,6 @@ part 'app_router.gr.dart';
             AutoRoute(page: EditWorkbookPage),
             AutoRoute(page: CreateQuestionPage),
             AutoRoute(page: EditQuestionPage),
-            AutoRoute(page: AnswerWorkbookPage),
-            AutoRoute(page: AnswerWorkbookResultPage),
           ],
         ),
         AutoRoute(
@@ -80,6 +78,8 @@ part 'app_router.gr.dart';
         ),
       ],
     ),
+    AutoRoute(page: AnswerWorkbookPage, fullscreenDialog: true),
+    AutoRoute(page: AnswerWorkbookResultPage, fullscreenDialog: true),
   ],
 )
 class AppRouter extends _$AppRouter {}

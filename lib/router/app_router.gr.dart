@@ -23,6 +23,28 @@ class _$AppRouter extends RootStackRouter {
         child: const RootPage(),
       );
     },
+    AnswerWorkbookRoute.name: (routeData) {
+      final args = routeData.argsAs<AnswerWorkbookRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: AnswerWorkbookPage(
+          key: args.key,
+          workbookId: args.workbookId,
+        ),
+        fullscreenDialog: true,
+      );
+    },
+    AnswerWorkbookResultRoute.name: (routeData) {
+      final args = routeData.argsAs<AnswerWorkbookResultRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: AnswerWorkbookResultPage(
+          key: args.key,
+          workbook: args.workbook,
+        ),
+        fullscreenDialog: true,
+      );
+    },
     HomeTabRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -136,26 +158,6 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    AnswerWorkbookRoute.name: (routeData) {
-      final args = routeData.argsAs<AnswerWorkbookRouteArgs>();
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: AnswerWorkbookPage(
-          key: args.key,
-          workbook: args.workbook,
-        ),
-      );
-    },
-    AnswerWorkbookResultRoute.name: (routeData) {
-      final args = routeData.argsAs<AnswerWorkbookResultRouteArgs>();
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: AnswerWorkbookResultPage(
-          key: args.key,
-          workbook: args.workbook,
-        ),
-      );
-    },
     SearchWorkbookRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -244,16 +246,6 @@ class _$AppRouter extends RootStackRouter {
                   path: 'edit-question-page',
                   parent: HomeTabRoute.name,
                 ),
-                RouteConfig(
-                  AnswerWorkbookRoute.name,
-                  path: 'answer-workbook-page',
-                  parent: HomeTabRoute.name,
-                ),
-                RouteConfig(
-                  AnswerWorkbookResultRoute.name,
-                  path: 'answer-workbook-result-page',
-                  parent: HomeTabRoute.name,
-                ),
               ],
             ),
             RouteConfig(
@@ -310,7 +302,15 @@ class _$AppRouter extends RootStackRouter {
               ],
             ),
           ],
-        )
+        ),
+        RouteConfig(
+          AnswerWorkbookRoute.name,
+          path: '/answer-workbook-page',
+        ),
+        RouteConfig(
+          AnswerWorkbookResultRoute.name,
+          path: '/answer-workbook-result-page',
+        ),
       ];
 }
 
@@ -325,6 +325,75 @@ class RootRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'RootRoute';
+}
+
+/// generated route for
+/// [AnswerWorkbookPage]
+class AnswerWorkbookRoute extends PageRouteInfo<AnswerWorkbookRouteArgs> {
+  AnswerWorkbookRoute({
+    Key? key,
+    required String workbookId,
+  }) : super(
+          AnswerWorkbookRoute.name,
+          path: '/answer-workbook-page',
+          args: AnswerWorkbookRouteArgs(
+            key: key,
+            workbookId: workbookId,
+          ),
+        );
+
+  static const String name = 'AnswerWorkbookRoute';
+}
+
+class AnswerWorkbookRouteArgs {
+  const AnswerWorkbookRouteArgs({
+    this.key,
+    required this.workbookId,
+  });
+
+  final Key? key;
+
+  final String workbookId;
+
+  @override
+  String toString() {
+    return 'AnswerWorkbookRouteArgs{key: $key, workbookId: $workbookId}';
+  }
+}
+
+/// generated route for
+/// [AnswerWorkbookResultPage]
+class AnswerWorkbookResultRoute
+    extends PageRouteInfo<AnswerWorkbookResultRouteArgs> {
+  AnswerWorkbookResultRoute({
+    Key? key,
+    required Workbook workbook,
+  }) : super(
+          AnswerWorkbookResultRoute.name,
+          path: '/answer-workbook-result-page',
+          args: AnswerWorkbookResultRouteArgs(
+            key: key,
+            workbook: workbook,
+          ),
+        );
+
+  static const String name = 'AnswerWorkbookResultRoute';
+}
+
+class AnswerWorkbookResultRouteArgs {
+  const AnswerWorkbookResultRouteArgs({
+    this.key,
+    required this.workbook,
+  });
+
+  final Key? key;
+
+  final Workbook workbook;
+
+  @override
+  String toString() {
+    return 'AnswerWorkbookResultRouteArgs{key: $key, workbook: $workbook}';
+  }
 }
 
 /// generated route for
@@ -656,75 +725,6 @@ class EditQuestionRouteArgs {
   @override
   String toString() {
     return 'EditQuestionRouteArgs{key: $key, workbookId: $workbookId, question: $question}';
-  }
-}
-
-/// generated route for
-/// [AnswerWorkbookPage]
-class AnswerWorkbookRoute extends PageRouteInfo<AnswerWorkbookRouteArgs> {
-  AnswerWorkbookRoute({
-    Key? key,
-    required Workbook workbook,
-  }) : super(
-          AnswerWorkbookRoute.name,
-          path: 'answer-workbook-page',
-          args: AnswerWorkbookRouteArgs(
-            key: key,
-            workbook: workbook,
-          ),
-        );
-
-  static const String name = 'AnswerWorkbookRoute';
-}
-
-class AnswerWorkbookRouteArgs {
-  const AnswerWorkbookRouteArgs({
-    this.key,
-    required this.workbook,
-  });
-
-  final Key? key;
-
-  final Workbook workbook;
-
-  @override
-  String toString() {
-    return 'AnswerWorkbookRouteArgs{key: $key, workbook: $workbook}';
-  }
-}
-
-/// generated route for
-/// [AnswerWorkbookResultPage]
-class AnswerWorkbookResultRoute
-    extends PageRouteInfo<AnswerWorkbookResultRouteArgs> {
-  AnswerWorkbookResultRoute({
-    Key? key,
-    required Workbook workbook,
-  }) : super(
-          AnswerWorkbookResultRoute.name,
-          path: 'answer-workbook-result-page',
-          args: AnswerWorkbookResultRouteArgs(
-            key: key,
-            workbook: workbook,
-          ),
-        );
-
-  static const String name = 'AnswerWorkbookResultRoute';
-}
-
-class AnswerWorkbookResultRouteArgs {
-  const AnswerWorkbookResultRouteArgs({
-    this.key,
-    required this.workbook,
-  });
-
-  final Key? key;
-
-  final Workbook workbook;
-
-  @override
-  String toString() {
-    return 'AnswerWorkbookResultRouteArgs{key: $key, workbook: $workbook}';
   }
 }
 
