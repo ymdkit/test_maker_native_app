@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
 import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
 import 'package:test_maker_native_app/ui/widget/app_text_form_field.dart';
 import 'package:test_maker_native_app/ui/widget/separated_flex.dart';
+import 'package:test_maker_native_app/usecase/check_is_correct_use_case.dart';
 
-class AnswerQuestionForm extends HookWidget {
+class AnswerQuestionForm extends HookConsumerWidget {
   const AnswerQuestionForm({
     super.key,
     required this.question,
@@ -20,7 +22,7 @@ class AnswerQuestionForm extends HookWidget {
   final VoidCallback onAnswered;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final editingAnswers = useState<List<String>>([]);
 
     return Column(
@@ -56,7 +58,8 @@ class AnswerQuestionForm extends HookWidget {
                           question: question,
                           onSelected: (value) {
                             editingAnswers.value = [value];
-                            _validateAnswer(context, editingAnswers.value);
+                            _checkIsCorrectYourAnswer(
+                                context, ref, editingAnswers.value);
                           },
                         );
                       case QuestionType.complete:
@@ -86,7 +89,8 @@ class AnswerQuestionForm extends HookWidget {
                 padding: const EdgeInsets.all(16),
                 child: ElevatedButton(
                   onPressed: () {
-                    _validateAnswer(context, editingAnswers.value);
+                    _checkIsCorrectYourAnswer(
+                        context, ref, editingAnswers.value);
                   },
                   child: const Text('OK'),
                 ),
@@ -99,11 +103,16 @@ class AnswerQuestionForm extends HookWidget {
     );
   }
 
-  void _validateAnswer(
+  void _checkIsCorrectYourAnswer(
     BuildContext context,
+    WidgetRef ref,
     List<String> answers,
   ) {
-    showAppSnackBar(context, answers.join(' '));
+    final isCorrect = ref.read(checkIsCorrectUseCaseProvider).call(
+          question: question,
+          attemptAnswers: answers,
+        );
+    showAppSnackBar(context, isCorrect ? '正解' : '不正解');
     onAnswered();
   }
 }
