@@ -10,7 +10,7 @@ class SettingPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final packageInfo = ref.watch(packageInformationProvider);
+    final packageInfo = ref.watch(packageInfoProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -21,10 +21,7 @@ class SettingPage extends HookConsumerWidget {
         children: [
           ListTile(
             title: const Text('このアプリについて'),
-            subtitle: Text('バージョン: ${packageInfo.maybeWhen(
-              data: (data) => data.version,
-              orElse: () => '',
-            )}'),
+            subtitle: Text('バージョン: ${packageInfo.version}'),
             onLongPress: () {
               if (kDebugMode) {
                 context.router.push(const DebugRoute());
@@ -32,14 +29,8 @@ class SettingPage extends HookConsumerWidget {
             },
             onTap: () => showLicensePage(
               context: context,
-              applicationName: packageInfo.maybeWhen(
-                data: (data) => data.appName,
-                orElse: () => '',
-              ),
-              applicationVersion: packageInfo.maybeWhen(
-                data: (data) => data.version,
-                orElse: () => '',
-              ),
+              applicationName: packageInfo.appName,
+              applicationVersion: packageInfo.version,
             ),
           ),
         ],
