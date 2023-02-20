@@ -4,18 +4,22 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info/package_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/ui/theme/theme_ext.dart';
 import 'package:test_maker_native_app/ui/utils/package_information.dart';
+import 'package:test_maker_native_app/ui/utils/preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final packageInfo = await PackageInfo.fromPlatform();
+  final preferences = await SharedPreferences.getInstance();
 
   runApp(
     ProviderScope(
       overrides: [
         packageInfoProvider.overrideWithValue(packageInfo),
+        preferencesProvider.overrideWithValue(preferences),
       ],
       child: const MyApp(),
     ),
