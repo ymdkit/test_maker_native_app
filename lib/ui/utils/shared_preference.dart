@@ -15,6 +15,8 @@ enum PreferenceKey {
   isSwapProblemAndAnswer('reverse'),
   isOnlyWrong('refine'),
   isSelfScoring('manual'),
+  isAlwaysShowExplanation('alwaysReview'),
+  isCaseInsensitive('isCaseInsensitive'),
   isShowAnswerSettingDialog('show_setting_dialog'),
   numberOfQuestions('question_count'),
   startPosition('start_position'),

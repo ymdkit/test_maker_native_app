@@ -98,7 +98,7 @@ class CreateWorkbookPage extends HookConsumerWidget {
                                 .read(urlLauncherProvider)
                                 .launch(WebUrl.importHelp),
                             label: const Text('ファイルのインポートとは？'),
-                            icon: const Icon(Icons.launch),
+                            icon: const Icon(Icons.help),
                           ),
                         ],
                       ),
