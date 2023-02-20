@@ -29,70 +29,9 @@ class SettingPage extends HookConsumerWidget {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: AppSectionTitle(title: '出題設定'),
-          ),
-          SwitchListTile(
-            title: const Text('出題順をランダムにする'),
-            value: preferences.isRandom,
-            onChanged: (value) => preferencesNotifier.setRandom(value),
-          ),
-          SwitchListTile(
-            title: const Text('問題文と解答を入れ替える'),
-            value: preferences.isSwapProblemAndAnswer,
-            onChanged: (value) =>
-                preferencesNotifier.setSwapProblemAndAnswer(value),
-          ),
-          SwitchListTile(
-            title: const Text('自己採点する'),
-            value: preferences.isSelfScoring,
-            onChanged: (value) => preferencesNotifier.setSelfScoring(value),
-          ),
-          SwitchListTile(
-            title: const Text('正解時も解説を表示する'),
-            value: preferences.isAlwaysShowExplanation,
-            onChanged: (value) =>
-                preferencesNotifier.setAlwaysShowExplanation(value),
-          ),
-          SwitchListTile(
-            title: const Text('大文字と小文字を区別しない'),
-            value: preferences.isCaseInsensitive,
-            onChanged: (value) => preferencesNotifier.setCaseInsensitive(value),
-          ),
-          SwitchListTile(
-            title: const Text('解答前に出題設定を確認する'),
-            value: preferences.isShowAnswerSettingDialog,
-            onChanged: (value) =>
-                preferencesNotifier.setShowAnswerSettingDialog(value),
-          ),
-          ListTile(
-            title: const Text('出題数'),
-            subtitle: Text('${preferences.numberOfQuestions}問'),
-            onTap: () => showAppPickerSheet(
-              context: context,
-              title: '出題数',
-              items: const [
-                10,
-                20,
-                30,
-                40,
-                50,
-                60,
-                70,
-                80,
-                90,
-                100,
-                150,
-                200,
-                300,
-                500,
-                1000
-              ],
-              onChanged: (value) =>
-                  preferencesNotifier.setNumberOfQuestions(value),
-            ),
-          ),
+          AnswerWorkbookSettings(
+              preferences: preferences,
+              preferencesNotifier: preferencesNotifier),
           const Divider(indent: 16, endIndent: 16),
           const Padding(
             padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -131,6 +70,90 @@ class SettingPage extends HookConsumerWidget {
           ),
         ],
       )),
+    );
+  }
+}
+
+class AnswerWorkbookSettings extends StatelessWidget {
+  const AnswerWorkbookSettings({
+    super.key,
+    required this.preferences,
+    required this.preferencesNotifier,
+  });
+
+  final PreferencesState preferences;
+  final PreferencesStateNotifier preferencesNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+          child: AppSectionTitle(title: '出題設定'),
+        ),
+        SwitchListTile(
+          title: const Text('出題順をランダムにする'),
+          value: preferences.isRandom,
+          onChanged: (value) => preferencesNotifier.setRandom(value),
+        ),
+        SwitchListTile(
+          title: const Text('問題文と解答を入れ替える'),
+          value: preferences.isSwapProblemAndAnswer,
+          onChanged: (value) =>
+              preferencesNotifier.setSwapProblemAndAnswer(value),
+        ),
+        SwitchListTile(
+          title: const Text('自己採点する'),
+          value: preferences.isSelfScoring,
+          onChanged: (value) => preferencesNotifier.setSelfScoring(value),
+        ),
+        SwitchListTile(
+          title: const Text('正解時も解説を表示する'),
+          value: preferences.isAlwaysShowExplanation,
+          onChanged: (value) =>
+              preferencesNotifier.setAlwaysShowExplanation(value),
+        ),
+        SwitchListTile(
+          title: const Text('大文字と小文字を区別しない'),
+          value: preferences.isCaseInsensitive,
+          onChanged: (value) => preferencesNotifier.setCaseInsensitive(value),
+        ),
+        SwitchListTile(
+          title: const Text('解答前に出題設定を確認する'),
+          value: preferences.isShowAnswerSettingDialog,
+          onChanged: (value) =>
+              preferencesNotifier.setShowAnswerSettingDialog(value),
+        ),
+        ListTile(
+          title: const Text('出題数'),
+          subtitle: Text('${preferences.numberOfQuestions}問'),
+          onTap: () => showAppPickerSheet(
+            context: context,
+            title: '出題数',
+            items: const [
+              10,
+              20,
+              30,
+              40,
+              50,
+              60,
+              70,
+              80,
+              90,
+              100,
+              150,
+              200,
+              300,
+              500,
+              1000
+            ],
+            onChanged: (value) =>
+                preferencesNotifier.setNumberOfQuestions(value),
+          ),
+        ),
+      ],
     );
   }
 }
