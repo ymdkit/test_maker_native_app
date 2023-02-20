@@ -51,5 +51,7 @@
 	<string>撮影した画像を問題に添付します</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>取得した画像を問題に添付します</string>
+	<key>GADApplicationIdentifier</key>
+	<string>$(adMobIOSAppId)</string>
 </dict>
 </plist>
