@@ -10,14 +10,21 @@ import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
 class WorkbookDetailsPage extends HookConsumerWidget {
   const WorkbookDetailsPage({
     super.key,
+    required this.folderId,
     required this.workbookId,
   });
 
+  final String? folderId;
   final String workbookId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final workbook = ref.watch(workbookProvider(workbookId));
+    final workbook = ref.watch(
+      workbookProvider(
+        folderId: folderId,
+        workbookId: workbookId,
+      ),
+    );
     final questions = ref.watch(questionsProvider(workbookId));
 
     return Scaffold(

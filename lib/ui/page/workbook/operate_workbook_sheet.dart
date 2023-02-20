@@ -53,6 +53,7 @@ class _OperateWorkbookSheet extends StatelessWidget {
                           context.router.pushAll(
                             [
                               WorkbookDetailsRoute(
+                                folderId: workbook.folderId,
                                 workbookId: workbook.workbookId,
                               ),
                               CreateQuestionRoute(
@@ -64,7 +65,10 @@ class _OperateWorkbookSheet extends StatelessWidget {
                         });
                   } else {
                     context.router.push(
-                      AnswerWorkbookRoute(workbookId: workbook.workbookId),
+                      AnswerWorkbookRoute(
+                        folderId: workbook.folderId,
+                        workbookId: workbook.workbookId,
+                      ),
                     );
                     context.router.pop();
                   }
@@ -75,6 +79,7 @@ class _OperateWorkbookSheet extends StatelessWidget {
               onTap: () {
                 context.router.push(
                   WorkbookDetailsRoute(
+                    folderId: workbook.folderId,
                     workbookId: workbook.workbookId,
                   ),
                 );

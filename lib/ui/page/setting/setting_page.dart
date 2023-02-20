@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/ui/utils/package_information.dart';
+import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
 
 class SettingPage extends HookConsumerWidget {
   const SettingPage({super.key});
@@ -18,7 +19,12 @@ class SettingPage extends HookConsumerWidget {
       ),
       body: SingleChildScrollView(
           child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: AppSectionTitle(title: '出題設定'),
+          ),
           ListTile(
             title: const Text('このアプリについて'),
             subtitle: Text('バージョン: ${packageInfo.version}'),

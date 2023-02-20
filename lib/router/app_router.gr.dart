@@ -29,6 +29,7 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: AnswerWorkbookPage(
           key: args.key,
+          folderId: args.folderId,
           workbookId: args.workbookId,
         ),
         fullscreenDialog: true,
@@ -123,6 +124,7 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: WorkbookDetailsPage(
           key: args.key,
+          folderId: args.folderId,
           workbookId: args.workbookId,
         ),
       );
@@ -343,12 +345,14 @@ class RootRoute extends PageRouteInfo<void> {
 class AnswerWorkbookRoute extends PageRouteInfo<AnswerWorkbookRouteArgs> {
   AnswerWorkbookRoute({
     Key? key,
+    required String? folderId,
     required String workbookId,
   }) : super(
           AnswerWorkbookRoute.name,
           path: '/answer-workbook-page',
           args: AnswerWorkbookRouteArgs(
             key: key,
+            folderId: folderId,
             workbookId: workbookId,
           ),
         );
@@ -359,16 +363,19 @@ class AnswerWorkbookRoute extends PageRouteInfo<AnswerWorkbookRouteArgs> {
 class AnswerWorkbookRouteArgs {
   const AnswerWorkbookRouteArgs({
     this.key,
+    required this.folderId,
     required this.workbookId,
   });
 
   final Key? key;
 
+  final String? folderId;
+
   final String workbookId;
 
   @override
   String toString() {
-    return 'AnswerWorkbookRouteArgs{key: $key, workbookId: $workbookId}';
+    return 'AnswerWorkbookRouteArgs{key: $key, folderId: $folderId, workbookId: $workbookId}';
   }
 }
 
@@ -603,12 +610,14 @@ class CreateFolderRoute extends PageRouteInfo<void> {
 class WorkbookDetailsRoute extends PageRouteInfo<WorkbookDetailsRouteArgs> {
   WorkbookDetailsRoute({
     Key? key,
+    required String? folderId,
     required String workbookId,
   }) : super(
           WorkbookDetailsRoute.name,
           path: 'workbook-details-page',
           args: WorkbookDetailsRouteArgs(
             key: key,
+            folderId: folderId,
             workbookId: workbookId,
           ),
         );
@@ -619,16 +628,19 @@ class WorkbookDetailsRoute extends PageRouteInfo<WorkbookDetailsRouteArgs> {
 class WorkbookDetailsRouteArgs {
   const WorkbookDetailsRouteArgs({
     this.key,
+    required this.folderId,
     required this.workbookId,
   });
 
   final Key? key;
 
+  final String? folderId;
+
   final String workbookId;
 
   @override
   String toString() {
-    return 'WorkbookDetailsRouteArgs{key: $key, workbookId: $workbookId}';
+    return 'WorkbookDetailsRouteArgs{key: $key, folderId: $folderId, workbookId: $workbookId}';
   }
 }
 

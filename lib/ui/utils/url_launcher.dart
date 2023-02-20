@@ -1,7 +1,10 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final urlLauncherProvider = Provider.autoDispose((_) => UrlLauncher());
+part 'url_launcher.g.dart';
+
+@riverpod
+UrlLauncher urlLauncher(UrlLauncherRef ref) => UrlLauncher();
 
 class UrlLauncher {
   Future<void> launch(String urlString) {

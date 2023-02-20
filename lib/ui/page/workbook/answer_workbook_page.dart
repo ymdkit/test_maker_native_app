@@ -10,15 +10,25 @@ import 'package:test_maker_native_app/ui/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
 
 class AnswerWorkbookPage extends HookConsumerWidget {
-  const AnswerWorkbookPage({super.key, required this.workbookId});
+  const AnswerWorkbookPage({
+    super.key,
+    required this.folderId,
+    required this.workbookId,
+  });
 
+  final String? folderId;
   final String workbookId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenFocusNode = useFocusNode();
 
-    final workbook = ref.watch(workbookProvider(workbookId));
+    final workbook = ref.watch(
+      workbookProvider(
+        folderId: folderId,
+        workbookId: workbookId,
+      ),
+    );
     final questions = ref.watch(questionsProvider(workbookId));
     final index = useState(0);
     final isLoading = useState(true);
@@ -52,7 +62,10 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                   onPressedFallbackButton: () => context.router.replaceAll(
                     [
                       const HomeRoute(),
-                      WorkbookDetailsRoute(workbookId: workbookId),
+                      WorkbookDetailsRoute(
+                        folderId: folderId,
+                        workbookId: workbookId,
+                      ),
                       CreateQuestionRoute(workbookId: workbookId),
                     ],
                   ),

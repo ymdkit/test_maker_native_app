@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/ui/theme/theme_ext.dart';
 import 'package:test_maker_native_app/ui/utils/package_information.dart';
-import 'package:test_maker_native_app/ui/utils/preferences.dart';
+import 'package:test_maker_native_app/ui/utils/shared_preference.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ void main() async {
     ProviderScope(
       overrides: [
         packageInfoProvider.overrideWithValue(packageInfo),
-        preferencesProvider.overrideWithValue(preferences),
+        sharedPreferencesProvider.overrideWithValue(preferences),
       ],
       child: const MyApp(),
     ),
