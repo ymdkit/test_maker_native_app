@@ -5,20 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "test_maker_native_app",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "test_maker_native_app (profile mode)",
+            "name": "dev debug",
             "request": "launch",
             "type": "dart",
+            "args": ["--dart-define-from-file", "dart_defines/dev.json"]
+        },
+        {
+            "name": "dev profile",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--dart-define-from-file", "dart_defines/dev.json"],
             "flutterMode": "profile"
         },
         {
-            "name": "test_maker_native_app (release mode)",
+            "name": "dev release",
             "request": "launch",
             "type": "dart",
+            "args": ["--dart-define-from-file", "dart_defines/dev.json"],
             "flutterMode": "release"
         }
     ]
