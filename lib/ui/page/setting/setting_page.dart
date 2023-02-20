@@ -72,7 +72,23 @@ class SettingPage extends HookConsumerWidget {
             onTap: () => showAppPickerSheet(
               context: context,
               title: '出題数',
-              items: const [10, 20, 30, 40, 50, 100, 150, 200, 300, 500, 1000],
+              items: const [
+                10,
+                20,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80,
+                90,
+                100,
+                150,
+                200,
+                300,
+                500,
+                1000
+              ],
               onChanged: (value) =>
                   preferencesNotifier.setNumberOfQuestions(value),
             ),
