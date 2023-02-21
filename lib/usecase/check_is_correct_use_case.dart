@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/ui/utils/shared_preference.dart';
+import 'package:test_maker_native_app/state/preferences_state.dart';
 
 final checkIsCorrectUseCaseProvider = Provider.autoDispose(
   (ref) => CheckIsCorrectUseCase(
     isCaseInsensitive: ref.watch(
-      sharedPreferencesProvider.select((value) =>
-          value.getBool(PreferenceKey.isCaseInsensitive.name) ?? false),
+      preferencesStateProvider.select((value) => value.isCaseInsensitive),
+    ),
+    isSwapProblemAndAnswer: ref.watch(
+      preferencesStateProvider.select((value) => value.isSwapProblemAndAnswer),
     ),
   ),
 );
@@ -15,16 +17,20 @@ final checkIsCorrectUseCaseProvider = Provider.autoDispose(
 class CheckIsCorrectUseCase {
   const CheckIsCorrectUseCase({
     required this.isCaseInsensitive,
+    required this.isSwapProblemAndAnswer,
   });
   // TODO: テスト書く
 
   final bool isCaseInsensitive;
+  final bool isSwapProblemAndAnswer;
 
   bool call({
     required Question question,
     required List<String> attemptAnswers,
   }) {
-    final originalAnswers = question.answers;
+
+    final originalAnswers =
+        isSwapProblemAndAnswer ? [question.problem] : question.answers;
 
     if (question.isCheckAnswerOrder) {
       if (isCaseInsensitive) {
