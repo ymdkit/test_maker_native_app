@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,7 +6,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/preferences_state.dart';
 import 'package:test_maker_native_app/ui/theme/theme_ext.dart';
@@ -45,12 +43,8 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = useMemoized(() => AppRouter());
-    final appThemeColor = AppThemeColor.values.elementAtOrDefault(
-      ref.watch(
-        preferencesStateProvider.select((value) => value.themeColor),
-      ),
-      AppThemeColor.blue,
-    );
+    final appThemeColor =
+        ref.watch(preferencesStateProvider.select((value) => value.themeColor));
 
     return MaterialApp.router(
       // TODO(ymdkit): Dynamic Links のハンドリング

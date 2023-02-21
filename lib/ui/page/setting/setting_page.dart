@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/web_url.dart';
-import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/model/enum/question_condition.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/preferences_state.dart';
@@ -48,15 +47,12 @@ class SettingPage extends HookConsumerWidget {
               ListTile(
                 title: const Text('テーマカラー'),
                 subtitle: Text(
-                  AppThemeColor.values
-                      .elementAtOrDefault(
-                          preferences.themeColor, AppThemeColor.blue)
-                      .displayString(),
+                  preferences.themeColor.displayString(),
                 ),
                 onTap: () async => showAppColorPickerSheet(
                   context: context,
                   onChanged: (color) =>
-                      preferencesNotifier.setThemeColor(color.index),
+                      preferencesNotifier.setThemeColor(color),
                 ),
               ),
               const Divider(indent: 16, endIndent: 16),

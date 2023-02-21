@@ -26,7 +26,7 @@ mixin _$PreferencesState {
   int get numberOfQuestions => throw _privateConstructorUsedError;
   int get startPosition => throw _privateConstructorUsedError;
   int get answerWorkbookCount => throw _privateConstructorUsedError;
-  int get themeColor => throw _privateConstructorUsedError;
+  AppThemeColor get themeColor => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PreferencesStateCopyWith<PreferencesState> get copyWith =>
@@ -50,7 +50,7 @@ abstract class $PreferencesStateCopyWith<$Res> {
       int numberOfQuestions,
       int startPosition,
       int answerWorkbookCount,
-      int themeColor});
+      AppThemeColor themeColor});
 }
 
 /// @nodoc
@@ -122,7 +122,7 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
       themeColor: null == themeColor
           ? _value.themeColor
           : themeColor // ignore: cast_nullable_to_non_nullable
-              as int,
+              as AppThemeColor,
     ) as $Val);
   }
 }
@@ -146,7 +146,7 @@ abstract class _$$_PreferencesStateCopyWith<$Res>
       int numberOfQuestions,
       int startPosition,
       int answerWorkbookCount,
-      int themeColor});
+      AppThemeColor themeColor});
 }
 
 /// @nodoc
@@ -216,7 +216,7 @@ class __$$_PreferencesStateCopyWithImpl<$Res>
       themeColor: null == themeColor
           ? _value.themeColor
           : themeColor // ignore: cast_nullable_to_non_nullable
-              as int,
+              as AppThemeColor,
     ));
   }
 }
@@ -258,7 +258,7 @@ class _$_PreferencesState implements _PreferencesState {
   @override
   final int answerWorkbookCount;
   @override
-  final int themeColor;
+  final AppThemeColor themeColor;
 
   @override
   String toString() {
@@ -330,7 +330,7 @@ abstract class _PreferencesState implements PreferencesState {
       required final int numberOfQuestions,
       required final int startPosition,
       required final int answerWorkbookCount,
-      required final int themeColor}) = _$_PreferencesState;
+      required final AppThemeColor themeColor}) = _$_PreferencesState;
 
   @override
   bool get isRandom;
@@ -353,7 +353,7 @@ abstract class _PreferencesState implements PreferencesState {
   @override
   int get answerWorkbookCount;
   @override
-  int get themeColor;
+  AppThemeColor get themeColor;
   @override
   @JsonKey(ignore: true)
   _$$_PreferencesStateCopyWith<_$_PreferencesState> get copyWith =>

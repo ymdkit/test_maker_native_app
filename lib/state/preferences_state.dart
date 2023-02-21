@@ -50,9 +50,9 @@ class PreferencesStateNotifier extends StateNotifier<PreferencesState> {
             answerWorkbookCount: sharedPreferences
                     .getInt(PreferenceKey.answerWorkbookCount.name) ??
                 0,
-            themeColor:
-                sharedPreferences.getInt(PreferenceKey.themeColor.name) ??
-                    AppThemeColor.blue.index,
+            themeColor: AppThemeColor.values.elementAtOrDefault(
+                sharedPreferences.getInt(PreferenceKey.themeColor.name) ?? 0,
+                AppThemeColor.blue),
           ),
         );
 
@@ -116,9 +116,9 @@ class PreferencesStateNotifier extends StateNotifier<PreferencesState> {
         PreferenceKey.answerWorkbookCount.name, answerWorkbookCount);
   }
 
-  void setThemeColor(int themeColor) {
+  void setThemeColor(AppThemeColor themeColor) {
     state = state.copyWith(themeColor: themeColor);
-    sharedPreferences.setInt(PreferenceKey.themeColor.name, themeColor);
+    sharedPreferences.setInt(PreferenceKey.themeColor.name, themeColor.index);
   }
 }
 
@@ -135,6 +135,6 @@ class PreferencesState with _$PreferencesState {
     required int numberOfQuestions,
     required int startPosition,
     required int answerWorkbookCount,
-    required int themeColor,
+    required AppThemeColor themeColor,
   }) = _PreferencesState;
 }
