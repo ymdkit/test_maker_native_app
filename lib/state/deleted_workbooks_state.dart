@@ -36,6 +36,11 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
     onMutateDeletedWorkbookStream.sink.add(workbook);
   }
 
+  void destroyWorkbooks() {
+    workbookRepository.destroyWorkbooks(state);
+    state = [];
+  }
+
   @override
   void dispose() {
     onMutateWorkbookSubscription.cancel();

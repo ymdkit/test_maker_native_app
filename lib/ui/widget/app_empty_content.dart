@@ -12,7 +12,7 @@ class AppEmptyContent extends StatelessWidget {
   final IconData icon;
   final String text;
   final String fallbackButtonText;
-  final VoidCallback onPressedFallbackButton;
+  final VoidCallback? onPressedFallbackButton;
 
   const AppEmptyContent.workbook({
     super.key,
@@ -27,6 +27,13 @@ class AppEmptyContent extends StatelessWidget {
   })  : icon = Icons.edit,
         text = '保存されている問題はありません\n問題を作成してください',
         fallbackButtonText = '問題を作成する';
+
+  const AppEmptyContent.trash({
+    super.key,
+  })  : icon = Icons.delete,
+        text = 'ゴミ箱の中は空です',
+        fallbackButtonText = '問題を作成する',
+        onPressedFallbackButton = null;
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +50,12 @@ class AppEmptyContent extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
-            OutlinedButton(
-              onPressed: onPressedFallbackButton,
-              child: Text(fallbackButtonText),
+            Visibility(
+              visible: onPressedFallbackButton != null,
+              child: OutlinedButton(
+                onPressed: onPressedFallbackButton,
+                child: Text(fallbackButtonText),
+              ),
             )
           ],
         ),

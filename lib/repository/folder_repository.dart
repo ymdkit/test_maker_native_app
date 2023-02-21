@@ -67,6 +67,7 @@ class FolderRepository {
         .map((e) {
       final workbookCount = localDB
           .all<RealmWorkbook>()
+          .where((e) => e.isDeleted != true)
           .where((element) => element.folderId == e.folderId)
           .length;
 
@@ -92,6 +93,17 @@ class FolderRepository {
         update: true,
       );
     });
+  }
+
+  void destroyFolders(List<Folder> folders) {
+    localDB.write(
+      () {
+        final targets = localDB.all<RealmFolder>().where((e) {
+          return folders.any((element) => element.folderId == e.folderId);
+        });
+        localDB.deleteMany(targets);
+      },
+    );
   }
 
   void restoreFolder(Folder folder) {

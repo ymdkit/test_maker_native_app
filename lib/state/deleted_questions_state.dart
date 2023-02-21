@@ -36,6 +36,11 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
     onMutateDeletedQuestionStream.sink.add(question);
   }
 
+  void destroyQuestions() {
+    questionRepository.destroyQuestions(state);
+    state = [];
+  }
+
   @override
   void dispose() {
     onMutateQuestionSubscription.cancel();

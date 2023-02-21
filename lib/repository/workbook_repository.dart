@@ -55,6 +55,7 @@ class WorkbookRepository {
       (e) {
         final questionCount = localDB
             .all<RealmQuestion>()
+            .where((e) => e.isDeleted != true)
             .where((element) => element.workbookId == e.workbookId)
             .length;
         return e.toWorkbook(questionCount: questionCount);
@@ -89,6 +90,15 @@ class WorkbookRepository {
         RealmWorkbookConverting.fromWorkbook(workbook)..isDeleted = true,
         update: true,
       );
+    });
+  }
+
+  void destroyWorkbooks(List<Workbook> workbooks) {
+    localDB.write(() {
+      final targets = localDB.all<RealmWorkbook>().where((e) {
+        return workbooks.any((element) => element.workbookId == e.workbookId);
+      });
+      localDB.deleteMany(targets);
     });
   }
 

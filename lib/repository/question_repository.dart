@@ -98,6 +98,17 @@ class QuestionRepository {
     );
   }
 
+  void destroyQuestions(List<Question> questions) {
+    localDB.write(
+      () {
+        final targets = localDB.all<RealmQuestion>().where((e) {
+          return questions.any((element) => element.questionId == e.questionId);
+        }).toList();
+        localDB.deleteMany<RealmQuestion>(targets);
+      },
+    );
+  }
+
   void restoreQuestion(Question question) {
     localDB.write(
       () {

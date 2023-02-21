@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/questions_state.dart';
 import 'package:test_maker_native_app/state/workbook_state.dart';
+import 'package:test_maker_native_app/ui/page/question/operate_question_sheet.dart';
 import 'package:test_maker_native_app/ui/page/question/question_list_item.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
@@ -53,11 +54,9 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                 itemCount: questions.length,
                 itemBuilder: (context, index) => QuestionListItem(
                   question: questions[index],
-                  onTap: (question) => context.router.push(
-                    EditQuestionRoute(
-                      workbookId: workbook.workbookId,
-                      question: question,
-                    ),
+                  onTap: (question) async => showOperateQuestionSheet(
+                    context,
+                    question,
                   ),
                 ),
               ),

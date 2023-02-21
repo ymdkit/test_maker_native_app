@@ -122,9 +122,10 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
               onTap: () {
                 showAlertDialog(
                     context: context,
-                    title: '問題集野削除',
+                    title: '問題集の削除',
                     content: '問題集: ${workbook.title} を削除してもよろしいですか？',
                     positiveButtonText: '削除する',
+                    isDangerous: true,
                     onPositive: () {
                       context.router.pop();
                       ref
@@ -134,7 +135,6 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                     });
               },
             ),
-            const SizedBox(height: 32),
           ],
         ),
       ),

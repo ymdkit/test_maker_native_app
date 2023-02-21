@@ -35,6 +35,11 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
     onMutateDeletedFolderStream.sink.add(folder);
   }
 
+  void destroyFolders() {
+    folderRepository.destroyFolders(state);
+    state = [];
+  }
+
   @override
   void dispose() {
     onMutateFolderSubscription.cancel();
