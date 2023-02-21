@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:test_maker_native_app/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
+import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
+import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
 
 class AnswerWorkbookResultPage extends StatelessWidget {
   const AnswerWorkbookResultPage({
@@ -13,21 +15,24 @@ class AnswerWorkbookResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(workbook.title),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: ElevatedButton(
-            onPressed: () {
-              context.router.replaceAll(
-                [const RootRoute()],
-              );
-            },
-            child: const Text('ホームに戻る'),
+    return AppAdWrapper(
+      adUnitId: AppAdUnitId.answerResultWorkbookBanner,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(workbook.title),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: ElevatedButton(
+              onPressed: () {
+                context.router.replaceAll(
+                  [const RootRoute()],
+                );
+              },
+              child: const Text('ホームに戻る'),
+            ),
           ),
         ),
       ),

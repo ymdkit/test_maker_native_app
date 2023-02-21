@@ -5,6 +5,8 @@ import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/questions_state.dart';
 import 'package:test_maker_native_app/state/workbook_state.dart';
 import 'package:test_maker_native_app/ui/page/question/question_list_item.dart';
+import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
+import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
 
 class WorkbookDetailsPage extends HookConsumerWidget {
@@ -27,41 +29,44 @@ class WorkbookDetailsPage extends HookConsumerWidget {
     );
     final questions = ref.watch(questionsProvider(workbookId));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(workbook.title),
-        actions: [
-          IconButton(
-            onPressed: () => context.router.push(
-              EditWorkbookRoute(workbook: workbook),
-            ),
-            icon: const Icon(Icons.edit),
-          ),
-        ],
-      ),
-      body: questions.isEmpty
-          ? AppEmptyContent.question(
-              onPressedFallbackButton: () => context.router.push(
-                CreateQuestionRoute(workbookId: workbook.workbookId),
+    return AppAdWrapper(
+      adUnitId: AppAdUnitId.workbookDetailsBanner,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(workbook.title),
+          actions: [
+            IconButton(
+              onPressed: () => context.router.push(
+                EditWorkbookRoute(workbook: workbook),
               ),
-            )
-          : ListView.builder(
-              itemCount: questions.length,
-              itemBuilder: (context, index) => QuestionListItem(
-                question: questions[index],
-                onTap: (question) => context.router.push(
-                  EditQuestionRoute(
-                    workbookId: workbook.workbookId,
-                    question: question,
+              icon: const Icon(Icons.edit),
+            ),
+          ],
+        ),
+        body: questions.isEmpty
+            ? AppEmptyContent.question(
+                onPressedFallbackButton: () => context.router.push(
+                  CreateQuestionRoute(workbookId: workbook.workbookId),
+                ),
+              )
+            : ListView.builder(
+                itemCount: questions.length,
+                itemBuilder: (context, index) => QuestionListItem(
+                  question: questions[index],
+                  onTap: (question) => context.router.push(
+                    EditQuestionRoute(
+                      workbookId: workbook.workbookId,
+                      question: question,
+                    ),
                   ),
                 ),
               ),
-            ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.router.push(
-          CreateQuestionRoute(workbookId: workbook.workbookId),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.router.push(
+            CreateQuestionRoute(workbookId: workbook.workbookId),
+          ),
+          child: const Icon(Icons.add),
         ),
-        child: const Icon(Icons.add),
       ),
     );
   }

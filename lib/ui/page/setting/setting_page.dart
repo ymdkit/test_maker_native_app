@@ -7,6 +7,8 @@ import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/preferences_state.dart';
 import 'package:test_maker_native_app/ui/utils/package_information.dart';
 import 'package:test_maker_native_app/ui/utils/url_launcher.dart';
+import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
+import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/ui/widget/app_picker_sheet.dart';
 import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
 
@@ -21,55 +23,60 @@ class SettingPage extends HookConsumerWidget {
     final packageInfo = ref.watch(packageInfoProvider);
     final urlLauncher = ref.watch(urlLauncherProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('設定'),
-      ),
-      body: SingleChildScrollView(
+    return AppAdWrapper(
+      adUnitId: AppAdUnitId.settingBanner,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('設定'),
+        ),
+        body: SingleChildScrollView(
           child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AnswerWorkbookSettings(
-              preferences: preferences,
-              preferencesNotifier: preferencesNotifier),
-          const Divider(indent: 16, endIndent: 16),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: AppSectionTitle(title: 'その他'),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AnswerWorkbookSettings(
+                  preferences: preferences,
+                  preferencesNotifier: preferencesNotifier),
+              const Divider(indent: 16, endIndent: 16),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: AppSectionTitle(title: 'その他'),
+              ),
+              // TODO: 広告削除
+              ListTile(
+                title: const Text('よくある質問'),
+                onTap: () => urlLauncher.launch(WebUrl.faq),
+              ),
+              ListTile(
+                title: const Text('お問い合わせ'),
+                onTap: () => urlLauncher.launch(WebUrl.contact),
+              ),
+              ListTile(
+                title: const Text('プライバシーポリシー'),
+                onTap: () => urlLauncher.launch(WebUrl.privacyPolicy),
+              ),
+              ListTile(
+                title: const Text('利用規約'),
+                onTap: () => urlLauncher.launch(WebUrl.termsOfService),
+              ),
+              ListTile(
+                title: const Text('このアプリについて'),
+                subtitle: Text('バージョン: ${packageInfo.version}'),
+                onLongPress: () {
+                  if (kDebugMode) {
+                    context.router.push(const DebugRoute());
+                  }
+                },
+                onTap: () => showLicensePage(
+                  context: context,
+                  applicationName: packageInfo.appName,
+                  applicationVersion: packageInfo.version,
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
-          // TODO: 広告削除
-          ListTile(
-            title: const Text('よくある質問'),
-            onTap: () => urlLauncher.launch(WebUrl.faq),
-          ),
-          ListTile(
-            title: const Text('お問い合わせ'),
-            onTap: () => urlLauncher.launch(WebUrl.contact),
-          ),
-          ListTile(
-            title: const Text('プライバシーポリシー'),
-            onTap: () => urlLauncher.launch(WebUrl.privacyPolicy),
-          ),
-          ListTile(
-            title: const Text('利用規約'),
-            onTap: () => urlLauncher.launch(WebUrl.termsOfService),
-          ),
-          ListTile(
-            title: const Text('このアプリについて'),
-            subtitle: Text('バージョン: ${packageInfo.version}'),
-            onLongPress: () {
-              if (kDebugMode) {
-                context.router.push(const DebugRoute());
-              }
-            },
-            onTap: () => showLicensePage(
-              context: context,
-              applicationName: packageInfo.appName,
-              applicationVersion: packageInfo.version,
-            ),
-          ),
-        ],
-      )),
+        ),
+      ),
     );
   }
 }

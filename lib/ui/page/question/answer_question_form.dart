@@ -98,7 +98,6 @@ class AnswerQuestionForm extends HookConsumerWidget {
             ],
           ),
         ),
-        SizedBox(height: MediaQuery.of(context).padding.bottom),
       ],
     );
   }

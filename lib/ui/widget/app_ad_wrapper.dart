@@ -14,8 +14,12 @@ class AppAdWrapper extends StatelessWidget {
         Expanded(
           child: child,
         ),
-        AppAdWidget(
-          adUnitId: adUnitId,
+        Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+          child: AppAdWidget(
+            adUnitId: adUnitId,
+          ),
         ),
       ],
     );
