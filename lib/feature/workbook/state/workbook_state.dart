@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/model/workbook.dart';
-import 'package:test_maker_native_app/state/workbooks_state.dart';
 
 part 'workbook_state.g.dart';
 

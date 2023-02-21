@@ -15,10 +15,10 @@ import 'package:test_maker_native_app/feature/search/ui/search_workbook_page.dar
 import 'package:test_maker_native_app/feature/setting/ui/debug_page.dart';
 import 'package:test_maker_native_app/feature/setting/ui/setting_page.dart';
 import 'package:test_maker_native_app/feature/trash/ui/trash_page.dart';
+import 'package:test_maker_native_app/feature/workbook/ui/create_workbook_page.dart';
+import 'package:test_maker_native_app/feature/workbook/ui/edit_workbook_page.dart';
+import 'package:test_maker_native_app/feature/workbook/ui/workbook_details_page.dart';
 import 'package:test_maker_native_app/main.dart';
-import 'package:test_maker_native_app/ui/page/workbook/create_workbook_page.dart';
-import 'package:test_maker_native_app/ui/page/workbook/edit_workbook_page.dart';
-import 'package:test_maker_native_app/ui/page/workbook/workbook_details_page.dart';
 
 part 'app_router.gr.dart';
 
