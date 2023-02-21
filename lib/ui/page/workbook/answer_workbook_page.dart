@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
-import 'package:test_maker_native_app/state/questions_state.dart';
+import 'package:test_maker_native_app/state/answering_questions_state.dart';
 import 'package:test_maker_native_app/state/workbook_state.dart';
 import 'package:test_maker_native_app/ui/page/question/answer_question_form.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
@@ -31,7 +31,7 @@ class AnswerWorkbookPage extends HookConsumerWidget {
         workbookId: workbookId,
       ),
     );
-    final questions = ref.watch(questionsProvider(workbookId));
+    final questions = ref.watch(answeringQuestionsProvider(workbookId));
     final index = useState(0);
     final isLoading = useState(true);
 
