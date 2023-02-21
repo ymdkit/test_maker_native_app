@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
 import 'package:test_maker_native_app/model/question.dart';
+import 'package:test_maker_native_app/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/ui/page/question/answer_problem_section.dart';
 import 'package:test_maker_native_app/ui/page/workbook/answer_effect_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_text_form_field.dart';
@@ -14,11 +15,9 @@ class AnswerQuestionForm extends HookConsumerWidget {
   const AnswerQuestionForm({
     super.key,
     required this.question,
-    required this.onAnswered,
   });
 
   final Question question;
-  final void Function(bool) onAnswered;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -99,7 +98,9 @@ class AnswerQuestionForm extends HookConsumerWidget {
           attemptAnswers: answers,
         );
     ref.read(answerEffectStateProvider.notifier).state = isCorrect;
-    onAnswered(isCorrect);
+    ref
+        .read(answerWorkbookStateProvider(question.workbookId).notifier)
+        .onAnswered(isCorrect);
   }
 }
 

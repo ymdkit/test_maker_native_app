@@ -6,14 +6,35 @@ import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/repository/question_repository.dart';
 import 'package:test_maker_native_app/state/preferences_state.dart';
 
-final answeringQuestionsProvider =
-    Provider.family.autoDispose<List<Question>, String>(
+final answeringQuestionsProvider = StateNotifierProvider.family
+    .autoDispose<AnsweringQuestionsStateNotifier, List<Question>, String>(
   (ref, workbookId) {
-    //TODO: テスト書く
-
     final questionRepository = ref.watch(questionRepositoryProvider);
     final preferences = ref.watch(preferencesStateProvider);
 
+    return AnsweringQuestionsStateNotifier(
+      workbookId: workbookId,
+      questionRepository: questionRepository,
+      preferences: preferences,
+    );
+  },
+);
+
+class AnsweringQuestionsStateNotifier extends StateNotifier<List<Question>> {
+  AnsweringQuestionsStateNotifier({
+    required this.workbookId,
+    required this.questionRepository,
+    required this.preferences,
+  }) : super(const <Question>[]) {
+    _init();
+  }
+
+  final String workbookId;
+  final QuestionRepository questionRepository;
+  final PreferencesState preferences;
+
+  void _init() {
+    //TODO: テスト書く
     var questions = questionRepository.getQuestions(workbookId);
 
     if (preferences.isRandom) {
@@ -44,7 +65,6 @@ final answeringQuestionsProvider =
         //TODO: 正答率を算出する
         break;
     }
-
-    return questions.take(preferences.numberOfQuestions).toList();
-  },
-);
+    state = questions.take(preferences.numberOfQuestions).toList();
+  }
+}

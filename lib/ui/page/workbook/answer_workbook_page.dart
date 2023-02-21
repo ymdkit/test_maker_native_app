@@ -94,7 +94,6 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                       state.maybeWhen(
                         answering: (question) => AnswerQuestionForm(
                           question: question,
-                          onAnswered: notifier.onAnswered,
                         ),
                         reviewing: (question) =>
                             _AnswerReviewContent(question: question),
