@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/ui/utils/shared_preference.dart';
 
 part 'preferences_state.freezed.dart';
@@ -45,6 +46,9 @@ class PreferencesStateNotifier extends StateNotifier<PreferencesState> {
             answerWorkbookCount: sharedPreferences
                     .getInt(PreferenceKey.answerWorkbookCount.name) ??
                 0,
+            themeColor:
+                sharedPreferences.getInt(PreferenceKey.themeColor.name) ??
+                    AppThemeColor.blue.index,
           ),
         );
 
@@ -106,6 +110,11 @@ class PreferencesStateNotifier extends StateNotifier<PreferencesState> {
     sharedPreferences.setInt(
         PreferenceKey.answerWorkbookCount.name, answerWorkbookCount);
   }
+
+  void setThemeColor(int themeColor) {
+    state = state.copyWith(themeColor: themeColor);
+    sharedPreferences.setInt(PreferenceKey.themeColor.name, themeColor);
+  }
 }
 
 @freezed
@@ -121,5 +130,6 @@ class PreferencesState with _$PreferencesState {
     required int numberOfQuestions,
     required int startPosition,
     required int answerWorkbookCount,
+    required int themeColor,
   }) = _PreferencesState;
 }

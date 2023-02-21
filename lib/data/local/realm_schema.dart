@@ -69,7 +69,7 @@ class _RealmWorkbook {
         workbookId: workbookId,
         title: title,
         order: order,
-        color: ColorTheme.fromIndex(color),
+        color: AppThemeColor.fromIndex(color),
         folderId: folderId,
         questionCount: questionCount);
   }
@@ -92,7 +92,7 @@ class _RealmFolder {
       folderId: folderId,
       title: title,
       order: order,
-      color: ColorTheme.fromIndex(color),
+      color: AppThemeColor.fromIndex(color),
       workbookCount: workbookCount,
     );
   }

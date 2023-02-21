@@ -9,7 +9,7 @@ class Folder with _$Folder {
     required String folderId,
     required String title,
     required int order,
-    required ColorTheme color,
+    required AppThemeColor color,
     required int workbookCount,
   }) = _Folder;
 }

@@ -1,14 +1,17 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dartx/dartx.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/web_url.dart';
+import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/preferences_state.dart';
 import 'package:test_maker_native_app/ui/utils/package_information.dart';
 import 'package:test_maker_native_app/ui/utils/url_launcher.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/ui/widget/app_color_picker_sheet.dart';
 import 'package:test_maker_native_app/ui/widget/app_picker_sheet.dart';
 import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
 
@@ -36,6 +39,25 @@ class SettingPage extends HookConsumerWidget {
               AnswerWorkbookSettings(
                   preferences: preferences,
                   preferencesNotifier: preferencesNotifier),
+              const Divider(indent: 16, endIndent: 16),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: AppSectionTitle(title: '外観設定'),
+              ),
+              ListTile(
+                title: const Text('テーマカラー'),
+                subtitle: Text(
+                  AppThemeColor.values
+                      .elementAtOrDefault(
+                          preferences.themeColor, AppThemeColor.blue)
+                      .displayString(),
+                ),
+                onTap: () async => showAppColorPickerSheet(
+                  context: context,
+                  onChanged: (color) =>
+                      preferencesNotifier.setThemeColor(color.index),
+                ),
+              ),
               const Divider(indent: 16, endIndent: 16),
               const Padding(
                 padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -155,7 +177,11 @@ class AnswerWorkbookSettings extends StatelessWidget {
               300,
               500,
               1000
-            ],
+            ]
+                .map(
+                  (e) => PickerItem(label: '$e', value: e),
+                )
+                .toList(),
             onChanged: (value) =>
                 preferencesNotifier.setNumberOfQuestions(value),
           ),

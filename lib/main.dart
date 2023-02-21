@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,7 +7,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
+import 'package:test_maker_native_app/state/preferences_state.dart';
 import 'package:test_maker_native_app/ui/theme/theme_ext.dart';
 import 'package:test_maker_native_app/ui/utils/package_information.dart';
 import 'package:test_maker_native_app/ui/utils/shared_preference.dart';
@@ -42,6 +45,12 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = useMemoized(() => AppRouter());
+    final appThemeColor = AppThemeColor.values.elementAtOrDefault(
+      ref.watch(
+        preferencesStateProvider.select((value) => value.themeColor),
+      ),
+      AppThemeColor.blue,
+    );
 
     return MaterialApp.router(
       // TODO(ymdkit): Dynamic Links のハンドリング
@@ -55,8 +64,28 @@ class MyApp extends HookConsumerWidget {
       supportedLocales: const [
         Locale('ja', ''),
       ],
-      theme: ThemeData.light().copyWithSharedTheme(),
-      darkTheme: ThemeData.dark().copyWithSharedTheme(),
+      theme: ThemeData.light().copyWithSharedTheme(appThemeColor).copyWith(
+            appBarTheme: const AppBarTheme(
+              elevation: 0,
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.transparent,
+              titleTextStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+          ),
+      darkTheme: ThemeData.dark().copyWithSharedTheme(appThemeColor).copyWith(
+            appBarTheme: const AppBarTheme(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              titleTextStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
       routerDelegate: appRouter.delegate(),
       routeInformationParser: appRouter.defaultRouteParser(),
     );

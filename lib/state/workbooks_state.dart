@@ -36,7 +36,7 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
 
   Workbook addWorkbook({
     required String title,
-    required ColorTheme color,
+    required AppThemeColor color,
     required String? folderId,
   }) {
     final newWorkbook = workbookRepository.addWorkbook(
@@ -55,7 +55,7 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
   void updateWorkbook({
     required Workbook currentWorkbook,
     required String title,
-    required ColorTheme color,
+    required AppThemeColor color,
     required String? folderId,
   }) {
     final updatedWorkbook = currentWorkbook.copyWith(

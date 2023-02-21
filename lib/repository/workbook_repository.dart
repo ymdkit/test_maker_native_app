@@ -22,7 +22,7 @@ class WorkbookRepository {
 
   Workbook addWorkbook({
     required String title,
-    required ColorTheme color,
+    required AppThemeColor color,
     required String? folderId,
   }) {
     final newOrder =

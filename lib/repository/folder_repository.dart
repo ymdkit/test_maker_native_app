@@ -22,7 +22,7 @@ class FolderRepository {
 
   Folder addFolder({
     required String title,
-    required ColorTheme color,
+    required AppThemeColor color,
   }) {
     final newOrder =
         (localDB.all<RealmFolder>().maxBy((e) => e.order)?.order ?? 0) + 1;

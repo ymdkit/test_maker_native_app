@@ -1,33 +1,26 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/ui/widget/app_modal_bottom_sheet.dart';
 
-Future<T?> showAppPickerSheet<T>({
+Future<T?> showAppColorPickerSheet<T>({
   required BuildContext context,
-  required String title,
-  required List<PickerItem<T>> items,
-  required ValueChanged<T> onChanged,
+  required ValueChanged<AppThemeColor> onChanged,
 }) async =>
     showModalBottomSheet(
       context: context,
       useRootNavigator: true,
       builder: (context) => _AppPickerSheet(
-        title: title,
-        items: items,
         onChanged: onChanged,
       ),
     );
 
-class _AppPickerSheet<T> extends StatelessWidget {
+class _AppPickerSheet extends StatelessWidget {
   const _AppPickerSheet({
-    required this.title,
-    required this.items,
     required this.onChanged,
   });
 
-  final String title;
-  final List<PickerItem<T>> items;
-  final ValueChanged<T> onChanged;
+  final ValueChanged<AppThemeColor> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +31,25 @@ class _AppPickerSheet<T> extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(title),
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: Text('カラー'),
             ),
-            ...items.map(
-              (item) => InkWell(
+            ...AppThemeColor.values.map(
+              (item) => ListTile(
+                leading: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: item.displayColor(),
+                  ),
+                ),
+                title: Text(item.displayString()),
                 onTap: () {
                   sheetContext.router.pop();
-                  onChanged(item.value);
+                  onChanged(item);
                 },
-                child: ListTile(
-                  title: Text(item.label),
-                ),
               ),
             ),
             const SizedBox(height: 32),
@@ -59,14 +58,4 @@ class _AppPickerSheet<T> extends StatelessWidget {
       ),
     );
   }
-}
-
-class PickerItem<T> {
-  const PickerItem({
-    required this.label,
-    required this.value,
-  });
-
-  final String label;
-  final T value;
 }

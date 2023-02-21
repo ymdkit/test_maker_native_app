@@ -31,7 +31,7 @@ class CreateWorkbookPage extends HookConsumerWidget {
 
     final formKey = useMemoized(() => GlobalKey<FormState>());
     final workbookTitleController = useTextEditingController();
-    final selectedColor = useState(ColorTheme.blue);
+    final selectedColor = useState(AppThemeColor.blue);
     final selectedFolder = useState<Folder?>(folder);
 
     return AppAdWrapper(
@@ -58,8 +58,9 @@ class CreateWorkbookPage extends HookConsumerWidget {
                           controller: workbookTitleController,
                           hintText: '問題集のタイトルを入力してください',
                           labelText: '問題集のタイトル',
-                          validator: (value) =>
-                              value?.isEmpty ?? true ? '問題集のタイトルを入力してください' : null,
+                          validator: (value) => value?.isEmpty ?? true
+                              ? '問題集のタイトルを入力してください'
+                              : null,
                         ),
                         const SizedBox(height: 16),
                         AppColorDropdownButtonFormField(
@@ -91,7 +92,8 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         const AppSectionTitle(title: 'その他の方法で作成'),
                         OutlinedButton(
                           // TODO(ymdkit): ファイルのインポート機能を実装する
-                          onPressed: () => showAppSnackBar(context, 'ファイルのインポート'),
+                          onPressed: () =>
+                              showAppSnackBar(context, 'ファイルのインポート'),
                           child: const Text('ファイルのインポート'),
                         ),
                         Row(

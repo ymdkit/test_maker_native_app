@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-enum ColorTheme {
+enum AppThemeColor {
   blue('blue'),
   red('red'),
   green('green'),
@@ -15,65 +15,65 @@ enum ColorTheme {
 
   final String value;
 
-  const ColorTheme(this.value);
+  const AppThemeColor(this.value);
 
   // TODO(ymdkit): ローカライズ
   String displayString() {
     switch (this) {
-      case ColorTheme.blue:
+      case AppThemeColor.blue:
         return 'ブルー';
-      case ColorTheme.red:
+      case AppThemeColor.red:
         return 'レッド';
-      case ColorTheme.green:
+      case AppThemeColor.green:
         return 'グリーン';
-      case ColorTheme.orange:
+      case AppThemeColor.orange:
         return 'オレンジ';
-      case ColorTheme.yellow:
+      case AppThemeColor.yellow:
         return 'イエロー';
-      case ColorTheme.pink:
+      case AppThemeColor.pink:
         return 'ピンク';
-      case ColorTheme.purple:
+      case AppThemeColor.purple:
         return 'パープル';
-      case ColorTheme.teal:
+      case AppThemeColor.teal:
         return 'ティール';
-      case ColorTheme.indigo:
+      case AppThemeColor.indigo:
         return 'インディゴ';
-      case ColorTheme.brown:
+      case AppThemeColor.brown:
         return 'ブラウン';
     }
   }
 
   Color displayColor() {
     switch (this) {
-      case ColorTheme.blue:
+      case AppThemeColor.blue:
         return Colors.blue;
-      case ColorTheme.red:
+      case AppThemeColor.red:
         return Colors.red;
-      case ColorTheme.green:
+      case AppThemeColor.green:
         return Colors.green;
-      case ColorTheme.orange:
+      case AppThemeColor.orange:
         return Colors.orange;
-      case ColorTheme.yellow:
+      case AppThemeColor.yellow:
         return Colors.yellow;
-      case ColorTheme.pink:
+      case AppThemeColor.pink:
         return Colors.pink;
-      case ColorTheme.purple:
+      case AppThemeColor.purple:
         return Colors.purple;
-      case ColorTheme.teal:
+      case AppThemeColor.teal:
         return Colors.teal;
-      case ColorTheme.indigo:
+      case AppThemeColor.indigo:
         return Colors.indigo;
-      case ColorTheme.brown:
+      case AppThemeColor.brown:
         return Colors.brown;
     }
   }
 
-  static ColorTheme from(String value) {
-    return ColorTheme.values.firstWhereOrNull((e) => e.value == value) ??
-        ColorTheme.blue;
+  static AppThemeColor from(String value) {
+    return AppThemeColor.values.firstWhereOrNull((e) => e.value == value) ??
+        AppThemeColor.blue;
   }
 
-  static ColorTheme fromIndex(int index) {
-    return ColorTheme.values.elementAtOrNull(index) ?? ColorTheme.blue;
+  static AppThemeColor fromIndex(int index) {
+    return AppThemeColor.values.elementAtOrNull(index) ?? AppThemeColor.blue;
   }
 }

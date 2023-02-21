@@ -9,16 +9,16 @@ class AppColorDropdownButtonFormField extends StatelessWidget {
     required this.onChanged,
   });
 
-  final ColorTheme selectedColor;
-  final void Function(ColorTheme) onChanged;
+  final AppThemeColor selectedColor;
+  final void Function(AppThemeColor) onChanged;
 
   @override
   Widget build(BuildContext context) {
     return AppDropdownButtonFormField(
       value: selectedColor,
-      items: ColorTheme.values
+      items: AppThemeColor.values
           .map(
-            (colorTheme) => DropdownMenuItem<ColorTheme?>(
+            (colorTheme) => DropdownMenuItem<AppThemeColor?>(
               value: colorTheme,
               child: Row(
                 children: [
@@ -37,7 +37,7 @@ class AppColorDropdownButtonFormField extends StatelessWidget {
             ),
           )
           .toList(),
-      onChanged: (colorTheme) => onChanged(colorTheme ?? ColorTheme.blue),
+      onChanged: (colorTheme) => onChanged(colorTheme ?? AppThemeColor.blue),
       labelText: 'カラー',
       hintText: 'カラーを選択してください',
     );

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:test_maker_native_app/model/enum/color_theme.dart';
 
 extension ThemeDataExt on ThemeData {
-  ThemeData copyWithSharedTheme() => copyWith(
-        appBarTheme: const AppBarTheme(
-          elevation: 0,
+  ThemeData copyWithSharedTheme(AppThemeColor appThemeColor) => copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: appThemeColor.displayColor(),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

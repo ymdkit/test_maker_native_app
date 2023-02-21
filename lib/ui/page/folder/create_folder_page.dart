@@ -17,7 +17,7 @@ class CreateFolderPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useMemoized(() => GlobalKey<FormState>());
     final folderTitleController = useTextEditingController();
-    final selectedColor = useState(ColorTheme.blue);
+    final selectedColor = useState(AppThemeColor.blue);
 
     return Scaffold(
       appBar: AppBar(

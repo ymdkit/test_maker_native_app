@@ -24,7 +24,9 @@ class DebugPage extends HookConsumerWidget {
               final newWorkbook = ref
                   .read(workbooksProvider(null).notifier)
                   .addWorkbook(
-                      title: 'サンプル問題集', color: ColorTheme.blue, folderId: null);
+                      title: 'サンプル問題集',
+                      color: AppThemeColor.blue,
+                      folderId: null);
 
               ref.read(questionsProvider(newWorkbook.workbookId).notifier)
                 ..addQuestion(

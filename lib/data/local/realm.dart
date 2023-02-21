@@ -66,7 +66,6 @@ void _migrateIOSWorkbooks(Migration migration) {
         ..color = oldWorkbook.dynamic.get<int>('themeColor')
         ..folderId = folderId;
 
-
       final oldQuestions = oldWorkbook.dynamic
           .getList('questions')
           .map(
@@ -132,7 +131,7 @@ void _migrateAndroidFolders(Migration migration) {
         Uuid.v4().toString(),
         oldFolder.dynamic.get<String>('name'),
         oldFolder.dynamic.get<int>('order'),
-        ColorTheme.from(oldFolder.dynamic.get<String>('themeColor')).index,
+        AppThemeColor.from(oldFolder.dynamic.get<String>('themeColor')).index,
       ),
     ),
   );
@@ -163,7 +162,8 @@ void _migrateAndroidWorkbooks(Migration migration) {
           workbookId,
           oldWorkbook.dynamic.get<String?>('title') ?? '',
           oldWorkbook.dynamic.get<int>('order'),
-          ColorTheme.from(oldWorkbook.dynamic.get<String>('themeColor')).index,
+          AppThemeColor.from(oldWorkbook.dynamic.get<String>('themeColor'))
+              .index,
           folderId: folderId,
         );
       },

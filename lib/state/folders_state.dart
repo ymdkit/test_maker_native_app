@@ -30,7 +30,7 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
 
   void addFolder({
     required String title,
-    required ColorTheme color,
+    required AppThemeColor color,
   }) {
     final newFolder = folderRepository.addFolder(
       title: title,
@@ -42,7 +42,7 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
   void updateFolder({
     required Folder currentFolder,
     required String title,
-    required ColorTheme color,
+    required AppThemeColor color,
   }) {
     final updatedFolder = currentFolder.copyWith(
       title: title,

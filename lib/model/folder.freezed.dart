@@ -19,7 +19,7 @@ mixin _$Folder {
   String get folderId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
-  ColorTheme get color => throw _privateConstructorUsedError;
+  AppThemeColor get color => throw _privateConstructorUsedError;
   int get workbookCount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $FolderCopyWith<$Res> {
       {String folderId,
       String title,
       int order,
-      ColorTheme color,
+      AppThemeColor color,
       int workbookCount});
 }
 
@@ -74,7 +74,7 @@ class _$FolderCopyWithImpl<$Res, $Val extends Folder>
       color: null == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as ColorTheme,
+              as AppThemeColor,
       workbookCount: null == workbookCount
           ? _value.workbookCount
           : workbookCount // ignore: cast_nullable_to_non_nullable
@@ -93,7 +93,7 @@ abstract class _$$_FolderCopyWith<$Res> implements $FolderCopyWith<$Res> {
       {String folderId,
       String title,
       int order,
-      ColorTheme color,
+      AppThemeColor color,
       int workbookCount});
 }
 
@@ -129,7 +129,7 @@ class __$$_FolderCopyWithImpl<$Res>
       color: null == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as ColorTheme,
+              as AppThemeColor,
       workbookCount: null == workbookCount
           ? _value.workbookCount
           : workbookCount // ignore: cast_nullable_to_non_nullable
@@ -155,7 +155,7 @@ class _$_Folder implements _Folder {
   @override
   final int order;
   @override
-  final ColorTheme color;
+  final AppThemeColor color;
   @override
   final int workbookCount;
 
@@ -194,7 +194,7 @@ abstract class _Folder implements Folder {
       {required final String folderId,
       required final String title,
       required final int order,
-      required final ColorTheme color,
+      required final AppThemeColor color,
       required final int workbookCount}) = _$_Folder;
 
   @override
@@ -204,7 +204,7 @@ abstract class _Folder implements Folder {
   @override
   int get order;
   @override
-  ColorTheme get color;
+  AppThemeColor get color;
   @override
   int get workbookCount;
   @override

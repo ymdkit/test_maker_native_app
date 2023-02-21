@@ -9,7 +9,7 @@ class Workbook with _$Workbook {
     required String workbookId,
     required String title,
     required int order,
-    required ColorTheme color,
+    required AppThemeColor color,
     required String? folderId,
     required int questionCount,
   }) = _Workbook;

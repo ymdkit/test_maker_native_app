@@ -21,6 +21,9 @@ enum PreferenceKey {
   numberOfQuestions('question_count'),
   startPosition('start_position'),
 
+  //外観
+  themeColor('theme_color'),
+
   //その他
   answerWorkbookCount('play_count');
 
