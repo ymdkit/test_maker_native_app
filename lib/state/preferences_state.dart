@@ -1,7 +1,9 @@
+import 'package:dartx/dartx.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_maker_native_app/model/enum/color_theme.dart';
+import 'package:test_maker_native_app/model/enum/question_condition.dart';
 import 'package:test_maker_native_app/ui/utils/shared_preference.dart';
 
 part 'preferences_state.freezed.dart';
@@ -23,9 +25,11 @@ class PreferencesStateNotifier extends StateNotifier<PreferencesState> {
             isSwapProblemAndAnswer: sharedPreferences
                     .getBool(PreferenceKey.isSwapProblemAndAnswer.name) ??
                 false,
-            isOnlyWrong:
-                sharedPreferences.getBool(PreferenceKey.isOnlyWrong.name) ??
-                    false,
+            questionCondition: QuestionCondition.values.elementAtOrDefault(
+                sharedPreferences
+                        .getInt(PreferenceKey.questionCondition.name) ??
+                    0,
+                QuestionCondition.all),
             isSelfScoring:
                 sharedPreferences.getBool(PreferenceKey.isSelfScoring.name) ??
                     false,
@@ -65,9 +69,10 @@ class PreferencesStateNotifier extends StateNotifier<PreferencesState> {
         PreferenceKey.isSwapProblemAndAnswer.name, isSwapProblemAndAnswer);
   }
 
-  void setOnlyWrong(bool isOnlyWrong) {
-    state = state.copyWith(isOnlyWrong: isOnlyWrong);
-    sharedPreferences.setBool(PreferenceKey.isOnlyWrong.name, isOnlyWrong);
+  void setQuestionCondition(QuestionCondition questionCondition) {
+    state = state.copyWith(questionCondition: questionCondition);
+    sharedPreferences.setInt(
+        PreferenceKey.questionCondition.name, questionCondition.index);
   }
 
   void setSelfScoring(bool isSelfScoring) {
@@ -122,7 +127,7 @@ class PreferencesState with _$PreferencesState {
   const factory PreferencesState({
     required bool isRandom,
     required bool isSwapProblemAndAnswer,
-    required bool isOnlyWrong,
+    required QuestionCondition questionCondition,
     required bool isSelfScoring,
     required bool isAlwaysShowExplanation,
     required bool isCaseInsensitive,

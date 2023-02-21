@@ -11,9 +11,9 @@ SharedPreferences sharedPreferences(SharedPreferencesRef ref) =>
 
 enum PreferenceKey {
   //出題設定
+  questionCondition('questionCondition'),
   isRandom('random'),
   isSwapProblemAndAnswer('reverse'),
-  isOnlyWrong('refine'),
   isSelfScoring('manual'),
   isAlwaysShowExplanation('alwaysReview'),
   isCaseInsensitive('isCaseInsensitive'),

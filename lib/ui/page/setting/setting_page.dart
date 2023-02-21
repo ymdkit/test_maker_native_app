@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/web_url.dart';
 import 'package:test_maker_native_app/model/enum/color_theme.dart';
+import 'package:test_maker_native_app/model/enum/question_condition.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/preferences_state.dart';
 import 'package:test_maker_native_app/ui/utils/package_information.dart';
@@ -125,6 +126,26 @@ class AnswerWorkbookSettings extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: AppSectionTitle(title: '出題設定'),
+        ),
+        ListTile(
+          title: const Text('出題範囲'),
+          subtitle: Text(
+            QuestionCondition.values
+                .elementAtOrDefault(
+                    preferences.questionCondition.index, QuestionCondition.all)
+                .displayString(),
+          ),
+          onTap: () => showAppPickerSheet(
+            context: context,
+            title: '出題範囲',
+            items: QuestionCondition.values
+                .map(
+                  (e) => PickerItem(label: e.displayString(), value: e),
+                )
+                .toList(),
+            onChanged: (value) =>
+                preferencesNotifier.setQuestionCondition(value),
+          ),
         ),
         SwitchListTile(
           title: const Text('出題順をランダムにする'),

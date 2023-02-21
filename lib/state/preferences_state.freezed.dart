@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PreferencesState {
   bool get isRandom => throw _privateConstructorUsedError;
   bool get isSwapProblemAndAnswer => throw _privateConstructorUsedError;
-  bool get isOnlyWrong => throw _privateConstructorUsedError;
+  QuestionCondition get questionCondition => throw _privateConstructorUsedError;
   bool get isSelfScoring => throw _privateConstructorUsedError;
   bool get isAlwaysShowExplanation => throw _privateConstructorUsedError;
   bool get isCaseInsensitive => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $PreferencesStateCopyWith<$Res> {
   $Res call(
       {bool isRandom,
       bool isSwapProblemAndAnswer,
-      bool isOnlyWrong,
+      QuestionCondition questionCondition,
       bool isSelfScoring,
       bool isAlwaysShowExplanation,
       bool isCaseInsensitive,
@@ -68,7 +68,7 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
   $Res call({
     Object? isRandom = null,
     Object? isSwapProblemAndAnswer = null,
-    Object? isOnlyWrong = null,
+    Object? questionCondition = null,
     Object? isSelfScoring = null,
     Object? isAlwaysShowExplanation = null,
     Object? isCaseInsensitive = null,
@@ -87,10 +87,10 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
           ? _value.isSwapProblemAndAnswer
           : isSwapProblemAndAnswer // ignore: cast_nullable_to_non_nullable
               as bool,
-      isOnlyWrong: null == isOnlyWrong
-          ? _value.isOnlyWrong
-          : isOnlyWrong // ignore: cast_nullable_to_non_nullable
-              as bool,
+      questionCondition: null == questionCondition
+          ? _value.questionCondition
+          : questionCondition // ignore: cast_nullable_to_non_nullable
+              as QuestionCondition,
       isSelfScoring: null == isSelfScoring
           ? _value.isSelfScoring
           : isSelfScoring // ignore: cast_nullable_to_non_nullable
@@ -138,7 +138,7 @@ abstract class _$$_PreferencesStateCopyWith<$Res>
   $Res call(
       {bool isRandom,
       bool isSwapProblemAndAnswer,
-      bool isOnlyWrong,
+      QuestionCondition questionCondition,
       bool isSelfScoring,
       bool isAlwaysShowExplanation,
       bool isCaseInsensitive,
@@ -162,7 +162,7 @@ class __$$_PreferencesStateCopyWithImpl<$Res>
   $Res call({
     Object? isRandom = null,
     Object? isSwapProblemAndAnswer = null,
-    Object? isOnlyWrong = null,
+    Object? questionCondition = null,
     Object? isSelfScoring = null,
     Object? isAlwaysShowExplanation = null,
     Object? isCaseInsensitive = null,
@@ -181,10 +181,10 @@ class __$$_PreferencesStateCopyWithImpl<$Res>
           ? _value.isSwapProblemAndAnswer
           : isSwapProblemAndAnswer // ignore: cast_nullable_to_non_nullable
               as bool,
-      isOnlyWrong: null == isOnlyWrong
-          ? _value.isOnlyWrong
-          : isOnlyWrong // ignore: cast_nullable_to_non_nullable
-              as bool,
+      questionCondition: null == questionCondition
+          ? _value.questionCondition
+          : questionCondition // ignore: cast_nullable_to_non_nullable
+              as QuestionCondition,
       isSelfScoring: null == isSelfScoring
           ? _value.isSelfScoring
           : isSelfScoring // ignore: cast_nullable_to_non_nullable
@@ -227,7 +227,7 @@ class _$_PreferencesState implements _PreferencesState {
   const _$_PreferencesState(
       {required this.isRandom,
       required this.isSwapProblemAndAnswer,
-      required this.isOnlyWrong,
+      required this.questionCondition,
       required this.isSelfScoring,
       required this.isAlwaysShowExplanation,
       required this.isCaseInsensitive,
@@ -242,7 +242,7 @@ class _$_PreferencesState implements _PreferencesState {
   @override
   final bool isSwapProblemAndAnswer;
   @override
-  final bool isOnlyWrong;
+  final QuestionCondition questionCondition;
   @override
   final bool isSelfScoring;
   @override
@@ -262,7 +262,7 @@ class _$_PreferencesState implements _PreferencesState {
 
   @override
   String toString() {
-    return 'PreferencesState(isRandom: $isRandom, isSwapProblemAndAnswer: $isSwapProblemAndAnswer, isOnlyWrong: $isOnlyWrong, isSelfScoring: $isSelfScoring, isAlwaysShowExplanation: $isAlwaysShowExplanation, isCaseInsensitive: $isCaseInsensitive, isShowAnswerSettingDialog: $isShowAnswerSettingDialog, numberOfQuestions: $numberOfQuestions, startPosition: $startPosition, answerWorkbookCount: $answerWorkbookCount, themeColor: $themeColor)';
+    return 'PreferencesState(isRandom: $isRandom, isSwapProblemAndAnswer: $isSwapProblemAndAnswer, questionCondition: $questionCondition, isSelfScoring: $isSelfScoring, isAlwaysShowExplanation: $isAlwaysShowExplanation, isCaseInsensitive: $isCaseInsensitive, isShowAnswerSettingDialog: $isShowAnswerSettingDialog, numberOfQuestions: $numberOfQuestions, startPosition: $startPosition, answerWorkbookCount: $answerWorkbookCount, themeColor: $themeColor)';
   }
 
   @override
@@ -274,8 +274,8 @@ class _$_PreferencesState implements _PreferencesState {
                 other.isRandom == isRandom) &&
             (identical(other.isSwapProblemAndAnswer, isSwapProblemAndAnswer) ||
                 other.isSwapProblemAndAnswer == isSwapProblemAndAnswer) &&
-            (identical(other.isOnlyWrong, isOnlyWrong) ||
-                other.isOnlyWrong == isOnlyWrong) &&
+            (identical(other.questionCondition, questionCondition) ||
+                other.questionCondition == questionCondition) &&
             (identical(other.isSelfScoring, isSelfScoring) ||
                 other.isSelfScoring == isSelfScoring) &&
             (identical(
@@ -301,7 +301,7 @@ class _$_PreferencesState implements _PreferencesState {
       runtimeType,
       isRandom,
       isSwapProblemAndAnswer,
-      isOnlyWrong,
+      questionCondition,
       isSelfScoring,
       isAlwaysShowExplanation,
       isCaseInsensitive,
@@ -322,7 +322,7 @@ abstract class _PreferencesState implements PreferencesState {
   const factory _PreferencesState(
       {required final bool isRandom,
       required final bool isSwapProblemAndAnswer,
-      required final bool isOnlyWrong,
+      required final QuestionCondition questionCondition,
       required final bool isSelfScoring,
       required final bool isAlwaysShowExplanation,
       required final bool isCaseInsensitive,
@@ -337,7 +337,7 @@ abstract class _PreferencesState implements PreferencesState {
   @override
   bool get isSwapProblemAndAnswer;
   @override
-  bool get isOnlyWrong;
+  QuestionCondition get questionCondition;
   @override
   bool get isSelfScoring;
   @override
