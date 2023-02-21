@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
 import 'package:test_maker_native_app/model/question.dart';
+import 'package:test_maker_native_app/ui/page/question/answer_problem_section.dart';
 import 'package:test_maker_native_app/ui/page/workbook/answer_effect_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_text_form_field.dart';
 import 'package:test_maker_native_app/ui/widget/separated_flex.dart';
@@ -19,7 +18,7 @@ class AnswerQuestionForm extends HookConsumerWidget {
   });
 
   final Question question;
-  final VoidCallback onAnswered;
+  final void Function(bool) onAnswered;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,19 +33,7 @@ class AnswerQuestionForm extends HookConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(question.problem),
-                  const SizedBox(height: 16),
-                  if (question.problemImageUrl != null &&
-                      File(question.problemImageUrl!).existsSync())
-                    Column(
-                      children: [
-                        Image.file(
-                          File(question.problemImageUrl!),
-                          fit: BoxFit.contain,
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
+                  AnswerProblemSection(question: question),
                   (() {
                     switch (question.questionType) {
                       case QuestionType.write:
@@ -112,7 +99,7 @@ class AnswerQuestionForm extends HookConsumerWidget {
           attemptAnswers: answers,
         );
     ref.read(answerEffectStateProvider.notifier).state = isCorrect;
-    onAnswered();
+    onAnswered(isCorrect);
   }
 }
 

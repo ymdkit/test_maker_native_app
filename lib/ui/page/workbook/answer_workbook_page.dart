@@ -2,15 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
+import 'package:test_maker_native_app/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/state/answering_questions_state.dart';
 import 'package:test_maker_native_app/state/workbook_state.dart';
+import 'package:test_maker_native_app/ui/page/question/answer_explanation_section.dart';
+import 'package:test_maker_native_app/ui/page/question/answer_problem_section.dart';
 import 'package:test_maker_native_app/ui/page/question/answer_question_form.dart';
 import 'package:test_maker_native_app/ui/page/workbook/answer_effect_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/ui/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
+import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
 
 class AnswerWorkbookPage extends HookConsumerWidget {
   const AnswerWorkbookPage({
@@ -33,8 +38,17 @@ class AnswerWorkbookPage extends HookConsumerWidget {
       ),
     );
     final questions = ref.watch(answeringQuestionsProvider(workbookId));
-    final index = useState(0);
-    final isLoading = useState(true);
+    final state = ref.watch(answerWorkbookStateProvider(workbookId));
+    final notifier =
+        ref.watch(answerWorkbookStateProvider(workbookId).notifier);
+
+    ref.listen(answerWorkbookStateProvider(workbookId), (_, next) {
+      if (next == const AnswerWorkbookState.finished()) {
+        context.router.push(
+          AnswerWorkbookResultRoute(workbook: workbook),
+        );
+      }
+    });
 
     return Focus(
       focusNode: screenFocusNode,
@@ -77,27 +91,19 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                   )
                 : Stack(
                     children: [
-                      if (isLoading.value)
-                        AnswerQuestionForm(
-                          question: questions[index.value],
-                          onAnswered: () async {
-                            if (index.value < questions.length - 1) {
-                              //NOTE: AnswerQuestionForm を表示したままだと前問解答時の状態が残るため、
-                              //一旦 AnswerQuestionForm を破棄してから再表示する
-                              isLoading.value = false;
-                              await Future<void>.delayed(
-                                  const Duration(milliseconds: 10));
-                              isLoading.value = true;
-                              index.value++;
-                            } else {
-                              await context.router.push(
-                                AnswerWorkbookResultRoute(workbook: workbook),
-                              );
-                            }
-                          },
-                        )
-                      else
-                        const SizedBox.expand(),
+                      state.maybeWhen(
+                        answering: (question) => AnswerQuestionForm(
+                          question: question,
+                          onAnswered: notifier.onAnswered,
+                        ),
+                        reviewing: (question) =>
+                            _AnswerReviewContent(question: question),
+                        confirming: (question) =>
+                            _AnswerConfirmSection(question: question),
+                        selfScoring: (question) =>
+                            _AnswerSelfScoreContent(question: question),
+                        orElse: () => const SizedBox.shrink(),
+                      ),
                       const Align(
                         alignment: Alignment.topCenter,
                         child: AnswerEffectWidget(),
@@ -107,6 +113,168 @@ class AnswerWorkbookPage extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _AnswerConfirmSection extends HookConsumerWidget {
+  const _AnswerConfirmSection({
+    required this.question,
+  });
+
+  final Question question;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier =
+        ref.watch(answerWorkbookStateProvider(question.workbookId).notifier);
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AnswerProblemSection(
+                    question: question,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Column(
+          children: [
+            const Divider(height: 1),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: () => notifier.selfScore(),
+                child: const Text('OK'),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _AnswerReviewContent extends HookConsumerWidget {
+  const _AnswerReviewContent({
+    required this.question,
+  });
+
+  final Question question;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier =
+        ref.watch(answerWorkbookStateProvider(question.workbookId).notifier);
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AnswerProblemSection(
+                    question: question,
+                  ),
+                  const AppSectionTitle(title: '解答'),
+                  Text(
+                    question.answers.join(' '),
+                  ),
+                  const SizedBox(height: 16),
+                  AnswerExplanationSection(
+                    question: question,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Column(
+          children: [
+            const Divider(height: 1),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: () => notifier.forward(),
+                child: const Text('OK'),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _AnswerSelfScoreContent extends HookConsumerWidget {
+  const _AnswerSelfScoreContent({
+    required this.question,
+  });
+
+  final Question question;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier =
+        ref.watch(answerWorkbookStateProvider(question.workbookId).notifier);
+
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AnswerProblemSection(
+                    question: question,
+                  ),
+                  const AppSectionTitle(title: '解答'),
+                  Text(
+                    question.answers.join(' '),
+                  ),
+                  const SizedBox(height: 16),
+                  AnswerExplanationSection(
+                    question: question,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Column(
+          children: [
+            const Divider(height: 1),
+            //TODO: 解答状況の永続化
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () => notifier.forward(),
+                    child: const Text('正解'),
+                  ),
+                  const SizedBox(height: 16),
+                  OutlinedButton(
+                    onPressed: () => notifier.forward(),
+                    child: const Text('不正解'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
