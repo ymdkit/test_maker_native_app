@@ -23,6 +23,26 @@
             "type": "dart",
             "args": ["--dart-define-from-file", "dart_defines/dev.json"],
             "flutterMode": "release"
+        },
+        {
+            "name": "prd debug",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--dart-define-from-file", "dart_defines/prd.json"]
+        },
+        {
+            "name": "prd profile",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--dart-define-from-file", "dart_defines/prd.json"],
+            "flutterMode": "profile"
+        },
+        {
+            "name": "prd release",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--dart-define-from-file", "dart_defines/prd.json"],
+            "flutterMode": "release"
         }
     ]
 }
