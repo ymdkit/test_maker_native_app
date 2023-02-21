@@ -110,5 +110,4 @@ class AppAdUnitId {
   static String get settingBanner => Platform.isAndroid
       ? const String.fromEnvironment('adMobAndroidSettingBannerId')
       : const String.fromEnvironment('adMobIOSSettingBannerId');
-
 }

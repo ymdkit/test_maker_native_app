@@ -14,6 +14,14 @@ import 'package:test_maker_native_app/ui/utils/shared_preference.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
+  await MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(
+      testDeviceIds: [
+        '85b923a71b0bd9a3a0d48f539907ae2f',
+      ],
+    ),
+  );
+
   final packageInfo = await PackageInfo.fromPlatform();
   final preferences = await SharedPreferences.getInstance();
 

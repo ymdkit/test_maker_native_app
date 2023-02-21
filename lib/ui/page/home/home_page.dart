@@ -102,9 +102,7 @@ class HomePage extends HookConsumerWidget {
             ),
           ),
         ),
-        const AppAdWidget(
-          adUnitId: String.fromEnvironment('adMobIOSHomeBannerId'),
-        ),
+        AppAdWidget(adUnitId: AppAdUnitId.homeBanner),
       ],
     );
   }
