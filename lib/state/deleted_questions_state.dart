@@ -1,0 +1,48 @@
+import 'dart:async';
+
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/model/question.dart';
+import 'package:test_maker_native_app/repository/question_repository.dart';
+import 'package:test_maker_native_app/state/questions_state.dart';
+
+final deletedQuestionsProvider =
+    StateNotifierProvider.autoDispose<QuestionsStateNotifier, List<Question>>(
+  (ref) => QuestionsStateNotifier(
+    questionRepository: ref.watch(questionRepositoryProvider),
+    onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
+    onMutateDeletedQuestionStream:
+        ref.watch(onMutateDeletedQuestionStreamProvider),
+  ),
+);
+
+class QuestionsStateNotifier extends StateNotifier<List<Question>> {
+  QuestionsStateNotifier({
+    required this.questionRepository,
+    required this.onMutateDeletedQuestionStream,
+    required StreamController<Question> onMutateQuestionStream,
+  }) : super(questionRepository.getDeletedQuestions()) {
+    onMutateQuestionSubscription = onMutateQuestionStream.stream.listen(
+      (question) => state = questionRepository.getDeletedQuestions(),
+    );
+  }
+
+  final QuestionRepository questionRepository;
+  final StreamController<Question> onMutateDeletedQuestionStream;
+  late final StreamSubscription<Question> onMutateQuestionSubscription;
+
+  void restoreQuestion(Question question) {
+    questionRepository.restoreQuestion(question);
+    state = state.where((e) => e.questionId != question.questionId).toList();
+    onMutateDeletedQuestionStream.sink.add(question);
+  }
+
+  @override
+  void dispose() {
+    onMutateQuestionSubscription.cancel();
+    super.dispose();
+  }
+}
+
+final onMutateDeletedQuestionStreamProvider = Provider(
+  (ref) => StreamController<Question>.broadcast(),
+);

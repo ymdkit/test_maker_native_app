@@ -49,6 +49,7 @@ class WorkbookRepository {
   List<Workbook> getWorkbooks(String? folderId) {
     return localDB
         .all<RealmWorkbook>()
+        .where((e) => e.isDeleted != true)
         .where((e) => e.folderId == folderId)
         .map(
       (e) {
@@ -61,17 +62,16 @@ class WorkbookRepository {
     ).toList();
   }
 
-  Workbook getWorkbook(String workbookId) {
-    final realmWorkbook = localDB
-        .all<RealmWorkbook>()
-        .firstWhere((e) => e.workbookId == workbookId);
-
-    final questionCount = localDB
-        .all<RealmQuestion>()
-        .where((element) => element.workbookId == realmWorkbook.workbookId)
-        .length;
-
-    return realmWorkbook.toWorkbook(questionCount: questionCount);
+  List<Workbook> getDeletedWorkbooks() {
+    return localDB.all<RealmWorkbook>().where((e) => e.isDeleted == true).map(
+      (e) {
+        final questionCount = localDB
+            .all<RealmQuestion>()
+            .where((element) => element.workbookId == e.workbookId)
+            .length;
+        return e.toWorkbook(questionCount: questionCount);
+      },
+    ).toList();
   }
 
   void updateWorkbook(Workbook workbook) {
@@ -85,8 +85,18 @@ class WorkbookRepository {
 
   void deleteWorkbook(Workbook workbook) {
     localDB.write(() {
-      localDB.delete<RealmWorkbook>(
-        RealmWorkbookConverting.fromWorkbook(workbook),
+      localDB.add<RealmWorkbook>(
+        RealmWorkbookConverting.fromWorkbook(workbook)..isDeleted = true,
+        update: true,
+      );
+    });
+  }
+
+  void restoreWorkbook(Workbook workbook) {
+    localDB.write(() {
+      localDB.add<RealmWorkbook>(
+        RealmWorkbookConverting.fromWorkbook(workbook)..isDeleted = false,
+        update: true,
       );
     });
   }

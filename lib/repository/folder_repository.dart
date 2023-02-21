@@ -45,7 +45,26 @@ class FolderRepository {
   }
 
   List<Folder> getFolders() {
-    return localDB.all<RealmFolder>().map((e) {
+    return localDB
+        .all<RealmFolder>()
+        .where((e) => e.isDeleted != true)
+        .map((e) {
+      final workbookCount = localDB
+          .all<RealmWorkbook>()
+          .where((element) => element.folderId == e.folderId)
+          .length;
+
+      return e.toFolder(
+        workbookCount: workbookCount,
+      );
+    }).toList(growable: false);
+  }
+
+  List<Folder> getDeletedFolders() {
+    return localDB
+        .all<RealmFolder>()
+        .where((e) => e.isDeleted == true)
+        .map((e) {
       final workbookCount = localDB
           .all<RealmWorkbook>()
           .where((element) => element.folderId == e.folderId)
@@ -68,8 +87,18 @@ class FolderRepository {
 
   void deleteFolder(Folder folder) {
     localDB.write(() {
-      localDB.delete<RealmFolder>(
-        RealmFolderConverting.fromFolder(folder),
+      localDB.add<RealmFolder>(
+        RealmFolderConverting.fromFolder(folder)..isDeleted = true,
+        update: true,
+      );
+    });
+  }
+
+  void restoreFolder(Folder folder) {
+    localDB.write(() {
+      localDB.add<RealmFolder>(
+        RealmFolderConverting.fromFolder(folder)..isDeleted = false,
+        update: true,
       );
     });
   }

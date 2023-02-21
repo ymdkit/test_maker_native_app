@@ -21,6 +21,7 @@ class RealmQuestion extends _RealmQuestion
     String? problemImageUrl,
     String? explanation,
     String? explanationImageUrl,
+    bool? isDeleted,
     Iterable<String> answers = const [],
     Iterable<String> wrongChoices = const [],
   }) {
@@ -37,6 +38,7 @@ class RealmQuestion extends _RealmQuestion
     RealmObjectBase.set(this, 'isCheckAnswerOrder', isCheckAnswerOrder);
     RealmObjectBase.set(this, 'order', order);
     RealmObjectBase.set(this, 'answerStatus', answerStatus);
+    RealmObjectBase.set(this, 'isDeleted', isDeleted);
     RealmObjectBase.set<RealmList<String>>(
         this, 'answers', RealmList<String>(answers));
     RealmObjectBase.set<RealmList<String>>(
@@ -137,6 +139,11 @@ class RealmQuestion extends _RealmQuestion
       RealmObjectBase.set(this, 'answerStatus', value);
 
   @override
+  bool? get isDeleted => RealmObjectBase.get<bool>(this, 'isDeleted') as bool?;
+  @override
+  set isDeleted(bool? value) => RealmObjectBase.set(this, 'isDeleted', value);
+
+  @override
   Stream<RealmObjectChanges<RealmQuestion>> get changes =>
       RealmObjectBase.getChanges<RealmQuestion>(this);
 
@@ -167,6 +174,7 @@ class RealmQuestion extends _RealmQuestion
       SchemaProperty('isCheckAnswerOrder', RealmPropertyType.bool),
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('answerStatus', RealmPropertyType.string),
+      SchemaProperty('isDeleted', RealmPropertyType.bool, optional: true),
     ]);
   }
 }
@@ -179,12 +187,14 @@ class RealmWorkbook extends _RealmWorkbook
     int order,
     int color, {
     String? folderId,
+    bool? isDeleted,
   }) {
     RealmObjectBase.set(this, 'workbookId', workbookId);
     RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'order', order);
     RealmObjectBase.set(this, 'color', color);
     RealmObjectBase.set(this, 'folderId', folderId);
+    RealmObjectBase.set(this, 'isDeleted', isDeleted);
   }
 
   RealmWorkbook._();
@@ -218,6 +228,11 @@ class RealmWorkbook extends _RealmWorkbook
   set folderId(String? value) => RealmObjectBase.set(this, 'folderId', value);
 
   @override
+  bool? get isDeleted => RealmObjectBase.get<bool>(this, 'isDeleted') as bool?;
+  @override
+  set isDeleted(bool? value) => RealmObjectBase.set(this, 'isDeleted', value);
+
+  @override
   Stream<RealmObjectChanges<RealmWorkbook>> get changes =>
       RealmObjectBase.getChanges<RealmWorkbook>(this);
 
@@ -234,6 +249,7 @@ class RealmWorkbook extends _RealmWorkbook
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('color', RealmPropertyType.int),
       SchemaProperty('folderId', RealmPropertyType.string, optional: true),
+      SchemaProperty('isDeleted', RealmPropertyType.bool, optional: true),
     ]);
   }
 }
@@ -244,12 +260,14 @@ class RealmFolder extends _RealmFolder
     String folderId,
     String title,
     int order,
-    int color,
-  ) {
+    int color, {
+    bool? isDeleted,
+  }) {
     RealmObjectBase.set(this, 'folderId', folderId);
     RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'order', order);
     RealmObjectBase.set(this, 'color', color);
+    RealmObjectBase.set(this, 'isDeleted', isDeleted);
   }
 
   RealmFolder._();
@@ -276,6 +294,11 @@ class RealmFolder extends _RealmFolder
   set color(int value) => RealmObjectBase.set(this, 'color', value);
 
   @override
+  bool? get isDeleted => RealmObjectBase.get<bool>(this, 'isDeleted') as bool?;
+  @override
+  set isDeleted(bool? value) => RealmObjectBase.set(this, 'isDeleted', value);
+
+  @override
   Stream<RealmObjectChanges<RealmFolder>> get changes =>
       RealmObjectBase.getChanges<RealmFolder>(this);
 
@@ -291,6 +314,7 @@ class RealmFolder extends _RealmFolder
       SchemaProperty('title', RealmPropertyType.string),
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('color', RealmPropertyType.int),
+      SchemaProperty('isDeleted', RealmPropertyType.bool, optional: true),
     ]);
   }
 }

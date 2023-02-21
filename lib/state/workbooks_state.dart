@@ -5,6 +5,7 @@ import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/model/workbook.dart';
 import 'package:test_maker_native_app/repository/workbook_repository.dart';
+import 'package:test_maker_native_app/state/deleted_workbooks_state.dart';
 import 'package:test_maker_native_app/state/questions_state.dart';
 
 final workbooksProvider = StateNotifierProvider.autoDispose
@@ -14,6 +15,8 @@ final workbooksProvider = StateNotifierProvider.autoDispose
     workbookRepository: ref.watch(workbookRepositoryProvider),
     onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
+    onMutateDeletedWorkbookStream:
+        ref.watch(onMutateDeletedWorkbookStreamProvider),
   ),
 );
 
@@ -23,9 +26,14 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
     required this.workbookRepository,
     required this.onMutateWorkbookStream,
     required StreamController<Question> onMutateQuestionStream,
+    required StreamController<Workbook> onMutateDeletedWorkbookStream,
   }) : super(workbookRepository.getWorkbooks(folderId)) {
     onMutateQuestionSubscription = onMutateQuestionStream.stream.listen(
       (question) => state = workbookRepository.getWorkbooks(folderId),
+    );
+    onMutateDeletedWorkbookSubscription =
+        onMutateDeletedWorkbookStream.stream.listen(
+      (workbook) => state = workbookRepository.getWorkbooks(folderId),
     );
   }
 
@@ -33,6 +41,7 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
   final WorkbookRepository workbookRepository;
   final StreamController<Workbook> onMutateWorkbookStream;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
+  late final StreamSubscription<Workbook> onMutateDeletedWorkbookSubscription;
 
   Workbook addWorkbook({
     required String title,
@@ -85,6 +94,7 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
 
   @override
   void dispose() {
+    onMutateDeletedWorkbookSubscription.cancel();
     onMutateQuestionSubscription.cancel();
     super.dispose();
   }

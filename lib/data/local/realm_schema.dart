@@ -28,6 +28,7 @@ class _RealmQuestion {
   late bool isCheckAnswerOrder;
   late int order;
   late String answerStatus;
+  late bool? isDeleted;
 
   Question toQuestion() {
     return Question(
@@ -61,6 +62,7 @@ class _RealmWorkbook {
   late int order;
   late int color;
   late String? folderId;
+  late bool? isDeleted;
 
   Workbook toWorkbook({
     required int questionCount,
@@ -84,6 +86,7 @@ class _RealmFolder {
   late String title;
   late int order;
   late int color;
+  late bool? isDeleted;
 
   Folder toFolder({
     required int workbookCount,

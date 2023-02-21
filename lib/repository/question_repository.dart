@@ -65,6 +65,15 @@ class QuestionRepository {
     return localDB
         .all<RealmQuestion>()
         .where((e) => e.workbookId == workbookId)
+        .where((e) => e.isDeleted != true)
+        .map((e) => e.toQuestion())
+        .toList();
+  }
+
+  List<Question> getDeletedQuestions() {
+    return localDB
+        .all<RealmQuestion>()
+        .where((e) => e.isDeleted == true)
         .map((e) => e.toQuestion())
         .toList();
   }
@@ -81,8 +90,20 @@ class QuestionRepository {
   void deleteQuestion(Question question) {
     localDB.write(
       () {
-        localDB.delete<RealmQuestion>(
-          RealmQuestionConverting.fromQuestion(question),
+        localDB.add<RealmQuestion>(
+          RealmQuestionConverting.fromQuestion(question)..isDeleted = true,
+          update: true,
+        );
+      },
+    );
+  }
+
+  void restoreQuestion(Question question) {
+    localDB.write(
+      () {
+        localDB.add<RealmQuestion>(
+          RealmQuestionConverting.fromQuestion(question)..isDeleted = false,
+          update: true,
         );
       },
     );

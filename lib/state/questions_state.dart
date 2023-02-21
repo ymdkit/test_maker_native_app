@@ -21,11 +21,16 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
     required this.questionRepository,
     required this.workbookId,
     required this.onMutateQuestionStream,
-  }) : super(questionRepository.getQuestions(workbookId));
+  }) : super(questionRepository.getQuestions(workbookId)) {
+    onMutateQuestionSubscription = onMutateQuestionStream.stream.listen(
+      (question) => state = questionRepository.getQuestions(workbookId),
+    );
+  }
 
   final QuestionRepository questionRepository;
   final String workbookId;
   final StreamController<Question> onMutateQuestionStream;
+  late final StreamSubscription<Question> onMutateQuestionSubscription;
 
   void addQuestion({
     required String workbookId,
@@ -94,6 +99,12 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
     questionRepository.deleteQuestion(question);
     state = state.where((e) => e.questionId != question.questionId).toList();
     onMutateQuestionStream.sink.add(question);
+  }
+
+  @override
+  void dispose() {
+    onMutateQuestionSubscription.cancel();
+    super.dispose();
   }
 }
 

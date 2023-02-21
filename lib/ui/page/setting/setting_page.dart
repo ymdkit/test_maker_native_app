@@ -63,6 +63,10 @@ class SettingPage extends HookConsumerWidget {
                 padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: AppSectionTitle(title: 'その他'),
               ),
+              ListTile(
+                title: const Text('ゴミ箱'),
+                onTap: () => context.router.push(const TrashRoute()),
+              ),
               // TODO: 広告削除
               ListTile(
                 title: const Text('よくある質問'),

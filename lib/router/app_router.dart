@@ -17,6 +17,7 @@ import 'package:test_maker_native_app/ui/page/record/record_page.dart';
 import 'package:test_maker_native_app/ui/page/search/search_workbook_page.dart';
 import 'package:test_maker_native_app/ui/page/setting/debug_page.dart';
 import 'package:test_maker_native_app/ui/page/setting/setting_page.dart';
+import 'package:test_maker_native_app/ui/page/setting/trash_page.dart';
 import 'package:test_maker_native_app/ui/page/workbook/answer_workbook_page.dart';
 import 'package:test_maker_native_app/ui/page/workbook/answer_workbook_result_page.dart';
 import 'package:test_maker_native_app/ui/page/workbook/create_workbook_page.dart';
@@ -76,6 +77,7 @@ part 'app_router.gr.dart';
           children: [
             AutoRoute(page: SettingPage, initial: true),
             AutoRoute(page: DebugPage),
+            AutoRoute(page: TrashPage),
           ],
         ),
       ],

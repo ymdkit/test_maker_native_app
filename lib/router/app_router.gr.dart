@@ -196,6 +196,12 @@ class _$AppRouter extends RootStackRouter {
         child: const DebugPage(),
       );
     },
+    TrashRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const TrashPage(),
+      );
+    },
   };
 
   @override
@@ -310,6 +316,11 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(
                   DebugRoute.name,
                   path: 'debug-page',
+                  parent: SettingTabRoute.name,
+                ),
+                RouteConfig(
+                  TrashRoute.name,
+                  path: 'trash-page',
                   parent: SettingTabRoute.name,
                 ),
               ],
@@ -821,4 +832,16 @@ class DebugRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DebugRoute';
+}
+
+/// generated route for
+/// [TrashPage]
+class TrashRoute extends PageRouteInfo<void> {
+  const TrashRoute()
+      : super(
+          TrashRoute.name,
+          path: 'trash-page',
+        );
+
+  static const String name = 'TrashRoute';
 }

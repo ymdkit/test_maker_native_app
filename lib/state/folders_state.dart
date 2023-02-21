@@ -12,21 +12,31 @@ final foldersProvider =
   (ref) => FoldersStateNotifier(
     folderRepository: ref.watch(folderRepositoryProvider),
     onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
+    onMutateFolderStream: ref.watch(onMutateFolderStreamProvider),
+    onMutateDeletedFolderStream: ref.watch(onMutateFolderStreamProvider),
   ),
 );
 
 class FoldersStateNotifier extends StateNotifier<List<Folder>> {
   FoldersStateNotifier({
     required this.folderRepository,
+    required this.onMutateFolderStream,
     required StreamController<Workbook> onMutateWorkbookStream,
+    required StreamController<Folder> onMutateDeletedFolderStream,
   }) : super(folderRepository.getFolders()) {
     onMutateWorkbookSubscription = onMutateWorkbookStream.stream.listen(
       (workbook) => state = folderRepository.getFolders(),
     );
+    onMutateDeletedFolderSubscription =
+        onMutateDeletedFolderStream.stream.listen(
+      (folder) => state = folderRepository.getFolders(),
+    );
   }
 
   final FolderRepository folderRepository;
+  final StreamController<Folder> onMutateFolderStream;
   late final StreamSubscription<Workbook> onMutateWorkbookSubscription;
+  late final StreamSubscription<Folder> onMutateDeletedFolderSubscription;
 
   void addFolder({
     required String title,
@@ -37,6 +47,7 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
       color: color,
     );
     state = [...state, newFolder];
+    onMutateFolderStream.sink.add(newFolder);
   }
 
   void updateFolder({
@@ -59,6 +70,7 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
         }
       },
     ).toList();
+    onMutateFolderStream.sink.add(updatedFolder);
   }
 
   void deleteFolder(Folder folder) {
@@ -69,6 +81,11 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
   @override
   void dispose() {
     onMutateWorkbookSubscription.cancel();
+    onMutateDeletedFolderSubscription.cancel();
     super.dispose();
   }
 }
+
+final onMutateFolderStreamProvider = Provider(
+  (ref) => StreamController<Folder>.broadcast(),
+);

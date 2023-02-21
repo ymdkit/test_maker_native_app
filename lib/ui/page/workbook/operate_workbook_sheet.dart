@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/preferences_state.dart';
+import 'package:test_maker_native_app/state/workbooks_state.dart';
 import 'package:test_maker_native_app/ui/page/workbook/answer_workbook_setting_sheet.dart';
 import 'package:test_maker_native_app/ui/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/ui/widget/app_modal_bottom_sheet.dart';
@@ -118,7 +119,20 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
             ListTile(
               leading: const Icon(Icons.delete),
               title: const Text('削除する'),
-              onTap: () => showAppSnackBar(context, '問題集の削除'),
+              onTap: () {
+                showAlertDialog(
+                    context: context,
+                    title: '問題集野削除',
+                    content: '問題集: ${workbook.title} を削除してもよろしいですか？',
+                    positiveButtonText: '削除する',
+                    onPositive: () {
+                      context.router.pop();
+                      ref
+                          .read(workbooksProvider(workbook.folderId).notifier)
+                          .deleteWorkbook(workbook);
+                      showAppSnackBar(context, '問題集をゴミ箱に移動しました');
+                    });
+              },
             ),
             const SizedBox(height: 32),
           ],
