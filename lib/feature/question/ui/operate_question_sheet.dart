@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
-import 'package:test_maker_native_app/state/questions_state.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/ui/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/ui/widget/app_modal_bottom_sheet.dart';
 import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
