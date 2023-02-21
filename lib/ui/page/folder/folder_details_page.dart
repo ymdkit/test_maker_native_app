@@ -6,6 +6,8 @@ import 'package:test_maker_native_app/state/folder_state.dart';
 import 'package:test_maker_native_app/state/workbooks_state.dart';
 import 'package:test_maker_native_app/ui/page/workbook/operate_workbook_sheet.dart';
 import 'package:test_maker_native_app/ui/page/workbook/workbook_list_item.dart';
+import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
+import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
 
 class FolderDetailsPage extends HookConsumerWidget {
@@ -18,37 +20,40 @@ class FolderDetailsPage extends HookConsumerWidget {
     final folder = ref.watch(folderProvider(folderId));
     final workbooks = ref.watch(workbooksProvider(folderId));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(folder.title),
-        actions: [
-          IconButton(
-            onPressed: () => context.router.push(
-              EditFolderRoute(folder: folder),
-            ),
-            icon: const Icon(Icons.edit),
-          ),
-        ],
-      ),
-      body: workbooks.isEmpty
-          ? AppEmptyContent.workbook(
-              onPressedFallbackButton: () => context.router.push(
-                CreateWorkbookRoute(folder: folder),
+    return AppAdWrapper(
+      adUnitId: AppAdUnitId.folderDetailsBanner,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(folder.title),
+          actions: [
+            IconButton(
+              onPressed: () => context.router.push(
+                EditFolderRoute(folder: folder),
               ),
-            )
-          : ListView.builder(
-              itemCount: workbooks.length,
-              itemBuilder: (context, index) => WorkbookListItem(
-                workbook: workbooks[index],
-                onTap: (workbook) async =>
-                    showOperateWorkbookSheet(context, workbook),
-              ),
+              icon: const Icon(Icons.edit),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.router.push(
-          CreateWorkbookRoute(folder: folder),
+          ],
         ),
-        child: const Icon(Icons.add),
+        body: workbooks.isEmpty
+            ? AppEmptyContent.workbook(
+                onPressedFallbackButton: () => context.router.push(
+                  CreateWorkbookRoute(folder: folder),
+                ),
+              )
+            : ListView.builder(
+                itemCount: workbooks.length,
+                itemBuilder: (context, index) => WorkbookListItem(
+                  workbook: workbooks[index],
+                  onTap: (workbook) async =>
+                      showOperateWorkbookSheet(context, workbook),
+                ),
+              ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.router.push(
+            CreateWorkbookRoute(folder: folder),
+          ),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
