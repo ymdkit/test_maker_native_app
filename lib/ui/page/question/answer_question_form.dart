@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/enum/question_type.dart';
 import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
+import 'package:test_maker_native_app/ui/page/workbook/answer_effect_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_text_form_field.dart';
 import 'package:test_maker_native_app/ui/widget/separated_flex.dart';
 import 'package:test_maker_native_app/usecase/check_is_correct_use_case.dart';
@@ -111,7 +111,7 @@ class AnswerQuestionForm extends HookConsumerWidget {
           question: question,
           attemptAnswers: answers,
         );
-    showAppSnackBar(context, isCorrect ? '正解' : '不正解');
+    ref.read(answerEffectStateProvider.notifier).state = isCorrect;
     onAnswered();
   }
 }

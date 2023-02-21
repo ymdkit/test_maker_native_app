@@ -6,6 +6,7 @@ import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/state/answering_questions_state.dart';
 import 'package:test_maker_native_app/state/workbook_state.dart';
 import 'package:test_maker_native_app/ui/page/question/answer_question_form.dart';
+import 'package:test_maker_native_app/ui/page/workbook/answer_effect_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/ui/widget/app_alert_dialog.dart';
@@ -74,26 +75,35 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                       ],
                     ),
                   )
-                : isLoading.value
-                    ? AnswerQuestionForm(
-                        question: questions[index.value],
-                        onAnswered: () async {
-                          if (index.value < questions.length - 1) {
-                            //NOTE: AnswerQuestionForm を表示したままだと前問解答時の状態が残るため、
-                            //一旦 AnswerQuestionForm を破棄してから再表示する
-                            isLoading.value = false;
-                            await Future<void>.delayed(
-                                const Duration(milliseconds: 10));
-                            isLoading.value = true;
-                            index.value++;
-                          } else {
-                            await context.router.push(
-                              AnswerWorkbookResultRoute(workbook: workbook),
-                            );
-                          }
-                        },
-                      )
-                    : const SizedBox.expand(),
+                : Stack(
+                    children: [
+                      if (isLoading.value)
+                        AnswerQuestionForm(
+                          question: questions[index.value],
+                          onAnswered: () async {
+                            if (index.value < questions.length - 1) {
+                              //NOTE: AnswerQuestionForm を表示したままだと前問解答時の状態が残るため、
+                              //一旦 AnswerQuestionForm を破棄してから再表示する
+                              isLoading.value = false;
+                              await Future<void>.delayed(
+                                  const Duration(milliseconds: 10));
+                              isLoading.value = true;
+                              index.value++;
+                            } else {
+                              await context.router.push(
+                                AnswerWorkbookResultRoute(workbook: workbook),
+                              );
+                            }
+                          },
+                        )
+                      else
+                        const SizedBox.expand(),
+                      const Align(
+                        alignment: Alignment.topCenter,
+                        child: AnswerEffectWidget(),
+                      ),
+                    ],
+                  ),
           ),
         ),
       ),
