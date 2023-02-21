@@ -1,11 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
+import 'package:test_maker_native_app/state/answering_questions_state.dart';
+import 'package:test_maker_native_app/ui/page/question/question_list_item.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
 
-class AnswerWorkbookResultPage extends StatelessWidget {
+class AnswerWorkbookResultPage extends HookConsumerWidget {
   const AnswerWorkbookResultPage({
     super.key,
     required this.workbook,
@@ -14,7 +18,11 @@ class AnswerWorkbookResultPage extends StatelessWidget {
   final Workbook workbook;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final answeringQuestions = ref.watch(
+      answeringQuestionsProvider(workbook.workbookId),
+    );
+
     return AppAdWrapper(
       adUnitId: AppAdUnitId.answerResultWorkbookBanner,
       child: Scaffold(
@@ -22,18 +30,47 @@ class AnswerWorkbookResultPage extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Text(workbook.title),
         ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: ElevatedButton(
-              onPressed: () {
-                context.router.replaceAll(
-                  [const RootRoute()],
-                );
-              },
-              child: const Text('ホームに戻る'),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  final question = answeringQuestions[index];
+                  return QuestionListItem(
+                    question: question,
+                    //TODO: 問題編集への動線を作る
+                    onTap: (question) =>
+                        showAppSnackBar(context, question.problem),
+                  );
+                },
+                itemCount: answeringQuestions.length,
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      context.router.replaceAll(
+                        [const RootRoute()],
+                      );
+                    },
+                    child: const Text('もう一度解き直す'),
+                  ),
+                  const SizedBox(height: 8),
+                  OutlinedButton(
+                    onPressed: () {
+                      context.router.replaceAll(
+                        [const RootRoute()],
+                      );
+                    },
+                    child: const Text('ホームに戻る'),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
