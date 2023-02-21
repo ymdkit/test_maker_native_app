@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
-import 'package:test_maker_native_app/ui/widget/app_dropdown_button_form_field.dart';
+import 'package:test_maker_native_app/widget/app_dropdown_button_form_field.dart';
 
 class AppFolderDropdownButtonFormField extends StatelessWidget {
   const AppFolderDropdownButtonFormField({

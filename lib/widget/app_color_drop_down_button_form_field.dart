@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_maker_native_app/model/enum/color_theme.dart';
-import 'package:test_maker_native_app/ui/widget/app_dropdown_button_form_field.dart';
+import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/widget/app_dropdown_button_form_field.dart';
 
 class AppColorDropdownButtonFormField extends StatelessWidget {
   const AppColorDropdownButtonFormField({

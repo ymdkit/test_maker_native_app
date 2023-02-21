@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:test_maker_native_app/ui/widget/pick_image_sheet.dart';
+import 'package:test_maker_native_app/widget/pick_image_sheet.dart';
 
 class AppPickImageButton extends StatelessWidget {
   const AppPickImageButton({

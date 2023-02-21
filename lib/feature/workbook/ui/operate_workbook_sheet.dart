@@ -5,11 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_setting_sheet.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
-import 'package:test_maker_native_app/model/workbook.dart';
+import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
-import 'package:test_maker_native_app/ui/widget/app_alert_dialog.dart';
-import 'package:test_maker_native_app/ui/widget/app_modal_bottom_sheet.dart';
-import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
+import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
+import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
+import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 Future<T?> showOperateWorkbookSheet<T>(
   BuildContext context,

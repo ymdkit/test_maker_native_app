@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_maker_native_app/model/enum/color_theme.dart';
+import 'package:test_maker_native_app/constants/color_theme.dart';
 
 extension ThemeDataExt on ThemeData {
   ThemeData copyWithSharedTheme(AppThemeColor appThemeColor) => copyWith(

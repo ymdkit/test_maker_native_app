@@ -2,13 +2,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/model/enum/question_type.dart';
-import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/ui/widget/app_dropdown_button_form_field.dart';
-import 'package:test_maker_native_app/ui/widget/app_pick_image_button.dart';
-import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
-import 'package:test_maker_native_app/ui/widget/app_snack_bar.dart';
-import 'package:test_maker_native_app/ui/widget/app_text_form_field.dart';
+import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/question/model/question_type.dart';
+import 'package:test_maker_native_app/widget/app_dropdown_button_form_field.dart';
+import 'package:test_maker_native_app/widget/app_pick_image_button.dart';
+import 'package:test_maker_native_app/widget/app_section_title.dart';
+import 'package:test_maker_native_app/widget/app_snack_bar.dart';
+import 'package:test_maker_native_app/widget/app_text_form_field.dart';
 
 class EditQuestionForm extends HookConsumerWidget {
   const EditQuestionForm({

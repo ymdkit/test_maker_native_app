@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/model/enum/question_type.dart';
-import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/repository/question_repository.dart';
+import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/question/model/question_type.dart';
+import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 
 final questionsProvider = StateNotifierProvider.family<QuestionsStateNotifier,
     List<Question>, String>(

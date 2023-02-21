@@ -6,9 +6,9 @@ import 'package:test_maker_native_app/feature/question/ui/operate_question_sheet
 import 'package:test_maker_native_app/feature/question/ui/question_list_item.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
-import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
+import 'package:test_maker_native_app/widget/app_ad_widget.dart';
+import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/widget/app_empty_content.dart';
 
 class WorkbookDetailsPage extends HookConsumerWidget {
   const WorkbookDetailsPage({

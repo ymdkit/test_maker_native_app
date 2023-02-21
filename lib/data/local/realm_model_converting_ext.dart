@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
-import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/model/workbook.dart';
+import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 
 extension RealmQuestionConverting on RealmQuestion {
   static RealmQuestion fromQuestion(Question question) {

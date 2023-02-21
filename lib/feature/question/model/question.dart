@@ -1,7 +1,7 @@
 import 'package:dartx/dartx.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:test_maker_native_app/model/enum/answer_status.dart';
-import 'package:test_maker_native_app/model/enum/question_type.dart';
+import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
+import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 
 part 'question.freezed.dart';
 

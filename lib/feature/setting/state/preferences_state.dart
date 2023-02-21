@@ -2,9 +2,9 @@ import 'package:dartx/dartx.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:test_maker_native_app/model/enum/color_theme.dart';
-import 'package:test_maker_native_app/model/enum/question_condition.dart';
-import 'package:test_maker_native_app/ui/utils/shared_preference.dart';
+import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/feature/answer/model/question_condition.dart';
+import 'package:test_maker_native_app/feature/setting/utils/shared_preference.dart';
 
 part 'preferences_state.freezed.dart';
 

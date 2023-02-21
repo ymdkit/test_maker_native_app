@@ -4,9 +4,9 @@ import 'package:realm/realm.dart';
 import 'package:test_maker_native_app/data/local/realm.dart';
 import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
-import 'package:test_maker_native_app/model/enum/answer_status.dart';
-import 'package:test_maker_native_app/model/enum/question_type.dart';
-import 'package:test_maker_native_app/model/question.dart';
+import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
+import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 
 final questionRepositoryProvider = Provider<QuestionRepository>(
   (ref) => QuestionRepository(

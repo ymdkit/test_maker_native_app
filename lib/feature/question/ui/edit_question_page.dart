@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/question/ui/edit_question_form.dart';
-import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/widget/app_ad_widget.dart';
+import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 
 class EditQuestionPage extends HookConsumerWidget {
   const EditQuestionPage({

@@ -4,8 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:realm/realm.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
-import 'package:test_maker_native_app/model/enum/answer_status.dart';
-import 'package:test_maker_native_app/model/enum/color_theme.dart';
+import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
+import 'package:test_maker_native_app/constants/color_theme.dart';
 
 final realmProvider = Provider(
   (ref) => Realm(

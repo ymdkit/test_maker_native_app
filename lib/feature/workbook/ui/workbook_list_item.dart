@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_maker_native_app/model/workbook.dart';
+import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 
 class WorkbookListItem extends StatelessWidget {
   const WorkbookListItem({

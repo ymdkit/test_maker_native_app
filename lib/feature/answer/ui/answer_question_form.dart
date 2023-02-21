@@ -6,10 +6,10 @@ import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state
 import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
 import 'package:test_maker_native_app/feature/answer/usecase/check_is_correct_use_case.dart';
-import 'package:test_maker_native_app/model/enum/question_type.dart';
-import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/ui/widget/app_text_form_field.dart';
-import 'package:test_maker_native_app/ui/widget/separated_flex.dart';
+import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/question/model/question_type.dart';
+import 'package:test_maker_native_app/widget/app_text_form_field.dart';
+import 'package:test_maker_native_app/widget/separated_flex.dart';
 
 class AnswerQuestionForm extends HookConsumerWidget {
   const AnswerQuestionForm({

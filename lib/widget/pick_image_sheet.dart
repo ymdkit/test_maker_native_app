@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:test_maker_native_app/ui/widget/app_alert_dialog.dart';
-import 'package:test_maker_native_app/ui/widget/app_modal_bottom_sheet.dart';
+import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
+import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
 
 Future<T?> showPickImageSheet<T>({
   required BuildContext context,

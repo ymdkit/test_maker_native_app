@@ -8,14 +8,14 @@ import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dar
 import 'package:test_maker_native_app/feature/answer/ui/answer_explanation_section.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_question_form.dart';
+import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
-import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
-import 'package:test_maker_native_app/ui/widget/app_alert_dialog.dart';
-import 'package:test_maker_native_app/ui/widget/app_empty_content.dart';
-import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
+import 'package:test_maker_native_app/widget/app_ad_widget.dart';
+import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
+import 'package:test_maker_native_app/widget/app_empty_content.dart';
+import 'package:test_maker_native_app/widget/app_section_title.dart';
 
 class AnswerWorkbookPage extends HookConsumerWidget {
   const AnswerWorkbookPage({

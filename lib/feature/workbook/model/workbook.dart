@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:test_maker_native_app/model/enum/color_theme.dart';
+import 'package:test_maker_native_app/constants/color_theme.dart';
 
 part 'workbook.freezed.dart';
 

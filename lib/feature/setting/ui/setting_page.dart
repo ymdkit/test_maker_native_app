@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/web_url.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
-import 'package:test_maker_native_app/model/enum/question_condition.dart';
+import 'package:test_maker_native_app/feature/answer/model/question_condition.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
-import 'package:test_maker_native_app/ui/utils/package_information.dart';
-import 'package:test_maker_native_app/ui/utils/url_launcher.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
-import 'package:test_maker_native_app/ui/widget/app_color_picker_sheet.dart';
-import 'package:test_maker_native_app/ui/widget/app_picker_sheet.dart';
-import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
+import 'package:test_maker_native_app/utils/package_information.dart';
+import 'package:test_maker_native_app/utils/url_launcher.dart';
+import 'package:test_maker_native_app/widget/app_ad_widget.dart';
+import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/widget/app_color_picker_sheet.dart';
+import 'package:test_maker_native_app/widget/app_picker_sheet.dart';
+import 'package:test_maker_native_app/widget/app_section_title.dart';
 
 class SettingPage extends HookConsumerWidget {
   const SettingPage({super.key});

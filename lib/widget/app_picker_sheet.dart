@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:test_maker_native_app/ui/widget/app_modal_bottom_sheet.dart';
+import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
 
 Future<T?> showAppPickerSheet<T>({
   required BuildContext context,

@@ -1,10 +1,10 @@
 import 'package:dartx/dartx.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
-import 'package:test_maker_native_app/model/enum/answer_status.dart';
-import 'package:test_maker_native_app/model/enum/question_condition.dart';
-import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/repository/question_repository.dart';
+import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
+import 'package:test_maker_native_app/feature/answer/model/question_condition.dart';
+import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 
 final answeringQuestionsProvider = StateNotifierProvider.family
     .autoDispose<AnsweringQuestionsStateNotifier, List<Question>, String>(

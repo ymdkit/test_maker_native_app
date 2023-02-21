@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
-import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
+import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/widget/app_section_title.dart';
 
 class AnswerExplanationSection extends StatelessWidget {
   const AnswerExplanationSection({

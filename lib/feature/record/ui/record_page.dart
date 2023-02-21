@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
-import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/widget/app_ad_widget.dart';
+import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 
 class RecordPage extends StatelessWidget {
   const RecordPage({super.key});

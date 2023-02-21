@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:test_maker_native_app/ui/widget/app_section_title.dart';
+import 'package:test_maker_native_app/widget/app_section_title.dart';
 
 class AppSliverSection extends StatelessWidget {
   const AppSliverSection({

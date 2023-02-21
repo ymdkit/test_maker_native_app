@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/setting/ui/setting_page.dart';
-import 'package:test_maker_native_app/ui/widget/app_modal_bottom_sheet.dart';
+import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
 
 Future<T?> showAnswerWorkbookSettingSheet<T>({
   required BuildContext context,
