@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_maker_native_app/model/folder.dart';
+import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 
 class FolderListItem extends StatelessWidget {
   const FolderListItem({

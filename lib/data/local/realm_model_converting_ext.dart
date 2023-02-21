@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
-import 'package:test_maker_native_app/model/folder.dart';
+import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/model/workbook.dart';
 
