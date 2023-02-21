@@ -2,15 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
+import 'package:test_maker_native_app/feature/answer/state/answering_questions_state.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_question_form.dart';
 import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
-import 'package:test_maker_native_app/state/answer_workbook_state.dart';
-import 'package:test_maker_native_app/state/answering_questions_state.dart';
 import 'package:test_maker_native_app/state/workbook_state.dart';
-import 'package:test_maker_native_app/ui/page/question/answer_explanation_section.dart';
-import 'package:test_maker_native_app/ui/page/question/answer_problem_section.dart';
-import 'package:test_maker_native_app/ui/page/question/answer_question_form.dart';
-import 'package:test_maker_native_app/ui/page/workbook/answer_effect_widget.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_explanation_section.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/ui/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/ui/widget/app_alert_dialog.dart';
@@ -39,8 +39,6 @@ class AnswerWorkbookPage extends HookConsumerWidget {
     );
     final questions = ref.watch(answeringQuestionsProvider(workbookId));
     final state = ref.watch(answerWorkbookStateProvider(workbookId));
-    final notifier =
-        ref.watch(answerWorkbookStateProvider(workbookId).notifier);
 
     ref.listen(answerWorkbookStateProvider(workbookId), (_, next) {
       if (next == const AnswerWorkbookState.finished()) {

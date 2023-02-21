@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/state/answering_questions_state.dart';
+import 'package:test_maker_native_app/feature/answer/state/answering_questions_state.dart';
 import 'package:test_maker_native_app/state/preferences_state.dart';
 
 part 'answer_workbook_state.freezed.dart';
