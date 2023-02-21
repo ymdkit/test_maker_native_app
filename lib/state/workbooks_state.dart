@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
 import 'package:test_maker_native_app/model/enum/color_theme.dart';
 import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/model/workbook.dart';
 import 'package:test_maker_native_app/repository/workbook_repository.dart';
-import 'package:test_maker_native_app/state/deleted_workbooks_state.dart';
 import 'package:test_maker_native_app/state/questions_state.dart';
 
 final workbooksProvider = StateNotifierProvider.autoDispose

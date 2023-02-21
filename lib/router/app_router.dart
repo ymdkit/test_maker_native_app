@@ -9,7 +9,7 @@ import 'package:test_maker_native_app/feature/folder/ui/edit_folder_page.dart';
 import 'package:test_maker_native_app/feature/folder/ui/folder_details_page.dart';
 import 'package:test_maker_native_app/feature/setting/ui/debug_page.dart';
 import 'package:test_maker_native_app/feature/setting/ui/setting_page.dart';
-import 'package:test_maker_native_app/feature/setting/ui/trash_page.dart';
+import 'package:test_maker_native_app/feature/trash/ui/trash_page.dart';
 import 'package:test_maker_native_app/main.dart';
 import 'package:test_maker_native_app/model/question.dart';
 import 'package:test_maker_native_app/model/workbook.dart';
