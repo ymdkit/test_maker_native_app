@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/state/preferences_state.dart';
+import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 
 class AnswerEffectWidget extends HookConsumerWidget {
   const AnswerEffectWidget({

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/model/question.dart';
-import 'package:test_maker_native_app/state/preferences_state.dart';
 
 final checkIsCorrectUseCaseProvider = Provider.autoDispose(
   (ref) => CheckIsCorrectUseCase(
@@ -28,7 +28,6 @@ class CheckIsCorrectUseCase {
     required Question question,
     required List<String> attemptAnswers,
   }) {
-
     final originalAnswers =
         isSwapProblemAndAnswer ? [question.problem] : question.answers;
 
