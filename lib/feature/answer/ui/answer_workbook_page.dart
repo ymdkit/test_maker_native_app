@@ -221,8 +221,11 @@ class _AnswerSelfScoreContent extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier =
+    final uiStateNotifier =
         ref.watch(answerWorkbookStateProvider(question.workbookId).notifier);
+    final questionsNotifier = ref.watch(
+      answeringQuestionsProvider(question.workbookId).notifier,
+    );
 
     return Column(
       children: [
@@ -252,18 +255,23 @@ class _AnswerSelfScoreContent extends HookConsumerWidget {
         Column(
           children: [
             const Divider(height: 1),
-            //TODO: 解答状況の永続化
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () => notifier.forward(),
+                    onPressed: () {
+                      questionsNotifier.updateAnswerStatus(question, true);
+                      uiStateNotifier.forward();
+                    },
                     child: const Text('正解'),
                   ),
                   const SizedBox(height: 16),
                   OutlinedButton(
-                    onPressed: () => notifier.forward(),
+                    onPressed: () {
+                      questionsNotifier.updateAnswerStatus(question, false);
+                      uiStateNotifier.forward();
+                    },
                     child: const Text('不正解'),
                   ),
                 ],

@@ -67,4 +67,12 @@ class AnsweringQuestionsStateNotifier extends StateNotifier<List<Question>> {
     }
     state = questions.take(preferences.numberOfQuestions).toList();
   }
+
+  void updateAnswerStatus(Question question, bool isCorrect) {
+    questionRepository.updateQuestion(
+      question.copyWith(
+        answerStatus: isCorrect ? AnswerStatus.correct : AnswerStatus.wrong,
+      ),
+    );
+  }
 }
