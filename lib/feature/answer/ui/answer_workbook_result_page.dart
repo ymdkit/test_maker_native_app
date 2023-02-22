@@ -46,35 +46,42 @@ class AnswerWorkbookResultPage extends HookConsumerWidget {
                 itemCount: answeringQuestions.length,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      context.router.replaceAll(
-                        [
-                          const RootRoute(),
-                          AnswerWorkbookRoute(
-                            folderId: workbook.folderId,
-                            workbookId: workbook.workbookId,
-                          )
-                        ],
-                      );
-                    },
-                    child: const Text('もう一度解き直す'),
+            Column(
+              children: [
+                const Divider(),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          context.router.replaceAll(
+                            [
+                              const RootRoute(),
+                              AnswerWorkbookRoute(
+                                folderId: workbook.folderId,
+                                workbookId: workbook.workbookId,
+                              )
+                            ],
+                          );
+                        },
+                        child: const Text('もう一度解き直す'),
+                      ),
+                      const SizedBox(height: 8),
+                      OutlinedButton(
+                        onPressed: () {
+                          context.router.replaceAll(
+                            [const RootRoute()],
+                          );
+                        },
+                        child: const Text('ホームに戻る'),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  OutlinedButton(
-                    onPressed: () {
-                      context.router.replaceAll(
-                        [const RootRoute()],
-                      );
-                    },
-                    child: const Text('ホームに戻る'),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
