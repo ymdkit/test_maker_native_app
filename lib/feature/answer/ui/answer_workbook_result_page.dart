@@ -47,14 +47,19 @@ class AnswerWorkbookResultPage extends HookConsumerWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      //TODO: 問題を解き直す
                       context.router.replaceAll(
-                        [const RootRoute()],
+                        [
+                          const RootRoute(),
+                          AnswerWorkbookRoute(
+                            folderId: workbook.folderId,
+                            workbookId: workbook.workbookId,
+                          )
+                        ],
                       );
                     },
                     child: const Text('もう一度解き直す'),

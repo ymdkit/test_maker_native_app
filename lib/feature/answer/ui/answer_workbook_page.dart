@@ -9,6 +9,7 @@ import 'package:test_maker_native_app/feature/answer/ui/answer_explanation_secti
 import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_question_form.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
@@ -42,73 +43,85 @@ class AnswerWorkbookPage extends HookConsumerWidget {
 
     ref.listen(answerWorkbookStateProvider(workbookId), (_, next) {
       if (next == const AnswerWorkbookState.finished()) {
-        context.router.push(
+        context.router.replace(
           AnswerWorkbookResultRoute(workbook: workbook),
         );
       }
     });
 
-    return Focus(
-      focusNode: screenFocusNode,
-      child: GestureDetector(
-        onTap: screenFocusNode.requestFocus,
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: Text(workbook.title),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  showAlertDialog(
-                    context: context,
-                    title: '解答の終了',
-                    content: '解答を終了しますか？',
-                    onPositive: () => context.router.push(
-                      AnswerWorkbookResultRoute(workbook: workbook),
-                    ),
-                  );
-                },
-                child: const Text('終了'),
-              ),
-            ],
-          ),
-          body: AppAdWrapper(
-            adUnitId: AppAdUnitId.answerWorkbookBanner,
-            child: questions.isEmpty
-                ? AppEmptyContent.question(
-                    onPressedFallbackButton: () => context.router.replaceAll(
-                      [
-                        const HomeRoute(),
-                        WorkbookDetailsRoute(
-                          folderId: folderId,
-                          workbookId: workbookId,
+    return WillPopScope(
+      onWillPop: () async {
+        await _showConfirmFinishAlertDialog(context, workbook);
+        return false;
+      },
+      child: Focus(
+        focusNode: screenFocusNode,
+        child: GestureDetector(
+          onTap: screenFocusNode.requestFocus,
+          child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              title: Text(workbook.title),
+              actions: [
+                TextButton(
+                  onPressed: () =>
+                      _showConfirmFinishAlertDialog(context, workbook),
+                  child: const Text('終了'),
+                ),
+              ],
+            ),
+            body: AppAdWrapper(
+              adUnitId: AppAdUnitId.answerWorkbookBanner,
+              child: questions.isEmpty
+                  ? AppEmptyContent.question(
+                      onPressedFallbackButton: () => context.router.replaceAll(
+                        [
+                          const HomeRoute(),
+                          WorkbookDetailsRoute(
+                            folderId: folderId,
+                            workbookId: workbookId,
+                          ),
+                          CreateQuestionRoute(workbookId: workbookId),
+                        ],
+                      ),
+                    )
+                  : Stack(
+                      children: [
+                        state.maybeWhen(
+                          answering: (question) => AnswerQuestionForm(
+                            question: question,
+                          ),
+                          reviewing: (question) =>
+                              _AnswerReviewContent(question: question),
+                          confirming: (question) =>
+                              _AnswerConfirmSection(question: question),
+                          selfScoring: (question) =>
+                              _AnswerSelfScoreContent(question: question),
+                          orElse: () => const SizedBox.shrink(),
                         ),
-                        CreateQuestionRoute(workbookId: workbookId),
+                        const Align(
+                          alignment: Alignment.topCenter,
+                          child: AnswerEffectWidget(),
+                        ),
                       ],
                     ),
-                  )
-                : Stack(
-                    children: [
-                      state.maybeWhen(
-                        answering: (question) => AnswerQuestionForm(
-                          question: question,
-                        ),
-                        reviewing: (question) =>
-                            _AnswerReviewContent(question: question),
-                        confirming: (question) =>
-                            _AnswerConfirmSection(question: question),
-                        selfScoring: (question) =>
-                            _AnswerSelfScoreContent(question: question),
-                        orElse: () => const SizedBox.shrink(),
-                      ),
-                      const Align(
-                        alignment: Alignment.topCenter,
-                        child: AnswerEffectWidget(),
-                      ),
-                    ],
-                  ),
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> _showConfirmFinishAlertDialog(
+    BuildContext context,
+    Workbook workbook,
+  ) {
+    return showAlertDialog(
+      context: context,
+      title: '解答の終了',
+      content: '解答を終了しますか？',
+      onPositive: () => context.router.replace(
+        AnswerWorkbookResultRoute(workbook: workbook),
       ),
     );
   }
