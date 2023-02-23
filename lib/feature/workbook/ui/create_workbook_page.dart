@@ -52,7 +52,7 @@ class CreateWorkbookPage extends HookConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const AppSectionTitle(title: 'アプリで作成'),
+                        const AppSectionTitle(title: 'アプリから作成'),
                         AppTextFormField(
                           autofocus: true,
                           controller: workbookTitleController,
