@@ -25,28 +25,6 @@ class SearchWorkbookRepository {
 
       if (response.statusCode == 200) {
         final body = json.decode(response.body) as List<dynamic>;
-        // final body = [
-        //   {
-        //     'id': 186255,
-        //     'name': 'No.36',
-        //     'color': 0,
-        //     'document_id': 'tC2mdC0NLpH55J2NfUOD',
-        //     'size': 9,
-        //     'comment': '',
-        //     'user_id': 'XHwWxb8TqmdI45Oh5o6xGwTaYlf2',
-        //     'user_name': '加藤朱夏',
-        //     'created_at': {
-        //       'secs_since_epoch': 1677158921,
-        //       'nanos_since_epoch': 0
-        //     },
-        //     'updated_at': {
-        //       'secs_since_epoch': 1677158921,
-        //       'nanos_since_epoch': 0
-        //     },
-        //     'download_count': 0,
-        //     'answer_count': 0,
-        //   }
-        // ];
         final workbooks = body
             .map((e) =>
                 SearchWorkbookResponse.fromJson(e as Map<String, dynamic>))
@@ -57,7 +35,6 @@ class SearchWorkbookRepository {
         return const Left(AppException(message: '問題集の取得に失敗しました'));
       }
     } catch (e) {
-      print(e);
       return Left(AppException.fromRawException(e: e));
     }
   }
