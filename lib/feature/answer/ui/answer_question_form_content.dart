@@ -11,8 +11,8 @@ import 'package:test_maker_native_app/feature/question/model/question_type.dart'
 import 'package:test_maker_native_app/widget/app_text_form_field.dart';
 import 'package:test_maker_native_app/widget/separated_flex.dart';
 
-class AnswerQuestionForm extends HookConsumerWidget {
-  const AnswerQuestionForm({
+class AnswerQuestionFormContent extends HookConsumerWidget {
+  const AnswerQuestionFormContent({
     super.key,
     required this.question,
   });

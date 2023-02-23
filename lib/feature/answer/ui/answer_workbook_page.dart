@@ -4,11 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dart';
-import 'package:test_maker_native_app/feature/answer/ui/answer_explanation_section.dart';
-import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
-import 'package:test_maker_native_app/feature/answer/ui/answer_question_form.dart';
-import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_result_page.dart';
-import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_question_form_content.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_question_review_content.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_qustion_confirm_content.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_result_content.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_self_score_content.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -16,7 +16,6 @@ import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
-import 'package:test_maker_native_app/widget/app_section_title.dart';
 
 class AnswerWorkbookPage extends HookConsumerWidget {
   const AnswerWorkbookPage({
@@ -86,15 +85,14 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                         ],
                       ),
                     ),
-                    answering: (question) => AnswerQuestionForm(
-                      question: question,
-                    ),
+                    answering: (question) =>
+                        AnswerQuestionFormContent(question: question),
                     reviewing: (question) =>
-                        _AnswerReviewContent(question: question),
+                        AnswerQuestionReviewContent(question: question),
                     confirming: (question) =>
-                        _AnswerConfirmSection(question: question),
+                        AnswerQuestionConfirmContent(question: question),
                     selfScoring: (question) =>
-                        _AnswerSelfScoreContent(question: question),
+                        AnswerQuestionSelfScoreContent(question: question),
                     finished: (questions) => AnswerWorkbookResultContent(
                         workbook: workbook, answeringQuestions: questions),
                     orElse: () => const SizedBox.shrink(),
@@ -122,173 +120,6 @@ class AnswerWorkbookPage extends HookConsumerWidget {
       title: '解答の中断',
       content: '現在の解答を中断し、ホーム画面に戻りますか？',
       onPositive: () => context.router.popUntilRoot(),
-    );
-  }
-}
-
-class _AnswerConfirmSection extends HookConsumerWidget {
-  const _AnswerConfirmSection({
-    required this.question,
-  });
-
-  final Question question;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final notifier =
-        ref.watch(answerWorkbookStateProvider(question.workbookId).notifier);
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AnswerProblemSection(
-                    question: question,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Column(
-          children: [
-            const Divider(height: 1),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: ElevatedButton(
-                onPressed: () => notifier.selfScore(),
-                child: const Text('OK'),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _AnswerReviewContent extends HookConsumerWidget {
-  const _AnswerReviewContent({
-    required this.question,
-  });
-
-  final Question question;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final notifier =
-        ref.watch(answerWorkbookStateProvider(question.workbookId).notifier);
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AnswerProblemSection(
-                    question: question,
-                  ),
-                  const AppSectionTitle(title: '解答'),
-                  Text(
-                    question.answers.join(' '),
-                  ),
-                  const SizedBox(height: 16),
-                  AnswerExplanationSection(
-                    question: question,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Column(
-          children: [
-            const Divider(height: 1),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: ElevatedButton(
-                onPressed: () => notifier.forward(),
-                child: const Text('OK'),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _AnswerSelfScoreContent extends HookConsumerWidget {
-  const _AnswerSelfScoreContent({
-    required this.question,
-  });
-
-  final Question question;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final uiStateNotifier =
-        ref.watch(answerWorkbookStateProvider(question.workbookId).notifier);
-
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AnswerProblemSection(
-                    question: question,
-                  ),
-                  const AppSectionTitle(title: '解答'),
-                  Text(
-                    question.answers.join(' '),
-                  ),
-                  const SizedBox(height: 16),
-                  AnswerExplanationSection(
-                    question: question,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Column(
-          children: [
-            const Divider(height: 1),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      uiStateNotifier.updateAnswerStatus(question, true);
-                      await uiStateNotifier.forward();
-                    },
-                    child: const Text('正解'),
-                  ),
-                  const SizedBox(height: 16),
-                  OutlinedButton(
-                    onPressed: () async {
-                      uiStateNotifier.updateAnswerStatus(question, false);
-                      await uiStateNotifier.forward();
-                    },
-                    child: const Text('不正解'),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }
