@@ -40,24 +40,30 @@ class SearchWorkbookPage extends HookConsumerWidget {
             if (workbooks.isEmpty) {
               return const AppEmptyContent.search();
             }
-            return CustomScrollView(
-              slivers: [
-                const SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  sliver: SliverToBoxAdapter(
-                    child: AppSectionTitle(title: '検索結果'),
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => WorkbookListItem(
-                      workbook: workbooks[index],
-                      onTap: (workbook) {},
+            return RefreshIndicator(
+              onRefresh: () async {
+                ref.read(searchWorkbooksQueryProvider.notifier).state =
+                    queryController.text;
+              },
+              child: CustomScrollView(
+                slivers: [
+                  const SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    sliver: SliverToBoxAdapter(
+                      child: AppSectionTitle(title: '検索結果'),
                     ),
-                    childCount: workbooks.length,
                   ),
-                ),
-              ],
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => WorkbookListItem(
+                        workbook: workbooks[index],
+                        onTap: (workbook) {},
+                      ),
+                      childCount: workbooks.length,
+                    ),
+                  ),
+                ],
+              ),
             );
           },
           loading: () => const Center(
