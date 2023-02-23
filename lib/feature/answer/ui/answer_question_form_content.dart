@@ -100,13 +100,13 @@ class AnswerQuestionFormContent extends HookConsumerWidget {
     ref.read(answerEffectStateProvider.notifier).state = isCorrect;
     ref
         .read(answerWorkbookStateProvider(question.workbookId).notifier)
+        .updateAnswerStatus(question, isCorrect);
+    ref
+        .read(answerWorkbookStateProvider(question.workbookId).notifier)
         .onAnswered(
           isCorrect: isCorrect,
           attemptAnswers: attemptAnswers,
         );
-    ref
-        .read(answerWorkbookStateProvider(question.workbookId).notifier)
-        .updateAnswerStatus(question, isCorrect);
   }
 }
 
