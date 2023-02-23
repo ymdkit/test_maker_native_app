@@ -80,14 +80,14 @@ class DebugPage extends HookConsumerWidget {
                 ..addQuestion(
                   workbookId: newWorkbook.workbookId,
                   questionType: QuestionType.complete,
-                  problem: '完答問題の問題文',
+                  problem: '完答問題の問題文（順序チェックあり）',
                   problemImageUrl: null,
                   answers: ['完答問題の答え1', '完答問題の答え2'],
                   wrongChoices: [],
                   explanation: '',
                   explanationImageUrl: null,
                   isAutoGenerateWrongChoices: false,
-                  isCheckAnswerOrder: false,
+                  isCheckAnswerOrder: true,
                 )
                 ..addQuestion(
                   workbookId: newWorkbook.workbookId,
@@ -104,14 +104,14 @@ class DebugPage extends HookConsumerWidget {
                 ..addQuestion(
                   workbookId: newWorkbook.workbookId,
                   questionType: QuestionType.selectComplete,
-                  problem: '選択完答問題の問題文',
+                  problem: '選択完答問題（順序チェックあり）の問題文',
                   problemImageUrl: null,
                   answers: ['選択完答問題の答え1', '選択完答問題の答え2'],
                   wrongChoices: ['選択完答問題の間違い1', '選択完答問題の間違い2'],
                   explanation: '',
                   explanationImageUrl: null,
                   isAutoGenerateWrongChoices: false,
-                  isCheckAnswerOrder: false,
+                  isCheckAnswerOrder: true,
                 );
               showAppSnackBar(context, '問題集を作成しました');
             },
