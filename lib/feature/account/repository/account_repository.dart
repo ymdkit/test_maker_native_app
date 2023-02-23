@@ -39,7 +39,7 @@ class AccountRepository {
     try {
       final googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
-        return const Left(AppException(message: 'user not found'));
+        return const Left(AppException(message: 'ログインに失敗しました'));
       }
 
       final googleAuth = await googleUser.authentication;
@@ -52,23 +52,30 @@ class AccountRepository {
           await FirebaseAuth.instance.signInWithCredential(credential);
       final user = authResult.user;
       if (user == null) {
-        return const Left(AppException(message: 'user not found'));
+        return const Left(AppException(message: 'ログインに失敗しました'));
       }
 
       return Right(user.toAccount());
-    } on FirebaseAuthException catch (e) {
-      return Left(
-        AppException.fromRawException(e: e),
-      );
     } catch (e) {
       return Left(AppException.fromRawException(e: e));
     }
   }
 
   Future<Either<AppException, Account>> signInWithApple() async {
-    //Firebase の Apple 認証を行う
+    final appleProvider = AppleAuthProvider();
 
-    return const Left(AppException(message: 'not implemented'));
+    try {
+      final credential =
+          await FirebaseAuth.instance.signInWithProvider(appleProvider);
+
+      final user = credential.user;
+      if (user == null) {
+        return const Left(AppException(message: 'user not found'));
+      }
+      return Right(user.toAccount());
+    } catch (e) {
+      return Left(AppException.fromRawException(e: e));
+    }
   }
 
   Either<AppException, Account> fetchAccount() {

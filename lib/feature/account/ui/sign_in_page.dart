@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -97,11 +99,26 @@ class SignInPage extends HookConsumerWidget {
                 },
               ),
               const SizedBox(height: 16),
-              SignInButton(
-                Buttons.Apple,
-                padding: const EdgeInsets.all(12),
-                onPressed: () {},
-              ),
+              if (Platform.isIOS)
+                SignInButton(
+                  Buttons.Apple,
+                  padding: const EdgeInsets.all(12),
+                  onPressed: () async {
+                    final result = await ref
+                        .read(accountStateProvider.notifier)
+                        .signInWithProvider(
+                            signInProvider: SignInProvider.apple);
+
+                    result.match(
+                      (l) =>
+                          showAppSnackBar(context, l.rawException.toString()),
+                      (r) {
+                        showAppSnackBar(context, 'ログインに成功しました');
+                        context.router.pop();
+                      },
+                    );
+                  },
+                ),
             ],
           ),
         ),
