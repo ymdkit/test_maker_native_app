@@ -87,18 +87,6 @@ class WorkbookDetailsPage extends HookConsumerWidget {
               )
             : CustomScrollView(
                 slivers: [
-                  const SliverAppBar(
-                    automaticallyImplyLeading: false,
-                    title: Text('問題一覧'),
-                    actions: [
-                      TextButton(
-                        onPressed: null,
-                        child: Text('並び替え'),
-                      ),
-                      SizedBox(width: 8),
-                    ],
-                    floating: true,
-                  ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) => QuestionListItem(
