@@ -22,6 +22,8 @@ mixin _$Workbook {
   AppThemeColor get color => throw _privateConstructorUsedError;
   String? get folderId => throw _privateConstructorUsedError;
   int get questionCount => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WorkbookCopyWith<Workbook> get copyWith =>
@@ -39,7 +41,9 @@ abstract class $WorkbookCopyWith<$Res> {
       int order,
       AppThemeColor color,
       String? folderId,
-      int questionCount});
+      int questionCount,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -61,6 +65,8 @@ class _$WorkbookCopyWithImpl<$Res, $Val extends Workbook>
     Object? color = null,
     Object? folderId = freezed,
     Object? questionCount = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       workbookId: null == workbookId
@@ -87,6 +93,14 @@ class _$WorkbookCopyWithImpl<$Res, $Val extends Workbook>
           ? _value.questionCount
           : questionCount // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -104,7 +118,9 @@ abstract class _$$_WorkbookCopyWith<$Res> implements $WorkbookCopyWith<$Res> {
       int order,
       AppThemeColor color,
       String? folderId,
-      int questionCount});
+      int questionCount,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -124,6 +140,8 @@ class __$$_WorkbookCopyWithImpl<$Res>
     Object? color = null,
     Object? folderId = freezed,
     Object? questionCount = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$_Workbook(
       workbookId: null == workbookId
@@ -150,6 +168,14 @@ class __$$_WorkbookCopyWithImpl<$Res>
           ? _value.questionCount
           : questionCount // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -163,7 +189,9 @@ class _$_Workbook extends _Workbook {
       required this.order,
       required this.color,
       required this.folderId,
-      required this.questionCount})
+      required this.questionCount,
+      required this.createdAt,
+      required this.updatedAt})
       : super._();
 
   @override
@@ -178,10 +206,14 @@ class _$_Workbook extends _Workbook {
   final String? folderId;
   @override
   final int questionCount;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Workbook(workbookId: $workbookId, title: $title, order: $order, color: $color, folderId: $folderId, questionCount: $questionCount)';
+    return 'Workbook(workbookId: $workbookId, title: $title, order: $order, color: $color, folderId: $folderId, questionCount: $questionCount, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -197,12 +229,16 @@ class _$_Workbook extends _Workbook {
             (identical(other.folderId, folderId) ||
                 other.folderId == folderId) &&
             (identical(other.questionCount, questionCount) ||
-                other.questionCount == questionCount));
+                other.questionCount == questionCount) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, workbookId, title, order, color, folderId, questionCount);
+  int get hashCode => Object.hash(runtimeType, workbookId, title, order, color,
+      folderId, questionCount, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -218,7 +254,9 @@ abstract class _Workbook extends Workbook {
       required final int order,
       required final AppThemeColor color,
       required final String? folderId,
-      required final int questionCount}) = _$_Workbook;
+      required final int questionCount,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$_Workbook;
   const _Workbook._() : super._();
 
   @override
@@ -233,6 +271,10 @@ abstract class _Workbook extends Workbook {
   String? get folderId;
   @override
   int get questionCount;
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_WorkbookCopyWith<_$_Workbook> get copyWith =>

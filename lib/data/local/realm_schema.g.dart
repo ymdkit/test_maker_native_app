@@ -216,7 +216,9 @@ class RealmWorkbook extends _RealmWorkbook
     String workbookId,
     String title,
     int order,
-    int color, {
+    int color,
+    DateTime createdAt,
+    DateTime updatedAt, {
     String? folderId,
     bool? isDeleted,
   }) {
@@ -226,6 +228,8 @@ class RealmWorkbook extends _RealmWorkbook
     RealmObjectBase.set(this, 'color', color);
     RealmObjectBase.set(this, 'folderId', folderId);
     RealmObjectBase.set(this, 'isDeleted', isDeleted);
+    RealmObjectBase.set(this, 'createdAt', createdAt);
+    RealmObjectBase.set(this, 'updatedAt', updatedAt);
   }
 
   RealmWorkbook._();
@@ -264,6 +268,20 @@ class RealmWorkbook extends _RealmWorkbook
   set isDeleted(bool? value) => RealmObjectBase.set(this, 'isDeleted', value);
 
   @override
+  DateTime get createdAt =>
+      RealmObjectBase.get<DateTime>(this, 'createdAt') as DateTime;
+  @override
+  set createdAt(DateTime value) =>
+      RealmObjectBase.set(this, 'createdAt', value);
+
+  @override
+  DateTime get updatedAt =>
+      RealmObjectBase.get<DateTime>(this, 'updatedAt') as DateTime;
+  @override
+  set updatedAt(DateTime value) =>
+      RealmObjectBase.set(this, 'updatedAt', value);
+
+  @override
   Stream<RealmObjectChanges<RealmWorkbook>> get changes =>
       RealmObjectBase.getChanges<RealmWorkbook>(this);
 
@@ -281,6 +299,8 @@ class RealmWorkbook extends _RealmWorkbook
       SchemaProperty('color', RealmPropertyType.int),
       SchemaProperty('folderId', RealmPropertyType.string, optional: true),
       SchemaProperty('isDeleted', RealmPropertyType.bool, optional: true),
+      SchemaProperty('createdAt', RealmPropertyType.timestamp),
+      SchemaProperty('updatedAt', RealmPropertyType.timestamp),
     ]);
   }
 }
@@ -291,7 +311,9 @@ class RealmFolder extends _RealmFolder
     String folderId,
     String title,
     int order,
-    int color, {
+    int color,
+    DateTime createdAt,
+    DateTime updatedAt, {
     bool? isDeleted,
   }) {
     RealmObjectBase.set(this, 'folderId', folderId);
@@ -299,6 +321,8 @@ class RealmFolder extends _RealmFolder
     RealmObjectBase.set(this, 'order', order);
     RealmObjectBase.set(this, 'color', color);
     RealmObjectBase.set(this, 'isDeleted', isDeleted);
+    RealmObjectBase.set(this, 'createdAt', createdAt);
+    RealmObjectBase.set(this, 'updatedAt', updatedAt);
   }
 
   RealmFolder._();
@@ -330,6 +354,20 @@ class RealmFolder extends _RealmFolder
   set isDeleted(bool? value) => RealmObjectBase.set(this, 'isDeleted', value);
 
   @override
+  DateTime get createdAt =>
+      RealmObjectBase.get<DateTime>(this, 'createdAt') as DateTime;
+  @override
+  set createdAt(DateTime value) =>
+      RealmObjectBase.set(this, 'createdAt', value);
+
+  @override
+  DateTime get updatedAt =>
+      RealmObjectBase.get<DateTime>(this, 'updatedAt') as DateTime;
+  @override
+  set updatedAt(DateTime value) =>
+      RealmObjectBase.set(this, 'updatedAt', value);
+
+  @override
   Stream<RealmObjectChanges<RealmFolder>> get changes =>
       RealmObjectBase.getChanges<RealmFolder>(this);
 
@@ -346,6 +384,8 @@ class RealmFolder extends _RealmFolder
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('color', RealmPropertyType.int),
       SchemaProperty('isDeleted', RealmPropertyType.bool, optional: true),
+      SchemaProperty('createdAt', RealmPropertyType.timestamp),
+      SchemaProperty('updatedAt', RealmPropertyType.timestamp),
     ]);
   }
 }

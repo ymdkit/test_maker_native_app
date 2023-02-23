@@ -35,6 +35,8 @@ class WorkbookRepository {
       color: color,
       folderId: folderId,
       questionCount: 0,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
 
     localDB.write(() {
@@ -78,7 +80,9 @@ class WorkbookRepository {
   void updateWorkbook(Workbook workbook) {
     localDB.write(() {
       localDB.add<RealmWorkbook>(
-        RealmWorkbookConverting.fromWorkbook(workbook),
+        RealmWorkbookConverting.fromWorkbook(workbook.copyWith(
+          updatedAt: DateTime.now(),
+        )),
         update: true,
       );
     });

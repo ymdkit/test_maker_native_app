@@ -21,6 +21,8 @@ mixin _$Folder {
   int get order => throw _privateConstructorUsedError;
   AppThemeColor get color => throw _privateConstructorUsedError;
   int get workbookCount => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FolderCopyWith<Folder> get copyWith => throw _privateConstructorUsedError;
@@ -36,7 +38,9 @@ abstract class $FolderCopyWith<$Res> {
       String title,
       int order,
       AppThemeColor color,
-      int workbookCount});
+      int workbookCount,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -57,6 +61,8 @@ class _$FolderCopyWithImpl<$Res, $Val extends Folder>
     Object? order = null,
     Object? color = null,
     Object? workbookCount = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       folderId: null == folderId
@@ -79,6 +85,14 @@ class _$FolderCopyWithImpl<$Res, $Val extends Folder>
           ? _value.workbookCount
           : workbookCount // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -94,7 +108,9 @@ abstract class _$$_FolderCopyWith<$Res> implements $FolderCopyWith<$Res> {
       String title,
       int order,
       AppThemeColor color,
-      int workbookCount});
+      int workbookCount,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -112,6 +128,8 @@ class __$$_FolderCopyWithImpl<$Res>
     Object? order = null,
     Object? color = null,
     Object? workbookCount = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$_Folder(
       folderId: null == folderId
@@ -134,6 +152,14 @@ class __$$_FolderCopyWithImpl<$Res>
           ? _value.workbookCount
           : workbookCount // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -146,7 +172,9 @@ class _$_Folder extends _Folder {
       required this.title,
       required this.order,
       required this.color,
-      required this.workbookCount})
+      required this.workbookCount,
+      required this.createdAt,
+      required this.updatedAt})
       : super._();
 
   @override
@@ -159,10 +187,14 @@ class _$_Folder extends _Folder {
   final AppThemeColor color;
   @override
   final int workbookCount;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Folder(folderId: $folderId, title: $title, order: $order, color: $color, workbookCount: $workbookCount)';
+    return 'Folder(folderId: $folderId, title: $title, order: $order, color: $color, workbookCount: $workbookCount, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -176,12 +208,16 @@ class _$_Folder extends _Folder {
             (identical(other.order, order) || other.order == order) &&
             (identical(other.color, color) || other.color == color) &&
             (identical(other.workbookCount, workbookCount) ||
-                other.workbookCount == workbookCount));
+                other.workbookCount == workbookCount) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, folderId, title, order, color, workbookCount);
+  int get hashCode => Object.hash(runtimeType, folderId, title, order, color,
+      workbookCount, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -196,7 +232,9 @@ abstract class _Folder extends Folder {
       required final String title,
       required final int order,
       required final AppThemeColor color,
-      required final int workbookCount}) = _$_Folder;
+      required final int workbookCount,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$_Folder;
   const _Folder._() : super._();
 
   @override
@@ -209,6 +247,10 @@ abstract class _Folder extends Folder {
   AppThemeColor get color;
   @override
   int get workbookCount;
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_FolderCopyWith<_$_Folder> get copyWith =>

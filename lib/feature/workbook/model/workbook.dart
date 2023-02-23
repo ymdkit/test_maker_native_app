@@ -13,14 +13,18 @@ class Workbook with _$Workbook {
     required AppThemeColor color,
     required String? folderId,
     required int questionCount,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _Workbook;
 
-  factory Workbook.empty() => const Workbook(
+  factory Workbook.empty() => Workbook(
         workbookId: '',
         title: '削除済み問題集',
         order: 0,
         color: AppThemeColor.blue,
         folderId: null,
         questionCount: 0,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
 }

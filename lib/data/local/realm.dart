@@ -41,7 +41,9 @@ void _migrateIOSFolders(Migration migration) {
         ..folderId = oldFolder.dynamic.get<String>('id')
         ..title = oldFolder.dynamic.get<String>('category')
         ..order = oldFolder.dynamic.get<int>('order')
-        ..color = oldFolder.dynamic.get<int>('themeColor');
+        ..color = oldFolder.dynamic.get<int>('themeColor')
+        ..createdAt = DateTime.now()
+        ..updatedAt = DateTime.now();
     }
   }
 }
@@ -64,7 +66,9 @@ void _migrateIOSWorkbooks(Migration migration) {
         ..title = oldWorkbook.dynamic.get<String>('title')
         ..order = oldWorkbook.dynamic.get<int>('order')
         ..color = oldWorkbook.dynamic.get<int>('themeColor')
-        ..folderId = folderId;
+        ..folderId = folderId
+        ..createdAt = DateTime.now()
+        ..updatedAt = DateTime.now();
 
       final oldQuestions = oldWorkbook.dynamic
           .getList('questions')
@@ -99,7 +103,9 @@ void _migrateIOSQuestions(
         ..problemImageUrl = oldQuestion.dynamic.get<String>('imagePath')
         ..explanation = oldQuestion.dynamic.get<String>('explanation')
         ..explanationImageUrl =
-            oldQuestion.dynamic.get<String>('explanationImageUrl');
+            oldQuestion.dynamic.get<String>('explanationImageUrl')
+        ..createdAt = DateTime.now()
+        ..updatedAt = DateTime.now();
 
       newQuestion.answers.addAll(
         oldQuestion.dynamic
@@ -132,6 +138,8 @@ void _migrateAndroidFolders(Migration migration) {
         oldFolder.dynamic.get<String>('name'),
         oldFolder.dynamic.get<int>('order'),
         AppThemeColor.from(oldFolder.dynamic.get<String>('themeColor')).index,
+        DateTime.now(),
+        DateTime.now(),
       ),
     ),
   );
@@ -164,6 +172,8 @@ void _migrateAndroidWorkbooks(Migration migration) {
           oldWorkbook.dynamic.get<int>('order'),
           AppThemeColor.from(oldWorkbook.dynamic.get<String>('themeColor'))
               .index,
+          DateTime.now(),
+          DateTime.now(),
           folderId: folderId,
         );
       },

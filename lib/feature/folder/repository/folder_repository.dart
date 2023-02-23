@@ -33,6 +33,8 @@ class FolderRepository {
       order: newOrder,
       color: color,
       workbookCount: 0,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
 
     localDB.write(() {
@@ -80,7 +82,11 @@ class FolderRepository {
   void updateFolder(Folder folder) {
     localDB.write(() {
       localDB.add<RealmFolder>(
-        RealmFolderConverting.fromFolder(folder),
+        RealmFolderConverting.fromFolder(
+          folder.copyWith(
+            updatedAt: DateTime.now(),
+          ),
+        ),
         update: true,
       );
     });

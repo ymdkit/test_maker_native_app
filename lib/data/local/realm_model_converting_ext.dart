@@ -35,6 +35,8 @@ extension RealmWorkbookConverting on RealmWorkbook {
       workbook.title,
       workbook.order,
       workbook.color.index,
+      workbook.createdAt,
+      workbook.updatedAt,
       folderId: workbook.folderId,
     );
   }
@@ -47,6 +49,8 @@ extension RealmFolderConverting on RealmFolder {
       folder.title,
       folder.order,
       folder.color.index,
+      folder.createdAt,
+      folder.updatedAt,
     );
   }
 }

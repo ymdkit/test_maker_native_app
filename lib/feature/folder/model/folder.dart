@@ -12,13 +12,17 @@ class Folder with _$Folder {
     required int order,
     required AppThemeColor color,
     required int workbookCount,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _Folder;
 
-  factory Folder.empty() => const Folder(
+  factory Folder.empty() => Folder(
         folderId: '',
         title: '削除済みフォルダ',
         order: 0,
         color: AppThemeColor.blue,
         workbookCount: 0,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
 }

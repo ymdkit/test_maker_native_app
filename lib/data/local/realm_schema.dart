@@ -69,17 +69,22 @@ class _RealmWorkbook {
   late int color;
   late String? folderId;
   late bool? isDeleted;
+  late DateTime createdAt;
+  late DateTime updatedAt;
 
   Workbook toWorkbook({
     required int questionCount,
   }) {
     return Workbook(
-        workbookId: workbookId,
-        title: title,
-        order: order,
-        color: AppThemeColor.fromIndex(color),
-        folderId: folderId,
-        questionCount: questionCount);
+      workbookId: workbookId,
+      title: title,
+      order: order,
+      color: AppThemeColor.fromIndex(color),
+      folderId: folderId,
+      questionCount: questionCount,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
   }
 }
 
@@ -93,6 +98,8 @@ class _RealmFolder {
   late int order;
   late int color;
   late bool? isDeleted;
+  late DateTime createdAt;
+  late DateTime updatedAt;
 
   Folder toFolder({
     required int workbookCount,
@@ -103,6 +110,8 @@ class _RealmFolder {
       order: order,
       color: AppThemeColor.fromIndex(color),
       workbookCount: workbookCount,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }
