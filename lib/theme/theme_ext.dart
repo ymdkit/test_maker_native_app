@@ -17,8 +17,9 @@ extension ThemeDataExt on ThemeData {
             minimumSize: const Size.fromHeight(48),
           ),
         ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
           elevation: 0,
+          backgroundColor: appThemeColor.displayColor(),
         ),
       );
 }
