@@ -16,11 +16,14 @@ extension RealmQuestionConverting on RealmQuestion {
       question.isCheckAnswerOrder,
       question.order,
       question.answerStatus.value,
+      question.createdAt,
+      question.updatedAt,
       problemImageUrl: question.problemImageUrl,
       answers: question.answers,
       wrongChoices: question.wrongChoices,
       explanation: question.explanation,
       explanationImageUrl: question.explanationImageUrl,
+      lastAnsweredAt: question.lastAnsweredAt,
     );
   }
 }

@@ -29,6 +29,9 @@ mixin _$Question {
   bool get isCheckAnswerOrder => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
   AnswerStatus get answerStatus => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
+  DateTime? get lastAnsweredAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuestionCopyWith<Question> get copyWith =>
@@ -53,7 +56,10 @@ abstract class $QuestionCopyWith<$Res> {
       bool isAutoGenerateWrongChoices,
       bool isCheckAnswerOrder,
       int order,
-      AnswerStatus answerStatus});
+      AnswerStatus answerStatus,
+      DateTime createdAt,
+      DateTime updatedAt,
+      DateTime? lastAnsweredAt});
 }
 
 /// @nodoc
@@ -82,6 +88,9 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? isCheckAnswerOrder = null,
     Object? order = null,
     Object? answerStatus = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+    Object? lastAnsweredAt = freezed,
   }) {
     return _then(_value.copyWith(
       questionId: null == questionId
@@ -136,6 +145,18 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.answerStatus
           : answerStatus // ignore: cast_nullable_to_non_nullable
               as AnswerStatus,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      lastAnsweredAt: freezed == lastAnsweredAt
+          ? _value.lastAnsweredAt
+          : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -160,7 +181,10 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       bool isAutoGenerateWrongChoices,
       bool isCheckAnswerOrder,
       int order,
-      AnswerStatus answerStatus});
+      AnswerStatus answerStatus,
+      DateTime createdAt,
+      DateTime updatedAt,
+      DateTime? lastAnsweredAt});
 }
 
 /// @nodoc
@@ -187,6 +211,9 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? isCheckAnswerOrder = null,
     Object? order = null,
     Object? answerStatus = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+    Object? lastAnsweredAt = freezed,
   }) {
     return _then(_$_Question(
       questionId: null == questionId
@@ -241,6 +268,18 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.answerStatus
           : answerStatus // ignore: cast_nullable_to_non_nullable
               as AnswerStatus,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      lastAnsweredAt: freezed == lastAnsweredAt
+          ? _value.lastAnsweredAt
+          : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -261,7 +300,10 @@ class _$_Question extends _Question {
       required this.isAutoGenerateWrongChoices,
       required this.isCheckAnswerOrder,
       required this.order,
-      required this.answerStatus})
+      required this.answerStatus,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.lastAnsweredAt})
       : _answers = answers,
         _wrongChoices = wrongChoices,
         super._();
@@ -304,10 +346,16 @@ class _$_Question extends _Question {
   final int order;
   @override
   final AnswerStatus answerStatus;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
+  @override
+  final DateTime? lastAnsweredAt;
 
   @override
   String toString() {
-    return 'Question(questionId: $questionId, workbookId: $workbookId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, answers: $answers, wrongChoices: $wrongChoices, explanation: $explanation, explanationImageUrl: $explanationImageUrl, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus)';
+    return 'Question(questionId: $questionId, workbookId: $workbookId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, answers: $answers, wrongChoices: $wrongChoices, explanation: $explanation, explanationImageUrl: $explanationImageUrl, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus, createdAt: $createdAt, updatedAt: $updatedAt, lastAnsweredAt: $lastAnsweredAt)';
   }
 
   @override
@@ -339,7 +387,13 @@ class _$_Question extends _Question {
                 other.isCheckAnswerOrder == isCheckAnswerOrder) &&
             (identical(other.order, order) || other.order == order) &&
             (identical(other.answerStatus, answerStatus) ||
-                other.answerStatus == answerStatus));
+                other.answerStatus == answerStatus) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.lastAnsweredAt, lastAnsweredAt) ||
+                other.lastAnsweredAt == lastAnsweredAt));
   }
 
   @override
@@ -357,7 +411,10 @@ class _$_Question extends _Question {
       isAutoGenerateWrongChoices,
       isCheckAnswerOrder,
       order,
-      answerStatus);
+      answerStatus,
+      createdAt,
+      updatedAt,
+      lastAnsweredAt);
 
   @JsonKey(ignore: true)
   @override
@@ -380,7 +437,10 @@ abstract class _Question extends Question {
       required final bool isAutoGenerateWrongChoices,
       required final bool isCheckAnswerOrder,
       required final int order,
-      required final AnswerStatus answerStatus}) = _$_Question;
+      required final AnswerStatus answerStatus,
+      required final DateTime createdAt,
+      required final DateTime updatedAt,
+      required final DateTime? lastAnsweredAt}) = _$_Question;
   const _Question._() : super._();
 
   @override
@@ -409,6 +469,12 @@ abstract class _Question extends Question {
   int get order;
   @override
   AnswerStatus get answerStatus;
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
+  @override
+  DateTime? get lastAnsweredAt;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionCopyWith<_$_Question> get copyWith =>

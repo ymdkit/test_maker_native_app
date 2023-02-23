@@ -29,6 +29,9 @@ class _RealmQuestion {
   late int order;
   late String answerStatus;
   late bool? isDeleted;
+  late DateTime createdAt;
+  late DateTime updatedAt;
+  late DateTime? lastAnsweredAt;
 
   Question toQuestion() {
     return Question(
@@ -48,6 +51,9 @@ class _RealmQuestion {
             (e) => e.value == answerStatus,
           ) ??
           AnswerStatus.unAnswered,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      lastAnsweredAt: lastAnsweredAt,
     );
   }
 }

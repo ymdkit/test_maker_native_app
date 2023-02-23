@@ -17,11 +17,14 @@ class RealmQuestion extends _RealmQuestion
     bool isAutoGenerateWrongChoices,
     bool isCheckAnswerOrder,
     int order,
-    String answerStatus, {
+    String answerStatus,
+    DateTime createdAt,
+    DateTime updatedAt, {
     String? problemImageUrl,
     String? explanation,
     String? explanationImageUrl,
     bool? isDeleted,
+    DateTime? lastAnsweredAt,
     Iterable<String> answers = const [],
     Iterable<String> wrongChoices = const [],
   }) {
@@ -39,6 +42,9 @@ class RealmQuestion extends _RealmQuestion
     RealmObjectBase.set(this, 'order', order);
     RealmObjectBase.set(this, 'answerStatus', answerStatus);
     RealmObjectBase.set(this, 'isDeleted', isDeleted);
+    RealmObjectBase.set(this, 'createdAt', createdAt);
+    RealmObjectBase.set(this, 'updatedAt', updatedAt);
+    RealmObjectBase.set(this, 'lastAnsweredAt', lastAnsweredAt);
     RealmObjectBase.set<RealmList<String>>(
         this, 'answers', RealmList<String>(answers));
     RealmObjectBase.set<RealmList<String>>(
@@ -144,6 +150,27 @@ class RealmQuestion extends _RealmQuestion
   set isDeleted(bool? value) => RealmObjectBase.set(this, 'isDeleted', value);
 
   @override
+  DateTime get createdAt =>
+      RealmObjectBase.get<DateTime>(this, 'createdAt') as DateTime;
+  @override
+  set createdAt(DateTime value) =>
+      RealmObjectBase.set(this, 'createdAt', value);
+
+  @override
+  DateTime get updatedAt =>
+      RealmObjectBase.get<DateTime>(this, 'updatedAt') as DateTime;
+  @override
+  set updatedAt(DateTime value) =>
+      RealmObjectBase.set(this, 'updatedAt', value);
+
+  @override
+  DateTime? get lastAnsweredAt =>
+      RealmObjectBase.get<DateTime>(this, 'lastAnsweredAt') as DateTime?;
+  @override
+  set lastAnsweredAt(DateTime? value) =>
+      RealmObjectBase.set(this, 'lastAnsweredAt', value);
+
+  @override
   Stream<RealmObjectChanges<RealmQuestion>> get changes =>
       RealmObjectBase.getChanges<RealmQuestion>(this);
 
@@ -175,6 +202,10 @@ class RealmQuestion extends _RealmQuestion
       SchemaProperty('order', RealmPropertyType.int),
       SchemaProperty('answerStatus', RealmPropertyType.string),
       SchemaProperty('isDeleted', RealmPropertyType.bool, optional: true),
+      SchemaProperty('createdAt', RealmPropertyType.timestamp),
+      SchemaProperty('updatedAt', RealmPropertyType.timestamp),
+      SchemaProperty('lastAnsweredAt', RealmPropertyType.timestamp,
+          optional: true),
     ]);
   }
 }

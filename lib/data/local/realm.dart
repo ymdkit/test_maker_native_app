@@ -187,6 +187,8 @@ RealmQuestion _androidOldQuestionToRealmQuestion(
       oldQuestion.dynamic.get<bool>('correct')
           ? AnswerStatus.correct.value
           : AnswerStatus.wrong.value,
+      DateTime.now(),
+      DateTime.now(),
       problemImageUrl: oldQuestion.dynamic.get<String>('imagePath'),
       explanation: oldQuestion.dynamic.get<String>('explanation'),
       explanationImageUrl:

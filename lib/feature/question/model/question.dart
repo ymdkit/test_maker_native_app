@@ -22,6 +22,9 @@ class Question with _$Question {
     required bool isCheckAnswerOrder,
     required int order,
     required AnswerStatus answerStatus,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    required DateTime? lastAnsweredAt,
   }) = _Question;
 
   factory Question.from({
@@ -38,6 +41,9 @@ class Question with _$Question {
     required bool isCheckAnswerOrder,
     required int order,
     required AnswerStatus answerStatus,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    required DateTime? lastAnsweredAt,
   }) {
     switch (questionType) {
       case QuestionType.write:
@@ -55,6 +61,9 @@ class Question with _$Question {
           isCheckAnswerOrder: false,
           order: order,
           answerStatus: answerStatus,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          lastAnsweredAt: lastAnsweredAt,
         );
       case QuestionType.select:
         return Question(
@@ -71,6 +80,9 @@ class Question with _$Question {
           isCheckAnswerOrder: false,
           order: order,
           answerStatus: answerStatus,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          lastAnsweredAt: lastAnsweredAt,
         );
       case QuestionType.complete:
         return Question(
@@ -87,6 +99,9 @@ class Question with _$Question {
           isCheckAnswerOrder: isCheckAnswerOrder,
           order: order,
           answerStatus: answerStatus,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          lastAnsweredAt: lastAnsweredAt,
         );
       case QuestionType.selectComplete:
         return Question(
@@ -103,6 +118,9 @@ class Question with _$Question {
           isCheckAnswerOrder: isCheckAnswerOrder,
           order: order,
           answerStatus: answerStatus,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          lastAnsweredAt: lastAnsweredAt,
         );
     }
   }

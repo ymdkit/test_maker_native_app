@@ -185,6 +185,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   void updateAnswerStatus(Question question, bool isCorrect) {
     final newQuestion = question.copyWith(
       answerStatus: isCorrect ? AnswerStatus.correct : AnswerStatus.wrong,
+      lastAnsweredAt: DateTime.now(),
     );
     questionRepository.updateQuestion(newQuestion);
     questions = questions

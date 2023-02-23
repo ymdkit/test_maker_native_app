@@ -50,6 +50,9 @@ class QuestionRepository {
       isCheckAnswerOrder: isCheckAnswerOrder,
       order: newOrder,
       answerStatus: AnswerStatus.unAnswered,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      lastAnsweredAt: null,
     );
 
     localDB.write(() {
@@ -81,7 +84,11 @@ class QuestionRepository {
   void updateQuestion(Question question) {
     localDB.write(() {
       localDB.add<RealmQuestion>(
-        RealmQuestionConverting.fromQuestion(question),
+        RealmQuestionConverting.fromQuestion(
+          question.copyWith(
+            updatedAt: DateTime.now(),
+          ),
+        ),
         update: true,
       );
     });
