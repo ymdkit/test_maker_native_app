@@ -40,7 +40,10 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(question.problem),
+              child: Text(
+                question.problem,
+                maxLines: 1,
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.edit),

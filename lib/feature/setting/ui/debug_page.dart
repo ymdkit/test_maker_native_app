@@ -44,7 +44,7 @@ class DebugPage extends HookConsumerWidget {
                 ..addQuestion(
                   workbookId: newWorkbook.workbookId,
                   questionType: QuestionType.write,
-                  problem: '記述問題の問題文',
+                  problem: List.generate(20, (index) => '記述問題の問題文').join(),
                   problemImageUrl: null,
                   answers: ['記述問題の答え'],
                   wrongChoices: [],

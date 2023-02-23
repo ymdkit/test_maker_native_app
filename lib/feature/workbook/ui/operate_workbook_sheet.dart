@@ -47,7 +47,10 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(workbook.title),
+              child: Text(
+                workbook.title,
+                maxLines: 1,
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.play_arrow),
