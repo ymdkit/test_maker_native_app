@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartx/dartx_io.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,6 +7,7 @@ import 'package:test_maker_native_app/feature/answer/model/question_condition.da
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 
 part 'answer_workbook_state.freezed.dart';
@@ -30,12 +33,11 @@ class AnswerWorkbookState with _$AnswerWorkbookState {
 final answerWorkbookStateProvider = StateNotifierProvider.autoDispose
     .family<AnswerWorkbookStateNotifier, AnswerWorkbookState, String>(
   (ref, workbookId) {
-    final preferences = ref.watch(preferencesStateProvider);
-    final questionRepository = ref.watch(questionRepositoryProvider);
     return AnswerWorkbookStateNotifier(
       workbookId: workbookId,
-      preferences: preferences,
-      questionRepository: questionRepository,
+      preferences: ref.watch(preferencesStateProvider),
+      questionRepository: ref.watch(questionRepositoryProvider),
+      onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
     );
   },
 );
@@ -45,13 +47,38 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     required this.workbookId,
     required this.preferences,
     required this.questionRepository,
+    required StreamController<Question> onMutateQuestionStream,
   }) : super(const AnswerWorkbookState.idling()) {
+    onMutateQuestionSubscription =
+        onMutateQuestionStream.stream.listen((question) {
+      questions = questions
+          .map((e) => e.questionId == question.questionId ? question : e)
+          .toList();
+
+      state.maybeWhen(
+        selfScoring: (selfScoringQuestion) {
+          if (selfScoringQuestion.questionId == question.questionId) {
+            state = AnswerWorkbookState.selfScoring(question: question);
+          }
+        },
+        reviewing: (reviewingQuestion, attemptAnswers) {
+          if (reviewingQuestion.questionId == question.questionId) {
+            state = AnswerWorkbookState.reviewing(
+              question: question,
+              attemptAnswers: attemptAnswers,
+            );
+          }
+        },
+        orElse: () {},
+      );
+    });
     _setup();
   }
 
   final String workbookId;
   final PreferencesState preferences;
   final QuestionRepository questionRepository;
+  late final StreamSubscription<Question> onMutateQuestionSubscription;
   int index = 0;
   List<Question> questions = [];
 
@@ -160,5 +187,11 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     questions = questions
         .map((e) => e.questionId == question.questionId ? newQuestion : e)
         .toList();
+  }
+
+  @override
+  void dispose() {
+    onMutateQuestionSubscription.cancel();
+    super.dispose();
   }
 }

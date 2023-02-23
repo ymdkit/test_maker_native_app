@@ -23,6 +23,17 @@ class _$AppRouter extends RootStackRouter {
         child: const RootPage(),
       );
     },
+    CreateQuestionRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateQuestionRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: CreateQuestionPage(
+          key: args.key,
+          workbookId: args.workbookId,
+        ),
+        fullscreenDialog: true,
+      );
+    },
     AnswerWorkbookRoute.name: (routeData) {
       final args = routeData.argsAs<AnswerWorkbookRouteArgs>();
       return MaterialPageX<dynamic>(
@@ -31,6 +42,18 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           folderId: args.folderId,
           workbookId: args.workbookId,
+        ),
+        fullscreenDialog: true,
+      );
+    },
+    EditQuestionRoute.name: (routeData) {
+      final args = routeData.argsAs<EditQuestionRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: EditQuestionPage(
+          key: args.key,
+          workbookId: args.workbookId,
+          question: args.question,
         ),
         fullscreenDialog: true,
       );
@@ -128,27 +151,6 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    CreateQuestionRoute.name: (routeData) {
-      final args = routeData.argsAs<CreateQuestionRouteArgs>();
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: CreateQuestionPage(
-          key: args.key,
-          workbookId: args.workbookId,
-        ),
-      );
-    },
-    EditQuestionRoute.name: (routeData) {
-      final args = routeData.argsAs<EditQuestionRouteArgs>();
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: EditQuestionPage(
-          key: args.key,
-          workbookId: args.workbookId,
-          question: args.question,
-        ),
-      );
-    },
     SearchWorkbookRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -239,16 +241,6 @@ class _$AppRouter extends RootStackRouter {
                   path: 'edit-workbook-page',
                   parent: HomeTabRoute.name,
                 ),
-                RouteConfig(
-                  CreateQuestionRoute.name,
-                  path: 'create-question-page',
-                  parent: HomeTabRoute.name,
-                ),
-                RouteConfig(
-                  EditQuestionRoute.name,
-                  path: 'edit-question-page',
-                  parent: HomeTabRoute.name,
-                ),
               ],
             ),
             RouteConfig(
@@ -317,8 +309,16 @@ class _$AppRouter extends RootStackRouter {
           ],
         ),
         RouteConfig(
+          CreateQuestionRoute.name,
+          path: '/create-question-page',
+        ),
+        RouteConfig(
           AnswerWorkbookRoute.name,
           path: '/answer-workbook-page',
+        ),
+        RouteConfig(
+          EditQuestionRoute.name,
+          path: '/edit-question-page',
         ),
       ];
 }
@@ -334,6 +334,40 @@ class RootRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'RootRoute';
+}
+
+/// generated route for
+/// [CreateQuestionPage]
+class CreateQuestionRoute extends PageRouteInfo<CreateQuestionRouteArgs> {
+  CreateQuestionRoute({
+    Key? key,
+    required String workbookId,
+  }) : super(
+          CreateQuestionRoute.name,
+          path: '/create-question-page',
+          args: CreateQuestionRouteArgs(
+            key: key,
+            workbookId: workbookId,
+          ),
+        );
+
+  static const String name = 'CreateQuestionRoute';
+}
+
+class CreateQuestionRouteArgs {
+  const CreateQuestionRouteArgs({
+    this.key,
+    required this.workbookId,
+  });
+
+  final Key? key;
+
+  final String workbookId;
+
+  @override
+  String toString() {
+    return 'CreateQuestionRouteArgs{key: $key, workbookId: $workbookId}';
+  }
 }
 
 /// generated route for
@@ -372,6 +406,45 @@ class AnswerWorkbookRouteArgs {
   @override
   String toString() {
     return 'AnswerWorkbookRouteArgs{key: $key, folderId: $folderId, workbookId: $workbookId}';
+  }
+}
+
+/// generated route for
+/// [EditQuestionPage]
+class EditQuestionRoute extends PageRouteInfo<EditQuestionRouteArgs> {
+  EditQuestionRoute({
+    Key? key,
+    required String workbookId,
+    required Question question,
+  }) : super(
+          EditQuestionRoute.name,
+          path: '/edit-question-page',
+          args: EditQuestionRouteArgs(
+            key: key,
+            workbookId: workbookId,
+            question: question,
+          ),
+        );
+
+  static const String name = 'EditQuestionRoute';
+}
+
+class EditQuestionRouteArgs {
+  const EditQuestionRouteArgs({
+    this.key,
+    required this.workbookId,
+    required this.question,
+  });
+
+  final Key? key;
+
+  final String workbookId;
+
+  final Question question;
+
+  @override
+  String toString() {
+    return 'EditQuestionRouteArgs{key: $key, workbookId: $workbookId, question: $question}';
   }
 }
 
@@ -636,79 +709,6 @@ class EditWorkbookRouteArgs {
   @override
   String toString() {
     return 'EditWorkbookRouteArgs{key: $key, workbook: $workbook}';
-  }
-}
-
-/// generated route for
-/// [CreateQuestionPage]
-class CreateQuestionRoute extends PageRouteInfo<CreateQuestionRouteArgs> {
-  CreateQuestionRoute({
-    Key? key,
-    required String workbookId,
-  }) : super(
-          CreateQuestionRoute.name,
-          path: 'create-question-page',
-          args: CreateQuestionRouteArgs(
-            key: key,
-            workbookId: workbookId,
-          ),
-        );
-
-  static const String name = 'CreateQuestionRoute';
-}
-
-class CreateQuestionRouteArgs {
-  const CreateQuestionRouteArgs({
-    this.key,
-    required this.workbookId,
-  });
-
-  final Key? key;
-
-  final String workbookId;
-
-  @override
-  String toString() {
-    return 'CreateQuestionRouteArgs{key: $key, workbookId: $workbookId}';
-  }
-}
-
-/// generated route for
-/// [EditQuestionPage]
-class EditQuestionRoute extends PageRouteInfo<EditQuestionRouteArgs> {
-  EditQuestionRoute({
-    Key? key,
-    required String workbookId,
-    required Question question,
-  }) : super(
-          EditQuestionRoute.name,
-          path: 'edit-question-page',
-          args: EditQuestionRouteArgs(
-            key: key,
-            workbookId: workbookId,
-            question: question,
-          ),
-        );
-
-  static const String name = 'EditQuestionRoute';
-}
-
-class EditQuestionRouteArgs {
-  const EditQuestionRouteArgs({
-    this.key,
-    required this.workbookId,
-    required this.question,
-  });
-
-  final Key? key;
-
-  final String workbookId;
-
-  final Question question;
-
-  @override
-  String toString() {
-    return 'EditQuestionRouteArgs{key: $key, workbookId: $workbookId, question: $question}';
   }
 }
 
