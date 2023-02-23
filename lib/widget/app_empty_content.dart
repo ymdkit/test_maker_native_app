@@ -5,13 +5,13 @@ class AppEmptyContent extends StatelessWidget {
     super.key,
     required this.icon,
     required this.text,
-    required this.fallbackButtonText,
-    required this.onPressedFallbackButton,
+    this.fallbackButtonText,
+    this.onPressedFallbackButton,
   });
 
   final IconData icon;
   final String text;
-  final String fallbackButtonText;
+  final String? fallbackButtonText;
   final VoidCallback? onPressedFallbackButton;
 
   const AppEmptyContent.workbook({
@@ -27,6 +27,13 @@ class AppEmptyContent extends StatelessWidget {
   })  : icon = Icons.edit,
         text = '保存されている問題はありません\n問題を作成してください',
         fallbackButtonText = '問題を作成する';
+
+  const AppEmptyContent.search({
+    super.key,
+  })  : icon = Icons.search,
+        text = 'キーワードが一致する問題集はありません\n検索キーワードを変更してください',
+        fallbackButtonText = null,
+        onPressedFallbackButton = null;
 
   const AppEmptyContent.trash({
     super.key,
@@ -54,7 +61,7 @@ class AppEmptyContent extends StatelessWidget {
               visible: onPressedFallbackButton != null,
               child: OutlinedButton(
                 onPressed: onPressedFallbackButton,
-                child: Text(fallbackButtonText),
+                child: Text(fallbackButtonText ?? ''),
               ),
             )
           ],

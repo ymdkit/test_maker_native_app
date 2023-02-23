@@ -18,7 +18,10 @@ class WorkbookListItem extends StatelessWidget {
         Icons.edit_document,
         color: workbook.color.displayColor(),
       ),
-      title: Text(workbook.title),
+      title: Text(
+        workbook.title,
+        maxLines: 2,
+      ),
       subtitle: Text('問題数 ${workbook.questionCount}'),
       onTap: () => onTap(workbook),
     );
