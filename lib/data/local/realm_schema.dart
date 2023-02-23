@@ -45,7 +45,7 @@ class _RealmQuestion {
       isCheckAnswerOrder: isCheckAnswerOrder,
       order: order,
       answerStatus: AnswerStatus.values.firstWhereOrNull(
-            (e) => e.toString() == answerStatus,
+            (e) => e.value == answerStatus,
           ) ??
           AnswerStatus.unAnswered,
     );

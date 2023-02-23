@@ -22,6 +22,7 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final themeColor = ref.watch(
       preferencesStateProvider.select((value) => value.themeColor),
     );
@@ -33,12 +34,7 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                 .length /
             answeringQuestions.length;
 
-    final wrongRate = answeringQuestions.isEmpty
-        ? 0
-        : answeringQuestions
-                .where((q) => q.answerStatus == AnswerStatus.wrong)
-                .length /
-            answeringQuestions.length;
+    final wrongRate = 1 - correctRate;
 
     return Column(
       children: [
@@ -46,38 +42,52 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      '正解数: ${answeringQuestions.where((q) => q.answerStatus == AnswerStatus.correct).length} / ${answeringQuestions.length}',
-                      style: Theme.of(context).textTheme.titleLarge,
+                child: Row(
+                  children: [
+                    const SizedBox(width: 16),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      width: screenWidth * 0.4,
+                      height: screenWidth * 0.4,
+                      child: PieChart(
+                        PieChartData(
+                          centerSpaceRadius: 32,
+                          startDegreeOffset: -90,
+                          sections: [
+                            PieChartSectionData(
+                              value: correctRate.toDouble(),
+                              showTitle: false,
+                              color: themeColor.displayColor(),
+                              radius: screenWidth * 0.1,
+                            ),
+                            PieChartSectionData(
+                              value: wrongRate.toDouble(),
+                              showTitle: false,
+                              color: Colors.grey,
+                              radius: screenWidth * 0.1,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(width: 32),
+                    Expanded(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          '${answeringQuestions.length}問中${answeringQuestions.where(
+                                (q) => q.answerStatus == AnswerStatus.correct,
+                              ).length}問正解しました',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                  ],
                 ),
               ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 160,
-                  child: PieChart(
-                    PieChartData(
-                      sections: [
-                        PieChartSectionData(
-                          value: correctRate.toDouble(),
-                          showTitle: false,
-                          color: themeColor.displayColor(),
-                          radius: 50,
-                        ),
-                        PieChartSectionData(
-                          value: wrongRate.toDouble(),
-                          showTitle: false,
-                          color: Colors.grey,
-                          radius: 50,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 16),
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(

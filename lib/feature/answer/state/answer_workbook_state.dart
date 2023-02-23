@@ -54,6 +54,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   List<Question> questions = [];
 
   void _setup() {
+    index = 0;
     _setupQuestions();
     if (questions.isEmpty) {
       state = const AnswerWorkbookState.empty();

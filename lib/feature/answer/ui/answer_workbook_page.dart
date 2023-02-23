@@ -64,7 +64,7 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                   orElse: () => TextButton(
                     onPressed: () =>
                         _showConfirmFinishAlertDialog(context, ref, workbook),
-                    child: const Text('終了'),
+                    child: const Text('中断'),
                   ),
                 )
               ],
@@ -119,10 +119,9 @@ class AnswerWorkbookPage extends HookConsumerWidget {
   ) {
     return showAlertDialog(
       context: context,
-      title: '解答の終了',
-      content: '解答を終了しますか？',
-      onPositive: () =>
-          ref.read(answerWorkbookStateProvider(workbookId).notifier).finish(),
+      title: '解答の中断',
+      content: '現在の解答を中断し、ホーム画面に戻りますか？',
+      onPositive: () => context.router.popUntilRoot(),
     );
   }
 }
