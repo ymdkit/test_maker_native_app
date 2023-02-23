@@ -1,117 +1,64 @@
-import 'package:dartx/dartx.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:realm/realm.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
-import 'package:test_maker_native_app/data/local/realm.dart';
-import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
-import 'package:test_maker_native_app/data/local/realm_schema.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
+import 'package:test_maker_native_app/feature/workbook/repository/local_workbook_data_source.dart';
+import 'package:test_maker_native_app/feature/workbook/repository/remote_workbook_data_source.dart';
+import 'package:test_maker_native_app/utils/app_exception.dart';
 
 final workbookRepositoryProvider = Provider<WorkbookRepository>(
   (ref) => WorkbookRepository(
-    localDB: ref.watch(realmProvider),
+    remoteDataSource: ref.watch(remoteWorkbookDataSourceProvider),
+    localDataSource: ref.watch(localWorkbookDataSourceProvider),
   ),
 );
 
 class WorkbookRepository {
   WorkbookRepository({
-    required this.localDB,
+    required this.remoteDataSource,
+    required this.localDataSource,
   });
 
-  final Realm localDB;
+  final RemoteWorkbookDataSource remoteDataSource;
+  final LocalWorkbookDataSource localDataSource;
 
-  Workbook addWorkbook({
+  Future<Either<AppException, Workbook>> addWorkbook({
     required String title,
     required AppThemeColor color,
     required String? folderId,
-  }) {
-    final newOrder =
-        (localDB.all<RealmWorkbook>().maxBy((e) => e.order)?.order ?? 0) + 1;
-
-    final workbook = Workbook(
-      workbookId: Uuid.v4().toString(),
-      title: title,
-      order: newOrder,
-      color: color,
-      folderId: folderId,
-      questionCount: 0,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
-
-    localDB.write(() {
-      localDB.add<RealmWorkbook>(
-        RealmWorkbookConverting.fromWorkbook(workbook),
+  }) async =>
+      Right(
+        localDataSource.addWorkbook(
+          title: title,
+          color: color,
+          folderId: folderId,
+        ),
       );
-    });
 
-    return workbook;
-  }
-
-  List<Workbook> getWorkbooks(String? folderId) {
-    return localDB
-        .all<RealmWorkbook>()
-        .where((e) => e.isDeleted != true)
-        .where((e) => e.folderId == folderId)
-        .map(
-      (e) {
-        final questionCount = localDB
-            .all<RealmQuestion>()
-            .where((e) => e.isDeleted != true)
-            .where((element) => element.workbookId == e.workbookId)
-            .length;
-        return e.toWorkbook(questionCount: questionCount);
-      },
-    ).toList();
-  }
-
-  List<Workbook> getDeletedWorkbooks() {
-    return localDB.all<RealmWorkbook>().where((e) => e.isDeleted == true).map(
-      (e) {
-        final questionCount = localDB
-            .all<RealmQuestion>()
-            .where((element) => element.workbookId == e.workbookId)
-            .length;
-        return e.toWorkbook(questionCount: questionCount);
-      },
-    ).toList();
-  }
-
-  void updateWorkbook(Workbook workbook) {
-    localDB.write(() {
-      localDB.add<RealmWorkbook>(
-        RealmWorkbookConverting.fromWorkbook(workbook.copyWith(
-          updatedAt: DateTime.now(),
-        )),
-        update: true,
+  Future<Either<AppException, List<Workbook>>> getWorkbooks(
+          String? folderId) async =>
+      Right(
+        localDataSource.getWorkbooks(folderId),
       );
-    });
+
+  Future<Either<AppException, List<Workbook>>> getDeletedWorkbooks() async {
+    return Right(localDataSource.getDeletedWorkbooks());
   }
 
-  void deleteWorkbook(Workbook workbook) {
-    localDB.write(() {
-      localDB.add<RealmWorkbook>(
-        RealmWorkbookConverting.fromWorkbook(workbook)..isDeleted = true,
-        update: true,
-      );
-    });
+  Future<Either<AppException, void>> updateWorkbook(Workbook workbook) async {
+    return Right(localDataSource.updateWorkbook(workbook));
   }
 
-  void destroyWorkbooks(List<Workbook> workbooks) {
-    localDB.write(() {
-      final targets = localDB.all<RealmWorkbook>().where((e) {
-        return workbooks.any((element) => element.workbookId == e.workbookId);
-      });
-      localDB.deleteMany(targets);
-    });
+  Future<Either<AppException, void>> deleteWorkbook(Workbook workbook) async {
+    return Right(localDataSource.deleteWorkbook(workbook));
   }
 
-  void restoreWorkbook(Workbook workbook) {
-    localDB.write(() {
-      localDB.add<RealmWorkbook>(
-        RealmWorkbookConverting.fromWorkbook(workbook)..isDeleted = false,
-        update: true,
-      );
-    });
+  Future<Either<AppException, void>> destroyWorkbooks(
+      List<Workbook> workbooks) async {
+    return Right(localDataSource.destroyWorkbooks(workbooks));
+  }
+
+  Future<Either<AppException, void>> restoreWorkbook(Workbook workbook) async {
+    return Right(localDataSource.restoreWorkbook(workbook));
   }
 }

@@ -14,6 +14,7 @@ import 'package:test_maker_native_app/widget/app_color_drop_down_button_form_fie
 import 'package:test_maker_native_app/widget/app_folder_dropdown_button_form_field.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 import 'package:test_maker_native_app/widget/app_text_form_field.dart';
+import 'package:test_maker_native_app/widget/synchronized_button.dart';
 
 class EditWorkbookPage extends HookConsumerWidget {
   const EditWorkbookPage({
@@ -99,10 +100,10 @@ class EditWorkbookPage extends HookConsumerWidget {
                 const Divider(height: 1),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: ElevatedButton(
-                    onPressed: () {
+                  child: SynchronizedButton.elevated(
+                    onPressed: () async {
                       if (formKey.currentState?.validate() ?? false) {
-                        ref
+                        final result = await ref
                             .read(workbooksProvider(
                                     selectedFolder.value?.folderId)
                                 .notifier)
@@ -111,8 +112,17 @@ class EditWorkbookPage extends HookConsumerWidget {
                               color: selectedColor.value,
                               folderId: selectedFolder.value?.folderId,
                             );
-                        showAppSnackBar(context, '編集内容を保存しました');
-                        context.router.pop();
+
+                        result.match(
+                          (l) => showAppSnackBar(
+                            context,
+                            l.message,
+                          ),
+                          (_) {
+                            showAppSnackBar(context, '問題集を編集しました');
+                            context.router.pop();
+                          },
+                        );
                       } else {
                         showAppSnackBar(context, '入力内容に不備があります');
                       }

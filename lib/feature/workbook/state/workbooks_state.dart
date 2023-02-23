@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:fpdart/fpdart.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
@@ -7,9 +9,23 @@ import 'package:test_maker_native_app/feature/question/state/questions_state.dar
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/workbook_repository.dart';
+import 'package:test_maker_native_app/utils/app_exception.dart';
+
+part 'workbooks_state.freezed.dart';
+
+@freezed
+class WorkbooksState with _$WorkbooksState {
+  const factory WorkbooksState.loading() = WorkbooksState_Loading;
+  const factory WorkbooksState.success({
+    required List<Workbook> workbooks,
+  }) = WorkbooksState_Success;
+  const factory WorkbooksState.failure({
+    required AppException exception,
+  }) = WorkbooksState_Failure;
+}
 
 final workbooksProvider = StateNotifierProvider.autoDispose
-    .family<WorkbooksStateNotifier, List<Workbook>, String?>(
+    .family<WorkbooksStateNotifier, WorkbooksState, String?>(
   (ref, folderId) => WorkbooksStateNotifier(
     folderId: folderId,
     workbookRepository: ref.watch(workbookRepositoryProvider),
@@ -20,20 +36,21 @@ final workbooksProvider = StateNotifierProvider.autoDispose
   ),
 );
 
-class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
+class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   WorkbooksStateNotifier({
     required this.folderId,
     required this.workbookRepository,
     required this.onMutateWorkbookStream,
     required StreamController<Question> onMutateQuestionStream,
     required StreamController<Workbook> onMutateDeletedWorkbookStream,
-  }) : super(workbookRepository.getWorkbooks(folderId)) {
+  }) : super(const WorkbooksState.loading()) {
+    setupWorkbooks();
     onMutateQuestionSubscription = onMutateQuestionStream.stream.listen(
-      (question) => state = workbookRepository.getWorkbooks(folderId),
+      (_) => setupWorkbooks(),
     );
     onMutateDeletedWorkbookSubscription =
         onMutateDeletedWorkbookStream.stream.listen(
-      (workbook) => state = workbookRepository.getWorkbooks(folderId),
+      (_) => setupWorkbooks(),
     );
   }
 
@@ -43,53 +60,101 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
   late final StreamSubscription<Question> onMutateQuestionSubscription;
   late final StreamSubscription<Workbook> onMutateDeletedWorkbookSubscription;
 
-  Workbook addWorkbook({
+  Future<void> setupWorkbooks() async {
+    state = const WorkbooksState.loading();
+    final result = await workbookRepository.getWorkbooks(folderId);
+    result.match(
+      (l) => state = WorkbooksState.failure(exception: l),
+      (r) => state = WorkbooksState.success(workbooks: r),
+    );
+  }
+
+  Future<Either<AppException, Workbook>> addWorkbook({
     required String title,
     required AppThemeColor color,
     required String? folderId,
-  }) {
-    final newWorkbook = workbookRepository.addWorkbook(
+  }) async {
+    final result = await workbookRepository.addWorkbook(
       title: title,
       color: color,
       folderId: folderId,
     );
 
-    if (this.folderId == folderId) {
-      state = [...state, newWorkbook];
-    }
-    onMutateWorkbookStream.sink.add(newWorkbook);
-    return newWorkbook;
+    return result.match(
+      (l) => left(l),
+      (r) {
+        if (this.folderId == folderId) {
+          state.maybeWhen(
+            success: (workbooks) => state = WorkbooksState.success(
+              workbooks: [...workbooks, r],
+            ),
+            orElse: () {},
+          );
+        }
+        onMutateWorkbookStream.sink.add(r);
+        return right(r);
+      },
+    );
   }
 
-  void updateWorkbook({
+  Future<Either<AppException, void>> updateWorkbook({
     required Workbook currentWorkbook,
     required String title,
     required AppThemeColor color,
     required String? folderId,
-  }) {
+  }) async {
     final updatedWorkbook = currentWorkbook.copyWith(
       title: title,
       color: color,
       folderId: folderId,
     );
-    workbookRepository.updateWorkbook(updatedWorkbook);
+    final result = await workbookRepository.updateWorkbook(updatedWorkbook);
 
-    state = state.map(
-      (e) {
-        if (e.workbookId == updatedWorkbook.workbookId) {
-          return updatedWorkbook;
-        } else {
-          return e;
+    return result.match(
+      (l) => left(l),
+      (r) {
+        if (this.folderId == folderId) {
+          state.maybeWhen(
+            success: (workbooks) => state = WorkbooksState.success(
+              workbooks: workbooks.map(
+                (e) {
+                  if (e.workbookId == updatedWorkbook.workbookId) {
+                    return updatedWorkbook;
+                  } else {
+                    return e;
+                  }
+                },
+              ).toList(),
+            ),
+            orElse: () {},
+          );
         }
+        onMutateWorkbookStream.sink.add(updatedWorkbook);
+        return right(r);
       },
-    ).toList();
-    onMutateWorkbookStream.sink.add(updatedWorkbook);
+    );
   }
 
-  void deleteWorkbook(Workbook workbook) {
-    workbookRepository.deleteWorkbook(workbook);
-    state = state.where((e) => e.workbookId != workbook.workbookId).toList();
-    onMutateWorkbookStream.sink.add(workbook);
+  Future<Either<AppException, void>> deleteWorkbook(Workbook workbook) async {
+    final result = await workbookRepository.deleteWorkbook(workbook);
+    return result.match(
+      (l) => left(l),
+      (r) {
+        state.maybeWhen(
+          success: (workbooks) {
+            state = WorkbooksState.success(
+              workbooks: workbooks
+                  .where((e) => e.workbookId != workbook.workbookId)
+                  .toList(),
+            );
+            onMutateWorkbookStream.sink.add(workbook);
+          },
+          orElse: () {},
+        );
+
+        return right(r);
+      },
+    );
   }
 
   @override

@@ -2,14 +2,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:test_maker_native_app/data/remote/firebase_auth.dart';
 import 'package:test_maker_native_app/feature/account/model/account.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
 final accountRepositoryProvider = Provider<AccountRepository>(
-  (ref) => AccountRepository(),
+  (ref) => AccountRepository(
+    auth: ref.watch(firebaseAuthProvider),
+  ),
 );
 
 class AccountRepository {
+  const AccountRepository({
+    required this.auth,
+  });
+
+  final FirebaseAuth auth;
+
   Future<Either<AppException, Account>> signInWithEmailAndPassword({
     required String email,
     required String password,

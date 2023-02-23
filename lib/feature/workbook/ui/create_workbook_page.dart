@@ -16,6 +16,7 @@ import 'package:test_maker_native_app/widget/app_folder_dropdown_button_form_fie
 import 'package:test_maker_native_app/widget/app_section_title.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 import 'package:test_maker_native_app/widget/app_text_form_field.dart';
+import 'package:test_maker_native_app/widget/synchronized_button.dart';
 
 class CreateWorkbookPage extends HookConsumerWidget {
   const CreateWorkbookPage({
@@ -119,18 +120,24 @@ class CreateWorkbookPage extends HookConsumerWidget {
                 const Divider(height: 1),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: ElevatedButton(
-                    onPressed: () {
+                  child: SynchronizedButton.elevated(
+                    onPressed: () async {
                       if (formKey.currentState?.validate() ?? false) {
-                        ref
+                        final result = await ref
                             .read(workbooksProvider(folder?.folderId).notifier)
                             .addWorkbook(
                               title: workbookTitleController.text,
                               color: selectedColor.value,
                               folderId: selectedFolder.value?.folderId,
                             );
-                        showAppSnackBar(context, '問題集を作成しました');
-                        context.router.pop();
+
+                        result.match(
+                          (l) => showAppSnackBar(context, l.message),
+                          (r) {
+                            showAppSnackBar(context, '問題集を作成しました');
+                            context.router.pop();
+                          },
+                        );
                       } else {
                         showAppSnackBar(context, '入力内容に不備があります');
                       }

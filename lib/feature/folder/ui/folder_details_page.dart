@@ -11,6 +11,7 @@ import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
+import 'package:test_maker_native_app/widget/app_error_content.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 class FolderDetailsPage extends HookConsumerWidget {
@@ -67,20 +68,24 @@ class FolderDetailsPage extends HookConsumerWidget {
             ),
           ],
         ),
-        body: workbooks.isEmpty
-            ? AppEmptyContent.workbook(
-                onPressedFallbackButton: () => context.router.push(
-                  CreateWorkbookRoute(folder: folder),
+        body: workbooks.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          success: (workbooks) => workbooks.isEmpty
+              ? AppEmptyContent.workbook(
+                  onPressedFallbackButton: () => context.router.push(
+                    CreateWorkbookRoute(folder: folder),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: workbooks.length,
+                  itemBuilder: (context, index) => WorkbookListItem(
+                    workbook: workbooks[index],
+                    onTap: (workbook) async =>
+                        showOperateWorkbookSheet(context, workbook),
+                  ),
                 ),
-              )
-            : ListView.builder(
-                itemCount: workbooks.length,
-                itemBuilder: (context, index) => WorkbookListItem(
-                  workbook: workbooks[index],
-                  onTap: (workbook) async =>
-                      showOperateWorkbookSheet(context, workbook),
-                ),
-              ),
+          failure: (_) => AppErrorContent.serverError(),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => context.router.push(
             CreateWorkbookRoute(folder: folder),

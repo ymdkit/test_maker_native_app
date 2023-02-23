@@ -64,6 +64,8 @@ void Function()? _onPressedValue(
   return () async {
     isWorking.value = true;
     await onPressed.call();
-    if (isMounted()) isWorking.value = false;
+    if (isMounted()) {
+      isWorking.value = false;
+    }
   };
 }

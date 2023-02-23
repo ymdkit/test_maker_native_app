@@ -11,7 +11,11 @@ Workbook workbook(
   required String? folderId,
   required String workbookId,
 }) {
-  final workbooks = ref.watch(workbooksProvider(folderId));
-  return workbooks.firstWhereOrNull((e) => e.workbookId == workbookId) ??
-      Workbook.empty();
+  final workbooksState = ref.watch(workbooksProvider(folderId));
+  return workbooksState.maybeWhen(
+    orElse: () => Workbook.empty(),
+    success: (workbooks) =>
+        workbooks.firstWhereOrNull((e) => e.workbookId == workbookId) ??
+        Workbook.empty(),
+  );
 }

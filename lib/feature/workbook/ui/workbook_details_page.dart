@@ -38,6 +38,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.workbookDetailsBanner,
       child: Scaffold(
         appBar: AppBar(
+          //TODO: 編集後に戻ってきた場合に、タイトルが更新されてないので修正する
           title: Text(workbook.title),
           actions: [
             PopupMenuButton(
@@ -67,11 +68,20 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                       isDangerous: true,
                       positiveButtonText: '削除する',
                       onPositive: () async {
-                        ref
+                        final result = await ref
                             .read(workbooksProvider(folderId).notifier)
                             .deleteWorkbook(workbook);
-                        showAppSnackBar(context, '問題集をゴミ箱に移動しました');
-                        await context.router.pop();
+
+                        result.match(
+                          (l) => showAppSnackBar(
+                            context,
+                            l.message,
+                          ),
+                          (success) {
+                            showAppSnackBar(context, '問題集をゴミ箱に移動しました');
+                            context.router.pop();
+                          },
+                        );
                       },
                     );
                     break;

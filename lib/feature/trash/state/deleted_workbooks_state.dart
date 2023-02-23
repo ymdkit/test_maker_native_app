@@ -20,9 +20,15 @@ class WorkbooksStateNotifier extends StateNotifier<List<Workbook>> {
     required this.workbookRepository,
     required this.onMutateDeletedWorkbookStream,
     required StreamController<Workbook> onMutateWorkbookStream,
-  }) : super(workbookRepository.getDeletedWorkbooks()) {
+  }) : super([]) {
     onMutateWorkbookSubscription = onMutateWorkbookStream.stream.listen(
-      (workbook) => state = workbookRepository.getDeletedWorkbooks(),
+      (workbook) async {
+        final result = await workbookRepository.getDeletedWorkbooks();
+        result.match(
+          (l) => throw l,
+          (r) => state = r,
+        );
+      },
     );
   }
 
