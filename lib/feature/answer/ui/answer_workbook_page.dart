@@ -87,8 +87,11 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                     ),
                     answering: (question) =>
                         AnswerQuestionFormContent(question: question),
-                    reviewing: (question) =>
-                        AnswerQuestionReviewContent(question: question),
+                    reviewing: (question, attemptAnswers) =>
+                        AnswerQuestionReviewContent(
+                      question: question,
+                      attemptAnswers: attemptAnswers,
+                    ),
                     confirming: (question) =>
                         AnswerQuestionConfirmContent(question: question),
                     selfScoring: (question) =>

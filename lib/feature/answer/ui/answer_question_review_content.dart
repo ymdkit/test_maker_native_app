@@ -10,9 +10,11 @@ class AnswerQuestionReviewContent extends HookConsumerWidget {
   const AnswerQuestionReviewContent({
     super.key,
     required this.question,
+    required this.attemptAnswers,
   });
 
   final Question question;
+  final List<String> attemptAnswers;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,9 +32,14 @@ class AnswerQuestionReviewContent extends HookConsumerWidget {
                   AnswerProblemSection(
                     question: question,
                   ),
+                  const AppSectionTitle(title: 'あなたの解答'),
+                  Text(
+                    attemptAnswers.join('\n'),
+                  ),
+                  const SizedBox(height: 16),
                   const AppSectionTitle(title: '解答'),
                   Text(
-                    question.answers.join(' '),
+                    question.answers.join('\n'),
                   ),
                   const SizedBox(height: 16),
                   AnswerExplanationSection(

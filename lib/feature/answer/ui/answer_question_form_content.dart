@@ -91,16 +91,19 @@ class AnswerQuestionFormContent extends HookConsumerWidget {
   void _checkIsCorrectYourAnswer(
     BuildContext context,
     WidgetRef ref,
-    List<String> answers,
+    List<String> attemptAnswers,
   ) {
     final isCorrect = ref.read(checkIsCorrectUseCaseProvider).call(
           question: question,
-          attemptAnswers: answers,
+          attemptAnswers: attemptAnswers,
         );
     ref.read(answerEffectStateProvider.notifier).state = isCorrect;
     ref
         .read(answerWorkbookStateProvider(question.workbookId).notifier)
-        .onAnswered(isCorrect);
+        .onAnswered(
+          isCorrect: isCorrect,
+          attemptAnswers: attemptAnswers,
+        );
     ref
         .read(answerWorkbookStateProvider(question.workbookId).notifier)
         .updateAnswerStatus(question, isCorrect);

@@ -22,7 +22,8 @@ mixin _$AnswerWorkbookState {
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
-    required TResult Function(Question question) reviewing,
+    required TResult Function(Question question, List<String> attemptAnswers)
+        reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
   }) =>
@@ -33,7 +34,8 @@ mixin _$AnswerWorkbookState {
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
-    TResult? Function(Question question)? reviewing,
+    TResult? Function(Question question, List<String> attemptAnswers)?
+        reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
   }) =>
@@ -44,7 +46,7 @@ mixin _$AnswerWorkbookState {
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
-    TResult Function(Question question)? reviewing,
+    TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
@@ -144,7 +146,8 @@ class _$Empty implements Empty {
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
-    required TResult Function(Question question) reviewing,
+    required TResult Function(Question question, List<String> attemptAnswers)
+        reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
   }) {
@@ -158,7 +161,8 @@ class _$Empty implements Empty {
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
-    TResult? Function(Question question)? reviewing,
+    TResult? Function(Question question, List<String> attemptAnswers)?
+        reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
   }) {
@@ -172,7 +176,7 @@ class _$Empty implements Empty {
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
-    TResult Function(Question question)? reviewing,
+    TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
@@ -313,7 +317,8 @@ class _$Answering implements Answering {
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
-    required TResult Function(Question question) reviewing,
+    required TResult Function(Question question, List<String> attemptAnswers)
+        reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
   }) {
@@ -327,7 +332,8 @@ class _$Answering implements Answering {
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
-    TResult? Function(Question question)? reviewing,
+    TResult? Function(Question question, List<String> attemptAnswers)?
+        reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
   }) {
@@ -341,7 +347,7 @@ class _$Answering implements Answering {
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
-    TResult Function(Question question)? reviewing,
+    TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
@@ -487,7 +493,8 @@ class _$Confirming implements Confirming {
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
-    required TResult Function(Question question) reviewing,
+    required TResult Function(Question question, List<String> attemptAnswers)
+        reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
   }) {
@@ -501,7 +508,8 @@ class _$Confirming implements Confirming {
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
-    TResult? Function(Question question)? reviewing,
+    TResult? Function(Question question, List<String> attemptAnswers)?
+        reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
   }) {
@@ -515,7 +523,7 @@ class _$Confirming implements Confirming {
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
-    TResult Function(Question question)? reviewing,
+    TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
@@ -661,7 +669,8 @@ class _$SelfScoring implements SelfScoring {
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
-    required TResult Function(Question question) reviewing,
+    required TResult Function(Question question, List<String> attemptAnswers)
+        reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
   }) {
@@ -675,7 +684,8 @@ class _$SelfScoring implements SelfScoring {
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
-    TResult? Function(Question question)? reviewing,
+    TResult? Function(Question question, List<String> attemptAnswers)?
+        reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
   }) {
@@ -689,7 +699,7 @@ class _$SelfScoring implements SelfScoring {
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
-    TResult Function(Question question)? reviewing,
+    TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
@@ -762,7 +772,7 @@ abstract class _$$ReviewingCopyWith<$Res> {
           _$Reviewing value, $Res Function(_$Reviewing) then) =
       __$$ReviewingCopyWithImpl<$Res>;
   @useResult
-  $Res call({Question question});
+  $Res call({Question question, List<String> attemptAnswers});
 
   $QuestionCopyWith<$Res> get question;
 }
@@ -779,12 +789,17 @@ class __$$ReviewingCopyWithImpl<$Res>
   @override
   $Res call({
     Object? question = null,
+    Object? attemptAnswers = null,
   }) {
     return _then(_$Reviewing(
       question: null == question
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
               as Question,
+      attemptAnswers: null == attemptAnswers
+          ? _value._attemptAnswers
+          : attemptAnswers // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 
@@ -800,14 +815,23 @@ class __$$ReviewingCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Reviewing implements Reviewing {
-  const _$Reviewing({required this.question});
+  const _$Reviewing(
+      {required this.question, required final List<String> attemptAnswers})
+      : _attemptAnswers = attemptAnswers;
 
   @override
   final Question question;
+  final List<String> _attemptAnswers;
+  @override
+  List<String> get attemptAnswers {
+    if (_attemptAnswers is EqualUnmodifiableListView) return _attemptAnswers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_attemptAnswers);
+  }
 
   @override
   String toString() {
-    return 'AnswerWorkbookState.reviewing(question: $question)';
+    return 'AnswerWorkbookState.reviewing(question: $question, attemptAnswers: $attemptAnswers)';
   }
 
   @override
@@ -816,11 +840,14 @@ class _$Reviewing implements Reviewing {
         (other.runtimeType == runtimeType &&
             other is _$Reviewing &&
             (identical(other.question, question) ||
-                other.question == question));
+                other.question == question) &&
+            const DeepCollectionEquality()
+                .equals(other._attemptAnswers, _attemptAnswers));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, question);
+  int get hashCode => Object.hash(runtimeType, question,
+      const DeepCollectionEquality().hash(_attemptAnswers));
 
   @JsonKey(ignore: true)
   @override
@@ -835,11 +862,12 @@ class _$Reviewing implements Reviewing {
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
-    required TResult Function(Question question) reviewing,
+    required TResult Function(Question question, List<String> attemptAnswers)
+        reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
   }) {
-    return reviewing(question);
+    return reviewing(question, attemptAnswers);
   }
 
   @override
@@ -849,11 +877,12 @@ class _$Reviewing implements Reviewing {
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
-    TResult? Function(Question question)? reviewing,
+    TResult? Function(Question question, List<String> attemptAnswers)?
+        reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
   }) {
-    return reviewing?.call(question);
+    return reviewing?.call(question, attemptAnswers);
   }
 
   @override
@@ -863,13 +892,13 @@ class _$Reviewing implements Reviewing {
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
-    TResult Function(Question question)? reviewing,
+    TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
   }) {
     if (reviewing != null) {
-      return reviewing(question);
+      return reviewing(question, attemptAnswers);
     }
     return orElse();
   }
@@ -922,9 +951,12 @@ class _$Reviewing implements Reviewing {
 }
 
 abstract class Reviewing implements AnswerWorkbookState {
-  const factory Reviewing({required final Question question}) = _$Reviewing;
+  const factory Reviewing(
+      {required final Question question,
+      required final List<String> attemptAnswers}) = _$Reviewing;
 
   Question get question;
+  List<String> get attemptAnswers;
   @JsonKey(ignore: true)
   _$$ReviewingCopyWith<_$Reviewing> get copyWith =>
       throw _privateConstructorUsedError;
@@ -970,7 +1002,8 @@ class _$Idling implements Idling {
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
-    required TResult Function(Question question) reviewing,
+    required TResult Function(Question question, List<String> attemptAnswers)
+        reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
   }) {
@@ -984,7 +1017,8 @@ class _$Idling implements Idling {
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
-    TResult? Function(Question question)? reviewing,
+    TResult? Function(Question question, List<String> attemptAnswers)?
+        reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
   }) {
@@ -998,7 +1032,7 @@ class _$Idling implements Idling {
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
-    TResult Function(Question question)? reviewing,
+    TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
@@ -1135,7 +1169,8 @@ class _$Finished implements Finished {
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
-    required TResult Function(Question question) reviewing,
+    required TResult Function(Question question, List<String> attemptAnswers)
+        reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
   }) {
@@ -1149,7 +1184,8 @@ class _$Finished implements Finished {
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
-    TResult? Function(Question question)? reviewing,
+    TResult? Function(Question question, List<String> attemptAnswers)?
+        reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
   }) {
@@ -1163,7 +1199,7 @@ class _$Finished implements Finished {
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
-    TResult Function(Question question)? reviewing,
+    TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
     required TResult orElse(),

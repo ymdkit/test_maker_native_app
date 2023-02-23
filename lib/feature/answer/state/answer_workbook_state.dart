@@ -18,8 +18,10 @@ class AnswerWorkbookState with _$AnswerWorkbookState {
       Confirming;
   const factory AnswerWorkbookState.selfScoring({required Question question}) =
       SelfScoring;
-  const factory AnswerWorkbookState.reviewing({required Question question}) =
-      Reviewing;
+  const factory AnswerWorkbookState.reviewing({
+    required Question question,
+    required List<String> attemptAnswers,
+  }) = Reviewing;
   const factory AnswerWorkbookState.idling() = Idling;
   const factory AnswerWorkbookState.finished(
       {required List<Question> questions}) = Finished;
@@ -102,16 +104,23 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     questions = questions.take(preferences.numberOfQuestions).toList();
   }
 
-  Future<void> onAnswered(bool isCorrect) async {
+  Future<void> onAnswered({
+    required bool isCorrect,
+    required List<String> attemptAnswers,
+  }) async {
     if (preferences.isAlwaysShowExplanation) {
-      state = AnswerWorkbookState.reviewing(question: questions[index]);
+      state = AnswerWorkbookState.reviewing(
+          question: questions[index], attemptAnswers: attemptAnswers);
       return;
     }
 
     if (isCorrect) {
       await forward();
     } else {
-      state = AnswerWorkbookState.reviewing(question: questions[index]);
+      state = AnswerWorkbookState.reviewing(
+        question: questions[index],
+        attemptAnswers: attemptAnswers,
+      );
     }
   }
 
@@ -138,8 +147,6 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
 
   void selfScore() =>
       state = AnswerWorkbookState.selfScoring(question: questions[index]);
-
-  void finish() => state = AnswerWorkbookState.finished(questions: questions);
 
   void reset() => _setup();
 
