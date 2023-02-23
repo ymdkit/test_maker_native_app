@@ -7,6 +7,7 @@ import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 import 'package:test_maker_native_app/widget/app_text_form_field.dart';
+import 'package:test_maker_native_app/widget/synchronized_button.dart';
 
 class SignInPage extends HookConsumerWidget {
   const SignInPage({super.key});
@@ -47,7 +48,7 @@ class SignInPage extends HookConsumerWidget {
                       keyboardType: TextInputType.visiblePassword,
                     ),
                     const SizedBox(height: 16),
-                    ElevatedButton(
+                    SynchronizedButton.elevated(
                       onPressed: () async {
                         final result = await ref
                             .read(accountStateProvider.notifier)
