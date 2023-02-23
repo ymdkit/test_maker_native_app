@@ -11,6 +11,7 @@ import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
+import 'package:test_maker_native_app/widget/app_section_title.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 class WorkbookDetailsPage extends HookConsumerWidget {
@@ -87,6 +88,14 @@ class WorkbookDetailsPage extends HookConsumerWidget {
               )
             : CustomScrollView(
                 slivers: [
+                  const SliverPadding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: AppSectionTitle(title: '問題一覧'),
+                    ),
+                  ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) => QuestionListItem(
