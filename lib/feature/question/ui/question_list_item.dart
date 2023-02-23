@@ -34,7 +34,9 @@ class QuestionListItem extends HookConsumerWidget {
               color: Colors.grey,
             );
           case AnswerStatus.unAnswered:
-            return const SizedBox.shrink();
+            return const Icon(
+              Icons.question_answer,
+            );
         }
       }(),
       title: Text(

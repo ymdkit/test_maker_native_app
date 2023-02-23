@@ -85,15 +85,37 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                   CreateQuestionRoute(workbookId: workbook.workbookId),
                 ),
               )
-            : ListView.builder(
-                itemCount: questions.length,
-                itemBuilder: (context, index) => QuestionListItem(
-                  question: questions[index],
-                  onTap: (question) async => showOperateQuestionSheet(
-                    context,
-                    question,
+            : CustomScrollView(
+                slivers: [
+                  const SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    title: Text('問題一覧'),
+                    actions: [
+                      TextButton(
+                        onPressed: null,
+                        child: Text('絞り込み'),
+                      ),
+                      TextButton(
+                        onPressed: null,
+                        child: Text('並び替え'),
+                      ),
+                      SizedBox(width: 8),
+                    ],
+                    floating: true,
                   ),
-                ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => QuestionListItem(
+                        question: questions[index],
+                        onTap: (question) async => showOperateQuestionSheet(
+                          context,
+                          question,
+                        ),
+                      ),
+                      childCount: questions.length,
+                    ),
+                  ),
+                ],
               ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => context.router.push(
