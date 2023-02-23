@@ -5,10 +5,13 @@ import 'package:test_maker_native_app/feature/question/state/questions_state.dar
 import 'package:test_maker_native_app/feature/question/ui/operate_question_sheet.dart';
 import 'package:test_maker_native_app/feature/question/ui/question_list_item.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
+import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 class WorkbookDetailsPage extends HookConsumerWidget {
   const WorkbookDetailsPage({
@@ -36,11 +39,43 @@ class WorkbookDetailsPage extends HookConsumerWidget {
         appBar: AppBar(
           title: Text(workbook.title),
           actions: [
-            IconButton(
-              onPressed: () => context.router.push(
-                EditWorkbookRoute(workbook: workbook),
-              ),
-              icon: const Icon(Icons.edit),
+            PopupMenuButton(
+              icon: const Icon(Icons.more_vert),
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: _PopupMenuItems.edit,
+                  child: Text('問題集の編集'),
+                ),
+                const PopupMenuItem(
+                  value: _PopupMenuItems.delete,
+                  child: Text('問題集の削除'),
+                ),
+              ],
+              onSelected: (value) {
+                switch (value) {
+                  case _PopupMenuItems.edit:
+                    context.router.push(
+                      EditWorkbookRoute(workbook: workbook),
+                    );
+                    break;
+                  case _PopupMenuItems.delete:
+                    showAlertDialog(
+                      context: context,
+                      title: '問題集の削除',
+                      content: 'この問題集を削除しますか？',
+                      isDangerous: true,
+                      positiveButtonText: '削除する',
+                      onPositive: () async {
+                        ref
+                            .read(workbooksProvider(folderId).notifier)
+                            .deleteWorkbook(workbook);
+                        showAppSnackBar(context, '問題集をゴミ箱に移動しました');
+                        await context.router.pop();
+                      },
+                    );
+                    break;
+                }
+              },
             ),
           ],
         ),
@@ -69,4 +104,9 @@ class WorkbookDetailsPage extends HookConsumerWidget {
       ),
     );
   }
+}
+
+enum _PopupMenuItems {
+  edit,
+  delete,
 }

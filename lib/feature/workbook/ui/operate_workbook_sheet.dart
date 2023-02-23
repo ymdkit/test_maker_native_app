@@ -5,11 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_setting_sheet.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
-import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
-import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 Future<T?> showOperateWorkbookSheet<T>(
   BuildContext context,
@@ -116,25 +114,6 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                   ),
                 );
                 context.router.pop();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.delete),
-              title: const Text('削除する'),
-              onTap: () {
-                showAlertDialog(
-                    context: context,
-                    title: '問題集の削除',
-                    content: '問題集: ${workbook.title} を削除してもよろしいですか？',
-                    positiveButtonText: '削除する',
-                    isDangerous: true,
-                    onPositive: () {
-                      context.router.pop();
-                      ref
-                          .read(workbooksProvider(workbook.folderId).notifier)
-                          .deleteWorkbook(workbook);
-                      showAppSnackBar(context, '問題集をゴミ箱に移動しました');
-                    });
               },
             ),
           ],

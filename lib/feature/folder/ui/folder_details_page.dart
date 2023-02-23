@@ -56,7 +56,7 @@ class FolderDetailsPage extends HookConsumerWidget {
                       isDangerous: true,
                       positiveButtonText: '削除する',
                       onPositive: () async {
-                        showAppSnackBar(context, 'フォルダを削除しました');
+                        showAppSnackBar(context, 'フォルダをゴミ箱に移動しました');
                         await context.router.pop();
                         ref.read(foldersProvider.notifier).deleteFolder(folder);
                       },
