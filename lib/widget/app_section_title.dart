@@ -24,7 +24,7 @@ class AppSectionTitle extends HookConsumerWidget {
                 color: themeColor.displayColor(),
               ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
       ],
     );
   }
