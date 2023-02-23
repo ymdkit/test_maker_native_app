@@ -93,10 +93,6 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                     actions: [
                       TextButton(
                         onPressed: null,
-                        child: Text('絞り込み'),
-                      ),
-                      TextButton(
-                        onPressed: null,
                         child: Text('並び替え'),
                       ),
                       SizedBox(width: 8),
