@@ -123,26 +123,6 @@ class AnswerWorkbookSettings extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: AppSectionTitle(title: '出題設定'),
         ),
-        ListTile(
-          title: const Text('出題範囲'),
-          subtitle: Text(
-            QuestionCondition.values
-                .elementAtOrDefault(
-                    preferences.questionCondition.index, QuestionCondition.all)
-                .displayString(),
-          ),
-          onTap: () => showAppPickerSheet(
-            context: context,
-            title: '出題範囲',
-            items: QuestionCondition.values
-                .map(
-                  (e) => PickerItem(label: e.displayString(), value: e),
-                )
-                .toList(),
-            onChanged: (value) =>
-                preferencesNotifier.setQuestionCondition(value),
-          ),
-        ),
         SwitchListTile(
           title: const Text('出題順をランダムにする'),
           value: preferences.isRandom,
@@ -175,6 +155,26 @@ class AnswerWorkbookSettings extends StatelessWidget {
           value: preferences.isShowAnswerSettingDialog,
           onChanged: (value) =>
               preferencesNotifier.setShowAnswerSettingDialog(value),
+        ),
+        ListTile(
+          title: const Text('出題範囲'),
+          subtitle: Text(
+            QuestionCondition.values
+                .elementAtOrDefault(
+                    preferences.questionCondition.index, QuestionCondition.all)
+                .displayString(),
+          ),
+          onTap: () => showAppPickerSheet(
+            context: context,
+            title: '出題範囲',
+            items: QuestionCondition.values
+                .map(
+                  (e) => PickerItem(label: e.displayString(), value: e),
+                )
+                .toList(),
+            onChanged: (value) =>
+                preferencesNotifier.setQuestionCondition(value),
+          ),
         ),
         ListTile(
           title: const Text('出題数'),
