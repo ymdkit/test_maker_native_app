@@ -48,3 +48,8 @@ app.*.map.json
 
 # dart_define
 dart_defines/
+
+# firebase
+google-services.json
+GoogleService-Info.plist
+firebase_options.dart
