@@ -1,6 +1,4 @@
-
 import 'package:auto_route/auto_route.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
@@ -10,6 +8,7 @@ import 'package:test_maker_native_app/feature/question/ui/question_list_item.dar
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
+import 'package:test_maker_native_app/widget/app_section_title.dart';
 
 class AnswerWorkbookResultContent extends HookConsumerWidget {
   const AnswerWorkbookResultContent({
@@ -23,7 +22,6 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final screenWidth = MediaQuery.of(context).size.width;
     final themeColor = ref.watch(
       preferencesStateProvider.select((value) => value.themeColor),
     );
@@ -42,54 +40,112 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
         Expanded(
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: Row(
-                  children: [
-                    const SizedBox(width: 16),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      width: screenWidth * 0.4,
-                      height: screenWidth * 0.4,
-                      child: PieChart(
-                        PieChartData(
-                          centerSpaceRadius: 32,
-                          startDegreeOffset: -90,
-                          sections: [
-                            PieChartSectionData(
-                              value: correctRate.toDouble(),
-                              showTitle: false,
-                              color: themeColor.displayColor(),
-                              radius: screenWidth * 0.1,
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 16),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const AppSectionTitle(title: '解答結果'),
+                      SizedBox(
+                        height: 44,
+                        child: Row(
+                          children: [
+                            Visibility(
+                              visible: correctRate > 0,
+                              child: Expanded(
+                                flex: (correctRate * 100).toInt(),
+                                child: ColoredBox(
+                                  color: themeColor.displayColor(),
+                                  child: const SizedBox.expand(),
+                                ),
+                              ),
                             ),
-                            PieChartSectionData(
-                              value: wrongRate.toDouble(),
-                              showTitle: false,
-                              color: Colors.grey,
-                              radius: screenWidth * 0.1,
+                            Visibility(
+                              visible: wrongRate > 0,
+                              child: Expanded(
+                                flex: (wrongRate * 100).toInt(),
+                                child: const ColoredBox(
+                                  color: Colors.grey,
+                                  child: SizedBox.expand(),
+                                ),
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 32),
-                    Expanded(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          '${answeringQuestions.length}問中${answeringQuestions.where(
-                                (q) => q.answerStatus == AnswerStatus.correct,
-                              ).length}問正解しました',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: '解答数',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
+                                    ),
+                                    const WidgetSpan(child: SizedBox(width: 4)),
+                                    TextSpan(
+                                      text: '${answeringQuestions.length}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                    ),
+                                    const WidgetSpan(
+                                        child: SizedBox(width: 16)),
+                                    TextSpan(
+                                      text: '正答数',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
+                                    ),
+                                    const WidgetSpan(child: SizedBox(width: 4)),
+                                    TextSpan(
+                                      text: '${answeringQuestions.where(
+                                            (q) =>
+                                                q.answerStatus ==
+                                                AnswerStatus.correct,
+                                          ).length}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                    ),
+                                    const WidgetSpan(
+                                        child: SizedBox(width: 16)),
+                                    TextSpan(
+                                      text: '正答率',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
+                                    ),
+                                    const WidgetSpan(child: SizedBox(width: 4)),
+                                    TextSpan(
+                                      text: '${(correctRate * 100).toInt()}%',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 16),
-              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {

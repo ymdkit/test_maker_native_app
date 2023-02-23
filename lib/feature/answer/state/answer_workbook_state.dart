@@ -125,11 +125,12 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   }
 
   Future<void> forward() async {
+    //NOTE: AnswerQuestionForm を表示したままだと前問解答時の状態が残るため、
+    //一旦 AnswerQuestionForm を破棄してから再表示する
+    state = const AnswerWorkbookState.idling();
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+
     if (index < questions.length - 1) {
-      //NOTE: AnswerQuestionForm を表示したままだと前問解答時の状態が残るため、
-      //一旦 AnswerQuestionForm を破棄してから再表示する
-      state = const AnswerWorkbookState.idling();
-      await Future<void>.delayed(const Duration(milliseconds: 100));
       index++;
 
       if (preferences.isSelfScoring) {
@@ -138,6 +139,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
         state = AnswerWorkbookState.answering(question: questions[index]);
       }
     } else {
+      await Future<void>.delayed(const Duration(milliseconds: 100));
       state = AnswerWorkbookState.finished(questions: questions);
     }
   }
