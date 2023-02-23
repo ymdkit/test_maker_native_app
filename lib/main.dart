@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,6 +16,7 @@ import 'package:test_maker_native_app/utils/package_information.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await MobileAds.instance.initialize();
   await MobileAds.instance.updateRequestConfiguration(
     RequestConfiguration(
@@ -80,7 +83,11 @@ class MyApp extends HookConsumerWidget {
               ),
             ),
           ),
-      routerDelegate: appRouter.delegate(),
+      routerDelegate: appRouter.delegate(
+        navigatorObservers: () => [
+          FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+        ],
+      ),
       routeInformationParser: appRouter.defaultRouteParser(),
     );
   }
