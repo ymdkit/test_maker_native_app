@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
@@ -11,5 +12,6 @@ Workbook workbook(
   required String workbookId,
 }) {
   final workbooks = ref.watch(workbooksProvider(folderId));
-  return workbooks.firstWhere((e) => e.workbookId == workbookId);
+  return workbooks.firstWhereOrNull((e) => e.workbookId == workbookId) ??
+      Workbook.empty();
 }

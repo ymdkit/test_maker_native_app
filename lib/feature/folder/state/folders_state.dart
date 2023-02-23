@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/repository/folder_repository.dart';
+import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 
@@ -13,7 +14,7 @@ final foldersProvider =
     folderRepository: ref.watch(folderRepositoryProvider),
     onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateFolderStream: ref.watch(onMutateFolderStreamProvider),
-    onMutateDeletedFolderStream: ref.watch(onMutateFolderStreamProvider),
+    onMutateDeletedFolderStream: ref.watch(onMutateDeletedFolderStreamProvider),
   ),
 );
 
@@ -76,6 +77,7 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
   void deleteFolder(Folder folder) {
     folderRepository.deleteFolder(folder);
     state = state.where((e) => e.folderId != folder.folderId).toList();
+    onMutateFolderStream.sink.add(folder);
   }
 
   @override

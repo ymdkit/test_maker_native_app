@@ -5,6 +5,7 @@ part 'folder.freezed.dart';
 
 @freezed
 class Folder with _$Folder {
+  const Folder._();
   const factory Folder({
     required String folderId,
     required String title,
@@ -12,4 +13,12 @@ class Folder with _$Folder {
     required AppThemeColor color,
     required int workbookCount,
   }) = _Folder;
+
+  factory Folder.empty() => const Folder(
+        folderId: '',
+        title: '削除済みフォルダ',
+        order: 0,
+        color: AppThemeColor.blue,
+        workbookCount: 0,
+      );
 }

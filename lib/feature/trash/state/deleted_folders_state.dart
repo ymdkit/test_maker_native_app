@@ -5,17 +5,17 @@ import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/repository/folder_repository.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
 
-final deletedFoldersProvider =
-    StateNotifierProvider.autoDispose<FoldersStateNotifier, List<Folder>>(
-  (ref) => FoldersStateNotifier(
+final deletedFoldersProvider = StateNotifierProvider.autoDispose<
+    DeletedFoldersStateNotifier, List<Folder>>(
+  (ref) => DeletedFoldersStateNotifier(
     folderRepository: ref.watch(folderRepositoryProvider),
-    onMutateFolderStream: ref.watch(onMutateFolderStreamProvider),
     onMutateDeletedFolderStream: ref.watch(onMutateDeletedFolderStreamProvider),
+    onMutateFolderStream: ref.watch(onMutateFolderStreamProvider),
   ),
 );
 
-class FoldersStateNotifier extends StateNotifier<List<Folder>> {
-  FoldersStateNotifier({
+class DeletedFoldersStateNotifier extends StateNotifier<List<Folder>> {
+  DeletedFoldersStateNotifier({
     required this.folderRepository,
     required this.onMutateDeletedFolderStream,
     required StreamController<Folder> onMutateFolderStream,

@@ -156,14 +156,15 @@ class __$$_WorkbookCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Workbook implements _Workbook {
+class _$_Workbook extends _Workbook {
   const _$_Workbook(
       {required this.workbookId,
       required this.title,
       required this.order,
       required this.color,
       required this.folderId,
-      required this.questionCount});
+      required this.questionCount})
+      : super._();
 
   @override
   final String workbookId;
@@ -210,7 +211,7 @@ class _$_Workbook implements _Workbook {
       __$$_WorkbookCopyWithImpl<_$_Workbook>(this, _$identity);
 }
 
-abstract class _Workbook implements Workbook {
+abstract class _Workbook extends Workbook {
   const factory _Workbook(
       {required final String workbookId,
       required final String title,
@@ -218,6 +219,7 @@ abstract class _Workbook implements Workbook {
       required final AppThemeColor color,
       required final String? folderId,
       required final int questionCount}) = _$_Workbook;
+  const _Workbook._() : super._();
 
   @override
   String get workbookId;

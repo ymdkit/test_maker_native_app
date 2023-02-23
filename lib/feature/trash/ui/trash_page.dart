@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/folder/ui/folder_list_item.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_questions_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
@@ -61,8 +62,8 @@ class TrashPage extends HookConsumerWidget {
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
-                            return WorkbookListItem(
-                              workbook: workbooks[index],
+                            return FolderListItem(
+                              folder: folders[index],
                               onTap: (workbook) => showAlertDialog(
                                 context: context,
                                 title: 'フォルダの復元',
