@@ -1,0 +1,4 @@
+enum SignInProvider {
+  google,
+  apple,
+}

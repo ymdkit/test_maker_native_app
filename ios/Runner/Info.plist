@@ -256,5 +256,16 @@
 		<string>3qcr597p9d.skadnetwork</string>
 		</dict>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1004520490740-9sl3j7a22lp7dnfpfjohvdba3c3g2iuu</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

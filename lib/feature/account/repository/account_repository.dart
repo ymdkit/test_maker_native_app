@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:test_maker_native_app/feature/account/model/account.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
@@ -32,6 +33,42 @@ class AccountRepository {
     } catch (e) {
       return Left(AppException.fromRawException(e: e));
     }
+  }
+
+  Future<Either<AppException, Account>> signInWithGoogle() async {
+    try {
+      final googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        return const Left(AppException(message: 'user not found'));
+      }
+
+      final googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final authResult =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      final user = authResult.user;
+      if (user == null) {
+        return const Left(AppException(message: 'user not found'));
+      }
+
+      return Right(user.toAccount());
+    } on FirebaseAuthException catch (e) {
+      return Left(
+        AppException.fromRawException(e: e),
+      );
+    } catch (e) {
+      return Left(AppException.fromRawException(e: e));
+    }
+  }
+
+  Future<Either<AppException, Account>> signInWithApple() async {
+    //Firebase の Apple 認証を行う
+
+    return const Left(AppException(message: 'not implemented'));
   }
 
   Either<AppException, Account> fetchAccount() {
