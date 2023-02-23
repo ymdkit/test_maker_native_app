@@ -51,7 +51,7 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                     children: [
                       const AppSectionTitle(title: '解答結果'),
                       SizedBox(
-                        height: 44,
+                        height: MediaQuery.of(context).size.height * 0.05,
                         child: Row(
                           children: [
                             Visibility(
