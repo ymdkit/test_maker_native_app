@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:test_maker_native_app/feature/account/ui/sign_in_page.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_page.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/ui/create_folder_page.dart';
@@ -82,6 +83,7 @@ part 'app_router.gr.dart';
     AutoRoute(page: CreateQuestionPage, fullscreenDialog: true),
     AutoRoute(page: AnswerWorkbookPage, fullscreenDialog: true),
     AutoRoute(page: EditQuestionPage, fullscreenDialog: true),
+    AutoRoute(page: SignInPage, fullscreenDialog: true),
   ],
 )
 class AppRouter extends _$AppRouter {}

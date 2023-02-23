@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/web_url.dart';
+import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/answer/model/question_condition.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -11,6 +12,7 @@ import 'package:test_maker_native_app/utils/package_information.dart';
 import 'package:test_maker_native_app/utils/url_launcher.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_color_picker_sheet.dart';
 import 'package:test_maker_native_app/widget/app_picker_sheet.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
@@ -25,6 +27,8 @@ class SettingPage extends HookConsumerWidget {
 
     final packageInfo = ref.watch(packageInfoProvider);
     final urlLauncher = ref.watch(urlLauncherProvider);
+
+    final account = ref.watch(accountStateProvider);
 
     return AppAdWrapper(
       adUnitId: AppAdUnitId.settingBanner,
@@ -54,6 +58,31 @@ class SettingPage extends HookConsumerWidget {
                   onChanged: (color) =>
                       preferencesNotifier.setThemeColor(color),
                 ),
+              ),
+              const Divider(indent: 16, endIndent: 16),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: AppSectionTitle(title: 'アカウント設定'),
+              ),
+              account.maybeWhen(
+                guest: () => ListTile(
+                  title: const Text('ログイン'),
+                  onTap: () => context.router.push(const SignInRoute()),
+                ),
+                authenticated: (user) => ListTile(
+                  title: const Text('ログアウト'),
+                  onTap: () async {
+                    await showAlertDialog(
+                      context: context,
+                      title: 'ログアウトの確認',
+                      content: 'ログアウトしてもよろしいですか？',
+                      onPositive: () async {
+                        await ref.read(accountStateProvider.notifier).signOut();
+                      },
+                    );
+                  },
+                ),
+                orElse: () => const SizedBox.shrink(),
               ),
               const Divider(indent: 16, endIndent: 16),
               const Padding(

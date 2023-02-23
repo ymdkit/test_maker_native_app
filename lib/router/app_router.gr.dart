@@ -58,6 +58,13 @@ class _$AppRouter extends RootStackRouter {
         fullscreenDialog: true,
       );
     },
+    SignInRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SignInPage(),
+        fullscreenDialog: true,
+      );
+    },
     HomeTabRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -320,6 +327,10 @@ class _$AppRouter extends RootStackRouter {
           EditQuestionRoute.name,
           path: '/edit-question-page',
         ),
+        RouteConfig(
+          SignInRoute.name,
+          path: '/sign-in-page',
+        ),
       ];
 }
 
@@ -446,6 +457,18 @@ class EditQuestionRouteArgs {
   String toString() {
     return 'EditQuestionRouteArgs{key: $key, workbookId: $workbookId, question: $question}';
   }
+}
+
+/// generated route for
+/// [SignInPage]
+class SignInRoute extends PageRouteInfo<void> {
+  const SignInRoute()
+      : super(
+          SignInRoute.name,
+          path: '/sign-in-page',
+        );
+
+  static const String name = 'SignInRoute';
 }
 
 /// generated route for

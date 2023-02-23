@@ -1,0 +1,58 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:test_maker_native_app/feature/account/model/account.dart';
+import 'package:test_maker_native_app/utils/app_exception.dart';
+
+final accountRepositoryProvider = Provider<AccountRepository>(
+  (ref) => AccountRepository(),
+);
+
+class AccountRepository {
+  Future<Either<AppException, Account>> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = credential.user;
+      if (user == null) {
+        return const Left(AppException(message: 'user not found'));
+      }
+
+      return Right(user.toAccount());
+    } on FirebaseAuthException catch (e) {
+      return Left(
+        AppException.fromRawException(message: '入力情報に誤りがあります', e: e),
+      );
+    } catch (e) {
+      return Left(AppException.fromRawException(e: e));
+    }
+  }
+
+  Either<AppException, Account> fetchAccount() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return const Left(AppException(message: 'user not found'));
+    }
+    return Right(user.toAccount());
+  }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+}
+
+extension FirebaseUserExt on User {
+  Account toAccount() {
+    return Account(
+      accountId: uid,
+      email: email ?? '',
+      name: displayName ?? '',
+    );
+  }
+}
