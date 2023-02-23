@@ -185,6 +185,9 @@ class _AnswerSelectCompleteQuestionContent extends HookWidget {
           .map(
             (text) => CheckboxListTile(
               title: Text(text),
+              subtitle: value.contains(text) && question.isCheckAnswerOrder
+                  ? Text((value.indexOf(text) + 1).toString())
+                  : null,
               value: value.contains(text),
               onChanged: (newValue) {
                 if (newValue != null) {

@@ -37,6 +37,7 @@ class AnswerQuestionReviewContent extends HookConsumerWidget {
                   Visibility(
                     visible: attemptAnswers.any((e) => e.isNotEmpty),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const AppSectionTitle(title: 'あなたの解答'),
                         Text(
