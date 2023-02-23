@@ -69,6 +69,9 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
             );
           }
         },
+        finished: (_) {
+          state = AnswerWorkbookState.finished(questions: questions);
+        },
         orElse: () {},
       );
     });

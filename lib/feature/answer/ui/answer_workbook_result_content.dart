@@ -165,7 +165,11 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                   (context, index) {
                     return QuestionListItem(
                       question: answeringQuestions[index],
-                      onTap: (workbook) {},
+                      onTap: (question) => context.router.push(
+                        EditQuestionRoute(
+                            workbookId: question.workbookId,
+                            question: question),
+                      ),
                     );
                   },
                   childCount: answeringQuestions.length,
