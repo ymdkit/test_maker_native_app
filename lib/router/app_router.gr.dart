@@ -35,17 +35,6 @@ class _$AppRouter extends RootStackRouter {
         fullscreenDialog: true,
       );
     },
-    AnswerWorkbookResultRoute.name: (routeData) {
-      final args = routeData.argsAs<AnswerWorkbookResultRouteArgs>();
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: AnswerWorkbookResultPage(
-          key: args.key,
-          workbook: args.workbook,
-        ),
-        fullscreenDialog: true,
-      );
-    },
     HomeTabRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -331,10 +320,6 @@ class _$AppRouter extends RootStackRouter {
           AnswerWorkbookRoute.name,
           path: '/answer-workbook-page',
         ),
-        RouteConfig(
-          AnswerWorkbookResultRoute.name,
-          path: '/answer-workbook-result-page',
-        ),
       ];
 }
 
@@ -387,41 +372,6 @@ class AnswerWorkbookRouteArgs {
   @override
   String toString() {
     return 'AnswerWorkbookRouteArgs{key: $key, folderId: $folderId, workbookId: $workbookId}';
-  }
-}
-
-/// generated route for
-/// [AnswerWorkbookResultPage]
-class AnswerWorkbookResultRoute
-    extends PageRouteInfo<AnswerWorkbookResultRouteArgs> {
-  AnswerWorkbookResultRoute({
-    Key? key,
-    required Workbook workbook,
-  }) : super(
-          AnswerWorkbookResultRoute.name,
-          path: '/answer-workbook-result-page',
-          args: AnswerWorkbookResultRouteArgs(
-            key: key,
-            workbook: workbook,
-          ),
-        );
-
-  static const String name = 'AnswerWorkbookResultRoute';
-}
-
-class AnswerWorkbookResultRouteArgs {
-  const AnswerWorkbookResultRouteArgs({
-    this.key,
-    required this.workbook,
-  });
-
-  final Key? key;
-
-  final Workbook workbook;
-
-  @override
-  String toString() {
-    return 'AnswerWorkbookResultRouteArgs{key: $key, workbook: $workbook}';
   }
 }
 

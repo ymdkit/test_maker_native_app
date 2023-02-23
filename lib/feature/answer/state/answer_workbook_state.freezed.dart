@@ -18,37 +18,41 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AnswerWorkbookState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() empty,
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
     required TResult Function(Question question) reviewing,
     required TResult Function() idling,
-    required TResult Function() finished,
+    required TResult Function(List<Question> questions) finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? empty,
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
     TResult? Function(Question question)? reviewing,
     TResult? Function()? idling,
-    TResult? Function()? finished,
+    TResult? Function(List<Question> questions)? finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? empty,
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
     TResult Function(Question question)? reviewing,
     TResult Function()? idling,
-    TResult Function()? finished,
+    TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Empty value) empty,
     required TResult Function(Answering value) answering,
     required TResult Function(Confirming value) confirming,
     required TResult Function(SelfScoring value) selfScoring,
@@ -59,6 +63,7 @@ mixin _$AnswerWorkbookState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty value)? empty,
     TResult? Function(Answering value)? answering,
     TResult? Function(Confirming value)? confirming,
     TResult? Function(SelfScoring value)? selfScoring,
@@ -69,6 +74,7 @@ mixin _$AnswerWorkbookState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty value)? empty,
     TResult Function(Answering value)? answering,
     TResult Function(Confirming value)? confirming,
     TResult Function(SelfScoring value)? selfScoring,
@@ -96,6 +102,136 @@ class _$AnswerWorkbookStateCopyWithImpl<$Res, $Val extends AnswerWorkbookState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$EmptyCopyWith<$Res> {
+  factory _$$EmptyCopyWith(_$Empty value, $Res Function(_$Empty) then) =
+      __$$EmptyCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$EmptyCopyWithImpl<$Res>
+    extends _$AnswerWorkbookStateCopyWithImpl<$Res, _$Empty>
+    implements _$$EmptyCopyWith<$Res> {
+  __$$EmptyCopyWithImpl(_$Empty _value, $Res Function(_$Empty) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$Empty implements Empty {
+  const _$Empty();
+
+  @override
+  String toString() {
+    return 'AnswerWorkbookState.empty()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$Empty);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() empty,
+    required TResult Function(Question question) answering,
+    required TResult Function(Question question) confirming,
+    required TResult Function(Question question) selfScoring,
+    required TResult Function(Question question) reviewing,
+    required TResult Function() idling,
+    required TResult Function(List<Question> questions) finished,
+  }) {
+    return empty();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? empty,
+    TResult? Function(Question question)? answering,
+    TResult? Function(Question question)? confirming,
+    TResult? Function(Question question)? selfScoring,
+    TResult? Function(Question question)? reviewing,
+    TResult? Function()? idling,
+    TResult? Function(List<Question> questions)? finished,
+  }) {
+    return empty?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? empty,
+    TResult Function(Question question)? answering,
+    TResult Function(Question question)? confirming,
+    TResult Function(Question question)? selfScoring,
+    TResult Function(Question question)? reviewing,
+    TResult Function()? idling,
+    TResult Function(List<Question> questions)? finished,
+    required TResult orElse(),
+  }) {
+    if (empty != null) {
+      return empty();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty value) empty,
+    required TResult Function(Answering value) answering,
+    required TResult Function(Confirming value) confirming,
+    required TResult Function(SelfScoring value) selfScoring,
+    required TResult Function(Reviewing value) reviewing,
+    required TResult Function(Idling value) idling,
+    required TResult Function(Finished value) finished,
+  }) {
+    return empty(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty value)? empty,
+    TResult? Function(Answering value)? answering,
+    TResult? Function(Confirming value)? confirming,
+    TResult? Function(SelfScoring value)? selfScoring,
+    TResult? Function(Reviewing value)? reviewing,
+    TResult? Function(Idling value)? idling,
+    TResult? Function(Finished value)? finished,
+  }) {
+    return empty?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty value)? empty,
+    TResult Function(Answering value)? answering,
+    TResult Function(Confirming value)? confirming,
+    TResult Function(SelfScoring value)? selfScoring,
+    TResult Function(Reviewing value)? reviewing,
+    TResult Function(Idling value)? idling,
+    TResult Function(Finished value)? finished,
+    required TResult orElse(),
+  }) {
+    if (empty != null) {
+      return empty(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Empty implements AnswerWorkbookState {
+  const factory Empty() = _$Empty;
 }
 
 /// @nodoc
@@ -173,12 +309,13 @@ class _$Answering implements Answering {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() empty,
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
     required TResult Function(Question question) reviewing,
     required TResult Function() idling,
-    required TResult Function() finished,
+    required TResult Function(List<Question> questions) finished,
   }) {
     return answering(question);
   }
@@ -186,12 +323,13 @@ class _$Answering implements Answering {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? empty,
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
     TResult? Function(Question question)? reviewing,
     TResult? Function()? idling,
-    TResult? Function()? finished,
+    TResult? Function(List<Question> questions)? finished,
   }) {
     return answering?.call(question);
   }
@@ -199,12 +337,13 @@ class _$Answering implements Answering {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? empty,
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
     TResult Function(Question question)? reviewing,
     TResult Function()? idling,
-    TResult Function()? finished,
+    TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
   }) {
     if (answering != null) {
@@ -216,6 +355,7 @@ class _$Answering implements Answering {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Empty value) empty,
     required TResult Function(Answering value) answering,
     required TResult Function(Confirming value) confirming,
     required TResult Function(SelfScoring value) selfScoring,
@@ -229,6 +369,7 @@ class _$Answering implements Answering {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty value)? empty,
     TResult? Function(Answering value)? answering,
     TResult? Function(Confirming value)? confirming,
     TResult? Function(SelfScoring value)? selfScoring,
@@ -242,6 +383,7 @@ class _$Answering implements Answering {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty value)? empty,
     TResult Function(Answering value)? answering,
     TResult Function(Confirming value)? confirming,
     TResult Function(SelfScoring value)? selfScoring,
@@ -341,12 +483,13 @@ class _$Confirming implements Confirming {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() empty,
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
     required TResult Function(Question question) reviewing,
     required TResult Function() idling,
-    required TResult Function() finished,
+    required TResult Function(List<Question> questions) finished,
   }) {
     return confirming(question);
   }
@@ -354,12 +497,13 @@ class _$Confirming implements Confirming {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? empty,
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
     TResult? Function(Question question)? reviewing,
     TResult? Function()? idling,
-    TResult? Function()? finished,
+    TResult? Function(List<Question> questions)? finished,
   }) {
     return confirming?.call(question);
   }
@@ -367,12 +511,13 @@ class _$Confirming implements Confirming {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? empty,
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
     TResult Function(Question question)? reviewing,
     TResult Function()? idling,
-    TResult Function()? finished,
+    TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
   }) {
     if (confirming != null) {
@@ -384,6 +529,7 @@ class _$Confirming implements Confirming {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Empty value) empty,
     required TResult Function(Answering value) answering,
     required TResult Function(Confirming value) confirming,
     required TResult Function(SelfScoring value) selfScoring,
@@ -397,6 +543,7 @@ class _$Confirming implements Confirming {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty value)? empty,
     TResult? Function(Answering value)? answering,
     TResult? Function(Confirming value)? confirming,
     TResult? Function(SelfScoring value)? selfScoring,
@@ -410,6 +557,7 @@ class _$Confirming implements Confirming {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty value)? empty,
     TResult Function(Answering value)? answering,
     TResult Function(Confirming value)? confirming,
     TResult Function(SelfScoring value)? selfScoring,
@@ -509,12 +657,13 @@ class _$SelfScoring implements SelfScoring {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() empty,
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
     required TResult Function(Question question) reviewing,
     required TResult Function() idling,
-    required TResult Function() finished,
+    required TResult Function(List<Question> questions) finished,
   }) {
     return selfScoring(question);
   }
@@ -522,12 +671,13 @@ class _$SelfScoring implements SelfScoring {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? empty,
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
     TResult? Function(Question question)? reviewing,
     TResult? Function()? idling,
-    TResult? Function()? finished,
+    TResult? Function(List<Question> questions)? finished,
   }) {
     return selfScoring?.call(question);
   }
@@ -535,12 +685,13 @@ class _$SelfScoring implements SelfScoring {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? empty,
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
     TResult Function(Question question)? reviewing,
     TResult Function()? idling,
-    TResult Function()? finished,
+    TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
   }) {
     if (selfScoring != null) {
@@ -552,6 +703,7 @@ class _$SelfScoring implements SelfScoring {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Empty value) empty,
     required TResult Function(Answering value) answering,
     required TResult Function(Confirming value) confirming,
     required TResult Function(SelfScoring value) selfScoring,
@@ -565,6 +717,7 @@ class _$SelfScoring implements SelfScoring {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty value)? empty,
     TResult? Function(Answering value)? answering,
     TResult? Function(Confirming value)? confirming,
     TResult? Function(SelfScoring value)? selfScoring,
@@ -578,6 +731,7 @@ class _$SelfScoring implements SelfScoring {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty value)? empty,
     TResult Function(Answering value)? answering,
     TResult Function(Confirming value)? confirming,
     TResult Function(SelfScoring value)? selfScoring,
@@ -677,12 +831,13 @@ class _$Reviewing implements Reviewing {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() empty,
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
     required TResult Function(Question question) reviewing,
     required TResult Function() idling,
-    required TResult Function() finished,
+    required TResult Function(List<Question> questions) finished,
   }) {
     return reviewing(question);
   }
@@ -690,12 +845,13 @@ class _$Reviewing implements Reviewing {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? empty,
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
     TResult? Function(Question question)? reviewing,
     TResult? Function()? idling,
-    TResult? Function()? finished,
+    TResult? Function(List<Question> questions)? finished,
   }) {
     return reviewing?.call(question);
   }
@@ -703,12 +859,13 @@ class _$Reviewing implements Reviewing {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? empty,
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
     TResult Function(Question question)? reviewing,
     TResult Function()? idling,
-    TResult Function()? finished,
+    TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
   }) {
     if (reviewing != null) {
@@ -720,6 +877,7 @@ class _$Reviewing implements Reviewing {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Empty value) empty,
     required TResult Function(Answering value) answering,
     required TResult Function(Confirming value) confirming,
     required TResult Function(SelfScoring value) selfScoring,
@@ -733,6 +891,7 @@ class _$Reviewing implements Reviewing {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty value)? empty,
     TResult? Function(Answering value)? answering,
     TResult? Function(Confirming value)? confirming,
     TResult? Function(SelfScoring value)? selfScoring,
@@ -746,6 +905,7 @@ class _$Reviewing implements Reviewing {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty value)? empty,
     TResult Function(Answering value)? answering,
     TResult Function(Confirming value)? confirming,
     TResult Function(SelfScoring value)? selfScoring,
@@ -806,12 +966,13 @@ class _$Idling implements Idling {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() empty,
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
     required TResult Function(Question question) reviewing,
     required TResult Function() idling,
-    required TResult Function() finished,
+    required TResult Function(List<Question> questions) finished,
   }) {
     return idling();
   }
@@ -819,12 +980,13 @@ class _$Idling implements Idling {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? empty,
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
     TResult? Function(Question question)? reviewing,
     TResult? Function()? idling,
-    TResult? Function()? finished,
+    TResult? Function(List<Question> questions)? finished,
   }) {
     return idling?.call();
   }
@@ -832,12 +994,13 @@ class _$Idling implements Idling {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? empty,
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
     TResult Function(Question question)? reviewing,
     TResult Function()? idling,
-    TResult Function()? finished,
+    TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
   }) {
     if (idling != null) {
@@ -849,6 +1012,7 @@ class _$Idling implements Idling {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Empty value) empty,
     required TResult Function(Answering value) answering,
     required TResult Function(Confirming value) confirming,
     required TResult Function(SelfScoring value) selfScoring,
@@ -862,6 +1026,7 @@ class _$Idling implements Idling {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty value)? empty,
     TResult? Function(Answering value)? answering,
     TResult? Function(Confirming value)? confirming,
     TResult? Function(SelfScoring value)? selfScoring,
@@ -875,6 +1040,7 @@ class _$Idling implements Idling {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty value)? empty,
     TResult Function(Answering value)? answering,
     TResult Function(Confirming value)? confirming,
     TResult Function(SelfScoring value)? selfScoring,
@@ -899,6 +1065,8 @@ abstract class _$$FinishedCopyWith<$Res> {
   factory _$$FinishedCopyWith(
           _$Finished value, $Res Function(_$Finished) then) =
       __$$FinishedCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<Question> questions});
 }
 
 /// @nodoc
@@ -907,66 +1075,101 @@ class __$$FinishedCopyWithImpl<$Res>
     implements _$$FinishedCopyWith<$Res> {
   __$$FinishedCopyWithImpl(_$Finished _value, $Res Function(_$Finished) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? questions = null,
+  }) {
+    return _then(_$Finished(
+      questions: null == questions
+          ? _value._questions
+          : questions // ignore: cast_nullable_to_non_nullable
+              as List<Question>,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$Finished implements Finished {
-  const _$Finished();
+  const _$Finished({required final List<Question> questions})
+      : _questions = questions;
+
+  final List<Question> _questions;
+  @override
+  List<Question> get questions {
+    if (_questions is EqualUnmodifiableListView) return _questions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_questions);
+  }
 
   @override
   String toString() {
-    return 'AnswerWorkbookState.finished()';
+    return 'AnswerWorkbookState.finished(questions: $questions)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Finished);
+        (other.runtimeType == runtimeType &&
+            other is _$Finished &&
+            const DeepCollectionEquality()
+                .equals(other._questions, _questions));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_questions));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FinishedCopyWith<_$Finished> get copyWith =>
+      __$$FinishedCopyWithImpl<_$Finished>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() empty,
     required TResult Function(Question question) answering,
     required TResult Function(Question question) confirming,
     required TResult Function(Question question) selfScoring,
     required TResult Function(Question question) reviewing,
     required TResult Function() idling,
-    required TResult Function() finished,
+    required TResult Function(List<Question> questions) finished,
   }) {
-    return finished();
+    return finished(questions);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? empty,
     TResult? Function(Question question)? answering,
     TResult? Function(Question question)? confirming,
     TResult? Function(Question question)? selfScoring,
     TResult? Function(Question question)? reviewing,
     TResult? Function()? idling,
-    TResult? Function()? finished,
+    TResult? Function(List<Question> questions)? finished,
   }) {
-    return finished?.call();
+    return finished?.call(questions);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? empty,
     TResult Function(Question question)? answering,
     TResult Function(Question question)? confirming,
     TResult Function(Question question)? selfScoring,
     TResult Function(Question question)? reviewing,
     TResult Function()? idling,
-    TResult Function()? finished,
+    TResult Function(List<Question> questions)? finished,
     required TResult orElse(),
   }) {
     if (finished != null) {
-      return finished();
+      return finished(questions);
     }
     return orElse();
   }
@@ -974,6 +1177,7 @@ class _$Finished implements Finished {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Empty value) empty,
     required TResult Function(Answering value) answering,
     required TResult Function(Confirming value) confirming,
     required TResult Function(SelfScoring value) selfScoring,
@@ -987,6 +1191,7 @@ class _$Finished implements Finished {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty value)? empty,
     TResult? Function(Answering value)? answering,
     TResult? Function(Confirming value)? confirming,
     TResult? Function(SelfScoring value)? selfScoring,
@@ -1000,6 +1205,7 @@ class _$Finished implements Finished {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty value)? empty,
     TResult Function(Answering value)? answering,
     TResult Function(Confirming value)? confirming,
     TResult Function(SelfScoring value)? selfScoring,
@@ -1016,5 +1222,11 @@ class _$Finished implements Finished {
 }
 
 abstract class Finished implements AnswerWorkbookState {
-  const factory Finished() = _$Finished;
+  const factory Finished({required final List<Question> questions}) =
+      _$Finished;
+
+  List<Question> get questions;
+  @JsonKey(ignore: true)
+  _$$FinishedCopyWith<_$Finished> get copyWith =>
+      throw _privateConstructorUsedError;
 }

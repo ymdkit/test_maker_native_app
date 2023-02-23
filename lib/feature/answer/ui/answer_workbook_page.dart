@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
-import 'package:test_maker_native_app/feature/answer/state/answering_questions_state.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_explanation_section.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_question_form.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_result_page.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
@@ -38,21 +38,17 @@ class AnswerWorkbookPage extends HookConsumerWidget {
         workbookId: workbookId,
       ),
     );
-    final questions = ref.watch(answeringQuestionsProvider(workbookId));
     final state = ref.watch(answerWorkbookStateProvider(workbookId));
-
-    ref.listen(answerWorkbookStateProvider(workbookId), (_, next) {
-      if (next == const AnswerWorkbookState.finished()) {
-        context.router.replace(
-          AnswerWorkbookResultRoute(workbook: workbook),
-        );
-      }
-    });
 
     return WillPopScope(
       onWillPop: () async {
-        await _showConfirmFinishAlertDialog(context, workbook);
-        return false;
+        return state.maybeWhen(
+          finished: (_) => true,
+          orElse: () async {
+            await _showConfirmFinishAlertDialog(context, ref, workbook);
+            return false;
+          },
+        );
       },
       child: Focus(
         focusNode: screenFocusNode,
@@ -63,17 +59,22 @@ class AnswerWorkbookPage extends HookConsumerWidget {
               automaticallyImplyLeading: false,
               title: Text(workbook.title),
               actions: [
-                TextButton(
-                  onPressed: () =>
-                      _showConfirmFinishAlertDialog(context, workbook),
-                  child: const Text('終了'),
-                ),
+                state.maybeWhen(
+                  finished: (_) => const SizedBox.shrink(),
+                  orElse: () => TextButton(
+                    onPressed: () =>
+                        _showConfirmFinishAlertDialog(context, ref, workbook),
+                    child: const Text('終了'),
+                  ),
+                )
               ],
             ),
             body: AppAdWrapper(
               adUnitId: AppAdUnitId.answerWorkbookBanner,
-              child: questions.isEmpty
-                  ? AppEmptyContent.question(
+              child: Stack(
+                children: [
+                  state.maybeWhen(
+                    empty: () => AppEmptyContent.question(
                       onPressedFallbackButton: () => context.router.replaceAll(
                         [
                           const HomeRoute(),
@@ -84,27 +85,26 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                           CreateQuestionRoute(workbookId: workbookId),
                         ],
                       ),
-                    )
-                  : Stack(
-                      children: [
-                        state.maybeWhen(
-                          answering: (question) => AnswerQuestionForm(
-                            question: question,
-                          ),
-                          reviewing: (question) =>
-                              _AnswerReviewContent(question: question),
-                          confirming: (question) =>
-                              _AnswerConfirmSection(question: question),
-                          selfScoring: (question) =>
-                              _AnswerSelfScoreContent(question: question),
-                          orElse: () => const SizedBox.shrink(),
-                        ),
-                        const Align(
-                          alignment: Alignment.topCenter,
-                          child: AnswerEffectWidget(),
-                        ),
-                      ],
                     ),
+                    answering: (question) => AnswerQuestionForm(
+                      question: question,
+                    ),
+                    reviewing: (question) =>
+                        _AnswerReviewContent(question: question),
+                    confirming: (question) =>
+                        _AnswerConfirmSection(question: question),
+                    selfScoring: (question) =>
+                        _AnswerSelfScoreContent(question: question),
+                    finished: (questions) => AnswerWorkbookResultContent(
+                        workbook: workbook, answeringQuestions: questions),
+                    orElse: () => const SizedBox.shrink(),
+                  ),
+                  const Align(
+                    alignment: Alignment.topCenter,
+                    child: AnswerEffectWidget(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -114,15 +114,15 @@ class AnswerWorkbookPage extends HookConsumerWidget {
 
   Future<void> _showConfirmFinishAlertDialog(
     BuildContext context,
+    WidgetRef ref,
     Workbook workbook,
   ) {
     return showAlertDialog(
       context: context,
       title: '解答の終了',
       content: '解答を終了しますか？',
-      onPositive: () => context.router.replace(
-        AnswerWorkbookResultRoute(workbook: workbook),
-      ),
+      onPositive: () =>
+          ref.read(answerWorkbookStateProvider(workbookId).notifier).finish(),
     );
   }
 }
@@ -236,9 +236,6 @@ class _AnswerSelfScoreContent extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final uiStateNotifier =
         ref.watch(answerWorkbookStateProvider(question.workbookId).notifier);
-    final questionsNotifier = ref.watch(
-      answeringQuestionsProvider(question.workbookId).notifier,
-    );
 
     return Column(
       children: [
@@ -273,17 +270,17 @@ class _AnswerSelfScoreContent extends HookConsumerWidget {
               child: Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      questionsNotifier.updateAnswerStatus(question, true);
-                      uiStateNotifier.forward();
+                    onPressed: () async {
+                      uiStateNotifier.updateAnswerStatus(question, true);
+                      await uiStateNotifier.forward();
                     },
                     child: const Text('正解'),
                   ),
                   const SizedBox(height: 16),
                   OutlinedButton(
-                    onPressed: () {
-                      questionsNotifier.updateAnswerStatus(question, false);
-                      uiStateNotifier.forward();
+                    onPressed: () async {
+                      uiStateNotifier.updateAnswerStatus(question, false);
+                      await uiStateNotifier.forward();
                     },
                     child: const Text('不正解'),
                   ),

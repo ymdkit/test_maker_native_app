@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
-import 'package:test_maker_native_app/feature/answer/state/answering_questions_state.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
 import 'package:test_maker_native_app/feature/answer/usecase/check_is_correct_use_case.dart';
@@ -103,7 +102,7 @@ class AnswerQuestionForm extends HookConsumerWidget {
         .read(answerWorkbookStateProvider(question.workbookId).notifier)
         .onAnswered(isCorrect);
     ref
-        .read(answeringQuestionsProvider(question.workbookId).notifier)
+        .read(answerWorkbookStateProvider(question.workbookId).notifier)
         .updateAnswerStatus(question, isCorrect);
   }
 }

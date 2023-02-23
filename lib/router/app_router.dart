@@ -83,7 +83,6 @@ part 'app_router.gr.dart';
       ],
     ),
     AutoRoute(page: AnswerWorkbookPage, fullscreenDialog: true),
-    AutoRoute(page: AnswerWorkbookResultPage, fullscreenDialog: true),
   ],
 )
 class AppRouter extends _$AppRouter {}
