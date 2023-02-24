@@ -9,12 +9,14 @@ extension ThemeDataExt on ThemeData {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             minimumSize: const Size.fromHeight(48),
+            padding: const EdgeInsets.all(16),
             elevation: 0,
           ),
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             minimumSize: const Size.fromHeight(48),
+            padding: const EdgeInsets.all(16),
           ),
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
