@@ -57,21 +57,7 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
         }).then((value) => workbook);
 
         if (folderId != null) {
-          final workbookCount = await remoteDB
-              .collection('tests')
-              .where('userId', isEqualTo: user.uid)
-              .get()
-              .then(
-                (value) => value.docs
-                    .where((e) =>
-                        e.data().getOrElse('deleted', () => false) == false)
-                    .where((e) =>
-                        e.data().getOrElse('folderId', () => '') == folderId)
-                    .count(),
-              );
-          await remoteDB.collection('folders').doc(workbook.folderId).update({
-            'size': workbookCount,
-          });
+          await _updateFolderCount(folderId: folderId, userId: user.uid);
         }
 
         return Future.value(workbook);
@@ -136,16 +122,22 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
   @override
   Future<Either<AppException, void>> updateWorkbook(Workbook workbook) async {
     return TaskEither.tryCatch(
-      () {
+      () async {
         final user = auth.currentUser!;
-        return remoteDB.collection('tests').doc(workbook.workbookId).update({
+        await remoteDB.collection('tests').doc(workbook.workbookId).update({
           'name': workbook.title,
           'color': workbook.color.index,
+          'folderId': workbook.folderId ?? '',
           'size': workbook.questionCount,
           'userId': user.uid,
           'userName': user.displayName,
           'updatedAt': Timestamp.now(),
         });
+
+        if (workbook.folderId != null) {
+          await _updateFolderCount(
+              folderId: workbook.folderId!, userId: user.uid);
+        }
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();
@@ -164,22 +156,8 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
         });
 
         if (workbook.folderId != null) {
-          final workbookCount = await remoteDB
-              .collection('tests')
-              .where('userId', isEqualTo: user.uid)
-              .get()
-              .then(
-                (value) => value.docs
-                    .where((e) =>
-                        e.data().getOrElse('deleted', () => false) == false)
-                    .where((e) =>
-                        e.data().getOrElse('folderId', () => '') ==
-                        workbook.folderId)
-                    .count(),
-              );
-          await remoteDB.collection('folders').doc(workbook.folderId).update({
-            'size': workbookCount,
-          });
+          await _updateFolderCount(
+              folderId: workbook.folderId!, userId: user.uid);
         }
       },
       (e, stack) => AppException.fromRawException(e: e),
@@ -230,5 +208,25 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();
+  }
+
+  Future<void> _updateFolderCount({
+    required String folderId,
+    required String userId,
+  }) async {
+    final workbookCount = await remoteDB
+        .collection('tests')
+        .where('userId', isEqualTo: userId)
+        .get()
+        .then(
+          (value) => value.docs
+              .where((e) => e.data().getOrElse('deleted', () => false) == false)
+              .where(
+                  (e) => e.data().getOrElse('folderId', () => '') == folderId)
+              .count(),
+        );
+    await remoteDB.collection('folders').doc(folderId).update({
+      'size': workbookCount,
+    });
   }
 }
