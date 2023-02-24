@@ -7,6 +7,7 @@ import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
@@ -110,8 +111,8 @@ class EditWorkbookPage extends HookConsumerWidget {
                     onPressed: () async {
                       if (formKey.currentState?.validate() ?? false) {
                         final result = await ref
-                            .read(localWorkbooksProvider(
-                                    selectedFolder.value?.folderId)
+                            .read(workbooksProvider(
+                                    WorkbooksStateKey.from(workbook))
                                 .notifier)
                             .addWorkbook(
                               title: workbookTitleController.text,

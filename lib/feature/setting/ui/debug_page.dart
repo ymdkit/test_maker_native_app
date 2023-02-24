@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
@@ -49,7 +51,10 @@ class DebugPage extends HookConsumerWidget {
               title: const Text('テスト用問題集作成'),
               onTap: () async {
                 final result = await ref
-                    .read(localWorkbooksProvider(null).notifier)
+                    .read(workbooksProvider(const WorkbooksStateKey(
+                      location: AppDataLocation.local,
+                      folderId: null,
+                    )).notifier)
                     .addWorkbook(
                         title: 'サンプル問題集',
                         color: AppThemeColor.blue,

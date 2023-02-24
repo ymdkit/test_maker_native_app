@@ -3,36 +3,22 @@ import 'dart:async';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
-import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/workbook_repository.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/utils/app_async_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
 typedef WorkbooksState = AppAsyncState<List<Workbook>>;
 
-final localWorkbooksProvider = StateNotifierProvider.autoDispose
-    .family<WorkbooksStateNotifier, WorkbooksState, String?>(
-  (ref, folderId) => WorkbooksStateNotifier(
-    folderId: folderId,
-    workbookRepository:
-        ref.watch(workbookRepositoryProvider(AppDataLocation.local)),
-    onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
-    onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
-    onMutateDeletedWorkbookStream:
-        ref.watch(onMutateDeletedWorkbookStreamProvider),
-  ),
-);
-
-final remoteOwnedWorkbooksProvider = StateNotifierProvider.autoDispose
-    .family<WorkbooksStateNotifier, WorkbooksState, String?>(
-  (ref, folderId) => WorkbooksStateNotifier(
-    folderId: folderId,
-    workbookRepository:
-        ref.watch(workbookRepositoryProvider(AppDataLocation.remoteOwned)),
+final workbooksProvider = StateNotifierProvider.autoDispose
+    .family<WorkbooksStateNotifier, WorkbooksState, WorkbooksStateKey>(
+  (ref, key) => WorkbooksStateNotifier(
+    folderId: key.folderId,
+    workbookRepository: ref.watch(workbookRepositoryProvider(key.location)),
     onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
     onMutateDeletedWorkbookStream:

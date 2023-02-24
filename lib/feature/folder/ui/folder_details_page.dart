@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/folder/state/folder_state.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/operate_workbook_sheet.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/workbook_list_item.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -22,7 +24,15 @@ class FolderDetailsPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final folder = ref.watch(folderProvider(folderId));
-    final workbooks = ref.watch(localWorkbooksProvider(folderId));
+    final workbooks = ref.watch(
+      workbooksProvider(
+        WorkbooksStateKey(
+          //TODO: リモートに保存したフォルダも表示できるようにする
+          location: AppDataLocation.local,
+          folderId: folderId,
+        ),
+      ),
+    );
 
     return AppAdWrapper(
       adUnitId: AppAdUnitId.folderDetailsBanner,

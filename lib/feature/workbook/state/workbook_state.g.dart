@@ -6,7 +6,7 @@ part of 'workbook_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$workbookHash() => r'56234359f54e7129fe610faa99bfc4439d4ae73f';
+String _$workbookHash() => r'744a92879ba4b9d77dad82ce3793c78cd0c722a1';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -42,11 +42,11 @@ class WorkbookFamily extends Family<Workbook> {
 
   /// See also [workbook].
   WorkbookProvider call({
-    required String? folderId,
+    required WorkbooksStateKey key,
     required String workbookId,
   }) {
     return WorkbookProvider(
-      folderId: folderId,
+      key: key,
       workbookId: workbookId,
     );
   }
@@ -56,7 +56,7 @@ class WorkbookFamily extends Family<Workbook> {
     covariant WorkbookProvider provider,
   ) {
     return call(
-      folderId: provider.folderId,
+      key: provider.key,
       workbookId: provider.workbookId,
     );
   }
@@ -80,12 +80,12 @@ class WorkbookFamily extends Family<Workbook> {
 class WorkbookProvider extends AutoDisposeProvider<Workbook> {
   /// See also [workbook].
   WorkbookProvider({
-    required this.folderId,
+    required this.key,
     required this.workbookId,
   }) : super.internal(
           (ref) => workbook(
             ref,
-            folderId: folderId,
+            key: key,
             workbookId: workbookId,
           ),
           from: workbookProvider,
@@ -98,20 +98,20 @@ class WorkbookProvider extends AutoDisposeProvider<Workbook> {
           allTransitiveDependencies: WorkbookFamily._allTransitiveDependencies,
         );
 
-  final String? folderId;
+  final WorkbooksStateKey key;
   final String workbookId;
 
   @override
   bool operator ==(Object other) {
     return other is WorkbookProvider &&
-        other.folderId == folderId &&
+        other.key == key &&
         other.workbookId == workbookId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, folderId.hashCode);
+    hash = _SystemHash.combine(hash, key.hashCode);
     hash = _SystemHash.combine(hash, workbookId.hashCode);
 
     return _SystemHash.finish(hash);

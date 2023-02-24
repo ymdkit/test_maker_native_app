@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/question/ui/operate_question_sheet.dart';
 import 'package:test_maker_native_app/feature/question/ui/question_list_item.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
@@ -29,7 +31,11 @@ class WorkbookDetailsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final workbook = ref.watch(
       workbookProvider(
-        folderId: folderId,
+        key: WorkbooksStateKey(
+          //TODO: リモートのデータも扱えるようにする
+          location: AppDataLocation.local,
+          folderId: folderId,
+        ),
         workbookId: workbookId,
       ),
     );
@@ -70,7 +76,11 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                       positiveButtonText: '削除する',
                       onPositive: () async {
                         final result = await ref
-                            .read(localWorkbooksProvider(folderId).notifier)
+                            .read(
+                              workbooksProvider(
+                                      WorkbooksStateKey.from(workbook))
+                                  .notifier,
+                            )
                             .deleteWorkbook(workbook);
 
                         result.match(
