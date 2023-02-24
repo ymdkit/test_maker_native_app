@@ -86,9 +86,11 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
               (value) => value.docs
                   .where((e) =>
                       e.data().getOrElse('deleted', () => false) == false)
-                  .where((e) => folderId != null
-                      ? e.data().getOrElse('folderId', () => '') == folderId
-                      : true)
+                  .where(
+                    (e) => folderId != null
+                        ? e.data().getOrElse('folderId', () => '') == folderId
+                        : e.data().getOrElse('folderId', () => '') == '',
+                  )
                   .map((e) => documentToWorkbook(userId, e))
                   .toList(),
             );
