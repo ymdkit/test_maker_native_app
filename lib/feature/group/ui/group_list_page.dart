@@ -46,7 +46,9 @@ class GroupListPage extends HookConsumerWidget {
                         ),
                         title: Text(group.title),
                         onTap: () => context.router.push(
-                          const GroupDetailsRoute(),
+                          GroupDetailsRoute(
+                            groupId: group.groupId,
+                          ),
                         ),
                       );
                     },

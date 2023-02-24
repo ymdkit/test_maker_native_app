@@ -176,9 +176,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     GroupDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<GroupDetailsRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const GroupDetailsPage(),
+        child: GroupDetailsPage(
+          key: args.key,
+          groupId: args.groupId,
+        ),
       );
     },
     EditGroupRoute.name: (routeData) {
@@ -789,14 +793,36 @@ class CreateGroupRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [GroupDetailsPage]
-class GroupDetailsRoute extends PageRouteInfo<void> {
-  const GroupDetailsRoute()
-      : super(
+class GroupDetailsRoute extends PageRouteInfo<GroupDetailsRouteArgs> {
+  GroupDetailsRoute({
+    Key? key,
+    required String groupId,
+  }) : super(
           GroupDetailsRoute.name,
           path: 'group-details-page',
+          args: GroupDetailsRouteArgs(
+            key: key,
+            groupId: groupId,
+          ),
         );
 
   static const String name = 'GroupDetailsRoute';
+}
+
+class GroupDetailsRouteArgs {
+  const GroupDetailsRouteArgs({
+    this.key,
+    required this.groupId,
+  });
+
+  final Key? key;
+
+  final String groupId;
+
+  @override
+  String toString() {
+    return 'GroupDetailsRouteArgs{key: $key, groupId: $groupId}';
+  }
 }
 
 /// generated route for
