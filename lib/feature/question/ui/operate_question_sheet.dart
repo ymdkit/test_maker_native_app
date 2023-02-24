@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
@@ -71,7 +72,10 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                   onPositive: () {
                     context.router.pop();
                     ref
-                        .read(questionsProvider(question.workbookId).notifier)
+                        .read(questionsProvider(QuestionsStateKey(
+                          location: question.location,
+                          workbookId: question.workbookId,
+                        )).notifier)
                         .deleteQuestion(question);
                     showAppSnackBar(context, '問題をゴミ箱に移動しました');
                   },

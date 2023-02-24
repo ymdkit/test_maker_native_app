@@ -70,6 +70,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                               location: workbook.location,
                             ),
                             CreateQuestionRoute(
+                              location: workbook.location,
                               workbookId: workbook.workbookId,
                             )
                           ],

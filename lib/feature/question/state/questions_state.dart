@@ -5,17 +5,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/utils/app_async_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
 typedef QuestionsState = AppAsyncState<List<Question>>;
 
 final questionsProvider = StateNotifierProvider.family<QuestionsStateNotifier,
-    QuestionsState, String>(
-  (ref, workbookId) {
+    QuestionsState, QuestionsStateKey>(
+  (ref, key) {
     return QuestionsStateNotifier(
-      questionRepository: ref.watch(questionRepositoryProvider),
-      workbookId: workbookId,
+      questionRepository: ref.watch(questionRepositoryProvider(key.location)),
+      workbookId: key.workbookId,
       onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
     );
   },

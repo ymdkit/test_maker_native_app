@@ -5,6 +5,7 @@ import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state
 import 'package:test_maker_native_app/feature/answer/ui/answer_explanation_section.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
@@ -22,7 +23,10 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final uiStateNotifier =
-        ref.watch(answerWorkbookStateProvider(question.workbookId).notifier);
+        ref.watch(answerWorkbookStateProvider(QuestionsStateKey(
+      location: question.location,
+      workbookId: question.workbookId,
+    )).notifier);
 
     return Column(
       children: [

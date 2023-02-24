@@ -5,6 +5,7 @@ import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
@@ -63,7 +64,12 @@ class DebugPage extends HookConsumerWidget {
                 result.match(
                   (l) => showAppSnackBar(context, l.message),
                   (newWorkbook) {
-                    ref.read(questionsProvider(newWorkbook.workbookId).notifier)
+                    ref.read(questionsProvider(
+                      QuestionsStateKey(
+                        location: AppDataLocation.local,
+                        workbookId: newWorkbook.workbookId,
+                      ),
+                    ).notifier)
                       ..addQuestion(
                         workbookId: newWorkbook.workbookId,
                         questionType: QuestionType.write,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/question/ui/operate_question_sheet.dart';
 import 'package:test_maker_native_app/feature/question/ui/question_list_item.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
@@ -40,7 +41,10 @@ class WorkbookDetailsPage extends HookConsumerWidget {
         workbookId: workbookId,
       ),
     );
-    final questionsState = ref.watch(questionsProvider(workbookId));
+    final questionsState = ref.watch(questionsProvider(QuestionsStateKey(
+      location: workbook.location,
+      workbookId: workbookId,
+    )));
 
     return AppAdWrapper(
       adUnitId: AppAdUnitId.workbookDetailsBanner,
@@ -109,7 +113,10 @@ class WorkbookDetailsPage extends HookConsumerWidget {
           success: (questions) => questions.isEmpty
               ? AppEmptyContent.question(
                   onPressedFallbackButton: () => context.router.push(
-                    CreateQuestionRoute(workbookId: workbook.workbookId),
+                    CreateQuestionRoute(
+                      location: location,
+                      workbookId: workbook.workbookId,
+                    ),
                   ),
                 )
               : CustomScrollView(
@@ -140,7 +147,10 @@ class WorkbookDetailsPage extends HookConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => context.router.push(
-            CreateQuestionRoute(workbookId: workbook.workbookId),
+            CreateQuestionRoute(
+              location: workbook.location,
+              workbookId: workbook.workbookId,
+            ),
           ),
           child: const Icon(Icons.add),
         ),

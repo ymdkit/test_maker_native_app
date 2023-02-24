@@ -8,6 +8,7 @@ import 'package:test_maker_native_app/feature/question/model/answer_status.dart'
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 
 part 'answer_workbook_state.freezed.dart';
@@ -31,13 +32,13 @@ class AnswerWorkbookState with _$AnswerWorkbookState {
   const factory AnswerWorkbookState.error({required String message}) = Error;
 }
 
-final answerWorkbookStateProvider = StateNotifierProvider.autoDispose
-    .family<AnswerWorkbookStateNotifier, AnswerWorkbookState, String>(
-  (ref, workbookId) {
+final answerWorkbookStateProvider = StateNotifierProvider.autoDispose.family<
+    AnswerWorkbookStateNotifier, AnswerWorkbookState, QuestionsStateKey>(
+  (ref, key) {
     return AnswerWorkbookStateNotifier(
-      workbookId: workbookId,
+      workbookId: key.workbookId,
       preferences: ref.watch(preferencesStateProvider),
-      questionRepository: ref.watch(questionRepositoryProvider),
+      questionRepository: ref.watch(questionRepositoryProvider(key.location)),
       onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
     );
   },

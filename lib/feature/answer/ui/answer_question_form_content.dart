@@ -8,6 +8,7 @@ import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.d
 import 'package:test_maker_native_app/feature/answer/usecase/check_is_correct_use_case.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/widget/app_text_form_field.dart';
 import 'package:test_maker_native_app/widget/separated_flex.dart';
 
@@ -99,10 +100,14 @@ class AnswerQuestionFormContent extends HookConsumerWidget {
         );
     ref.read(answerEffectStateProvider.notifier).state = isCorrect;
     ref
-        .read(answerWorkbookStateProvider(question.workbookId).notifier)
+        .read(answerWorkbookStateProvider(QuestionsStateKey(
+                location: question.location, workbookId: question.workbookId))
+            .notifier)
         .updateAnswerStatus(question, isCorrect);
     ref
-        .read(answerWorkbookStateProvider(question.workbookId).notifier)
+        .read(answerWorkbookStateProvider(QuestionsStateKey(
+                location: question.location, workbookId: question.workbookId))
+            .notifier)
         .onAnswered(
           isCorrect: isCorrect,
           attemptAnswers: attemptAnswers,

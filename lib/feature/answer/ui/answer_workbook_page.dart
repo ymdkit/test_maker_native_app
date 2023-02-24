@@ -4,11 +4,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dart';
+import 'package:test_maker_native_app/feature/answer/ui/answer_question_confirm_content.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_question_form_content.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_question_review_content.dart';
-import 'package:test_maker_native_app/feature/answer/ui/answer_qustion_confirm_content.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_result_content.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_self_score_content.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
@@ -27,7 +28,12 @@ class AnswerWorkbookPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenFocusNode = useFocusNode();
-    final state = ref.watch(answerWorkbookStateProvider(workbook.workbookId));
+    final state = ref.watch(answerWorkbookStateProvider(
+      QuestionsStateKey(
+        location: workbook.location,
+        workbookId: workbook.workbookId,
+      ),
+    ));
 
     return WillPopScope(
       onWillPop: () async {
@@ -72,7 +78,10 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                             workbookId: workbook.workbookId,
                             location: workbook.location,
                           ),
-                          CreateQuestionRoute(workbookId: workbook.workbookId),
+                          CreateQuestionRoute(
+                            location: workbook.location,
+                            workbookId: workbook.workbookId,
+                          ),
                         ],
                       ),
                     ),

@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/question/ui/question_list_item.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
@@ -192,8 +193,10 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () => ref
-                        .read(answerWorkbookStateProvider(workbook.workbookId)
-                            .notifier)
+                        .read(answerWorkbookStateProvider(QuestionsStateKey(
+                          location: workbook.location,
+                          workbookId: workbook.workbookId,
+                        )).notifier)
                         .reset(),
                     child: const Text('もう一度解き直す'),
                   ),
@@ -204,7 +207,7 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                         [const RootRoute()],
                       );
                     },
-                    child: const Text('ホームに戻る'),
+                    child: const Text('トップに戻る'),
                   ),
                   const SizedBox(height: 16),
                 ],

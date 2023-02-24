@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
@@ -10,7 +11,8 @@ import 'package:test_maker_native_app/utils/app_exception.dart';
 final deletedQuestionsProvider = StateNotifierProvider.autoDispose<
     DeletedQuestionsStateNotifier, QuestionsState>(
   (ref) => DeletedQuestionsStateNotifier(
-    questionRepository: ref.watch(questionRepositoryProvider),
+    questionRepository:
+        ref.watch(questionRepositoryProvider(AppDataLocation.local)),
     onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
     onMutateDeletedQuestionStream:
         ref.watch(onMutateDeletedQuestionStreamProvider),

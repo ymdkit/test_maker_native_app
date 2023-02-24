@@ -30,6 +30,7 @@ class _$AppRouter extends RootStackRouter {
         child: CreateQuestionPage(
           key: args.key,
           workbookId: args.workbookId,
+          location: args.location,
         ),
         fullscreenDialog: true,
       );
@@ -380,12 +381,14 @@ class CreateQuestionRoute extends PageRouteInfo<CreateQuestionRouteArgs> {
   CreateQuestionRoute({
     Key? key,
     required String workbookId,
+    required AppDataLocation location,
   }) : super(
           CreateQuestionRoute.name,
           path: '/create-question-page',
           args: CreateQuestionRouteArgs(
             key: key,
             workbookId: workbookId,
+            location: location,
           ),
         );
 
@@ -396,15 +399,18 @@ class CreateQuestionRouteArgs {
   const CreateQuestionRouteArgs({
     this.key,
     required this.workbookId,
+    required this.location,
   });
 
   final Key? key;
 
   final String workbookId;
 
+  final AppDataLocation location;
+
   @override
   String toString() {
-    return 'CreateQuestionRouteArgs{key: $key, workbookId: $workbookId}';
+    return 'CreateQuestionRouteArgs{key: $key, workbookId: $workbookId, location: $location}';
   }
 }
 

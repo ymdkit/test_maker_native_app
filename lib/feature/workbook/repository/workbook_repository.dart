@@ -7,7 +7,7 @@ import 'package:test_maker_native_app/data/remote/firebase_auth.dart';
 import 'package:test_maker_native_app/data/remote/firestore.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/local_workbook_repository.dart';
-import 'package:test_maker_native_app/feature/workbook/repository/remote_workbook_repository.dart';
+import 'package:test_maker_native_app/feature/workbook/repository/remote_owned_workbook_repository.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
 final workbookRepositoryProvider =
@@ -16,7 +16,7 @@ final workbookRepositoryProvider =
     case AppDataLocation.local:
       return LocalWorkbookRepository(localDB: ref.watch(realmProvider));
     case AppDataLocation.remoteOwned:
-      return RemoteWorkbookRepository(
+      return RemoteOwnedWorkbookRepository(
         remoteDB: ref.watch(firestoreProvider),
         auth: ref.watch(firebaseAuthProvider),
       );
