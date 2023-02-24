@@ -6,6 +6,8 @@ import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/folder/ui/folder_list_item.dart';
 import 'package:test_maker_native_app/feature/home/state/home_ui_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/operate_workbook_sheet.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/workbook_list_item.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -41,64 +43,74 @@ class HomePage extends HookConsumerWidget {
               ),
             ),
           ),
-          success: (folders, workbooks) => CustomScrollView(
-            slivers: [
-              const AppSliverSpace(height: 16),
-              SliverVisibility(
-                visible: folders.isNotEmpty,
-                sliver: MultiSliver(
-                  children: [
-                    AppSliverSection(
-                      title: 'フォルダ',
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return FolderListItem(
-                              folder: folders[index],
-                              onTap: (folder) => context.router.push(
-                                FolderDetailsRoute(
-                                  folderId: folder.folderId,
+          success: (folders, workbooks) => RefreshIndicator(
+            onRefresh: () async => ref.refresh(
+              workbooksProvider(
+                const WorkbooksStateKey(
+                  location: AppDataLocation.remoteOwned,
+                  folderId: null,
+                ),
+              ),
+            ),
+            child: CustomScrollView(
+              slivers: [
+                const AppSliverSpace(height: 16),
+                SliverVisibility(
+                  visible: folders.isNotEmpty,
+                  sliver: MultiSliver(
+                    children: [
+                      AppSliverSection(
+                        title: 'フォルダ',
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return FolderListItem(
+                                folder: folders[index],
+                                onTap: (folder) => context.router.push(
+                                  FolderDetailsRoute(
+                                    folderId: folder.folderId,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          childCount: folders.length,
+                              );
+                            },
+                            childCount: folders.length,
+                          ),
                         ),
                       ),
-                    ),
-                    const AppSliverSpace(height: 16),
-                  ],
-                ),
-              ),
-              SliverVisibility(
-                visible: folders.isNotEmpty && workbooks.isNotEmpty,
-                sliver: MultiSliver(
-                  children: const [
-                    SliverToBoxAdapter(
-                        child: Divider(indent: 16, endIndent: 16)),
-                    AppSliverSpace(height: 16),
-                  ],
-                ),
-              ),
-              SliverVisibility(
-                visible: workbooks.isNotEmpty,
-                sliver: AppSliverSection(
-                  title: '問題集',
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return WorkbookListItem(
-                          workbook: workbooks[index],
-                          onTap: (workbook) async =>
-                              showOperateWorkbookSheet(context, workbook),
-                        );
-                      },
-                      childCount: workbooks.length,
-                    ),
+                      const AppSliverSpace(height: 16),
+                    ],
                   ),
                 ),
-              )
-            ],
+                SliverVisibility(
+                  visible: folders.isNotEmpty && workbooks.isNotEmpty,
+                  sliver: MultiSliver(
+                    children: const [
+                      SliverToBoxAdapter(
+                          child: Divider(indent: 16, endIndent: 16)),
+                      AppSliverSpace(height: 16),
+                    ],
+                  ),
+                ),
+                SliverVisibility(
+                  visible: workbooks.isNotEmpty,
+                  sliver: AppSliverSection(
+                    title: '問題集',
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return WorkbookListItem(
+                            workbook: workbooks[index],
+                            onTap: (workbook) async =>
+                                showOperateWorkbookSheet(context, workbook),
+                          );
+                        },
+                        childCount: workbooks.length,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
           failure: (_) => AppErrorContent.serverError(),
         ),
