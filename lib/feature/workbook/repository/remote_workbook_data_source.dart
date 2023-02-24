@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/data/remote/firebase_auth.dart';
 import 'package:test_maker_native_app/data/remote/firestore.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
+import 'package:test_maker_native_app/utils/app_exception.dart';
 
 final remoteWorkbookDataSourceProvider = Provider<RemoteWorkbookDataSource>(
   (ref) => RemoteWorkbookDataSource(
@@ -30,8 +32,8 @@ class RemoteWorkbookDataSource {
     throw UnimplementedError();
   }
 
-  List<Workbook> getWorkbooks(String? folderId) {
-    throw UnimplementedError();
+  Future<Either<AppException, List<Workbook>>> getWorkbooks() {
+    
   }
 
   List<Workbook> getDeletedWorkbooks() {

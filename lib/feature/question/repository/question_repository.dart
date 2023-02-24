@@ -7,6 +7,7 @@ import 'package:test_maker_native_app/data/local/realm.dart';
 import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
 import 'package:test_maker_native_app/data/remote/firestore.dart';
+import 'package:test_maker_native_app/data/remote/firestore_converting.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
@@ -81,9 +82,8 @@ class QuestionRepository {
         .get();
 
     if (documents.docs.isNotEmpty) {
-      final questions = documents.docs
-          .map((e) => _documentToQuestion(workbookId, e))
-          .toList();
+      final questions =
+          documents.docs.map((e) => documentToQuestion(workbookId, e)).toList();
       return Right(questions);
     } else {
       return Right(localDB
@@ -152,37 +152,5 @@ class QuestionRepository {
       },
     );
     return const Right(null);
-  }
-
-  Question _documentToQuestion(
-    String workbookId,
-    DocumentSnapshot document,
-  ) {
-    final data = document.data() as Map<String, dynamic>?;
-    if (data != null) {
-      return Question.from(
-        questionId: document.id,
-        workbookId: workbookId,
-        questionType: QuestionType.values[data['type'] as int],
-        problem: data['question'] as String,
-        problemImageUrl: data['imageRef'] as String?,
-        answers: (data['answers'] as List<dynamic>).isNotEmpty
-            ? List.from(data['answers'] as List<dynamic>)
-            : [data['answer'] as String],
-        wrongChoices: List.from(data['others'] as List<dynamic>),
-        explanation: data['explanation'] as String?,
-        explanationImageUrl: data['explanationImageRef'] as String?,
-        isAutoGenerateWrongChoices: data['auto'] as bool,
-        isCheckAnswerOrder: data['checkOrder'] as bool,
-        order: data['order'] as int,
-        answerStatus: AnswerStatus.unAnswered,
-        //TODO: リモートで管理できるようにする
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        lastAnsweredAt: null,
-      );
-    } else {
-      return Question.empty();
-    }
   }
 }
