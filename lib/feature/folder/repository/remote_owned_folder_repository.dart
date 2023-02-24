@@ -60,17 +60,22 @@ class RemoteOwnedFolderRepository implements FolderRepository {
   @override
   Future<Either<AppException, List<Folder>>> getFolders() async {
     return TaskEither.tryCatch(
-      () async {
-        final user = auth.currentUser!;
-        final snapshot = await remoteDB
-            .collection('folders')
-            .where('userId', isEqualTo: user.uid)
-            .get();
+      () {
+        final userId = auth.currentUser?.uid;
 
-        return snapshot.docs
-            .where((e) => e.data().getOrElse('deleted', () => false) == false)
-            .map((e) => documentToFolder(user.uid, e))
-            .toList();
+        if (userId == null) {
+          return Future.value(List<Folder>.empty());
+        }
+
+        return remoteDB
+            .collection('folders')
+            .where('userId', isEqualTo: userId)
+            .get()
+            .then((snapshot) => snapshot.docs
+                .where(
+                    (e) => e.data().getOrElse('deleted', () => false) == false)
+                .map((e) => documentToFolder(userId, e))
+                .toList());
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();
