@@ -7,6 +7,8 @@ import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/ui/create_folder_page.dart';
 import 'package:test_maker_native_app/feature/folder/ui/edit_folder_page.dart';
 import 'package:test_maker_native_app/feature/folder/ui/folder_details_page.dart';
+import 'package:test_maker_native_app/feature/group/ui/create_group_page.dart';
+import 'package:test_maker_native_app/feature/group/ui/edit_group_page.dart';
 import 'package:test_maker_native_app/feature/group/ui/group_details_page.dart';
 import 'package:test_maker_native_app/feature/group/ui/group_list_page.dart';
 import 'package:test_maker_native_app/feature/home/ui/home_page.dart';
@@ -59,7 +61,9 @@ part 'app_router.gr.dart';
           name: 'GroupTabRoute',
           children: [
             AutoRoute(page: GroupListPage, initial: true),
+            AutoRoute(page: CreateGroupPage),
             AutoRoute(page: GroupDetailsPage),
+            AutoRoute(page: EditGroupPage),
           ],
         ),
         AutoRoute(

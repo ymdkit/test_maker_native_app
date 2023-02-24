@@ -35,6 +35,20 @@ class AppEmptyContent extends StatelessWidget {
         fallbackButtonText = null,
         onPressedFallbackButton = null;
 
+  const AppEmptyContent.groupNotAuthorized({
+    super.key,
+    required this.onPressedFallbackButton,
+  })  : icon = Icons.group,
+        text = 'グループ機能を利用するにはログインが必要です\nログインしてください',
+        fallbackButtonText = 'ログインする';
+
+  const AppEmptyContent.group({
+    super.key,
+    required this.onPressedFallbackButton,
+  })  : icon = Icons.group,
+        text = '所属しているグループはありません\nグループを作成してください',
+        fallbackButtonText = 'グループを作成する';
+
   const AppEmptyContent.trash({
     super.key,
   })  : icon = Icons.delete,

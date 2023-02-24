@@ -169,10 +169,22 @@ class _$AppRouter extends RootStackRouter {
         child: const GroupListPage(),
       );
     },
+    CreateGroupRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CreateGroupPage(),
+      );
+    },
     GroupDetailsRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const GroupDetailsPage(),
+      );
+    },
+    EditGroupRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const EditGroupPage(),
       );
     },
     RecordRoute.name: (routeData) {
@@ -272,8 +284,18 @@ class _$AppRouter extends RootStackRouter {
                   parent: GroupTabRoute.name,
                 ),
                 RouteConfig(
+                  CreateGroupRoute.name,
+                  path: 'create-group-page',
+                  parent: GroupTabRoute.name,
+                ),
+                RouteConfig(
                   GroupDetailsRoute.name,
                   path: 'group-details-page',
+                  parent: GroupTabRoute.name,
+                ),
+                RouteConfig(
+                  EditGroupRoute.name,
+                  path: 'edit-group-page',
                   parent: GroupTabRoute.name,
                 ),
               ],
@@ -754,6 +776,18 @@ class GroupListRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [CreateGroupPage]
+class CreateGroupRoute extends PageRouteInfo<void> {
+  const CreateGroupRoute()
+      : super(
+          CreateGroupRoute.name,
+          path: 'create-group-page',
+        );
+
+  static const String name = 'CreateGroupRoute';
+}
+
+/// generated route for
 /// [GroupDetailsPage]
 class GroupDetailsRoute extends PageRouteInfo<void> {
   const GroupDetailsRoute()
@@ -763,6 +797,18 @@ class GroupDetailsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'GroupDetailsRoute';
+}
+
+/// generated route for
+/// [EditGroupPage]
+class EditGroupRoute extends PageRouteInfo<void> {
+  const EditGroupRoute()
+      : super(
+          EditGroupRoute.name,
+          path: 'edit-group-page',
+        );
+
+  static const String name = 'EditGroupRoute';
 }
 
 /// generated route for
