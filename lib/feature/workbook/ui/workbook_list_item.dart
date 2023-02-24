@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
+import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
+import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 class WorkbookListItem extends StatelessWidget {
   const WorkbookListItem({
@@ -24,6 +27,30 @@ class WorkbookListItem extends StatelessWidget {
       ),
       subtitle: Text('問題数 ${workbook.questionCount}'),
       onTap: () => onTap(workbook),
+      trailing: () {
+        switch (workbook.location) {
+          case AppDataLocation.local:
+            return IconButton(
+              onPressed: () => showAlertDialog(
+                context: context,
+                title: 'クラウドへの同期',
+                content: 'クラウド上にアップロードすることで、複数端末で情報を同期することができます。',
+                positiveButtonText: '同期する',
+                onPositive: () {
+                  //TODO: 問題集のアップロード
+                },
+              ),
+              icon: const Icon(Icons.cloud_off_outlined),
+            );
+          case AppDataLocation.remoteOwned:
+            return IconButton(
+              onPressed: () => showAppSnackBar(context, 'この問題集はクラウド上で同期されています'),
+              icon: const Icon(Icons.cloud_done_outlined),
+            );
+          default:
+            const SizedBox.shrink();
+        }
+      }(),
     );
   }
 }
