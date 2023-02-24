@@ -67,6 +67,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                             WorkbookDetailsRoute(
                               folderId: workbook.folderId,
                               workbookId: workbook.workbookId,
+                              location: workbook.location,
                             ),
                             CreateQuestionRoute(
                               workbookId: workbook.workbookId,
@@ -112,6 +113,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                   WorkbookDetailsRoute(
                     folderId: workbook.folderId,
                     workbookId: workbook.workbookId,
+                    location: workbook.location,
                   ),
                 );
                 context.router.pop();

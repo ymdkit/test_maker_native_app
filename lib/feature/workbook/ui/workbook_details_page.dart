@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/constants/data_source.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/question/ui/operate_question_sheet.dart';
 import 'package:test_maker_native_app/feature/question/ui/question_list_item.dart';
@@ -22,18 +22,19 @@ class WorkbookDetailsPage extends HookConsumerWidget {
     super.key,
     required this.folderId,
     required this.workbookId,
+    required this.location,
   });
 
   final String? folderId;
   final String workbookId;
+  final AppDataLocation location;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final workbook = ref.watch(
       workbookProvider(
         key: WorkbooksStateKey(
-          //TODO: リモートのデータも扱えるようにする
-          location: AppDataLocation.local,
+          location: location,
           folderId: folderId,
         ),
         workbookId: workbookId,

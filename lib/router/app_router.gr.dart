@@ -127,6 +127,7 @@ class _$AppRouter extends RootStackRouter {
         child: CreateWorkbookPage(
           key: args.key,
           folder: args.folder,
+          location: args.location,
         ),
       );
     },
@@ -144,6 +145,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           folderId: args.folderId,
           workbookId: args.workbookId,
+          location: args.location,
         ),
       );
     },
@@ -642,12 +644,14 @@ class CreateWorkbookRoute extends PageRouteInfo<CreateWorkbookRouteArgs> {
   CreateWorkbookRoute({
     Key? key,
     required Folder? folder,
+    required AppDataLocation location,
   }) : super(
           CreateWorkbookRoute.name,
           path: 'create-workbook-page',
           args: CreateWorkbookRouteArgs(
             key: key,
             folder: folder,
+            location: location,
           ),
         );
 
@@ -658,15 +662,18 @@ class CreateWorkbookRouteArgs {
   const CreateWorkbookRouteArgs({
     this.key,
     required this.folder,
+    required this.location,
   });
 
   final Key? key;
 
   final Folder? folder;
 
+  final AppDataLocation location;
+
   @override
   String toString() {
-    return 'CreateWorkbookRouteArgs{key: $key, folder: $folder}';
+    return 'CreateWorkbookRouteArgs{key: $key, folder: $folder, location: $location}';
   }
 }
 
@@ -689,6 +696,7 @@ class WorkbookDetailsRoute extends PageRouteInfo<WorkbookDetailsRouteArgs> {
     Key? key,
     required String? folderId,
     required String workbookId,
+    required AppDataLocation location,
   }) : super(
           WorkbookDetailsRoute.name,
           path: 'workbook-details-page',
@@ -696,6 +704,7 @@ class WorkbookDetailsRoute extends PageRouteInfo<WorkbookDetailsRouteArgs> {
             key: key,
             folderId: folderId,
             workbookId: workbookId,
+            location: location,
           ),
         );
 
@@ -707,6 +716,7 @@ class WorkbookDetailsRouteArgs {
     this.key,
     required this.folderId,
     required this.workbookId,
+    required this.location,
   });
 
   final Key? key;
@@ -715,9 +725,11 @@ class WorkbookDetailsRouteArgs {
 
   final String workbookId;
 
+  final AppDataLocation location;
+
   @override
   String toString() {
-    return 'WorkbookDetailsRouteArgs{key: $key, folderId: $folderId, workbookId: $workbookId}';
+    return 'WorkbookDetailsRouteArgs{key: $key, folderId: $folderId, workbookId: $workbookId, location: $location}';
   }
 }
 

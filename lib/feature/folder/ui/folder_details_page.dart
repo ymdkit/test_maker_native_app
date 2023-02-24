@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/constants/data_source.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/folder/state/folder_state.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
@@ -91,7 +91,9 @@ class FolderDetailsPage extends HookConsumerWidget {
           success: (workbooks) => workbooks.isEmpty
               ? AppEmptyContent.workbook(
                   onPressedFallbackButton: () => context.router.push(
-                    CreateWorkbookRoute(folder: folder),
+                    //TODO: リモートとの切り替え
+                    CreateWorkbookRoute(
+                        folder: folder, location: AppDataLocation.local),
                   ),
                 )
               : ListView.builder(
@@ -106,7 +108,9 @@ class FolderDetailsPage extends HookConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => context.router.push(
-            CreateWorkbookRoute(folder: folder),
+            //TODO: リモートとの切り替え
+            CreateWorkbookRoute(
+                folder: folder, location: AppDataLocation.local),
           ),
           child: const Icon(Icons.add),
         ),

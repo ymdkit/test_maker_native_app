@@ -70,6 +70,7 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                           WorkbookDetailsRoute(
                             folderId: workbook.folderId,
                             workbookId: workbook.workbookId,
+                            location: workbook.location,
                           ),
                           CreateQuestionRoute(workbookId: workbook.workbookId),
                         ],
