@@ -42,6 +42,7 @@ class SearchWorkbookResponse {
         updatedAt: updatedAt,
         order: 0,
         folderId: null,
+        isOwned: false,
       );
 }
 

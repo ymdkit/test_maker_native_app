@@ -37,6 +37,7 @@ class LocalWorkbookDataSource {
       questionCount: 0,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
+      isOwned: true,
     );
 
     localDB.write(() {

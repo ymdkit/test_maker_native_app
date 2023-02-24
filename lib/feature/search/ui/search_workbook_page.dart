@@ -9,6 +9,7 @@ import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
 import 'package:test_maker_native_app/widget/app_error_content.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
+import 'package:test_maker_native_app/widget/app_sliver_space.dart';
 
 class SearchWorkbookPage extends HookConsumerWidget {
   const SearchWorkbookPage({super.key});
@@ -25,7 +26,6 @@ class SearchWorkbookPage extends HookConsumerWidget {
           titleSpacing: 8,
           title: TextField(
             controller: queryController,
-            autofocus: true,
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.search),
               hintText: '検索',
@@ -48,6 +48,7 @@ class SearchWorkbookPage extends HookConsumerWidget {
               },
               child: CustomScrollView(
                 slivers: [
+                  const AppSliverSpace(height: 16),
                   const SliverPadding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     sliver: SliverToBoxAdapter(

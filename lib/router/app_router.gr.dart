@@ -40,8 +40,7 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: AnswerWorkbookPage(
           key: args.key,
-          folderId: args.folderId,
-          workbookId: args.workbookId,
+          workbook: args.workbook,
         ),
         fullscreenDialog: true,
       );
@@ -386,15 +385,13 @@ class CreateQuestionRouteArgs {
 class AnswerWorkbookRoute extends PageRouteInfo<AnswerWorkbookRouteArgs> {
   AnswerWorkbookRoute({
     Key? key,
-    required String? folderId,
-    required String workbookId,
+    required Workbook workbook,
   }) : super(
           AnswerWorkbookRoute.name,
           path: '/answer-workbook-page',
           args: AnswerWorkbookRouteArgs(
             key: key,
-            folderId: folderId,
-            workbookId: workbookId,
+            workbook: workbook,
           ),
         );
 
@@ -404,19 +401,16 @@ class AnswerWorkbookRoute extends PageRouteInfo<AnswerWorkbookRouteArgs> {
 class AnswerWorkbookRouteArgs {
   const AnswerWorkbookRouteArgs({
     this.key,
-    required this.folderId,
-    required this.workbookId,
+    required this.workbook,
   });
 
   final Key? key;
 
-  final String? folderId;
-
-  final String workbookId;
+  final Workbook workbook;
 
   @override
   String toString() {
-    return 'AnswerWorkbookRouteArgs{key: $key, folderId: $folderId, workbookId: $workbookId}';
+    return 'AnswerWorkbookRouteArgs{key: $key, workbook: $workbook}';
   }
 }
 

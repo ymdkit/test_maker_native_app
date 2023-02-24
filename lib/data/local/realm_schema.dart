@@ -84,6 +84,7 @@ class _RealmWorkbook {
       questionCount: questionCount,
       createdAt: createdAt,
       updatedAt: updatedAt,
+      isOwned: true,
     );
   }
 }

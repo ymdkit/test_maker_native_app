@@ -24,6 +24,7 @@ mixin _$Workbook {
   int get questionCount => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  bool get isOwned => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WorkbookCopyWith<Workbook> get copyWith =>
@@ -43,7 +44,8 @@ abstract class $WorkbookCopyWith<$Res> {
       String? folderId,
       int questionCount,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      bool isOwned});
 }
 
 /// @nodoc
@@ -67,6 +69,7 @@ class _$WorkbookCopyWithImpl<$Res, $Val extends Workbook>
     Object? questionCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? isOwned = null,
   }) {
     return _then(_value.copyWith(
       workbookId: null == workbookId
@@ -101,6 +104,10 @@ class _$WorkbookCopyWithImpl<$Res, $Val extends Workbook>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isOwned: null == isOwned
+          ? _value.isOwned
+          : isOwned // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -120,7 +127,8 @@ abstract class _$$_WorkbookCopyWith<$Res> implements $WorkbookCopyWith<$Res> {
       String? folderId,
       int questionCount,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      bool isOwned});
 }
 
 /// @nodoc
@@ -142,6 +150,7 @@ class __$$_WorkbookCopyWithImpl<$Res>
     Object? questionCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? isOwned = null,
   }) {
     return _then(_$_Workbook(
       workbookId: null == workbookId
@@ -176,6 +185,10 @@ class __$$_WorkbookCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isOwned: null == isOwned
+          ? _value.isOwned
+          : isOwned // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -191,7 +204,8 @@ class _$_Workbook extends _Workbook {
       required this.folderId,
       required this.questionCount,
       required this.createdAt,
-      required this.updatedAt})
+      required this.updatedAt,
+      required this.isOwned})
       : super._();
 
   @override
@@ -210,10 +224,12 @@ class _$_Workbook extends _Workbook {
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
+  @override
+  final bool isOwned;
 
   @override
   String toString() {
-    return 'Workbook(workbookId: $workbookId, title: $title, order: $order, color: $color, folderId: $folderId, questionCount: $questionCount, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Workbook(workbookId: $workbookId, title: $title, order: $order, color: $color, folderId: $folderId, questionCount: $questionCount, createdAt: $createdAt, updatedAt: $updatedAt, isOwned: $isOwned)';
   }
 
   @override
@@ -233,12 +249,13 @@ class _$_Workbook extends _Workbook {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.isOwned, isOwned) || other.isOwned == isOwned));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, workbookId, title, order, color,
-      folderId, questionCount, createdAt, updatedAt);
+      folderId, questionCount, createdAt, updatedAt, isOwned);
 
   @JsonKey(ignore: true)
   @override
@@ -256,7 +273,8 @@ abstract class _Workbook extends Workbook {
       required final String? folderId,
       required final int questionCount,
       required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$_Workbook;
+      required final DateTime updatedAt,
+      required final bool isOwned}) = _$_Workbook;
   const _Workbook._() : super._();
 
   @override
@@ -275,6 +293,8 @@ abstract class _Workbook extends Workbook {
   DateTime get createdAt;
   @override
   DateTime get updatedAt;
+  @override
+  bool get isOwned;
   @override
   @JsonKey(ignore: true)
   _$$_WorkbookCopyWith<_$_Workbook> get copyWith =>

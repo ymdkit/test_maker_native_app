@@ -125,6 +125,25 @@ class Question with _$Question {
     }
   }
 
+  factory Question.empty() => Question(
+        questionId: '',
+        workbookId: '',
+        questionType: QuestionType.write,
+        problem: '',
+        problemImageUrl: null,
+        answers: [],
+        wrongChoices: [],
+        explanation: null,
+        explanationImageUrl: null,
+        isAutoGenerateWrongChoices: false,
+        isCheckAnswerOrder: false,
+        order: 0,
+        answerStatus: AnswerStatus.unAnswered,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        lastAnsweredAt: null,
+      );
+
   List<String> get shuffledChoices {
     return [...answers, ...wrongChoices].shuffled();
   }

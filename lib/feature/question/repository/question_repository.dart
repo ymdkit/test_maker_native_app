@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartx/dartx.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:realm/realm.dart' hide AppException;
 import 'package:test_maker_native_app/data/local/realm.dart';
 import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
+import 'package:test_maker_native_app/data/remote/firestore.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
@@ -13,15 +15,18 @@ import 'package:test_maker_native_app/utils/app_exception.dart';
 final questionRepositoryProvider = Provider<QuestionRepository>(
   (ref) => QuestionRepository(
     localDB: ref.watch(realmProvider),
+    remoteDB: ref.watch(firestoreProvider),
   ),
 );
 
 class QuestionRepository {
   QuestionRepository({
     required this.localDB,
+    required this.remoteDB,
   });
 
   final Realm localDB;
+  final FirebaseFirestore remoteDB;
 
   Future<Either<AppException, Question>> addQuestion({
     required String workbookId,
@@ -67,13 +72,27 @@ class QuestionRepository {
   }
 
   Future<Either<AppException, List<Question>>> getQuestions(
-      String workbookId) async {
-    return Right(localDB
-        .all<RealmQuestion>()
-        .where((e) => e.workbookId == workbookId)
-        .where((e) => e.isDeleted != true)
-        .map((e) => e.toQuestion())
-        .toList());
+    String workbookId,
+  ) async {
+    final documents = await remoteDB
+        .collection('tests')
+        .doc(workbookId)
+        .collection('questions')
+        .get();
+
+    if (documents.docs.isNotEmpty) {
+      final questions = documents.docs
+          .map((e) => _documentToQuestion(workbookId, e))
+          .toList();
+      return Right(questions);
+    } else {
+      return Right(localDB
+          .all<RealmQuestion>()
+          .where((e) => e.workbookId == workbookId)
+          .where((e) => e.isDeleted != true)
+          .map((e) => e.toQuestion())
+          .toList());
+    }
   }
 
   Future<Either<AppException, List<Question>>> getDeletedQuestions() async {
@@ -133,5 +152,37 @@ class QuestionRepository {
       },
     );
     return const Right(null);
+  }
+
+  Question _documentToQuestion(
+    String workbookId,
+    DocumentSnapshot document,
+  ) {
+    final data = document.data() as Map<String, dynamic>?;
+    if (data != null) {
+      return Question.from(
+        questionId: document.id,
+        workbookId: workbookId,
+        questionType: QuestionType.values[data['type'] as int],
+        problem: data['question'] as String,
+        problemImageUrl: data['imageRef'] as String?,
+        answers: (data['answers'] as List<dynamic>).isNotEmpty
+            ? List.from(data['answers'] as List<dynamic>)
+            : [data['answer'] as String],
+        wrongChoices: List.from(data['others'] as List<dynamic>),
+        explanation: data['explanation'] as String?,
+        explanationImageUrl: data['explanationImageRef'] as String?,
+        isAutoGenerateWrongChoices: data['auto'] as bool,
+        isCheckAnswerOrder: data['checkOrder'] as bool,
+        order: data['order'] as int,
+        answerStatus: AnswerStatus.unAnswered,
+        //TODO: リモートで管理できるようにする
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        lastAnsweredAt: null,
+      );
+    } else {
+      return Question.empty();
+    }
   }
 }

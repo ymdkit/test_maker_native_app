@@ -6,7 +6,7 @@ part of 'folder_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$folderHash() => r'07da9b9f424640e45bd15710918df90d78b115f9';
+String _$folderHash() => r'5d438a9d7e5ad85c635d93594e2bcf29cec53215';
 
 /// Copied from Dart SDK
 class _SystemHash {

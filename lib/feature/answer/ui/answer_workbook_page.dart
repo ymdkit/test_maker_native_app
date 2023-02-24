@@ -10,7 +10,6 @@ import 'package:test_maker_native_app/feature/answer/ui/answer_qustion_confirm_c
 import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_result_content.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_self_score_content.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
-import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
@@ -20,24 +19,15 @@ import 'package:test_maker_native_app/widget/app_empty_content.dart';
 class AnswerWorkbookPage extends HookConsumerWidget {
   const AnswerWorkbookPage({
     super.key,
-    required this.folderId,
-    required this.workbookId,
+    required this.workbook,
   });
 
-  final String? folderId;
-  final String workbookId;
+  final Workbook workbook;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenFocusNode = useFocusNode();
-
-    final workbook = ref.watch(
-      workbookProvider(
-        folderId: folderId,
-        workbookId: workbookId,
-      ),
-    );
-    final state = ref.watch(answerWorkbookStateProvider(workbookId));
+    final state = ref.watch(answerWorkbookStateProvider(workbook.workbookId));
 
     return WillPopScope(
       onWillPop: () async {
@@ -78,10 +68,10 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                         [
                           const HomeRoute(),
                           WorkbookDetailsRoute(
-                            folderId: folderId,
-                            workbookId: workbookId,
+                            folderId: workbook.folderId,
+                            workbookId: workbook.workbookId,
                           ),
-                          CreateQuestionRoute(workbookId: workbookId),
+                          CreateQuestionRoute(workbookId: workbook.workbookId),
                         ],
                       ),
                     ),
@@ -89,13 +79,14 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                         AnswerQuestionFormContent(question: question),
                     reviewing: (question, attemptAnswers) =>
                         AnswerQuestionReviewContent(
+                      workbook: workbook,
                       question: question,
                       attemptAnswers: attemptAnswers,
                     ),
                     confirming: (question) =>
                         AnswerQuestionConfirmContent(question: question),
-                    selfScoring: (question) =>
-                        AnswerQuestionSelfScoreContent(question: question),
+                    selfScoring: (question) => AnswerQuestionSelfScoreContent(
+                        workbook: workbook, question: question),
                     finished: (questions) => AnswerWorkbookResultContent(
                         workbook: workbook, answeringQuestions: questions),
                     orElse: () => const SizedBox.shrink(),

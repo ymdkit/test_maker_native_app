@@ -85,8 +85,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                         onStart: () {
                           context.router.push(
                             AnswerWorkbookRoute(
-                              folderId: workbook.folderId,
-                              workbookId: workbook.workbookId,
+                              workbook: workbook,
                             ),
                           );
                         },
@@ -95,8 +94,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                       // ignore: use_build_context_synchronously
                       await context.router.push(
                         AnswerWorkbookRoute(
-                          folderId: workbook.folderId,
-                          workbookId: workbook.workbookId,
+                          workbook: workbook,
                         ),
                       );
                     }

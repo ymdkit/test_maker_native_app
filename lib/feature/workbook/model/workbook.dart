@@ -15,6 +15,7 @@ class Workbook with _$Workbook {
     required int questionCount,
     required DateTime createdAt,
     required DateTime updatedAt,
+    required bool isOwned,
   }) = _Workbook;
 
   factory Workbook.empty() => Workbook(
@@ -26,5 +27,6 @@ class Workbook with _$Workbook {
         questionCount: 0,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
+        isOwned: false,
       );
 }
