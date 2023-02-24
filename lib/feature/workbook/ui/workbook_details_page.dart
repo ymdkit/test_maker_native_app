@@ -50,7 +50,6 @@ class WorkbookDetailsPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.workbookDetailsBanner,
       child: Scaffold(
         appBar: AppBar(
-          //TODO: 編集後に戻ってきた場合に、タイトルが更新されてないので修正する
           title: Text(workbook.title),
           actions: [
             PopupMenuButton(
