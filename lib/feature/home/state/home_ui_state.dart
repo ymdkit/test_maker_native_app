@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
+import 'package:test_maker_native_app/feature/folder/state/folders_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
@@ -26,7 +27,20 @@ class HomeUiState with _$HomeUiState {
 
 final homeUiStateProvider = Provider.autoDispose(
   (ref) {
-    final foldersState = ref.watch(foldersProvider);
+    final remoteFoldersState = ref.watch(
+      foldersProvider(
+        const FoldersStateKey(
+          location: AppDataLocation.remoteOwned,
+        ),
+      ),
+    );
+    final localFoldersState = ref.watch(
+      foldersProvider(
+        const FoldersStateKey(
+          location: AppDataLocation.local,
+        ),
+      ),
+    );
     final remoteWorkbooksState = ref.watch(
       workbooksProvider(
         const WorkbooksStateKey(
@@ -40,28 +54,33 @@ final homeUiStateProvider = Provider.autoDispose(
       ),
     );
 
-    if (foldersState is AppAsyncState_Success &&
+    if (remoteFoldersState is AppAsyncState_Success &&
+        localFoldersState is AppAsyncState_Success &&
         remoteWorkbooksState is AppAsyncState_Success &&
         localWorkbooksState is AppAsyncState_Success) {
-      final folders =
-          (foldersState as AppAsyncState_Success<List<Folder>>).value;
+      final localFolders =
+          (localFoldersState as AppAsyncState_Success<List<Folder>>).value;
+      final remoteFolders =
+          (remoteFoldersState as AppAsyncState_Success<List<Folder>>).value;
       final remoteWorkbooks =
           (remoteWorkbooksState as AppAsyncState_Success<List<Workbook>>).value;
       final localWorkbooks =
           (localWorkbooksState as AppAsyncState_Success<List<Workbook>>).value;
 
-      if (folders.isEmpty &&
+      if (localFolders.isEmpty &&
+          remoteFolders.isEmpty &&
           remoteWorkbooks.isEmpty &&
           localWorkbooks.isEmpty) {
         return const HomeUiState.empty();
       }
       return HomeUiState.success(
-        folders: folders,
+        folders: remoteFolders + localFolders,
         workbooks: remoteWorkbooks + localWorkbooks,
       );
     }
 
-    if (foldersState is AppAsyncState_Failure ||
+    if (remoteFoldersState is AppAsyncState_Failure ||
+        localFoldersState is AppAsyncState_Failure ||
         remoteWorkbooksState is AppAsyncState_Failure ||
         localWorkbooksState is AppAsyncState_Failure) {
       return const HomeUiState.failure(exception: AppException());

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartx/dartx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:realm/realm.dart' hide AppException;
@@ -25,7 +26,7 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
     required String? folderId,
   }) async {
     return TaskEither.tryCatch(
-      () {
+      () async {
         final user = auth.currentUser!;
         final workbookId = Uuid.v4().toString();
         final workbook = Workbook(
@@ -39,9 +40,10 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
           location: AppDataLocation.remoteOwned,
           questionCount: 0,
         );
-        return remoteDB.collection('tests').doc(workbookId).set({
+        await remoteDB.collection('tests').doc(workbookId).set({
           'documentId': workbookId,
           'groupId': '',
+          'folderId': folderId ?? '',
           'name': workbook.title,
           'color': workbook.color.index,
           'size': workbook.questionCount,
@@ -53,6 +55,26 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
           //TODO: 動的に設定する
           'public': false,
         }).then((value) => workbook);
+
+        if (folderId != null) {
+          final workbookCount = await remoteDB
+              .collection('tests')
+              .where('userId', isEqualTo: user.uid)
+              .get()
+              .then(
+                (value) => value.docs
+                    .where((e) =>
+                        e.data().getOrElse('deleted', () => false) == false)
+                    .where((e) =>
+                        e.data().getOrElse('folderId', () => '') == folderId)
+                    .count(),
+              );
+          await remoteDB.collection('folders').doc(workbook.folderId).update({
+            'size': workbookCount,
+          });
+        }
+
+        return Future.value(workbook);
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();
@@ -76,7 +98,11 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
             .get()
             .then(
               (value) => value.docs
-                  .where((e) => !e.data().keys.contains('deleted'))
+                  .where((e) =>
+                      e.data().getOrElse('deleted', () => false) == false)
+                  .where((e) => folderId != null
+                      ? e.data().getOrElse('folderId', () => '') == folderId
+                      : true)
                   .map((e) => documentToWorkbook(userId, e))
                   .toList(),
             );
@@ -128,14 +154,33 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
   @override
   Future<Either<AppException, void>> deleteWorkbook(Workbook workbook) async {
     return TaskEither.tryCatch(
-      () {
+      () async {
         final user = auth.currentUser!;
-        return remoteDB.collection('tests').doc(workbook.workbookId).update({
+        await remoteDB.collection('tests').doc(workbook.workbookId).update({
           'deleted': true,
           'userId': user.uid,
           'userName': user.displayName,
           'updatedAt': Timestamp.now(),
         });
+
+        if (workbook.folderId != null) {
+          final workbookCount = await remoteDB
+              .collection('tests')
+              .where('userId', isEqualTo: user.uid)
+              .get()
+              .then(
+                (value) => value.docs
+                    .where((e) =>
+                        e.data().getOrElse('deleted', () => false) == false)
+                    .where((e) =>
+                        e.data().getOrElse('folderId', () => '') ==
+                        workbook.folderId)
+                    .count(),
+              );
+          await remoteDB.collection('folders').doc(workbook.folderId).update({
+            'size': workbookCount,
+          });
+        }
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();
@@ -146,19 +191,11 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
       List<Workbook> workbooks) async {
     return TaskEither.tryCatch(
       () {
-        final user = auth.currentUser!;
-        return remoteDB
-            .collection('tests')
-            .where('userId', isEqualTo: user.uid)
-            .where('deleted', isEqualTo: true)
-            .get()
-            .then((value) {
-          final batch = remoteDB.batch();
-          for (final element in value.docs) {
-            batch.delete(element.reference);
-          }
-          return batch.commit();
-        });
+        final batch = remoteDB.batch();
+        for (final workbook in workbooks) {
+          batch.delete(remoteDB.collection('tests').doc(workbook.workbookId));
+        }
+        return batch.commit();
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();

@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/repository/folder_repository.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
-final deletedFoldersProvider = StateNotifierProvider.autoDispose<
-    DeletedFoldersStateNotifier, FoldersState>(
-  (ref) => DeletedFoldersStateNotifier(
-    folderRepository: ref.watch(folderRepositoryProvider),
+final deletedFoldersProvider = StateNotifierProvider.autoDispose
+    .family<DeletedFoldersStateNotifier, FoldersState, AppDataLocation>(
+  (ref, location) => DeletedFoldersStateNotifier(
+    folderRepository: ref.watch(folderRepositoryProvider(location)),
     onMutateDeletedFolderStream: ref.watch(onMutateDeletedFolderStreamProvider),
     onMutateFolderStream: ref.watch(onMutateFolderStreamProvider),
   ),

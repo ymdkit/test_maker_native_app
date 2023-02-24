@@ -28,19 +28,25 @@ class TrashUiState with _$TrashUiState {
 
 final trashUiStateProvider = Provider.autoDispose(
   (ref) {
-    final foldersState = ref.watch(deletedFoldersProvider);
+    final localFoldersState =
+        ref.watch(deletedFoldersProvider(AppDataLocation.local));
+    final remoteFoldersState =
+        ref.watch(deletedFoldersProvider(AppDataLocation.remoteOwned));
     final localWorkbooksState =
         ref.watch(deletedWorkbooksProvider(AppDataLocation.local));
     final remoteWorkbooksState =
         ref.watch(deletedWorkbooksProvider(AppDataLocation.remoteOwned));
     final questionsState = ref.watch(deletedQuestionsProvider);
 
-    if (foldersState is AppAsyncState_Success &&
+    if (localFoldersState is AppAsyncState_Success &&
+        remoteFoldersState is AppAsyncState_Success &&
         localWorkbooksState is AppAsyncState_Success &&
         remoteWorkbooksState is AppAsyncState_Success &&
         questionsState is AppAsyncState_Success) {
-      final folders =
-          (foldersState as AppAsyncState_Success<List<Folder>>).value;
+      final localFolders =
+          (localFoldersState as AppAsyncState_Success<List<Folder>>).value;
+      final remoteFolders =
+          (remoteFoldersState as AppAsyncState_Success<List<Folder>>).value;
       final localWorkbooks =
           (localWorkbooksState as AppAsyncState_Success<List<Workbook>>).value;
       final remoteWorkbooks =
@@ -48,20 +54,22 @@ final trashUiStateProvider = Provider.autoDispose(
       final questions =
           (questionsState as AppAsyncState_Success<List<Question>>).value;
 
-      if (folders.isEmpty &&
+      if (localFolders.isEmpty &&
+          remoteFolders.isEmpty &&
           localWorkbooks.isEmpty &&
           remoteWorkbooks.isEmpty &&
           questions.isEmpty) {
         return const TrashUiState.empty();
       }
       return TrashUiState.success(
-        folders: folders,
+        folders: localFolders + remoteFolders,
         workbooks: localWorkbooks + remoteWorkbooks,
         questions: questions,
       );
     }
 
-    if (foldersState is AppAsyncState_Failure ||
+    if (localFoldersState is AppAsyncState_Failure ||
+        remoteFoldersState is AppAsyncState_Failure ||
         localWorkbooksState is AppAsyncState_Failure ||
         remoteWorkbooksState is AppAsyncState_Failure ||
         questionsState is AppAsyncState_Failure) {

@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
+import 'package:test_maker_native_app/feature/folder/state/folders_state_key.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_color_drop_down_button_form_field.dart';
@@ -72,7 +73,10 @@ class EditFolderPage extends HookConsumerWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
-                        ref.read(foldersProvider.notifier).updateFolder(
+                        ref
+                            .read(foldersProvider(FoldersStateKey.from(folder))
+                                .notifier)
+                            .updateFolder(
                               currentFolder: folder,
                               title: folderTitleController.text,
                               color: selectedColor.value,

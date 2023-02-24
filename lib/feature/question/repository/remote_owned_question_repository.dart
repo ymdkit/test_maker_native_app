@@ -83,10 +83,13 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
             .collection('tests')
             .doc(workbookId)
             .collection('questions')
-            .where('deleted', isEqualTo: null)
-            .count()
             .get()
-            .then((value) => value.count);
+            .then(
+              (value) => value.docs
+                  .where((e) =>
+                      e.data().getOrElse('deleted', () => false) == false)
+                  .count(),
+            );
 
         await remoteDB.collection('tests').doc(workbookId).update({
           'size': questionsCount,
@@ -108,9 +111,10 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
             .collection('tests')
             .doc(workbookId)
             .collection('questions')
-            .where('deleted', isEqualTo: null)
             .get()
             .then((value) => value.docs
+                .where(
+                    (e) => e.data().getOrElse('deleted', () => false) == false)
                 .map((e) => documentToQuestion(
                       isOwned: true,
                       workbookId: workbookId,
@@ -163,16 +167,19 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
             .doc(question.workbookId)
             .collection('questions')
             .doc(question.questionId)
-            .update({'deleted': true}).then((value) => null);
+            .update({'deleted': true});
 
         final questionsCount = await remoteDB
             .collection('tests')
             .doc(question.workbookId)
             .collection('questions')
-            .where('deleted', isEqualTo: null)
-            .count()
             .get()
-            .then((value) => value.count);
+            .then(
+              (value) => value.docs
+                  .where((e) =>
+                      e.data().getOrElse('deleted', () => false) == false)
+                  .count(),
+            );
 
         await remoteDB.collection('tests').doc(question.workbookId).update({
           'size': questionsCount,

@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/folder/state/folder_state.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
+import 'package:test_maker_native_app/feature/folder/state/folders_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/operate_workbook_sheet.dart';
@@ -17,18 +18,25 @@ import 'package:test_maker_native_app/widget/app_error_content.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 class FolderDetailsPage extends HookConsumerWidget {
-  const FolderDetailsPage({super.key, required this.folderId});
+  const FolderDetailsPage({
+    super.key,
+    required this.folderId,
+    required this.location,
+  });
 
   final String folderId;
+  final AppDataLocation location;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final folder = ref.watch(folderProvider(folderId));
+    final folder = ref.watch(folderProvider(
+      folderId: folderId,
+      key: FoldersStateKey(location: location),
+    ));
     final workbooks = ref.watch(
       workbooksProvider(
         WorkbooksStateKey(
-          //TODO: リモートに保存したフォルダも表示できるようにする
-          location: AppDataLocation.local,
+          location: folder.location,
           folderId: folderId,
         ),
       ),
@@ -68,7 +76,8 @@ class FolderDetailsPage extends HookConsumerWidget {
                       positiveButtonText: '削除する',
                       onPositive: () async {
                         final result = await ref
-                            .read(foldersProvider.notifier)
+                            .read(foldersProvider(FoldersStateKey.from(folder))
+                                .notifier)
                             .deleteFolder(folder);
 
                         result.match(
@@ -91,9 +100,7 @@ class FolderDetailsPage extends HookConsumerWidget {
           success: (workbooks) => workbooks.isEmpty
               ? AppEmptyContent.workbook(
                   onPressedFallbackButton: () => context.router.push(
-                    //TODO: リモートとの切り替え
-                    CreateWorkbookRoute(
-                        folder: folder, location: AppDataLocation.local),
+                    CreateWorkbookRoute(folder: folder, location: location),
                   ),
                 )
               : ListView.builder(
@@ -108,9 +115,7 @@ class FolderDetailsPage extends HookConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => context.router.push(
-            //TODO: リモートとの切り替え
-            CreateWorkbookRoute(
-                folder: folder, location: AppDataLocation.local),
+            CreateWorkbookRoute(folder: folder, location: location),
           ),
           child: const Icon(Icons.add),
         ),

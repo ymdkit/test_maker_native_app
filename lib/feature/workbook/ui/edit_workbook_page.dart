@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
+import 'package:test_maker_native_app/feature/folder/state/folders_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
@@ -27,7 +28,11 @@ class EditWorkbookPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final foldersState = ref.watch(foldersProvider);
+    final foldersState = ref.watch(
+      foldersProvider(
+        FoldersStateKey(location: workbook.location),
+      ),
+    );
 
     final formKey = useMemoized(() => GlobalKey<FormState>());
     final workbookTitleController =
@@ -89,7 +94,7 @@ class EditWorkbookPage extends HookConsumerWidget {
                             const Spacer(),
                             TextButton.icon(
                               onPressed: () => context.router.push(
-                                const CreateFolderRoute(),
+                                CreateFolderRoute(location: workbook.location),
                               ),
                               label: const Text('フォルダ作成'),
                               icon: const Icon(Icons.add),

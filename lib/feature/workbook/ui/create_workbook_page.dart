@@ -7,6 +7,7 @@ import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/constants/web_url.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
+import 'package:test_maker_native_app/feature/folder/state/folders_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -32,7 +33,8 @@ class CreateWorkbookPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final foldersState = ref.watch(foldersProvider);
+    final foldersState =
+        ref.watch(foldersProvider(FoldersStateKey(location: location)));
 
     final formKey = useMemoized(() => GlobalKey<FormState>());
     final workbookTitleController = useTextEditingController();
@@ -87,7 +89,7 @@ class CreateWorkbookPage extends HookConsumerWidget {
                             const Spacer(),
                             TextButton.icon(
                               onPressed: () => context.router.push(
-                                const CreateFolderRoute(),
+                                CreateFolderRoute(location: location),
                               ),
                               label: const Text('フォルダ作成'),
                               icon: const Icon(Icons.add),

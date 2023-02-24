@@ -50,7 +50,12 @@ class TrashPage extends HookConsumerWidget {
                               .notifier)
                       .destroyWorkbooks();
                   await ref
-                      .read(deletedFoldersProvider.notifier)
+                      .read(deletedFoldersProvider(AppDataLocation.local)
+                          .notifier)
+                      .destroyFolders();
+                  await ref
+                      .read(deletedFoldersProvider(AppDataLocation.remoteOwned)
+                          .notifier)
                       .destroyFolders();
 
                   // ignore: use_build_context_synchronously
@@ -83,7 +88,9 @@ class TrashPage extends HookConsumerWidget {
                             content: 'フォルダ ${folders[index].title} を復元しますか？',
                             onPositive: () {
                               ref
-                                  .read(deletedFoldersProvider.notifier)
+                                  .read(deletedFoldersProvider(
+                                          folders[index].location)
+                                      .notifier)
                                   .restoreFolder(folders[index]);
                               showAppSnackBar(context, 'フォルダを復元しました');
                             },

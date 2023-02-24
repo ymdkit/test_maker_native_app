@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 
 part 'folder.freezed.dart';
@@ -14,6 +15,7 @@ class Folder with _$Folder {
     required int workbookCount,
     required DateTime createdAt,
     required DateTime updatedAt,
+    required AppDataLocation location,
   }) = _Folder;
 
   factory Folder.empty() => Folder(
@@ -24,5 +26,6 @@ class Folder with _$Folder {
         workbookCount: 0,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
+        location: AppDataLocation.local,
       );
 }

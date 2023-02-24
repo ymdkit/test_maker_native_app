@@ -73,6 +73,7 @@ class CreateGroupWorkbookPage extends HookConsumerWidget {
                                   CreateGroupWorkbookInFolderRoute(
                                     folderId: folder.folderId,
                                     groupId: groupId,
+                                    location: folder.location,
                                   ),
                                 ),
                               );

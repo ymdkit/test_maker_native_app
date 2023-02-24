@@ -2,8 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
+import 'package:test_maker_native_app/feature/folder/state/folders_state_key.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_color_drop_down_button_form_field.dart';
@@ -13,7 +15,10 @@ import 'package:test_maker_native_app/widget/app_text_form_field.dart';
 class CreateFolderPage extends HookConsumerWidget {
   const CreateFolderPage({
     super.key,
+    required this.location,
   });
+
+  final AppDataLocation location;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,7 +74,11 @@ class CreateFolderPage extends HookConsumerWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
-                        ref.read(foldersProvider.notifier).addFolder(
+                        ref
+                            .read(foldersProvider(FoldersStateKey(
+                              location: location,
+                            )).notifier)
+                            .addFolder(
                               title: folderTitleController.text,
                               color: selectedColor.value,
                             );

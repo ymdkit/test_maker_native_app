@@ -6,7 +6,7 @@ part of 'folder_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$folderHash() => r'5d438a9d7e5ad85c635d93594e2bcf29cec53215';
+String _$folderHash() => r'c30565afc2e569669f6d359a99172974da6e6e33';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -41,11 +41,13 @@ class FolderFamily extends Family<Folder> {
   const FolderFamily();
 
   /// See also [folder].
-  FolderProvider call(
-    String folderId,
-  ) {
+  FolderProvider call({
+    required FoldersStateKey key,
+    required String folderId,
+  }) {
     return FolderProvider(
-      folderId,
+      key: key,
+      folderId: folderId,
     );
   }
 
@@ -54,7 +56,8 @@ class FolderFamily extends Family<Folder> {
     covariant FolderProvider provider,
   ) {
     return call(
-      provider.folderId,
+      key: provider.key,
+      folderId: provider.folderId,
     );
   }
 
@@ -76,12 +79,14 @@ class FolderFamily extends Family<Folder> {
 /// See also [folder].
 class FolderProvider extends AutoDisposeProvider<Folder> {
   /// See also [folder].
-  FolderProvider(
-    this.folderId,
-  ) : super.internal(
+  FolderProvider({
+    required this.key,
+    required this.folderId,
+  }) : super.internal(
           (ref) => folder(
             ref,
-            folderId,
+            key: key,
+            folderId: folderId,
           ),
           from: folderProvider,
           name: r'folderProvider',
@@ -93,16 +98,20 @@ class FolderProvider extends AutoDisposeProvider<Folder> {
           allTransitiveDependencies: FolderFamily._allTransitiveDependencies,
         );
 
+  final FoldersStateKey key;
   final String folderId;
 
   @override
   bool operator ==(Object other) {
-    return other is FolderProvider && other.folderId == folderId;
+    return other is FolderProvider &&
+        other.key == key &&
+        other.folderId == folderId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, key.hashCode);
     hash = _SystemHash.combine(hash, folderId.hashCode);
 
     return _SystemHash.finish(hash);

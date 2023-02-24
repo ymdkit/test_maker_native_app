@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/repository/folder_repository.dart';
+import 'package:test_maker_native_app/feature/folder/state/folders_state_key.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
@@ -13,10 +14,10 @@ import 'package:test_maker_native_app/utils/app_exception.dart';
 
 typedef FoldersState = AppAsyncState<List<Folder>>;
 
-final foldersProvider =
-    StateNotifierProvider.autoDispose<FoldersStateNotifier, FoldersState>(
-  (ref) => FoldersStateNotifier(
-    folderRepository: ref.watch(folderRepositoryProvider),
+final foldersProvider = StateNotifierProvider.autoDispose
+    .family<FoldersStateNotifier, FoldersState, FoldersStateKey>(
+  (ref, key) => FoldersStateNotifier(
+    folderRepository: ref.watch(folderRepositoryProvider(key.location)),
     onMutateFolderStream: ref.watch(onMutateFolderStreamProvider),
     onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateDeletedFolderStream: ref.watch(onMutateDeletedFolderStreamProvider),

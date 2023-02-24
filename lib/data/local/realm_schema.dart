@@ -115,6 +115,7 @@ class _RealmFolder {
       workbookCount: workbookCount,
       createdAt: createdAt,
       updatedAt: updatedAt,
+      location: AppDataLocation.local,
     );
   }
 }

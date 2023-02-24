@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartx/dartx.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/group/model/group.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
@@ -25,6 +26,37 @@ Group documentToGroup(
     );
   } else {
     return Group.empty();
+  }
+}
+
+Folder documentToFolder(
+  String userId,
+  DocumentSnapshot document,
+){
+  final data = document.data() as Map<String, dynamic>?;
+  if (data != null) {
+    return Folder(
+      folderId: document.id,
+      title: data['name'] as String,
+      order: data.getOrElse('order', () => -1) as int,
+      color: AppThemeColor.fromIndex(data.getOrElse('color', () => 0) as int),
+      workbookCount: data['size'] as int,
+      createdAt: (data.getOrElse(
+        'created_at',
+        () => Timestamp.now(),
+      ) as Timestamp)
+          .toDate(),
+      updatedAt: (data.getOrElse(
+        'updated_at',
+        () => Timestamp.now(),
+      ) as Timestamp)
+          .toDate(),
+      location: data['userId'] == userId
+          ? AppDataLocation.remoteOwned
+          : AppDataLocation.remoteShared,
+    );
+  } else {
+    return Folder.empty();
   }
 }
 

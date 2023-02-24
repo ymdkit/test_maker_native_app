@@ -108,6 +108,7 @@ class _$AppRouter extends RootStackRouter {
         child: FolderDetailsPage(
           key: args.key,
           folderId: args.folderId,
+          location: args.location,
         ),
       );
     },
@@ -133,9 +134,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     CreateFolderRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateFolderRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const CreateFolderPage(),
+        child: CreateFolderPage(
+          key: args.key,
+          location: args.location,
+        ),
       );
     },
     WorkbookDetailsRoute.name: (routeData) {
@@ -206,6 +211,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           folderId: args.folderId,
           groupId: args.groupId,
+          location: args.location,
         ),
       );
     },
@@ -613,12 +619,14 @@ class FolderDetailsRoute extends PageRouteInfo<FolderDetailsRouteArgs> {
   FolderDetailsRoute({
     Key? key,
     required String folderId,
+    required AppDataLocation location,
   }) : super(
           FolderDetailsRoute.name,
           path: 'folder-details-page',
           args: FolderDetailsRouteArgs(
             key: key,
             folderId: folderId,
+            location: location,
           ),
         );
 
@@ -629,15 +637,18 @@ class FolderDetailsRouteArgs {
   const FolderDetailsRouteArgs({
     this.key,
     required this.folderId,
+    required this.location,
   });
 
   final Key? key;
 
   final String folderId;
 
+  final AppDataLocation location;
+
   @override
   String toString() {
-    return 'FolderDetailsRouteArgs{key: $key, folderId: $folderId}';
+    return 'FolderDetailsRouteArgs{key: $key, folderId: $folderId, location: $location}';
   }
 }
 
@@ -716,14 +727,36 @@ class CreateWorkbookRouteArgs {
 
 /// generated route for
 /// [CreateFolderPage]
-class CreateFolderRoute extends PageRouteInfo<void> {
-  const CreateFolderRoute()
-      : super(
+class CreateFolderRoute extends PageRouteInfo<CreateFolderRouteArgs> {
+  CreateFolderRoute({
+    Key? key,
+    required AppDataLocation location,
+  }) : super(
           CreateFolderRoute.name,
           path: 'create-folder-page',
+          args: CreateFolderRouteArgs(
+            key: key,
+            location: location,
+          ),
         );
 
   static const String name = 'CreateFolderRoute';
+}
+
+class CreateFolderRouteArgs {
+  const CreateFolderRouteArgs({
+    this.key,
+    required this.location,
+  });
+
+  final Key? key;
+
+  final AppDataLocation location;
+
+  @override
+  String toString() {
+    return 'CreateFolderRouteArgs{key: $key, location: $location}';
+  }
 }
 
 /// generated route for
@@ -917,6 +950,7 @@ class CreateGroupWorkbookInFolderRoute
     Key? key,
     required String folderId,
     required String groupId,
+    required AppDataLocation location,
   }) : super(
           CreateGroupWorkbookInFolderRoute.name,
           path: 'create-group-workbook-in-folder-page',
@@ -924,6 +958,7 @@ class CreateGroupWorkbookInFolderRoute
             key: key,
             folderId: folderId,
             groupId: groupId,
+            location: location,
           ),
         );
 
@@ -935,6 +970,7 @@ class CreateGroupWorkbookInFolderRouteArgs {
     this.key,
     required this.folderId,
     required this.groupId,
+    required this.location,
   });
 
   final Key? key;
@@ -943,9 +979,11 @@ class CreateGroupWorkbookInFolderRouteArgs {
 
   final String groupId;
 
+  final AppDataLocation location;
+
   @override
   String toString() {
-    return 'CreateGroupWorkbookInFolderRouteArgs{key: $key, folderId: $folderId, groupId: $groupId}';
+    return 'CreateGroupWorkbookInFolderRouteArgs{key: $key, folderId: $folderId, groupId: $groupId, location: $location}';
   }
 }
 

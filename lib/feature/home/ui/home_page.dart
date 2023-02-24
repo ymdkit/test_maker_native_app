@@ -69,6 +69,7 @@ class HomePage extends HookConsumerWidget {
                                 onTap: (folder) => context.router.push(
                                   FolderDetailsRoute(
                                     folderId: folder.folderId,
+                                    location: folder.location,
                                   ),
                                 ),
                               );

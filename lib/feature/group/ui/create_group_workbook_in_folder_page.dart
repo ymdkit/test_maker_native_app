@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/folder/state/folder_state.dart';
+import 'package:test_maker_native_app/feature/folder/state/folders_state_key.dart';
 import 'package:test_maker_native_app/feature/group/state/group_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
@@ -19,19 +20,21 @@ class CreateGroupWorkbookInFolderPage extends HookConsumerWidget {
     super.key,
     required this.folderId,
     required this.groupId,
+    required this.location,
   });
 
   final String folderId;
   final String groupId;
+  final AppDataLocation location;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final folder = ref.watch(folderProvider(folderId));
+    final folder = ref.watch(folderProvider(
+        folderId: folderId, key: FoldersStateKey(location: location)));
     final workbooks = ref.watch(
       workbooksProvider(
         WorkbooksStateKey(
-          //TODO: リモートに保存したフォルダも表示できるようにする
-          location: AppDataLocation.local,
+          location: location,
           folderId: folderId,
         ),
       ),
@@ -48,9 +51,7 @@ class CreateGroupWorkbookInFolderPage extends HookConsumerWidget {
           success: (workbooks) => workbooks.isEmpty
               ? AppEmptyContent.workbook(
                   onPressedFallbackButton: () => context.router.push(
-                    //TODO: リモートとの切り替え
-                    CreateWorkbookRoute(
-                        folder: folder, location: AppDataLocation.local),
+                    CreateWorkbookRoute(folder: folder, location: location),
                   ),
                 )
               : ListView.builder(

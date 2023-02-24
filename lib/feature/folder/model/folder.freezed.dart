@@ -23,6 +23,7 @@ mixin _$Folder {
   int get workbookCount => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  AppDataLocation get location => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FolderCopyWith<Folder> get copyWith => throw _privateConstructorUsedError;
@@ -40,7 +41,8 @@ abstract class $FolderCopyWith<$Res> {
       AppThemeColor color,
       int workbookCount,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      AppDataLocation location});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$FolderCopyWithImpl<$Res, $Val extends Folder>
     Object? workbookCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? location = null,
   }) {
     return _then(_value.copyWith(
       folderId: null == folderId
@@ -93,6 +96,10 @@ class _$FolderCopyWithImpl<$Res, $Val extends Folder>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as AppDataLocation,
     ) as $Val);
   }
 }
@@ -110,7 +117,8 @@ abstract class _$$_FolderCopyWith<$Res> implements $FolderCopyWith<$Res> {
       AppThemeColor color,
       int workbookCount,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      AppDataLocation location});
 }
 
 /// @nodoc
@@ -130,6 +138,7 @@ class __$$_FolderCopyWithImpl<$Res>
     Object? workbookCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? location = null,
   }) {
     return _then(_$_Folder(
       folderId: null == folderId
@@ -160,6 +169,10 @@ class __$$_FolderCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as AppDataLocation,
     ));
   }
 }
@@ -174,7 +187,8 @@ class _$_Folder extends _Folder {
       required this.color,
       required this.workbookCount,
       required this.createdAt,
-      required this.updatedAt})
+      required this.updatedAt,
+      required this.location})
       : super._();
 
   @override
@@ -191,10 +205,12 @@ class _$_Folder extends _Folder {
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
+  @override
+  final AppDataLocation location;
 
   @override
   String toString() {
-    return 'Folder(folderId: $folderId, title: $title, order: $order, color: $color, workbookCount: $workbookCount, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Folder(folderId: $folderId, title: $title, order: $order, color: $color, workbookCount: $workbookCount, createdAt: $createdAt, updatedAt: $updatedAt, location: $location)';
   }
 
   @override
@@ -212,12 +228,14 @@ class _$_Folder extends _Folder {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.location, location) ||
+                other.location == location));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, folderId, title, order, color,
-      workbookCount, createdAt, updatedAt);
+      workbookCount, createdAt, updatedAt, location);
 
   @JsonKey(ignore: true)
   @override
@@ -234,7 +252,8 @@ abstract class _Folder extends Folder {
       required final AppThemeColor color,
       required final int workbookCount,
       required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$_Folder;
+      required final DateTime updatedAt,
+      required final AppDataLocation location}) = _$_Folder;
   const _Folder._() : super._();
 
   @override
@@ -251,6 +270,8 @@ abstract class _Folder extends Folder {
   DateTime get createdAt;
   @override
   DateTime get updatedAt;
+  @override
+  AppDataLocation get location;
   @override
   @JsonKey(ignore: true)
   _$$_FolderCopyWith<_$_Folder> get copyWith =>
