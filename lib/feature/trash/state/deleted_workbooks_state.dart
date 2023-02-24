@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/workbook_repository.dart';
-import 'package:test_maker_native_app/feature/workbook/state/local_workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
-final deletedWorkbooksProvider =
-    StateNotifierProvider.autoDispose<WorkbooksStateNotifier, WorkbooksState>(
-  (ref) => WorkbooksStateNotifier(
-    workbookRepository: ref.watch(workbookRepositoryProvider),
+final deletedWorkbooksProvider = StateNotifierProvider.autoDispose
+    .family<WorkbooksStateNotifier, WorkbooksState, AppDataLocation>(
+  (ref, location) => WorkbooksStateNotifier(
+    workbookRepository: ref.watch(workbookRepositoryProvider(location)),
     onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateDeletedWorkbookStream:
         ref.watch(onMutateDeletedWorkbookStreamProvider),

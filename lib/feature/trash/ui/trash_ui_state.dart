@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.dart';
@@ -28,31 +29,41 @@ class TrashUiState with _$TrashUiState {
 final trashUiStateProvider = Provider.autoDispose(
   (ref) {
     final foldersState = ref.watch(deletedFoldersProvider);
-    final workbooksState = ref.watch(deletedWorkbooksProvider);
+    final localWorkbooksState =
+        ref.watch(deletedWorkbooksProvider(AppDataLocation.local));
+    final remoteWorkbooksState =
+        ref.watch(deletedWorkbooksProvider(AppDataLocation.remoteOwned));
     final questionsState = ref.watch(deletedQuestionsProvider);
 
     if (foldersState is AppAsyncState_Success &&
-        workbooksState is AppAsyncState_Success &&
+        localWorkbooksState is AppAsyncState_Success &&
+        remoteWorkbooksState is AppAsyncState_Success &&
         questionsState is AppAsyncState_Success) {
       final folders =
           (foldersState as AppAsyncState_Success<List<Folder>>).value;
-      final workbooks =
-          (workbooksState as AppAsyncState_Success<List<Workbook>>).value;
+      final localWorkbooks =
+          (localWorkbooksState as AppAsyncState_Success<List<Workbook>>).value;
+      final remoteWorkbooks =
+          (remoteWorkbooksState as AppAsyncState_Success<List<Workbook>>).value;
       final questions =
           (questionsState as AppAsyncState_Success<List<Question>>).value;
 
-      if (folders.isEmpty && workbooks.isEmpty && questions.isEmpty) {
+      if (folders.isEmpty &&
+          localWorkbooks.isEmpty &&
+          remoteWorkbooks.isEmpty &&
+          questions.isEmpty) {
         return const TrashUiState.empty();
       }
       return TrashUiState.success(
         folders: folders,
-        workbooks: workbooks,
+        workbooks: localWorkbooks + remoteWorkbooks,
         questions: questions,
       );
     }
 
     if (foldersState is AppAsyncState_Failure ||
-        workbooksState is AppAsyncState_Failure ||
+        localWorkbooksState is AppAsyncState_Failure ||
+        remoteWorkbooksState is AppAsyncState_Failure ||
         questionsState is AppAsyncState_Failure) {
       return const TrashUiState.failure(exception: AppException());
     }

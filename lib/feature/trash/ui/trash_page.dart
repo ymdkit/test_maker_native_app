@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/folder/ui/folder_list_item.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_questions_state.dart';
@@ -34,14 +35,25 @@ class TrashPage extends HookConsumerWidget {
                 title: 'ゴミ箱を空にする',
                 content: 'ゴミ箱内に含まれるデータを全て削除しますか？',
                 isDangerous: true,
-                onPositive: () {
-                  ref
+                onPositive: () async {
+                  //TODO リファクタする
+                  await ref
                       .read(deletedQuestionsProvider.notifier)
                       .destroyQuestions();
-                  ref
-                      .read(deletedWorkbooksProvider.notifier)
+                  await ref
+                      .read(deletedWorkbooksProvider(AppDataLocation.local)
+                          .notifier)
                       .destroyWorkbooks();
-                  ref.read(deletedFoldersProvider.notifier).destroyFolders();
+                  await ref
+                      .read(
+                          deletedWorkbooksProvider(AppDataLocation.remoteOwned)
+                              .notifier)
+                      .destroyWorkbooks();
+                  await ref
+                      .read(deletedFoldersProvider.notifier)
+                      .destroyFolders();
+
+                  // ignore: use_build_context_synchronously
                   showAppSnackBar(context, '削除しました');
                 },
               ),
@@ -98,7 +110,9 @@ class TrashPage extends HookConsumerWidget {
                             content: '問題集 ${workbooks[index].title} を復元しますか？',
                             onPositive: () {
                               ref
-                                  .read(deletedWorkbooksProvider.notifier)
+                                  .read(deletedWorkbooksProvider(
+                                          workbooks[index].location)
+                                      .notifier)
                                   .restoreWorkbook(workbooks[index]);
                               showAppSnackBar(context, '問題集を復元しました');
                             },

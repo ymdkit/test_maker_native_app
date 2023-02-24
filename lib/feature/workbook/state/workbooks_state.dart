@@ -18,8 +18,8 @@ final localWorkbooksProvider = StateNotifierProvider.autoDispose
     .family<WorkbooksStateNotifier, WorkbooksState, String?>(
   (ref, folderId) => WorkbooksStateNotifier(
     folderId: folderId,
-    location: AppDataLocation.local,
-    workbookRepository: ref.watch(workbookRepositoryProvider),
+    workbookRepository:
+        ref.watch(workbookRepositoryProvider(AppDataLocation.local)),
     onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
     onMutateDeletedWorkbookStream:
@@ -31,8 +31,8 @@ final remoteOwnedWorkbooksProvider = StateNotifierProvider.autoDispose
     .family<WorkbooksStateNotifier, WorkbooksState, String?>(
   (ref, folderId) => WorkbooksStateNotifier(
     folderId: folderId,
-    location: AppDataLocation.remoteOwned,
-    workbookRepository: ref.watch(workbookRepositoryProvider),
+    workbookRepository:
+        ref.watch(workbookRepositoryProvider(AppDataLocation.remoteOwned)),
     onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
     onMutateDeletedWorkbookStream:
@@ -43,7 +43,6 @@ final remoteOwnedWorkbooksProvider = StateNotifierProvider.autoDispose
 class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   WorkbooksStateNotifier({
     required this.folderId,
-    required this.location,
     required this.workbookRepository,
     required this.onMutateWorkbookStream,
     required StreamController<Question> onMutateQuestionStream,
@@ -60,7 +59,6 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   }
 
   final String? folderId;
-  final AppDataLocation location;
   final WorkbookRepository workbookRepository;
   final StreamController<Workbook> onMutateWorkbookStream;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
@@ -69,7 +67,6 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   Future<void> setupWorkbooks() async {
     state = const WorkbooksState.loading();
     final result = await workbookRepository.getWorkbooks(
-      location: location,
       folderId: folderId,
     );
     result.match(

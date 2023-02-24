@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
-import 'package:test_maker_native_app/feature/workbook/state/local_workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
