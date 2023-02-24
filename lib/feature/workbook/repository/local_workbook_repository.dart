@@ -75,6 +75,28 @@ class LocalWorkbookRepository implements WorkbookRepository {
   }
 
   @override
+  Future<Either<AppException, Workbook>> getWorkbook({
+    required String workbookId,
+  }) async {
+    final workbook = localDB
+        .all<RealmWorkbook>()
+        .where((e) => e.isDeleted != true)
+        .where((e) => e.workbookId == workbookId)
+        .firstOrNull;
+
+    if (workbook == null) {
+      return const Left(AppException());
+    }
+    final questionCount = localDB
+        .all<RealmQuestion>()
+        .where((e) => e.isDeleted != true)
+        .where((element) => element.workbookId == workbook.workbookId)
+        .length;
+
+    return Right(workbook.toWorkbook(questionCount: questionCount));
+  }
+
+  @override
   Future<Either<AppException, List<Workbook>>> getDeletedWorkbooks() async {
     return Right(
         localDB.all<RealmWorkbook>().where((e) => e.isDeleted == true).map(

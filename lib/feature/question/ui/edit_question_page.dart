@@ -32,8 +32,8 @@ class EditQuestionPage extends HookConsumerWidget {
         required explanationImageUrl,
         required isAutoGenerateWrongChoices,
         required isCheckAnswerOrder,
-      }) {
-        ref
+      }) async {
+        await ref
             .read(questionsProvider(
               QuestionsStateKey(
                 location: question.location,
@@ -52,7 +52,9 @@ class EditQuestionPage extends HookConsumerWidget {
               isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
               isCheckAnswerOrder: isCheckAnswerOrder,
             );
-        context.router.pop();
+        await Future.delayed(const Duration(milliseconds: 500), () {
+          context.router.pop();
+        });
       },
     );
   }

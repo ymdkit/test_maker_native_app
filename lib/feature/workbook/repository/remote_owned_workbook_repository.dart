@@ -100,6 +100,24 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
   }
 
   @override
+  Future<Either<AppException, Workbook>> getWorkbook({
+    required String workbookId,
+  }) async {
+    return TaskEither.tryCatch(
+      () {
+        final userId = auth.currentUser!.uid;
+
+        return remoteDB
+            .collection('tests')
+            .doc(workbookId)
+            .get()
+            .then((value) => documentToWorkbook(userId, value));
+      },
+      (e, stack) => AppException.fromRawException(e: e),
+    ).run();
+  }
+
+  @override
   Future<Either<AppException, List<Workbook>>> getDeletedWorkbooks() async {
     return TaskEither.tryCatch(
       () {

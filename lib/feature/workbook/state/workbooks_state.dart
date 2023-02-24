@@ -40,7 +40,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   }) : super(const WorkbooksState.loading()) {
     setupWorkbooks();
     onMutateQuestionSubscription = onMutateQuestionStream.stream.listen(
-      (_) => setupWorkbooks(),
+      (question) => _syncWorkbook(question.workbookId),
     );
     onMutateDeletedWorkbookSubscription =
         onMutateDeletedWorkbookStream.stream.listen(
@@ -149,6 +149,31 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
         );
 
         return right(r);
+      },
+    );
+  }
+
+  Future<void> _syncWorkbook(String workbookId) async {
+    final result = await workbookRepository.getWorkbook(workbookId: workbookId);
+    result.match(
+      (l) => state = WorkbooksState.failure(exception: l),
+      (r) {
+        state.maybeWhen(
+          success: (workbooks) {
+            state = WorkbooksState.success(
+              value: workbooks.map(
+                (e) {
+                  if (e.workbookId == workbookId) {
+                    return r;
+                  } else {
+                    return e;
+                  }
+                },
+              ).toList(),
+            );
+          },
+          orElse: () {},
+        );
       },
     );
   }

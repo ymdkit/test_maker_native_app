@@ -6,6 +6,7 @@ import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
+import 'package:test_maker_native_app/feature/trash/state/deleted_questions_state.dart';
 import 'package:test_maker_native_app/utils/app_async_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
@@ -18,6 +19,8 @@ final questionsProvider = StateNotifierProvider.autoDispose
       questionRepository: ref.watch(questionRepositoryProvider(key.location)),
       workbookId: key.workbookId,
       onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
+      onMutateDeletedQuestionStream:
+          ref.watch(onMutateDeletedQuestionStreamProvider),
     );
   },
 );
@@ -27,9 +30,11 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
     required this.questionRepository,
     required this.workbookId,
     required this.onMutateQuestionStream,
+    required StreamController<Question> onMutateDeletedQuestionStream,
   }) : super(const QuestionsState.loading()) {
     setupQuestions();
-    onMutateQuestionSubscription = onMutateQuestionStream.stream.listen(
+    onDeletedMutateQuestionSubscription =
+        onMutateDeletedQuestionStream.stream.listen(
       (question) => setupQuestions(),
     );
   }
@@ -37,7 +42,7 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
   final QuestionRepository questionRepository;
   final String workbookId;
   final StreamController<Question> onMutateQuestionStream;
-  late final StreamSubscription<Question> onMutateQuestionSubscription;
+  late final StreamSubscription<Question> onDeletedMutateQuestionSubscription;
 
   Future<void> setupQuestions() async {
     state = const QuestionsState.loading();
@@ -165,7 +170,7 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
 
   @override
   void dispose() {
-    onMutateQuestionSubscription.cancel();
+    onDeletedMutateQuestionSubscription.cancel();
     super.dispose();
   }
 }

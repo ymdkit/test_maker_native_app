@@ -40,6 +40,10 @@ abstract class WorkbookRepository {
     required String? folderId,
   });
 
+  Future<Either<AppException, Workbook>> getWorkbook({
+    required String workbookId,
+  });
+
   Future<Either<AppException, List<Workbook>>> getDeletedWorkbooks();
 
   Future<Either<AppException, void>> updateWorkbook(Workbook workbook);
