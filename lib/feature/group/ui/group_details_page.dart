@@ -34,7 +34,7 @@ class GroupDetailsPage extends HookConsumerWidget {
             onRefresh: () async =>
                 ref.refresh(groupWorkbooksStateProvider(groupId)),
             child: groupWorkbooks.isEmpty
-                ? AppEmptyContent.workbook(onPressedFallbackButton: () {
+                ? AppEmptyContent.groupWorkbook(onPressedFallbackButton: () {
                     //TODO: 問題集作成
                   })
                 : ListView.builder(
@@ -50,6 +50,12 @@ class GroupDetailsPage extends HookConsumerWidget {
                     },
                   ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            //TODO: 問題集作成
+          },
+          child: const Icon(Icons.add),
         ),
       ),
     );
