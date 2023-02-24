@@ -49,6 +49,13 @@ class AppEmptyContent extends StatelessWidget {
         text = '所属しているグループはありません\nグループを作成してください',
         fallbackButtonText = 'グループを作成する';
 
+  const AppEmptyContent.groupWorkbook({
+    super.key,
+    required this.onPressedFallbackButton,
+  })  : icon = Icons.edit_document,
+        text = '登録されている問題集はありません\n問題集を登録してください',
+        fallbackButtonText = '問題集を登録する';
+
   const AppEmptyContent.trash({
     super.key,
   })  : icon = Icons.delete,
