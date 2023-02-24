@@ -2,6 +2,7 @@ import 'package:dartx/dartx.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:realm/realm.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/data/local/realm.dart';
 import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
@@ -37,7 +38,7 @@ class LocalWorkbookDataSource {
       questionCount: 0,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
-      isOwned: true,
+      location: AppDataLocation.local,
     );
 
     localDB.write(() {

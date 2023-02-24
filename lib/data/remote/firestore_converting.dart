@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartx/dartx.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/group/model/group.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
@@ -41,7 +42,9 @@ Workbook documentToWorkbook(
       questionCount: data['size'] as int,
       createdAt: (data['createdAt'] as Timestamp).toDate(),
       updatedAt: (data['updatedAt'] as Timestamp).toDate(),
-      isOwned: data['userId'] == userId,
+      location: data['userId'] == userId
+          ? AppDataLocation.remoteOwned
+          : AppDataLocation.remoteShared,
     );
   } else {
     return Workbook.empty();

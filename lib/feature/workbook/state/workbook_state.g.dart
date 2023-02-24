@@ -6,7 +6,7 @@ part of 'workbook_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$workbookHash() => r'0519921ba801feff8aa4c5de061bab094c2ff8f8';
+String _$workbookHash() => r'56234359f54e7129fe610faa99bfc4439d4ae73f';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 
 part 'workbook.freezed.dart';
 
@@ -15,8 +16,12 @@ class Workbook with _$Workbook {
     required int questionCount,
     required DateTime createdAt,
     required DateTime updatedAt,
-    required bool isOwned,
+    required AppDataLocation location,
   }) = _Workbook;
+
+  bool get isOwned =>
+      location == AppDataLocation.local ||
+      location == AppDataLocation.remoteOwned;
 
   factory Workbook.empty() => Workbook(
         workbookId: '',
@@ -27,6 +32,6 @@ class Workbook with _$Workbook {
         questionCount: 0,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-        isOwned: false,
+        location: AppDataLocation.local,
       );
 }
