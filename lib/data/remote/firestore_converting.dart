@@ -37,7 +37,7 @@ Workbook documentToWorkbook(
     return Workbook(
       workbookId: document.id,
       title: data['name'] as String,
-      order: data['order'] as int,
+      order: data.getOrElse('order', () => -1) as int,
       color: AppThemeColor.fromIndex(data.getOrElse('color', () => 0) as int),
       folderId: null,
       questionCount: data['size'] as int,
