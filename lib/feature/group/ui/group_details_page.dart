@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/group/state/group_state.dart';
 import 'package:test_maker_native_app/feature/group/state/group_workbooks_state.dart';
+import 'package:test_maker_native_app/feature/group/ui/operate_group_workbook_sheet.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/workbook_list_item.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
@@ -47,9 +48,12 @@ class GroupDetailsPage extends HookConsumerWidget {
                       final groupWorkbook = groupWorkbooks[index];
                       return WorkbookListItem(
                         workbook: groupWorkbook,
-                        onTap: (workbook) {
-                          // TODO 問題集解答
-                        },
+                        onTap: (workbook) async =>
+                            showOperateGroupWorkbookSheet(
+                          context: context,
+                          groupId: groupId,
+                          workbook: workbook,
+                        ),
                       );
                     },
                   ),

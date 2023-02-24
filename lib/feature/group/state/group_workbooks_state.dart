@@ -65,4 +65,30 @@ class GroupWorkbooksStateNotifier extends StateNotifier<GroupWorkbooksState> {
       },
     );
   }
+
+  Future<Either<AppException, void>> removeWorkbookFromGroup({
+    required Workbook workbook,
+  }) async {
+    final result = await groupRepository.unLinkGroupWorkbook(
+      groupId: groupId,
+      workbookId: workbook.workbookId,
+    );
+
+    return result.fold(
+      (l) => left(l),
+      (_) {
+        state.maybeWhen(
+          success: (workbooks) {
+            state = GroupWorkbooksState.success(
+              value: workbooks
+                  .where((w) => w.workbookId != workbook.workbookId)
+                  .toList(),
+            );
+          },
+          orElse: () {},
+        );
+        return right(null);
+      },
+    );
+  }
 }

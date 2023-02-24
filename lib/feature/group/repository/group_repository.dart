@@ -134,4 +134,18 @@ class GroupRepository {
       return left(AppException.fromRawException(e: e));
     }
   }
+
+  Future<Either<AppException, void>> unLinkGroupWorkbook({
+    required String groupId,
+    required String workbookId,
+  }) async {
+    return TaskEither.tryCatch(
+      () async {
+        await db.collection('tests').doc(workbookId).update({
+          'groupId': '',
+        });
+      },
+      (e, _) => AppException.fromRawException(e: e),
+    ).run();
+  }
 }
