@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartx/dartx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart' hide Group;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -128,8 +129,10 @@ class GroupRepository {
           .collection('tests')
           .where('groupId', isEqualTo: groupId)
           .get();
-      return right(
-          groups.docs.map((e) => documentToWorkbook(userId, e)).toList());
+      return right(groups.docs
+          .where((e) => e.data().getOrElse('deleted', () => false) == false)
+          .map((e) => documentToWorkbook(userId, e))
+          .toList());
     } catch (e) {
       return left(AppException.fromRawException(e: e));
     }
