@@ -4,11 +4,13 @@ import 'package:test_maker_native_app/feature/folder/ui/folder_list_item.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_questions_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
+import 'package:test_maker_native_app/feature/trash/ui/trash_ui_state.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/workbook_list_item.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
+import 'package:test_maker_native_app/widget/app_error_content.dart';
 import 'package:test_maker_native_app/widget/app_sliver_section.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
@@ -21,8 +23,14 @@ class TrashPage extends HookConsumerWidget {
     final workbooks = ref.watch(deletedWorkbooksProvider);
     final questions = ref.watch(deletedQuestionsProvider);
 
-    final isContentNotEmpty =
-        folders.isNotEmpty || workbooks.isNotEmpty || questions.isNotEmpty;
+    final trashUiState = ref.watch(trashUiStateProvider);
+
+    final isContentNotEmpty = folders.isNotEmpty ||
+        workbooks.maybeWhen(
+          success: (workbooks) => workbooks.isNotEmpty,
+          orElse: () => false,
+        ) ||
+        questions.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
@@ -52,95 +60,96 @@ class TrashPage extends HookConsumerWidget {
       ),
       body: AppAdWrapper(
         adUnitId: AppAdUnitId.settingBanner,
-        child: isContentNotEmpty
-            ? CustomScrollView(
-                slivers: [
-                  SliverVisibility(
-                    visible: folders.isNotEmpty,
-                    sliver: AppSliverSection(
-                      title: 'フォルダ',
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return FolderListItem(
-                              folder: folders[index],
-                              onTap: (workbook) => showAlertDialog(
-                                context: context,
-                                title: 'フォルダの復元',
-                                content:
-                                    'フォルダ ${folders[index].title} を復元しますか？',
-                                onPositive: () {
-                                  ref
-                                      .read(deletedFoldersProvider.notifier)
-                                      .restoreFolder(folders[index]);
-                                  showAppSnackBar(context, 'フォルダを復元しました');
-                                },
-                              ),
-                            );
-                          },
-                          childCount: folders.length,
-                        ),
-                      ),
+        child: trashUiState.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          empty: () => const AppEmptyContent.trash(),
+          success: (folders, workbooks, questions) => CustomScrollView(
+            slivers: [
+              SliverVisibility(
+                visible: folders.isNotEmpty,
+                sliver: AppSliverSection(
+                  title: 'フォルダ',
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return FolderListItem(
+                          folder: folders[index],
+                          onTap: (workbook) => showAlertDialog(
+                            context: context,
+                            title: 'フォルダの復元',
+                            content: 'フォルダ ${folders[index].title} を復元しますか？',
+                            onPositive: () {
+                              ref
+                                  .read(deletedFoldersProvider.notifier)
+                                  .restoreFolder(folders[index]);
+                              showAppSnackBar(context, 'フォルダを復元しました');
+                            },
+                          ),
+                        );
+                      },
+                      childCount: folders.length,
                     ),
                   ),
-                  SliverVisibility(
-                    visible: workbooks.isNotEmpty,
-                    sliver: AppSliverSection(
-                      title: '問題集',
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return WorkbookListItem(
-                              workbook: workbooks[index],
-                              onTap: (workbook) => showAlertDialog(
-                                context: context,
-                                title: '問題集の復元',
-                                content:
-                                    '問題集 ${workbooks[index].title} を復元しますか？',
-                                onPositive: () {
-                                  ref
-                                      .read(deletedWorkbooksProvider.notifier)
-                                      .restoreWorkbook(workbooks[index]);
-                                  showAppSnackBar(context, '問題集を復元しました');
-                                },
-                              ),
-                            );
-                          },
-                          childCount: workbooks.length,
-                        ),
-                      ),
+                ),
+              ),
+              SliverVisibility(
+                visible: workbooks.isNotEmpty,
+                sliver: AppSliverSection(
+                  title: '問題集',
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return WorkbookListItem(
+                          workbook: workbooks[index],
+                          onTap: (workbook) => showAlertDialog(
+                            context: context,
+                            title: '問題集の復元',
+                            content: '問題集 ${workbooks[index].title} を復元しますか？',
+                            onPositive: () {
+                              ref
+                                  .read(deletedWorkbooksProvider.notifier)
+                                  .restoreWorkbook(workbooks[index]);
+                              showAppSnackBar(context, '問題集を復元しました');
+                            },
+                          ),
+                        );
+                      },
+                      childCount: workbooks.length,
                     ),
                   ),
-                  SliverVisibility(
-                    visible: questions.isNotEmpty,
-                    sliver: AppSliverSection(
-                      title: '問題',
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return WorkbookListItem(
-                              workbook: workbooks[index],
-                              onTap: (workbook) => showAlertDialog(
-                                context: context,
-                                title: '問題の復元',
-                                content: 'この問題を復元しますか？',
-                                onPositive: () {
-                                  ref
-                                      .read(deletedQuestionsProvider.notifier)
-                                      .restoreQuestion(questions[index]);
-                                  showAppSnackBar(context, '問題を復元しました');
-                                },
-                              ),
-                            );
-                          },
-                          childCount: questions.length,
-                        ),
-                      ),
+                ),
+              ),
+              SliverVisibility(
+                visible: questions.isNotEmpty,
+                sliver: AppSliverSection(
+                  title: '問題',
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return WorkbookListItem(
+                          workbook: workbooks[index],
+                          onTap: (workbook) => showAlertDialog(
+                            context: context,
+                            title: '問題の復元',
+                            content: 'この問題を復元しますか？',
+                            onPositive: () {
+                              ref
+                                  .read(deletedQuestionsProvider.notifier)
+                                  .restoreQuestion(questions[index]);
+                              showAppSnackBar(context, '問題を復元しました');
+                            },
+                          ),
+                        );
+                      },
+                      childCount: questions.length,
                     ),
                   ),
-                ],
-              )
-            : const AppEmptyContent.trash(),
+                ),
+              ),
+            ],
+          ),
+          failure: (e) => AppErrorContent.serverError(),
+        ),
       ),
     );
   }
