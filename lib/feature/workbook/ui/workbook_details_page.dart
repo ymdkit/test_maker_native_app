@@ -16,6 +16,7 @@ import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
 import 'package:test_maker_native_app/widget/app_error_content.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
+import 'package:test_maker_native_app/widget/app_sliver_space.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 class WorkbookDetailsPage extends HookConsumerWidget {
@@ -120,6 +121,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                 )
               : CustomScrollView(
                   slivers: [
+                    const AppSliverSpace(height: 16),
                     const SliverPadding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 16,

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
@@ -21,7 +19,14 @@ class QuestionListItem extends HookConsumerWidget {
     final themeColor =
         ref.watch(preferencesStateProvider.select((e) => e.themeColor));
     return ListTile(
-      leading: () {
+      title: Text(
+        question.problem,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(question.answers.join(' '),
+          maxLines: 1, overflow: TextOverflow.ellipsis),
+      trailing: () {
         switch (question.answerStatus) {
           case AnswerStatus.correct:
             return Icon(
@@ -33,26 +38,10 @@ class QuestionListItem extends HookConsumerWidget {
               Icons.close,
               color: Colors.grey,
             );
-          case AnswerStatus.unAnswered:
-            return const Icon(
-              Icons.question_answer,
-            );
+          default:
+            const SizedBox.shrink();
         }
       }(),
-      title: Text(
-        question.problem,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: Text(question.answers.join(' '),
-          maxLines: 1, overflow: TextOverflow.ellipsis),
-      trailing: question.problemImageUrl != null &&
-              File(question.problemImageUrl!).existsSync()
-          ? Image.file(
-              File(question.problemImageUrl!),
-              fit: BoxFit.contain,
-            )
-          : null,
       onTap: () => onTap(question),
     );
   }
