@@ -34,7 +34,7 @@ class WorkbookListItem extends StatelessWidget {
               onPressed: () => showAlertDialog(
                 context: context,
                 title: 'クラウドへの同期',
-                content: 'クラウド上にアップロードすることで、複数端末で情報を同期することができます。',
+                content: 'クラウド上にアップロードすることで、複数端末で情報を同期することができます。（ログインが必要です）',
                 positiveButtonText: '同期する',
                 onPositive: () {
                   //TODO: 問題集のアップロード
