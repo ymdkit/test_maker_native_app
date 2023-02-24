@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
-import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/local_workbooks_state.dart';
 import 'package:test_maker_native_app/utils/app_async_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
@@ -25,26 +25,33 @@ class HomeUiState with _$HomeUiState {
 final homeUiStateProvider = Provider.autoDispose(
   (ref) {
     final foldersState = ref.watch(foldersProvider);
-    final workbooksState = ref.watch(workbooksProvider(null));
+    final remoteWorkbooksState = ref.watch(remoteOwnedWorkbooksProvider(null));
+    final localWorkbooksState = ref.watch(localWorkbooksProvider(null));
 
     if (foldersState is AppAsyncState_Success &&
-        workbooksState is AppAsyncState_Success) {
+        remoteWorkbooksState is AppAsyncState_Success &&
+        localWorkbooksState is AppAsyncState_Success) {
       final folders =
           (foldersState as AppAsyncState_Success<List<Folder>>).value;
-      final workbooks =
-          (workbooksState as AppAsyncState_Success<List<Workbook>>).value;
+      final remoteWorkbooks =
+          (remoteWorkbooksState as AppAsyncState_Success<List<Workbook>>).value;
+      final localWorkbooks =
+          (localWorkbooksState as AppAsyncState_Success<List<Workbook>>).value;
 
-      if (folders.isEmpty && workbooks.isEmpty) {
+      if (folders.isEmpty &&
+          remoteWorkbooks.isEmpty &&
+          localWorkbooks.isEmpty) {
         return const HomeUiState.empty();
       }
       return HomeUiState.success(
         folders: folders,
-        workbooks: workbooks,
+        workbooks: remoteWorkbooks + localWorkbooks,
       );
     }
 
     if (foldersState is AppAsyncState_Failure ||
-        workbooksState is AppAsyncState_Failure) {
+        remoteWorkbooksState is AppAsyncState_Failure ||
+        localWorkbooksState is AppAsyncState_Failure) {
       return const HomeUiState.failure(exception: AppException());
     }
 

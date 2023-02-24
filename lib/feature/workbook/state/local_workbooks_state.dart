@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
@@ -13,10 +14,24 @@ import 'package:test_maker_native_app/utils/app_exception.dart';
 
 typedef WorkbooksState = AppAsyncState<List<Workbook>>;
 
-final workbooksProvider = StateNotifierProvider.autoDispose
+final localWorkbooksProvider = StateNotifierProvider.autoDispose
     .family<WorkbooksStateNotifier, WorkbooksState, String?>(
   (ref, folderId) => WorkbooksStateNotifier(
     folderId: folderId,
+    location: AppDataLocation.local,
+    workbookRepository: ref.watch(workbookRepositoryProvider),
+    onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
+    onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
+    onMutateDeletedWorkbookStream:
+        ref.watch(onMutateDeletedWorkbookStreamProvider),
+  ),
+);
+
+final remoteOwnedWorkbooksProvider = StateNotifierProvider.autoDispose
+    .family<WorkbooksStateNotifier, WorkbooksState, String?>(
+  (ref, folderId) => WorkbooksStateNotifier(
+    folderId: folderId,
+    location: AppDataLocation.remoteOwned,
     workbookRepository: ref.watch(workbookRepositoryProvider),
     onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
@@ -28,6 +43,7 @@ final workbooksProvider = StateNotifierProvider.autoDispose
 class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   WorkbooksStateNotifier({
     required this.folderId,
+    required this.location,
     required this.workbookRepository,
     required this.onMutateWorkbookStream,
     required StreamController<Question> onMutateQuestionStream,
@@ -44,6 +60,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   }
 
   final String? folderId;
+  final AppDataLocation location;
   final WorkbookRepository workbookRepository;
   final StreamController<Workbook> onMutateWorkbookStream;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
@@ -51,7 +68,10 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
 
   Future<void> setupWorkbooks() async {
     state = const WorkbooksState.loading();
-    final result = await workbookRepository.getWorkbooks(folderId);
+    final result = await workbookRepository.getWorkbooks(
+      location: location,
+      folderId: folderId,
+    );
     result.match(
       (l) => state = WorkbooksState.failure(exception: l),
       (r) => state = WorkbooksState.success(value: r),

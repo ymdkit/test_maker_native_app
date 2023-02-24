@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/constants/data_source.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/local_workbook_data_source.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/remote_workbook_data_source.dart';
@@ -35,11 +36,19 @@ class WorkbookRepository {
         ),
       );
 
-  Future<Either<AppException, List<Workbook>>> getWorkbooks(
-          String? folderId) async =>
-      Right(
-        localDataSource.getWorkbooks(folderId),
-      );
+  Future<Either<AppException, List<Workbook>>> getWorkbooks({
+    required AppDataLocation location,
+    required String? folderId,
+  }) async {
+    switch (location) {
+      case AppDataLocation.local:
+        return Right(localDataSource.getWorkbooks(folderId));
+      case AppDataLocation.remoteOwned:
+        return remoteDataSource.getWorkbooks();
+      case AppDataLocation.remoteShared:
+        return const Right([]);
+    }
+  }
 
   Future<Either<AppException, List<Workbook>>> getDeletedWorkbooks() async {
     return Right(localDataSource.getDeletedWorkbooks());

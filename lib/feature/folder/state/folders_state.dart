@@ -7,7 +7,7 @@ import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/repository/folder_repository.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
-import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/local_workbooks_state.dart';
 import 'package:test_maker_native_app/utils/app_async_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 

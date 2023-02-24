@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/data/remote/firebase_auth.dart';
 import 'package:test_maker_native_app/data/remote/firestore.dart';
+import 'package:test_maker_native_app/data/remote/firestore_converting.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
@@ -24,7 +25,7 @@ class RemoteWorkbookDataSource {
   final FirebaseAuth auth;
   final FirebaseFirestore remoteDB;
 
-  Workbook addWorkbook({
+  Future<Either<AppException, Workbook>> addWorkbook({
     required String title,
     required AppThemeColor color,
     required String? folderId,
@@ -32,15 +33,28 @@ class RemoteWorkbookDataSource {
     throw UnimplementedError();
   }
 
-  Future<Either<AppException, List<Workbook>>> getWorkbooks() {
-    
+  Future<Either<AppException, List<Workbook>>> getWorkbooks() async {
+    return TaskEither.tryCatch(
+      () {
+        final userId = auth.currentUser!.uid;
+        return remoteDB
+            .collection('tests')
+            .where('userId', isEqualTo: userId)
+            .get()
+            .then(
+              (value) =>
+                  value.docs.map((e) => documentToWorkbook(userId, e)).toList(),
+            );
+      },
+      (e, stack) => AppException.fromRawException(e: e),
+    ).run();
   }
 
   List<Workbook> getDeletedWorkbooks() {
     throw UnimplementedError();
   }
 
-  void updateWorkbook(Workbook workbook) {
+  Future<Either<AppException, void>> updateWorkbook(Workbook workbook) {
     throw UnimplementedError();
   }
 

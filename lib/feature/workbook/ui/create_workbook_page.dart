@@ -6,7 +6,7 @@ import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/constants/web_url.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/state/folders_state.dart';
-import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/local_workbooks_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/utils/url_launcher.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
@@ -127,7 +127,8 @@ class CreateWorkbookPage extends HookConsumerWidget {
                     onPressed: () async {
                       if (formKey.currentState?.validate() ?? false) {
                         final result = await ref
-                            .read(workbooksProvider(folder?.folderId).notifier)
+                            .read(localWorkbooksProvider(folder?.folderId)
+                                .notifier)
                             .addWorkbook(
                               title: workbookTitleController.text,
                               color: selectedColor.value,
