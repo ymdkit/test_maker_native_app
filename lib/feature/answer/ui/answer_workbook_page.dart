@@ -122,7 +122,7 @@ class AnswerWorkbookPage extends HookConsumerWidget {
     return showAlertDialog(
       context: context,
       title: '解答の中断',
-      content: '現在の解答を中断し、ホーム画面に戻りますか？',
+      content: '現在の解答を中断し、トップページに戻りますか？',
       onPositive: () => context.router.popUntilRoot(),
     );
   }
