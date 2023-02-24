@@ -188,6 +188,27 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    CreateGroupWorkbookRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateGroupWorkbookRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: CreateGroupWorkbookPage(
+          key: args.key,
+          groupId: args.groupId,
+        ),
+      );
+    },
+    CreateGroupWorkbookInFolderRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateGroupWorkbookInFolderRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: CreateGroupWorkbookInFolderPage(
+          key: args.key,
+          folderId: args.folderId,
+          groupId: args.groupId,
+        ),
+      );
+    },
     EditGroupRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -298,6 +319,16 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(
                   GroupDetailsRoute.name,
                   path: 'group-details-page',
+                  parent: GroupTabRoute.name,
+                ),
+                RouteConfig(
+                  CreateGroupWorkbookRoute.name,
+                  path: 'create-group-workbook-page',
+                  parent: GroupTabRoute.name,
+                ),
+                RouteConfig(
+                  CreateGroupWorkbookInFolderRoute.name,
+                  path: 'create-group-workbook-in-folder-page',
                   parent: GroupTabRoute.name,
                 ),
                 RouteConfig(
@@ -840,6 +871,81 @@ class GroupDetailsRouteArgs {
   @override
   String toString() {
     return 'GroupDetailsRouteArgs{key: $key, groupId: $groupId}';
+  }
+}
+
+/// generated route for
+/// [CreateGroupWorkbookPage]
+class CreateGroupWorkbookRoute
+    extends PageRouteInfo<CreateGroupWorkbookRouteArgs> {
+  CreateGroupWorkbookRoute({
+    Key? key,
+    required String groupId,
+  }) : super(
+          CreateGroupWorkbookRoute.name,
+          path: 'create-group-workbook-page',
+          args: CreateGroupWorkbookRouteArgs(
+            key: key,
+            groupId: groupId,
+          ),
+        );
+
+  static const String name = 'CreateGroupWorkbookRoute';
+}
+
+class CreateGroupWorkbookRouteArgs {
+  const CreateGroupWorkbookRouteArgs({
+    this.key,
+    required this.groupId,
+  });
+
+  final Key? key;
+
+  final String groupId;
+
+  @override
+  String toString() {
+    return 'CreateGroupWorkbookRouteArgs{key: $key, groupId: $groupId}';
+  }
+}
+
+/// generated route for
+/// [CreateGroupWorkbookInFolderPage]
+class CreateGroupWorkbookInFolderRoute
+    extends PageRouteInfo<CreateGroupWorkbookInFolderRouteArgs> {
+  CreateGroupWorkbookInFolderRoute({
+    Key? key,
+    required String folderId,
+    required String groupId,
+  }) : super(
+          CreateGroupWorkbookInFolderRoute.name,
+          path: 'create-group-workbook-in-folder-page',
+          args: CreateGroupWorkbookInFolderRouteArgs(
+            key: key,
+            folderId: folderId,
+            groupId: groupId,
+          ),
+        );
+
+  static const String name = 'CreateGroupWorkbookInFolderRoute';
+}
+
+class CreateGroupWorkbookInFolderRouteArgs {
+  const CreateGroupWorkbookInFolderRouteArgs({
+    this.key,
+    required this.folderId,
+    required this.groupId,
+  });
+
+  final Key? key;
+
+  final String folderId;
+
+  final String groupId;
+
+  @override
+  String toString() {
+    return 'CreateGroupWorkbookInFolderRouteArgs{key: $key, folderId: $folderId, groupId: $groupId}';
   }
 }
 

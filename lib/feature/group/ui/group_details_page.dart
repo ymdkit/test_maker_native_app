@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/group/state/group_state.dart';
 import 'package:test_maker_native_app/feature/group/state/group_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/workbook_list_item.dart';
+import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
@@ -29,14 +31,16 @@ class GroupDetailsPage extends HookConsumerWidget {
         ),
         body: groupWorkbookState.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, _) => AppErrorContent.serverError(),
-          data: (groupWorkbooks) => RefreshIndicator(
+          failure: (e) => AppErrorContent.serverError(),
+          success: (groupWorkbooks) => RefreshIndicator(
             onRefresh: () async =>
                 ref.refresh(groupWorkbooksStateProvider(groupId)),
             child: groupWorkbooks.isEmpty
-                ? AppEmptyContent.groupWorkbook(onPressedFallbackButton: () {
-                    //TODO: 問題集作成
-                  })
+                ? AppEmptyContent.groupWorkbook(
+                    onPressedFallbackButton: () => context.router.push(
+                      CreateGroupWorkbookRoute(groupId: groupId),
+                    ),
+                  )
                 : ListView.builder(
                     itemCount: groupWorkbooks.length,
                     itemBuilder: (context, index) {
@@ -52,9 +56,8 @@ class GroupDetailsPage extends HookConsumerWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            //TODO: 問題集作成
-          },
+          onPressed: () =>
+              context.router.push(CreateGroupWorkbookRoute(groupId: groupId)),
           child: const Icon(Icons.add),
         ),
       ),

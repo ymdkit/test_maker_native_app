@@ -14,7 +14,11 @@ final workbookRepositoryProvider =
     Provider.family<WorkbookRepository, AppDataLocation>((ref, location) {
   switch (location) {
     case AppDataLocation.local:
-      return LocalWorkbookRepository(localDB: ref.watch(realmProvider));
+      return LocalWorkbookRepository(
+        localDB: ref.watch(realmProvider),
+        remoteDB: ref.watch(firestoreProvider),
+        auth: ref.watch(firebaseAuthProvider),
+      );
     case AppDataLocation.remoteOwned:
       return RemoteOwnedWorkbookRepository(
         remoteDB: ref.watch(firestoreProvider),
@@ -45,4 +49,9 @@ abstract class WorkbookRepository {
   Future<Either<AppException, void>> destroyWorkbooks(List<Workbook> workbooks);
 
   Future<Either<AppException, void>> restoreWorkbook(Workbook workbook);
+
+  Future<Either<AppException, void>> linkToGroup({
+    required String groupId,
+    required Workbook workbook,
+  });
 }

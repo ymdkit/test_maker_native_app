@@ -179,4 +179,19 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
       (e, stack) => AppException.fromRawException(e: e),
     ).run();
   }
+
+  @override
+  Future<Either<AppException, void>> linkToGroup({
+    required String groupId,
+    required Workbook workbook,
+  }) async {
+    return TaskEither.tryCatch(
+      () {
+        return remoteDB.collection('tests').doc(workbook.workbookId).update({
+          'groupId': groupId,
+        });
+      },
+      (e, stack) => AppException.fromRawException(e: e),
+    ).run();
+  }
 }

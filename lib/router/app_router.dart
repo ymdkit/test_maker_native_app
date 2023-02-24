@@ -9,6 +9,8 @@ import 'package:test_maker_native_app/feature/folder/ui/create_folder_page.dart'
 import 'package:test_maker_native_app/feature/folder/ui/edit_folder_page.dart';
 import 'package:test_maker_native_app/feature/folder/ui/folder_details_page.dart';
 import 'package:test_maker_native_app/feature/group/ui/create_group_page.dart';
+import 'package:test_maker_native_app/feature/group/ui/create_group_workbook_in_folder_page.dart';
+import 'package:test_maker_native_app/feature/group/ui/create_group_workbook_page.dart';
 import 'package:test_maker_native_app/feature/group/ui/edit_group_page.dart';
 import 'package:test_maker_native_app/feature/group/ui/group_details_page.dart';
 import 'package:test_maker_native_app/feature/group/ui/group_list_page.dart';
@@ -64,6 +66,8 @@ part 'app_router.gr.dart';
             AutoRoute(page: GroupListPage, initial: true),
             AutoRoute(page: CreateGroupPage),
             AutoRoute(page: GroupDetailsPage),
+            AutoRoute(page: CreateGroupWorkbookPage),
+            AutoRoute(page: CreateGroupWorkbookInFolderPage),
             AutoRoute(page: EditGroupPage),
           ],
         ),

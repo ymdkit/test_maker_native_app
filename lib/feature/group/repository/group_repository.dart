@@ -124,8 +124,10 @@ class GroupRepository {
   }) async {
     try {
       final userId = auth.currentUser!.uid;
-      final groups =
-          await db.collection('groups').doc(groupId).collection('tests').get();
+      final groups = await db
+          .collection('tests')
+          .where('groupId', isEqualTo: groupId)
+          .get();
       return right(
           groups.docs.map((e) => documentToWorkbook(userId, e)).toList());
     } catch (e) {

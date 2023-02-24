@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fpdart/fpdart.dart' hide Group;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/group/model/group.dart';
 import 'package:test_maker_native_app/feature/group/repository/group_repository.dart';
 import 'package:test_maker_native_app/utils/app_async_state.dart';
@@ -11,11 +12,12 @@ import 'package:test_maker_native_app/utils/app_exception.dart';
 typedef GroupsState = AppAsyncState<List<Group>>;
 
 final groupsProvider =
-    StateNotifierProvider.autoDispose<GroupsStateNotifier, GroupsState>(
-  (ref) => GroupsStateNotifier(
+    StateNotifierProvider.autoDispose<GroupsStateNotifier, GroupsState>((ref) {
+  final _ = ref.watch(accountStateProvider);
+  return GroupsStateNotifier(
     groupRepository: ref.watch(groupRepositoryProvider),
-  ),
-);
+  );
+});
 
 class GroupsStateNotifier extends StateNotifier<GroupsState> {
   GroupsStateNotifier({

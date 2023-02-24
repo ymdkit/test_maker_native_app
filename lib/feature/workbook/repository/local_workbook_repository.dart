@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartx/dartx.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:realm/realm.dart' hide AppException;
 import 'package:test_maker_native_app/constants/app_data_location.dart';
@@ -12,9 +14,13 @@ import 'package:test_maker_native_app/utils/app_exception.dart';
 class LocalWorkbookRepository implements WorkbookRepository {
   LocalWorkbookRepository({
     required this.localDB,
+    required this.remoteDB,
+    required this.auth,
   });
 
   final Realm localDB;
+  final FirebaseFirestore remoteDB;
+  final FirebaseAuth auth;
 
   @override
   Future<Either<AppException, Workbook>> addWorkbook({
@@ -127,5 +133,31 @@ class LocalWorkbookRepository implements WorkbookRepository {
       );
     });
     return const Right(null);
+  }
+
+  @override
+  Future<Either<AppException, void>> linkToGroup({
+    required String groupId,
+    required Workbook workbook,
+  }) async {
+    return TaskEither.tryCatch(
+      () {
+        final user = auth.currentUser!;
+        return remoteDB.collection('tests').doc(workbook.workbookId).set({
+          'documentId': workbook.workbookId,
+          'groupId': groupId,
+          'name': workbook.title,
+          'color': workbook.color.index,
+          'size': workbook.questionCount,
+          'created_at': Timestamp.now(),
+          'updated_at': Timestamp.now(),
+          'order': workbook.order,
+          'userId': user.uid,
+          'userName': user.displayName,
+          'public': false,
+        }).then((value) => workbook);
+      },
+      (e, stack) => AppException.fromRawException(e: e),
+    ).run();
   }
 }
