@@ -23,20 +23,24 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
     required this.onMutateDeletedWorkbookStream,
     required StreamController<Workbook> onMutateWorkbookStream,
   }) : super(const WorkbooksState.loading()) {
+    _setupWorkbooks();
     onMutateWorkbookSubscription = onMutateWorkbookStream.stream.listen(
-      (workbook) async {
-        final result = await workbookRepository.getDeletedWorkbooks();
-        result.match(
-          (l) => state = WorkbooksState.failure(exception: l),
-          (r) => state = WorkbooksState.success(value: r),
-        );
-      },
+      (workbook) async => _setupWorkbooks(),
     );
   }
 
   final WorkbookRepository workbookRepository;
   final StreamController<Workbook> onMutateDeletedWorkbookStream;
   late final StreamSubscription<Workbook> onMutateWorkbookSubscription;
+
+  Future<void> _setupWorkbooks() async {
+    state = const WorkbooksState.loading();
+    final result = await workbookRepository.getDeletedWorkbooks();
+    result.match(
+      (l) => state = WorkbooksState.failure(exception: l),
+      (r) => state = WorkbooksState.success(value: r),
+    );
+  }
 
   Future<Either<AppException, void>> restoreWorkbook(Workbook workbook) async =>
       await state.maybeWhen(
@@ -53,6 +57,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
                     )
                     .toList(),
               );
+              onMutateDeletedWorkbookStream.sink.add(workbook);
               return right(r);
             },
           );

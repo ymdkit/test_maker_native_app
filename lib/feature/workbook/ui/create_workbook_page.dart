@@ -28,7 +28,7 @@ class CreateWorkbookPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final folders = ref.watch(foldersProvider);
+    final foldersState = ref.watch(foldersProvider);
 
     final formKey = useMemoized(() => GlobalKey<FormState>());
     final workbookTitleController = useTextEditingController();
@@ -72,7 +72,10 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         const SizedBox(height: 16),
                         AppFolderDropdownButtonFormField(
                           selectedFolder: selectedFolder.value,
-                          folders: folders,
+                          folders: foldersState.maybeWhen(
+                            orElse: () => [],
+                            success: (folders) => folders,
+                          ),
                           onChanged: (folder) => selectedFolder.value = folder,
                         ),
                         Row(

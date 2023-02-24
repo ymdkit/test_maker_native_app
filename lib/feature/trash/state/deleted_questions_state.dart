@@ -23,20 +23,24 @@ class DeletedQuestionsStateNotifier extends StateNotifier<QuestionsState> {
     required StreamController<Question> onMutateQuestionStream,
     required this.onMutateDeletedQuestionStream,
   }) : super(const QuestionsState.loading()) {
+    _setupQuestions();
     onMutateQuestionSubscription = onMutateQuestionStream.stream.listen(
-      (question) async {
-        final result = await questionRepository.getDeletedQuestions();
-        result.match(
-          (l) => state = QuestionsState.failure(exception: l),
-          (r) => state = QuestionsState.success(value: r),
-        );
-      },
+      (question) async => _setupQuestions(),
     );
   }
 
   final QuestionRepository questionRepository;
   final StreamController<Question> onMutateDeletedQuestionStream;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
+
+  Future<void> _setupQuestions() async {
+    state = const QuestionsState.loading();
+    final result = await questionRepository.getDeletedQuestions();
+    result.match(
+      (l) => state = QuestionsState.failure(exception: l),
+      (r) => state = QuestionsState.success(value: r),
+    );
+  }
 
   Future<Either<AppException, void>> restoreQuestion(Question question) async =>
       await state.maybeWhen(
@@ -53,6 +57,7 @@ class DeletedQuestionsStateNotifier extends StateNotifier<QuestionsState> {
                     )
                     .toList(),
               );
+              onMutateDeletedQuestionStream.sink.add(question);
               return right(r);
             },
           );

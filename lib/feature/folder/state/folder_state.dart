@@ -7,7 +7,11 @@ part 'folder_state.g.dart';
 
 @riverpod
 Folder folder(FolderRef ref, String folderId) {
-  final folders = ref.watch(foldersProvider);
-  return folders.firstWhereOrNull((e) => e.folderId == folderId) ??
-      Folder.empty();
+  final foldersState = ref.watch(foldersProvider);
+  return foldersState.maybeWhen(
+    orElse: () => Folder.empty(),
+    success: (folders) =>
+        folders.firstWhereOrNull((e) => e.folderId == folderId) ??
+        Folder.empty(),
+  );
 }

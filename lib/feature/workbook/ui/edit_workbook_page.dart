@@ -26,15 +26,18 @@ class EditWorkbookPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final folders = ref.watch(foldersProvider);
+    final foldersState = ref.watch(foldersProvider);
 
     final formKey = useMemoized(() => GlobalKey<FormState>());
     final workbookTitleController =
         useTextEditingController(text: workbook.title);
     final selectedColor = useState(workbook.color);
     final selectedFolder = useState<Folder?>(
-      folders.firstWhereOrNull(
-        (folder) => folder.folderId == workbook.folderId,
+      foldersState.maybeWhen(
+        orElse: () => null,
+        success: (folders) => folders.firstWhereOrNull(
+          (f) => f.folderId == workbook.folderId,
+        ),
       ),
     );
 
@@ -74,7 +77,10 @@ class EditWorkbookPage extends HookConsumerWidget {
                         const SizedBox(height: 16),
                         AppFolderDropdownButtonFormField(
                           selectedFolder: selectedFolder.value,
-                          folders: folders,
+                          folders: foldersState.maybeWhen(
+                            orElse: () => [],
+                            success: (folders) => folders,
+                          ),
                           onChanged: (folder) => selectedFolder.value = folder,
                         ),
                         Row(

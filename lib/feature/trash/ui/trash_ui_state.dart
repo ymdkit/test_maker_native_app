@@ -27,12 +27,15 @@ class TrashUiState with _$TrashUiState {
 
 final trashUiStateProvider = Provider.autoDispose(
   (ref) {
-    final folders = ref.watch(deletedFoldersProvider);
+    final foldersState = ref.watch(deletedFoldersProvider);
     final workbooksState = ref.watch(deletedWorkbooksProvider);
     final questionsState = ref.watch(deletedQuestionsProvider);
 
-    if (workbooksState is AppAsyncState_Success &&
+    if (foldersState is AppAsyncState_Success &&
+        workbooksState is AppAsyncState_Success &&
         questionsState is AppAsyncState_Success) {
+      final folders =
+          (foldersState as AppAsyncState_Success<List<Folder>>).value;
       final workbooks =
           (workbooksState as AppAsyncState_Success<List<Workbook>>).value;
       final questions =
@@ -48,7 +51,8 @@ final trashUiStateProvider = Provider.autoDispose(
       );
     }
 
-    if (workbooksState is AppAsyncState_Failure ||
+    if (foldersState is AppAsyncState_Failure ||
+        workbooksState is AppAsyncState_Failure ||
         questionsState is AppAsyncState_Failure) {
       return const TrashUiState.failure(exception: AppException());
     }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
@@ -7,30 +8,35 @@ import 'package:test_maker_native_app/feature/folder/repository/folder_repositor
 import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/utils/app_async_state.dart';
+import 'package:test_maker_native_app/utils/app_exception.dart';
+
+typedef FoldersState = AppAsyncState<List<Folder>>;
 
 final foldersProvider =
-    StateNotifierProvider.autoDispose<FoldersStateNotifier, List<Folder>>(
+    StateNotifierProvider.autoDispose<FoldersStateNotifier, FoldersState>(
   (ref) => FoldersStateNotifier(
     folderRepository: ref.watch(folderRepositoryProvider),
-    onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateFolderStream: ref.watch(onMutateFolderStreamProvider),
+    onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
     onMutateDeletedFolderStream: ref.watch(onMutateDeletedFolderStreamProvider),
   ),
 );
 
-class FoldersStateNotifier extends StateNotifier<List<Folder>> {
+class FoldersStateNotifier extends StateNotifier<FoldersState> {
   FoldersStateNotifier({
     required this.folderRepository,
     required this.onMutateFolderStream,
     required StreamController<Workbook> onMutateWorkbookStream,
     required StreamController<Folder> onMutateDeletedFolderStream,
-  }) : super(folderRepository.getFolders()) {
+  }) : super(const FoldersState.loading()) {
+    setupFolders();
     onMutateWorkbookSubscription = onMutateWorkbookStream.stream.listen(
-      (workbook) => state = folderRepository.getFolders(),
+      (workbook) => setupFolders(),
     );
     onMutateDeletedFolderSubscription =
         onMutateDeletedFolderStream.stream.listen(
-      (folder) => state = folderRepository.getFolders(),
+      (folder) => setupFolders(),
     );
   }
 
@@ -39,45 +45,91 @@ class FoldersStateNotifier extends StateNotifier<List<Folder>> {
   late final StreamSubscription<Workbook> onMutateWorkbookSubscription;
   late final StreamSubscription<Folder> onMutateDeletedFolderSubscription;
 
-  void addFolder({
+  Future<void> setupFolders() async {
+    state = const FoldersState.loading();
+    final result = await folderRepository.getFolders();
+    result.match(
+      (l) => state = FoldersState.failure(exception: l),
+      (r) => state = FoldersState.success(value: r),
+    );
+  }
+
+  Future<Either<AppException, Folder>> addFolder({
     required String title,
     required AppThemeColor color,
-  }) {
-    final newFolder = folderRepository.addFolder(
+  }) async {
+    final result = await folderRepository.addFolder(
       title: title,
       color: color,
     );
-    state = [...state, newFolder];
-    onMutateFolderStream.sink.add(newFolder);
+    return result.match(
+      (l) => left(l),
+      (r) {
+        state.maybeWhen(
+          success: (folders) => state = FoldersState.success(
+            value: [...folders, r],
+          ),
+          orElse: () {},
+        );
+        onMutateFolderStream.sink.add(r);
+        return right(r);
+      },
+    );
   }
 
-  void updateFolder({
+  Future<Either<AppException, void>> updateFolder({
     required Folder currentFolder,
     required String title,
     required AppThemeColor color,
-  }) {
+  }) async {
     final updatedFolder = currentFolder.copyWith(
       title: title,
       color: color,
     );
-    folderRepository.updateFolder(updatedFolder);
+    final result = await folderRepository.updateFolder(updatedFolder);
 
-    state = state.map(
-      (e) {
-        if (e.folderId == updatedFolder.folderId) {
-          return updatedFolder;
-        } else {
-          return e;
-        }
+    return result.match(
+      (l) => left(l),
+      (r) {
+        state.maybeWhen(
+          success: (folders) => state = FoldersState.success(
+            value: folders.map(
+              (e) {
+                if (e.folderId == updatedFolder.folderId) {
+                  return updatedFolder;
+                } else {
+                  return e;
+                }
+              },
+            ).toList(),
+          ),
+          orElse: () {},
+        );
+        onMutateFolderStream.sink.add(updatedFolder);
+        return right(r);
       },
-    ).toList();
-    onMutateFolderStream.sink.add(updatedFolder);
+    );
   }
 
-  void deleteFolder(Folder folder) {
-    folderRepository.deleteFolder(folder);
-    state = state.where((e) => e.folderId != folder.folderId).toList();
-    onMutateFolderStream.sink.add(folder);
+  Future<Either<AppException, void>> deleteFolder(Folder folder) async {
+    final result = await folderRepository.deleteFolder(folder);
+    return result.match(
+      (l) => left(l),
+      (r) {
+        state.maybeWhen(
+          success: (folders) {
+            state = FoldersState.success(
+              value:
+                  folders.where((e) => e.folderId != folder.folderId).toList(),
+            );
+            onMutateFolderStream.sink.add(folder);
+          },
+          orElse: () {},
+        );
+
+        return right(r);
+      },
+    );
   }
 
   @override
