@@ -3,6 +3,7 @@ import 'package:dartx/dartx.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:realm/realm.dart' hide AppException;
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/data/local/realm.dart';
 import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
@@ -61,6 +62,7 @@ class QuestionRepository {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       lastAnsweredAt: null,
+      location: AppDataLocation.local,
     );
 
     localDB.write(() {
@@ -82,8 +84,14 @@ class QuestionRepository {
         .get();
 
     if (documents.docs.isNotEmpty) {
-      final questions =
-          documents.docs.map((e) => documentToQuestion(workbookId, e)).toList();
+      final questions = documents.docs
+          .map((e) => documentToQuestion(
+                //tODO: 動的に値を設定する
+                isOwned: false,
+                workbookId: workbookId,
+                document: e,
+              ))
+          .toList();
       return Right(questions);
     } else {
       return Right(localDB

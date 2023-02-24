@@ -1,5 +1,6 @@
 import 'package:dartx/dartx.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 
@@ -25,6 +26,7 @@ class Question with _$Question {
     required DateTime createdAt,
     required DateTime updatedAt,
     required DateTime? lastAnsweredAt,
+    required AppDataLocation location,
   }) = _Question;
 
   factory Question.from({
@@ -44,6 +46,7 @@ class Question with _$Question {
     required DateTime createdAt,
     required DateTime updatedAt,
     required DateTime? lastAnsweredAt,
+    required AppDataLocation location,
   }) {
     switch (questionType) {
       case QuestionType.write:
@@ -64,6 +67,7 @@ class Question with _$Question {
           createdAt: createdAt,
           updatedAt: updatedAt,
           lastAnsweredAt: lastAnsweredAt,
+          location: location,
         );
       case QuestionType.select:
         return Question(
@@ -83,6 +87,7 @@ class Question with _$Question {
           createdAt: createdAt,
           updatedAt: updatedAt,
           lastAnsweredAt: lastAnsweredAt,
+          location: location,
         );
       case QuestionType.complete:
         return Question(
@@ -102,6 +107,7 @@ class Question with _$Question {
           createdAt: createdAt,
           updatedAt: updatedAt,
           lastAnsweredAt: lastAnsweredAt,
+          location: location,
         );
       case QuestionType.selectComplete:
         return Question(
@@ -121,6 +127,7 @@ class Question with _$Question {
           createdAt: createdAt,
           updatedAt: updatedAt,
           lastAnsweredAt: lastAnsweredAt,
+          location: location,
         );
     }
   }
@@ -142,6 +149,7 @@ class Question with _$Question {
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         lastAnsweredAt: null,
+        location: AppDataLocation.local,
       );
 
   List<String> get shuffledChoices {

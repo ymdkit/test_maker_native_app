@@ -51,10 +51,11 @@ Workbook documentToWorkbook(
   }
 }
 
-Question documentToQuestion(
-  String workbookId,
-  DocumentSnapshot document,
-) {
+Question documentToQuestion({
+  required bool isOwned,
+  required String workbookId,
+  required DocumentSnapshot document,
+}) {
   final data = document.data() as Map<String, dynamic>?;
   if (data != null) {
     return Question.from(
@@ -77,6 +78,8 @@ Question documentToQuestion(
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       lastAnsweredAt: null,
+      location:
+          isOwned ? AppDataLocation.remoteOwned : AppDataLocation.remoteShared,
     );
   } else {
     return Question.empty();

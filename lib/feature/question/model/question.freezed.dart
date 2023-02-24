@@ -32,6 +32,7 @@ mixin _$Question {
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
   DateTime? get lastAnsweredAt => throw _privateConstructorUsedError;
+  AppDataLocation get location => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuestionCopyWith<Question> get copyWith =>
@@ -59,7 +60,8 @@ abstract class $QuestionCopyWith<$Res> {
       AnswerStatus answerStatus,
       DateTime createdAt,
       DateTime updatedAt,
-      DateTime? lastAnsweredAt});
+      DateTime? lastAnsweredAt,
+      AppDataLocation location});
 }
 
 /// @nodoc
@@ -91,6 +93,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? lastAnsweredAt = freezed,
+    Object? location = null,
   }) {
     return _then(_value.copyWith(
       questionId: null == questionId
@@ -157,6 +160,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.lastAnsweredAt
           : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as AppDataLocation,
     ) as $Val);
   }
 }
@@ -184,7 +191,8 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       AnswerStatus answerStatus,
       DateTime createdAt,
       DateTime updatedAt,
-      DateTime? lastAnsweredAt});
+      DateTime? lastAnsweredAt,
+      AppDataLocation location});
 }
 
 /// @nodoc
@@ -214,6 +222,7 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? lastAnsweredAt = freezed,
+    Object? location = null,
   }) {
     return _then(_$_Question(
       questionId: null == questionId
@@ -280,6 +289,10 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.lastAnsweredAt
           : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as AppDataLocation,
     ));
   }
 }
@@ -303,7 +316,8 @@ class _$_Question extends _Question {
       required this.answerStatus,
       required this.createdAt,
       required this.updatedAt,
-      required this.lastAnsweredAt})
+      required this.lastAnsweredAt,
+      required this.location})
       : _answers = answers,
         _wrongChoices = wrongChoices,
         super._();
@@ -352,10 +366,12 @@ class _$_Question extends _Question {
   final DateTime updatedAt;
   @override
   final DateTime? lastAnsweredAt;
+  @override
+  final AppDataLocation location;
 
   @override
   String toString() {
-    return 'Question(questionId: $questionId, workbookId: $workbookId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, answers: $answers, wrongChoices: $wrongChoices, explanation: $explanation, explanationImageUrl: $explanationImageUrl, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus, createdAt: $createdAt, updatedAt: $updatedAt, lastAnsweredAt: $lastAnsweredAt)';
+    return 'Question(questionId: $questionId, workbookId: $workbookId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, answers: $answers, wrongChoices: $wrongChoices, explanation: $explanation, explanationImageUrl: $explanationImageUrl, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus, createdAt: $createdAt, updatedAt: $updatedAt, lastAnsweredAt: $lastAnsweredAt, location: $location)';
   }
 
   @override
@@ -393,7 +409,9 @@ class _$_Question extends _Question {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.lastAnsweredAt, lastAnsweredAt) ||
-                other.lastAnsweredAt == lastAnsweredAt));
+                other.lastAnsweredAt == lastAnsweredAt) &&
+            (identical(other.location, location) ||
+                other.location == location));
   }
 
   @override
@@ -414,7 +432,8 @@ class _$_Question extends _Question {
       answerStatus,
       createdAt,
       updatedAt,
-      lastAnsweredAt);
+      lastAnsweredAt,
+      location);
 
   @JsonKey(ignore: true)
   @override
@@ -440,7 +459,8 @@ abstract class _Question extends Question {
       required final AnswerStatus answerStatus,
       required final DateTime createdAt,
       required final DateTime updatedAt,
-      required final DateTime? lastAnsweredAt}) = _$_Question;
+      required final DateTime? lastAnsweredAt,
+      required final AppDataLocation location}) = _$_Question;
   const _Question._() : super._();
 
   @override
@@ -475,6 +495,8 @@ abstract class _Question extends Question {
   DateTime get updatedAt;
   @override
   DateTime? get lastAnsweredAt;
+  @override
+  AppDataLocation get location;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionCopyWith<_$_Question> get copyWith =>

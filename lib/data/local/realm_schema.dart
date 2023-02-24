@@ -55,6 +55,7 @@ class _RealmQuestion {
       createdAt: createdAt,
       updatedAt: updatedAt,
       lastAnsweredAt: lastAnsweredAt,
+      location: AppDataLocation.local,
     );
   }
 }
