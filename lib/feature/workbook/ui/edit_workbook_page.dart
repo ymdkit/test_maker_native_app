@@ -114,7 +114,8 @@ class EditWorkbookPage extends HookConsumerWidget {
                             .read(workbooksProvider(
                                     WorkbooksStateKey.from(workbook))
                                 .notifier)
-                            .addWorkbook(
+                            .updateWorkbook(
+                              currentWorkbook: workbook,
                               title: workbookTitleController.text,
                               color: selectedColor.value,
                               folderId: selectedFolder.value?.folderId,

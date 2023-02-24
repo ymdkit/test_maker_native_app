@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
+import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
@@ -16,14 +17,17 @@ typedef WorkbooksState = AppAsyncState<List<Workbook>>;
 
 final workbooksProvider = StateNotifierProvider.autoDispose
     .family<WorkbooksStateNotifier, WorkbooksState, WorkbooksStateKey>(
-  (ref, key) => WorkbooksStateNotifier(
-    folderId: key.folderId,
-    workbookRepository: ref.watch(workbookRepositoryProvider(key.location)),
-    onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
-    onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
-    onMutateDeletedWorkbookStream:
-        ref.watch(onMutateDeletedWorkbookStreamProvider),
-  ),
+  (ref, key) {
+    final _ = ref.watch(accountStateProvider);
+    return WorkbooksStateNotifier(
+      folderId: key.folderId,
+      workbookRepository: ref.watch(workbookRepositoryProvider(key.location)),
+      onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
+      onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
+      onMutateDeletedWorkbookStream:
+          ref.watch(onMutateDeletedWorkbookStreamProvider),
+    );
+  },
 );
 
 class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {

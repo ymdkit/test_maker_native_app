@@ -45,11 +45,13 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
           'name': workbook.title,
           'color': workbook.color.index,
           'size': workbook.questionCount,
-          'createdAt': Timestamp.now(),
-          'updatedAt': Timestamp.now(),
+          'created_at': Timestamp.now(),
+          'updated_at': Timestamp.now(),
           'order': workbook.order,
           'userId': user.uid,
           'userName': user.displayName,
+          //TODO: 動的に設定する
+          'public': false,
         }).then((value) => workbook);
       },
       (e, stack) => AppException.fromRawException(e: e),
@@ -62,15 +64,21 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
   }) async {
     return TaskEither.tryCatch(
       () {
-        final userId = auth.currentUser!.uid;
+        final userId = auth.currentUser?.uid;
+
+        if (userId == null) {
+          return Future.value(List<Workbook>.empty());
+        }
+
         return remoteDB
             .collection('tests')
             .where('userId', isEqualTo: userId)
-            .where('deleted', isEqualTo: null)
             .get()
             .then(
-              (value) =>
-                  value.docs.map((e) => documentToWorkbook(userId, e)).toList(),
+              (value) => value.docs
+                  .where((e) => !e.data().keys.contains('deleted'))
+                  .map((e) => documentToWorkbook(userId, e))
+                  .toList(),
             );
       },
       (e, stack) => AppException.fromRawException(e: e),
@@ -85,12 +93,15 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
         return remoteDB
             .collection('tests')
             .where('userId', isEqualTo: userId)
-            .where('deleted', isNotEqualTo: null)
             .get()
             .then(
-              (value) =>
-                  value.docs.map((e) => documentToWorkbook(userId, e)).toList(),
-            );
+          (value) {
+            return value.docs
+                .where((e) => e.data().keys.contains('deleted'))
+                .map((e) => documentToWorkbook(userId, e))
+                .toList();
+          },
+        );
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();
@@ -139,7 +150,7 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
         return remoteDB
             .collection('tests')
             .where('userId', isEqualTo: user.uid)
-            .where('isDeleted', isEqualTo: true)
+            .where('deleted', isEqualTo: true)
             .get()
             .then((value) {
           final batch = remoteDB.batch();
@@ -159,7 +170,7 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
       () {
         final user = auth.currentUser!;
         return remoteDB.collection('tests').doc(workbook.workbookId).update({
-          'isDeleted': false,
+          'deleted': false,
           'userId': user.uid,
           'userName': user.displayName,
           'updatedAt': Timestamp.now(),

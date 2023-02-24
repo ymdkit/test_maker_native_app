@@ -8,6 +8,7 @@ import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 
+//TODO: テスト書く
 Group documentToGroup(
   String userId,
   DocumentSnapshot document,
@@ -40,8 +41,16 @@ Workbook documentToWorkbook(
       color: AppThemeColor.fromIndex(data.getOrElse('color', () => 0) as int),
       folderId: null,
       questionCount: data['size'] as int,
-      createdAt: (data['createdAt'] as Timestamp).toDate(),
-      updatedAt: (data['updatedAt'] as Timestamp).toDate(),
+      createdAt: (data.getOrElse(
+        'created_at',
+        () => Timestamp.now(),
+      ) as Timestamp)
+          .toDate(),
+      updatedAt: (data.getOrElse(
+        'updated_at',
+        () => Timestamp.now(),
+      ) as Timestamp)
+          .toDate(),
       location: data['userId'] == userId
           ? AppDataLocation.remoteOwned
           : AppDataLocation.remoteShared,

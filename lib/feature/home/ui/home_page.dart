@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
+import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/folder/ui/folder_list_item.dart';
 import 'package:test_maker_native_app/feature/home/state/home_ui_state.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/operate_workbook_sheet.dart';
@@ -32,9 +33,12 @@ class HomePage extends HookConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           empty: () => AppEmptyContent.workbook(
             onPressedFallbackButton: () => context.router.push(
-              //TODO: リモートとの切り替え
               CreateWorkbookRoute(
-                  folder: null, location: AppDataLocation.local),
+                folder: null,
+                location: ref.read(accountStateProvider).maybeWhen(
+                    authenticated: (account) => AppDataLocation.remoteOwned,
+                    orElse: () => AppDataLocation.local),
+              ),
             ),
           ),
           success: (folders, workbooks) => CustomScrollView(
@@ -100,8 +104,12 @@ class HomePage extends HookConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => context.router.push(
-            //TODO: リモートとの切り替え
-            CreateWorkbookRoute(folder: null, location: AppDataLocation.local),
+            CreateWorkbookRoute(
+              folder: null,
+              location: ref.read(accountStateProvider).maybeWhen(
+                  authenticated: (account) => AppDataLocation.remoteOwned,
+                  orElse: () => AppDataLocation.local),
+            ),
           ),
           child: const Icon(Icons.add),
         ),

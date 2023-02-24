@@ -34,7 +34,7 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
     required bool isCheckAnswerOrder,
   }) async {
     return TaskEither.tryCatch(
-      () {
+      () async {
         final questionId = Uuid.v4().toString();
 
         final question = Question(
@@ -56,7 +56,8 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
           order: -1,
           answerStatus: AnswerStatus.unAnswered,
         );
-        return remoteDB
+
+        await remoteDB
             .collection('tests')
             .doc(workbookId)
             .collection('questions')
@@ -76,7 +77,22 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
           'imageRef': question.problemImageUrl,
           'explanation': question.explanation,
           'explanationImageRef': question.explanationImageUrl,
-        }).then((value) => question);
+        });
+
+        final questionsCount = await remoteDB
+            .collection('tests')
+            .doc(workbookId)
+            .collection('questions')
+            .where('deleted', isEqualTo: null)
+            .count()
+            .get()
+            .then((value) => value.count);
+
+        await remoteDB.collection('tests').doc(workbookId).update({
+          'size': questionsCount,
+        });
+
+        return Future.value(question);
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();
@@ -142,12 +158,25 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
   Future<Either<AppException, void>> deleteQuestion(Question question) async {
     return TaskEither.tryCatch(
       () async {
-        return remoteDB
+        await remoteDB
             .collection('tests')
             .doc(question.workbookId)
             .collection('questions')
             .doc(question.questionId)
             .update({'deleted': true}).then((value) => null);
+
+        final questionsCount = await remoteDB
+            .collection('tests')
+            .doc(question.workbookId)
+            .collection('questions')
+            .where('deleted', isEqualTo: null)
+            .count()
+            .get()
+            .then((value) => value.count);
+
+        await remoteDB.collection('tests').doc(question.workbookId).update({
+          'size': questionsCount,
+        });
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();

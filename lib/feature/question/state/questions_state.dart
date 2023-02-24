@@ -11,8 +11,8 @@ import 'package:test_maker_native_app/utils/app_exception.dart';
 
 typedef QuestionsState = AppAsyncState<List<Question>>;
 
-final questionsProvider = StateNotifierProvider.family<QuestionsStateNotifier,
-    QuestionsState, QuestionsStateKey>(
+final questionsProvider = StateNotifierProvider.autoDispose
+    .family<QuestionsStateNotifier, QuestionsState, QuestionsStateKey>(
   (ref, key) {
     return QuestionsStateNotifier(
       questionRepository: ref.watch(questionRepositoryProvider(key.location)),

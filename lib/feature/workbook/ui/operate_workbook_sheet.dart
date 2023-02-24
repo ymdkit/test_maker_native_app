@@ -64,11 +64,6 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                       onPositive: () {
                         context.router.pushAll(
                           [
-                            WorkbookDetailsRoute(
-                              folderId: workbook.folderId,
-                              workbookId: workbook.workbookId,
-                              location: workbook.location,
-                            ),
                             CreateQuestionRoute(
                               location: workbook.location,
                               workbookId: workbook.workbookId,
