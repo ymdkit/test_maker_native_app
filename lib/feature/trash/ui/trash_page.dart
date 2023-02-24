@@ -19,25 +19,15 @@ class TrashPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final folders = ref.watch(deletedFoldersProvider);
-    final workbooks = ref.watch(deletedWorkbooksProvider);
-    final questions = ref.watch(deletedQuestionsProvider);
-
     final trashUiState = ref.watch(trashUiStateProvider);
-
-    final isContentNotEmpty = folders.isNotEmpty ||
-        workbooks.maybeWhen(
-          success: (workbooks) => workbooks.isNotEmpty,
-          orElse: () => false,
-        ) ||
-        questions.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('ゴミ箱'),
         actions: [
-          if (isContentNotEmpty)
-            IconButton(
+          trashUiState.maybeWhen(
+            orElse: () => const SizedBox.shrink(),
+            success: (folders, workbooks, questions) => IconButton(
               icon: const Icon(Icons.delete_forever),
               onPressed: () => showAlertDialog(
                 context: context,
@@ -56,6 +46,7 @@ class TrashPage extends HookConsumerWidget {
                 },
               ),
             ),
+          ),
         ],
       ),
       body: AppAdWrapper(

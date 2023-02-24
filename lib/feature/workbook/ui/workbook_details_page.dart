@@ -11,6 +11,7 @@ import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
+import 'package:test_maker_native_app/widget/app_error_content.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
@@ -32,7 +33,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
         workbookId: workbookId,
       ),
     );
-    final questions = ref.watch(questionsProvider(workbookId));
+    final questionsState = ref.watch(questionsProvider(workbookId));
 
     return AppAdWrapper(
       adUnitId: AppAdUnitId.workbookDetailsBanner,
@@ -90,36 +91,42 @@ class WorkbookDetailsPage extends HookConsumerWidget {
             ),
           ],
         ),
-        body: questions.isEmpty
-            ? AppEmptyContent.question(
-                onPressedFallbackButton: () => context.router.push(
-                  CreateQuestionRoute(workbookId: workbook.workbookId),
-                ),
-              )
-            : CustomScrollView(
-                slivers: [
-                  const SliverPadding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                    ),
-                    sliver: SliverToBoxAdapter(
-                      child: AppSectionTitle(title: '問題一覧'),
-                    ),
+        body: questionsState.when(
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          success: (questions) => questions.isEmpty
+              ? AppEmptyContent.question(
+                  onPressedFallbackButton: () => context.router.push(
+                    CreateQuestionRoute(workbookId: workbook.workbookId),
                   ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) => QuestionListItem(
-                        question: questions[index],
-                        onTap: (question) async => showOperateQuestionSheet(
-                          context,
-                          question,
-                        ),
+                )
+              : CustomScrollView(
+                  slivers: [
+                    const SliverPadding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16,
                       ),
-                      childCount: questions.length,
+                      sliver: SliverToBoxAdapter(
+                        child: AppSectionTitle(title: '問題一覧'),
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => QuestionListItem(
+                          question: questions[index],
+                          onTap: (question) async => showOperateQuestionSheet(
+                            context,
+                            question,
+                          ),
+                        ),
+                        childCount: questions.length,
+                      ),
+                    ),
+                  ],
+                ),
+          failure: (e) => AppErrorContent.serverError(),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => context.router.push(
             CreateQuestionRoute(workbookId: workbook.workbookId),

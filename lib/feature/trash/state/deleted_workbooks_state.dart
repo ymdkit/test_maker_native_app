@@ -28,7 +28,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
         final result = await workbookRepository.getDeletedWorkbooks();
         result.match(
           (l) => state = WorkbooksState.failure(exception: l),
-          (r) => state = WorkbooksState.success(workbooks: r),
+          (r) => state = WorkbooksState.success(value: r),
         );
       },
     );
@@ -47,7 +47,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
             (l) => left(l),
             (r) {
               state = WorkbooksState.success(
-                workbooks: workbooks
+                value: workbooks
                     .where(
                       (e) => e.workbookId != workbook.workbookId,
                     )
@@ -68,7 +68,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
           return result.match(
             (l) => left(l),
             (r) {
-              state = const WorkbooksState.success(workbooks: []);
+              state = const WorkbooksState.success(value: []);
               return right(r);
             },
           );

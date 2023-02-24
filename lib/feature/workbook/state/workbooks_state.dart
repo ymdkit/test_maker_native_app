@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:fpdart/fpdart.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
@@ -9,20 +8,10 @@ import 'package:test_maker_native_app/feature/question/state/questions_state.dar
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/workbook_repository.dart';
+import 'package:test_maker_native_app/utils/app_async_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
-part 'workbooks_state.freezed.dart';
-
-@freezed
-class WorkbooksState with _$WorkbooksState {
-  const factory WorkbooksState.loading() = WorkbooksState_Loading;
-  const factory WorkbooksState.success({
-    required List<Workbook> workbooks,
-  }) = WorkbooksState_Success;
-  const factory WorkbooksState.failure({
-    required AppException exception,
-  }) = WorkbooksState_Failure;
-}
+typedef WorkbooksState = AppAsyncState<List<Workbook>>;
 
 final workbooksProvider = StateNotifierProvider.autoDispose
     .family<WorkbooksStateNotifier, WorkbooksState, String?>(
@@ -65,7 +54,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
     final result = await workbookRepository.getWorkbooks(folderId);
     result.match(
       (l) => state = WorkbooksState.failure(exception: l),
-      (r) => state = WorkbooksState.success(workbooks: r),
+      (r) => state = WorkbooksState.success(value: r),
     );
   }
 
@@ -86,7 +75,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
         if (this.folderId == folderId) {
           state.maybeWhen(
             success: (workbooks) => state = WorkbooksState.success(
-              workbooks: [...workbooks, r],
+              value: [...workbooks, r],
             ),
             orElse: () {},
           );
@@ -116,7 +105,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
         if (this.folderId == folderId) {
           state.maybeWhen(
             success: (workbooks) => state = WorkbooksState.success(
-              workbooks: workbooks.map(
+              value: workbooks.map(
                 (e) {
                   if (e.workbookId == updatedWorkbook.workbookId) {
                     return updatedWorkbook;
@@ -143,7 +132,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
         state.maybeWhen(
           success: (workbooks) {
             state = WorkbooksState.success(
-              workbooks: workbooks
+              value: workbooks
                   .where((e) => e.workbookId != workbook.workbookId)
                   .toList(),
             );

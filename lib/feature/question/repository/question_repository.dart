@@ -1,12 +1,14 @@
 import 'package:dartx/dartx.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:realm/realm.dart';
+import 'package:realm/realm.dart' hide AppException;
 import 'package:test_maker_native_app/data/local/realm.dart';
 import 'package:test_maker_native_app/data/local/realm_model_converting_ext.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
+import 'package:test_maker_native_app/utils/app_exception.dart';
 
 final questionRepositoryProvider = Provider<QuestionRepository>(
   (ref) => QuestionRepository(
@@ -21,7 +23,7 @@ class QuestionRepository {
 
   final Realm localDB;
 
-  Question addQuestion({
+  Future<Either<AppException, Question>> addQuestion({
     required String workbookId,
     required QuestionType questionType,
     required String problem,
@@ -32,7 +34,7 @@ class QuestionRepository {
     required String? explanationImageUrl,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
-  }) {
+  }) async {
     final newOrder =
         (localDB.all<RealmQuestion>().maxBy((e) => e.order)?.order ?? 0) + 1;
 
@@ -61,27 +63,28 @@ class QuestionRepository {
       );
     });
 
-    return question;
+    return Right(question);
   }
 
-  List<Question> getQuestions(String workbookId) {
-    return localDB
+  Future<Either<AppException, List<Question>>> getQuestions(
+      String workbookId) async {
+    return Right(localDB
         .all<RealmQuestion>()
         .where((e) => e.workbookId == workbookId)
         .where((e) => e.isDeleted != true)
         .map((e) => e.toQuestion())
-        .toList();
+        .toList());
   }
 
-  List<Question> getDeletedQuestions() {
-    return localDB
+  Future<Either<AppException, List<Question>>> getDeletedQuestions() async {
+    return Right(localDB
         .all<RealmQuestion>()
         .where((e) => e.isDeleted == true)
         .map((e) => e.toQuestion())
-        .toList();
+        .toList());
   }
 
-  void updateQuestion(Question question) {
+  Future<Either<AppException, void>> updateQuestion(Question question) async {
     localDB.write(() {
       localDB.add<RealmQuestion>(
         RealmQuestionConverting.fromQuestion(
@@ -92,9 +95,10 @@ class QuestionRepository {
         update: true,
       );
     });
+    return const Right(null);
   }
 
-  void deleteQuestion(Question question) {
+  Future<Either<AppException, void>> deleteQuestion(Question question) async {
     localDB.write(
       () {
         localDB.add<RealmQuestion>(
@@ -103,9 +107,11 @@ class QuestionRepository {
         );
       },
     );
+    return const Right(null);
   }
 
-  void destroyQuestions(List<Question> questions) {
+  Future<Either<AppException, void>> destroyQuestions(
+      List<Question> questions) async {
     localDB.write(
       () {
         final targets = localDB.all<RealmQuestion>().where((e) {
@@ -114,9 +120,10 @@ class QuestionRepository {
         localDB.deleteMany<RealmQuestion>(targets);
       },
     );
+    return const Right(null);
   }
 
-  void restoreQuestion(Question question) {
+  Future<Either<AppException, void>> restoreQuestion(Question question) async {
     localDB.write(
       () {
         localDB.add<RealmQuestion>(
@@ -125,5 +132,6 @@ class QuestionRepository {
         );
       },
     );
+    return const Right(null);
   }
 }

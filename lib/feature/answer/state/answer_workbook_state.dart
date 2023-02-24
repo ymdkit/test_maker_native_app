@@ -28,6 +28,7 @@ class AnswerWorkbookState with _$AnswerWorkbookState {
   const factory AnswerWorkbookState.idling() = Idling;
   const factory AnswerWorkbookState.finished(
       {required List<Question> questions}) = Finished;
+  const factory AnswerWorkbookState.error({required String message}) = Error;
 }
 
 final answerWorkbookStateProvider = StateNotifierProvider.autoDispose
@@ -85,9 +86,9 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   int index = 0;
   List<Question> questions = [];
 
-  void _setup() {
+  Future<void> _setup() async {
     index = 0;
-    _setupQuestions();
+    await _setupQuestions();
     if (questions.isEmpty) {
       state = const AnswerWorkbookState.empty();
       return;
@@ -99,39 +100,47 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     }
   }
 
-  void _setupQuestions() {
+  Future<void> _setupQuestions() async {
     //TODO: テスト書く
-    questions = questionRepository.getQuestions(workbookId);
+    final result = await questionRepository.getQuestions(workbookId);
 
-    if (preferences.isRandom) {
-      questions = questions.shuffled();
-    }
+    result.match(
+      //TODO: 問題の読み込みに失敗した場合に、 UI へエラーを伝搬する
+      (l) => state = AnswerWorkbookState.error(message: l.message),
+      (r) {
+        questions = r;
 
-    switch (preferences.questionCondition) {
-      case QuestionCondition.all:
-        break;
-      case QuestionCondition.onlyWrong:
-        questions = questions
-            .where((e) => e.answerStatus == AnswerStatus.wrong)
-            .toList();
-        break;
-      case QuestionCondition.onlyUnAnswered:
-        questions = questions
-            .where((e) => e.answerStatus == AnswerStatus.unAnswered)
-            .toList();
-        break;
-      case QuestionCondition.wrongAndUnAnswered:
-        questions = questions
-            .where((e) =>
-                e.answerStatus == AnswerStatus.wrong ||
-                e.answerStatus == AnswerStatus.unAnswered)
-            .toList();
-        break;
-      case QuestionCondition.weekPoints:
-        //TODO: 正答率を算出する
-        break;
-    }
-    questions = questions.take(preferences.numberOfQuestions).toList();
+        if (preferences.isRandom) {
+          questions = questions.shuffled();
+        }
+
+        switch (preferences.questionCondition) {
+          case QuestionCondition.all:
+            break;
+          case QuestionCondition.onlyWrong:
+            questions = questions
+                .where((e) => e.answerStatus == AnswerStatus.wrong)
+                .toList();
+            break;
+          case QuestionCondition.onlyUnAnswered:
+            questions = questions
+                .where((e) => e.answerStatus == AnswerStatus.unAnswered)
+                .toList();
+            break;
+          case QuestionCondition.wrongAndUnAnswered:
+            questions = questions
+                .where((e) =>
+                    e.answerStatus == AnswerStatus.wrong ||
+                    e.answerStatus == AnswerStatus.unAnswered)
+                .toList();
+            break;
+          case QuestionCondition.weekPoints:
+            //TODO: 正答率を算出する
+            break;
+        }
+        questions = questions.take(preferences.numberOfQuestions).toList();
+      },
+    );
   }
 
   Future<void> onAnswered({

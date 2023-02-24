@@ -6,6 +6,7 @@ import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.
 import 'package:test_maker_native_app/feature/trash/state/deleted_questions_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
+import 'package:test_maker_native_app/utils/app_async_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
 part 'trash_ui_state.freezed.dart';
@@ -27,22 +28,31 @@ class TrashUiState with _$TrashUiState {
 final trashUiStateProvider = Provider.autoDispose(
   (ref) {
     final folders = ref.watch(deletedFoldersProvider);
-    final workbooks = ref.watch(deletedWorkbooksProvider);
-    final questions = ref.watch(deletedQuestionsProvider);
+    final workbooksState = ref.watch(deletedWorkbooksProvider);
+    final questionsState = ref.watch(deletedQuestionsProvider);
 
-    return workbooks.when(
-      loading: () => const TrashUiState.loading(),
-      success: (workbooks) {
-        if (folders.isEmpty && workbooks.isEmpty && questions.isEmpty) {
-          return const TrashUiState.empty();
-        }
-        return TrashUiState.success(
-          folders: folders,
-          workbooks: workbooks,
-          questions: questions,
-        );
-      },
-      failure: (e) => TrashUiState.failure(exception: e),
-    );
+    if (workbooksState is AppAsyncState_Success &&
+        questionsState is AppAsyncState_Success) {
+      final workbooks =
+          (workbooksState as AppAsyncState_Success<List<Workbook>>).value;
+      final questions =
+          (questionsState as AppAsyncState_Success<List<Question>>).value;
+
+      if (folders.isEmpty && workbooks.isEmpty && questions.isEmpty) {
+        return const TrashUiState.empty();
+      }
+      return TrashUiState.success(
+        folders: folders,
+        workbooks: workbooks,
+        questions: questions,
+      );
+    }
+
+    if (workbooksState is AppAsyncState_Failure ||
+        questionsState is AppAsyncState_Failure) {
+      return const TrashUiState.failure(exception: AppException());
+    }
+
+    return const TrashUiState.loading();
   },
 );

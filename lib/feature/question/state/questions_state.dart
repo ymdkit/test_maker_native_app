@@ -1,12 +1,17 @@
 import 'dart:async';
 
+import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
+import 'package:test_maker_native_app/utils/app_async_state.dart';
+import 'package:test_maker_native_app/utils/app_exception.dart';
+
+typedef QuestionsState = AppAsyncState<List<Question>>;
 
 final questionsProvider = StateNotifierProvider.family<QuestionsStateNotifier,
-    List<Question>, String>(
+    QuestionsState, String>(
   (ref, workbookId) {
     return QuestionsStateNotifier(
       questionRepository: ref.watch(questionRepositoryProvider),
@@ -16,14 +21,15 @@ final questionsProvider = StateNotifierProvider.family<QuestionsStateNotifier,
   },
 );
 
-class QuestionsStateNotifier extends StateNotifier<List<Question>> {
+class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
   QuestionsStateNotifier({
     required this.questionRepository,
     required this.workbookId,
     required this.onMutateQuestionStream,
-  }) : super(questionRepository.getQuestions(workbookId)) {
+  }) : super(const QuestionsState.loading()) {
+    setupQuestions();
     onMutateQuestionSubscription = onMutateQuestionStream.stream.listen(
-      (question) => state = questionRepository.getQuestions(workbookId),
+      (question) => setupQuestions(),
     );
   }
 
@@ -32,7 +38,16 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
   final StreamController<Question> onMutateQuestionStream;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
 
-  void addQuestion({
+  Future<void> setupQuestions() async {
+    state = const QuestionsState.loading();
+    final result = await questionRepository.getQuestions(workbookId);
+    result.match(
+      (l) => state = QuestionsState.failure(exception: l),
+      (r) => state = QuestionsState.success(value: r),
+    );
+  }
+
+  Future<Either<AppException, Question>> addQuestion({
     required String workbookId,
     required QuestionType questionType,
     required String problem,
@@ -43,8 +58,8 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
     required String? explanationImageUrl,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
-  }) {
-    final question = questionRepository.addQuestion(
+  }) async {
+    final result = await questionRepository.addQuestion(
       workbookId: workbookId,
       questionType: questionType,
       problem: problem,
@@ -56,11 +71,25 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
       isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
       isCheckAnswerOrder: isCheckAnswerOrder,
     );
-    state = [...state, question];
-    onMutateQuestionStream.sink.add(question);
+
+    return result.match(
+      (l) => left(l),
+      (r) {
+        if (this.workbookId == workbookId) {
+          state.maybeWhen(
+            success: (questions) => state = QuestionsState.success(
+              value: [...questions, r],
+            ),
+            orElse: () {},
+          );
+        }
+        onMutateQuestionStream.sink.add(r);
+        return right(r);
+      },
+    );
   }
 
-  void updateQuestion({
+  Future<Either<AppException, void>> updateQuestion({
     required Question currentQuestion,
     required QuestionType questionType,
     required String problem,
@@ -71,7 +100,7 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
     required String? explanationImageUrl,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
-  }) {
+  }) async {
     final newQuestion = currentQuestion.copyWith(
       questionType: questionType,
       problem: problem,
@@ -84,21 +113,53 @@ class QuestionsStateNotifier extends StateNotifier<List<Question>> {
       isCheckAnswerOrder: isCheckAnswerOrder,
     );
 
-    questionRepository.updateQuestion(newQuestion);
-    state = state.map((e) {
-      if (e.questionId == newQuestion.questionId) {
-        return newQuestion;
-      } else {
-        return e;
-      }
-    }).toList();
-    onMutateQuestionStream.sink.add(newQuestion);
+    final result = await questionRepository.updateQuestion(newQuestion);
+
+    return result.match(
+      (l) => left(l),
+      (r) {
+        if (newQuestion.workbookId == workbookId) {
+          state.maybeWhen(
+            success: (questions) => state = QuestionsState.success(
+              value: questions.map(
+                (e) {
+                  if (e.questionId == newQuestion.questionId) {
+                    return newQuestion;
+                  } else {
+                    return e;
+                  }
+                },
+              ).toList(),
+            ),
+            orElse: () {},
+          );
+        }
+        onMutateQuestionStream.sink.add(newQuestion);
+        return right(r);
+      },
+    );
   }
 
-  void deleteQuestion(Question question) {
-    questionRepository.deleteQuestion(question);
-    state = state.where((e) => e.questionId != question.questionId).toList();
-    onMutateQuestionStream.sink.add(question);
+  Future<Either<AppException, void>> deleteQuestion(Question question) async {
+    final result = await questionRepository.deleteQuestion(question);
+    return result.match(
+      (l) => left(l),
+      (r) {
+        state.maybeWhen(
+          success: (questions) {
+            state = QuestionsState.success(
+              value: questions
+                  .where((e) => e.questionId != question.questionId)
+                  .toList(),
+            );
+            onMutateQuestionStream.sink.add(question);
+          },
+          orElse: () {},
+        );
+
+        return right(r);
+      },
+    );
   }
 
   @override

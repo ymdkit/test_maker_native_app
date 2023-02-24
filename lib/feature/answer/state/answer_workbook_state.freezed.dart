@@ -26,6 +26,7 @@ mixin _$AnswerWorkbookState {
         reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
+    required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +39,7 @@ mixin _$AnswerWorkbookState {
         reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
+    TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -49,6 +51,7 @@ mixin _$AnswerWorkbookState {
     TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -61,6 +64,7 @@ mixin _$AnswerWorkbookState {
     required TResult Function(Reviewing value) reviewing,
     required TResult Function(Idling value) idling,
     required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -72,6 +76,7 @@ mixin _$AnswerWorkbookState {
     TResult? Function(Reviewing value)? reviewing,
     TResult? Function(Idling value)? idling,
     TResult? Function(Finished value)? finished,
+    TResult? Function(Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -83,6 +88,7 @@ mixin _$AnswerWorkbookState {
     TResult Function(Reviewing value)? reviewing,
     TResult Function(Idling value)? idling,
     TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -150,6 +156,7 @@ class _$Empty implements Empty {
         reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
+    required TResult Function(String message) error,
   }) {
     return empty();
   }
@@ -165,6 +172,7 @@ class _$Empty implements Empty {
         reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
+    TResult? Function(String message)? error,
   }) {
     return empty?.call();
   }
@@ -179,6 +187,7 @@ class _$Empty implements Empty {
     TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -197,6 +206,7 @@ class _$Empty implements Empty {
     required TResult Function(Reviewing value) reviewing,
     required TResult Function(Idling value) idling,
     required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return empty(this);
   }
@@ -211,6 +221,7 @@ class _$Empty implements Empty {
     TResult? Function(Reviewing value)? reviewing,
     TResult? Function(Idling value)? idling,
     TResult? Function(Finished value)? finished,
+    TResult? Function(Error value)? error,
   }) {
     return empty?.call(this);
   }
@@ -225,6 +236,7 @@ class _$Empty implements Empty {
     TResult Function(Reviewing value)? reviewing,
     TResult Function(Idling value)? idling,
     TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -321,6 +333,7 @@ class _$Answering implements Answering {
         reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
+    required TResult Function(String message) error,
   }) {
     return answering(question);
   }
@@ -336,6 +349,7 @@ class _$Answering implements Answering {
         reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
+    TResult? Function(String message)? error,
   }) {
     return answering?.call(question);
   }
@@ -350,6 +364,7 @@ class _$Answering implements Answering {
     TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (answering != null) {
@@ -368,6 +383,7 @@ class _$Answering implements Answering {
     required TResult Function(Reviewing value) reviewing,
     required TResult Function(Idling value) idling,
     required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return answering(this);
   }
@@ -382,6 +398,7 @@ class _$Answering implements Answering {
     TResult? Function(Reviewing value)? reviewing,
     TResult? Function(Idling value)? idling,
     TResult? Function(Finished value)? finished,
+    TResult? Function(Error value)? error,
   }) {
     return answering?.call(this);
   }
@@ -396,6 +413,7 @@ class _$Answering implements Answering {
     TResult Function(Reviewing value)? reviewing,
     TResult Function(Idling value)? idling,
     TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (answering != null) {
@@ -497,6 +515,7 @@ class _$Confirming implements Confirming {
         reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
+    required TResult Function(String message) error,
   }) {
     return confirming(question);
   }
@@ -512,6 +531,7 @@ class _$Confirming implements Confirming {
         reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
+    TResult? Function(String message)? error,
   }) {
     return confirming?.call(question);
   }
@@ -526,6 +546,7 @@ class _$Confirming implements Confirming {
     TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (confirming != null) {
@@ -544,6 +565,7 @@ class _$Confirming implements Confirming {
     required TResult Function(Reviewing value) reviewing,
     required TResult Function(Idling value) idling,
     required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return confirming(this);
   }
@@ -558,6 +580,7 @@ class _$Confirming implements Confirming {
     TResult? Function(Reviewing value)? reviewing,
     TResult? Function(Idling value)? idling,
     TResult? Function(Finished value)? finished,
+    TResult? Function(Error value)? error,
   }) {
     return confirming?.call(this);
   }
@@ -572,6 +595,7 @@ class _$Confirming implements Confirming {
     TResult Function(Reviewing value)? reviewing,
     TResult Function(Idling value)? idling,
     TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (confirming != null) {
@@ -673,6 +697,7 @@ class _$SelfScoring implements SelfScoring {
         reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
+    required TResult Function(String message) error,
   }) {
     return selfScoring(question);
   }
@@ -688,6 +713,7 @@ class _$SelfScoring implements SelfScoring {
         reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
+    TResult? Function(String message)? error,
   }) {
     return selfScoring?.call(question);
   }
@@ -702,6 +728,7 @@ class _$SelfScoring implements SelfScoring {
     TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (selfScoring != null) {
@@ -720,6 +747,7 @@ class _$SelfScoring implements SelfScoring {
     required TResult Function(Reviewing value) reviewing,
     required TResult Function(Idling value) idling,
     required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return selfScoring(this);
   }
@@ -734,6 +762,7 @@ class _$SelfScoring implements SelfScoring {
     TResult? Function(Reviewing value)? reviewing,
     TResult? Function(Idling value)? idling,
     TResult? Function(Finished value)? finished,
+    TResult? Function(Error value)? error,
   }) {
     return selfScoring?.call(this);
   }
@@ -748,6 +777,7 @@ class _$SelfScoring implements SelfScoring {
     TResult Function(Reviewing value)? reviewing,
     TResult Function(Idling value)? idling,
     TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (selfScoring != null) {
@@ -866,6 +896,7 @@ class _$Reviewing implements Reviewing {
         reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
+    required TResult Function(String message) error,
   }) {
     return reviewing(question, attemptAnswers);
   }
@@ -881,6 +912,7 @@ class _$Reviewing implements Reviewing {
         reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
+    TResult? Function(String message)? error,
   }) {
     return reviewing?.call(question, attemptAnswers);
   }
@@ -895,6 +927,7 @@ class _$Reviewing implements Reviewing {
     TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (reviewing != null) {
@@ -913,6 +946,7 @@ class _$Reviewing implements Reviewing {
     required TResult Function(Reviewing value) reviewing,
     required TResult Function(Idling value) idling,
     required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return reviewing(this);
   }
@@ -927,6 +961,7 @@ class _$Reviewing implements Reviewing {
     TResult? Function(Reviewing value)? reviewing,
     TResult? Function(Idling value)? idling,
     TResult? Function(Finished value)? finished,
+    TResult? Function(Error value)? error,
   }) {
     return reviewing?.call(this);
   }
@@ -941,6 +976,7 @@ class _$Reviewing implements Reviewing {
     TResult Function(Reviewing value)? reviewing,
     TResult Function(Idling value)? idling,
     TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (reviewing != null) {
@@ -1006,6 +1042,7 @@ class _$Idling implements Idling {
         reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
+    required TResult Function(String message) error,
   }) {
     return idling();
   }
@@ -1021,6 +1058,7 @@ class _$Idling implements Idling {
         reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
+    TResult? Function(String message)? error,
   }) {
     return idling?.call();
   }
@@ -1035,6 +1073,7 @@ class _$Idling implements Idling {
     TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (idling != null) {
@@ -1053,6 +1092,7 @@ class _$Idling implements Idling {
     required TResult Function(Reviewing value) reviewing,
     required TResult Function(Idling value) idling,
     required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return idling(this);
   }
@@ -1067,6 +1107,7 @@ class _$Idling implements Idling {
     TResult? Function(Reviewing value)? reviewing,
     TResult? Function(Idling value)? idling,
     TResult? Function(Finished value)? finished,
+    TResult? Function(Error value)? error,
   }) {
     return idling?.call(this);
   }
@@ -1081,6 +1122,7 @@ class _$Idling implements Idling {
     TResult Function(Reviewing value)? reviewing,
     TResult Function(Idling value)? idling,
     TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (idling != null) {
@@ -1173,6 +1215,7 @@ class _$Finished implements Finished {
         reviewing,
     required TResult Function() idling,
     required TResult Function(List<Question> questions) finished,
+    required TResult Function(String message) error,
   }) {
     return finished(questions);
   }
@@ -1188,6 +1231,7 @@ class _$Finished implements Finished {
         reviewing,
     TResult? Function()? idling,
     TResult? Function(List<Question> questions)? finished,
+    TResult? Function(String message)? error,
   }) {
     return finished?.call(questions);
   }
@@ -1202,6 +1246,7 @@ class _$Finished implements Finished {
     TResult Function(Question question, List<String> attemptAnswers)? reviewing,
     TResult Function()? idling,
     TResult Function(List<Question> questions)? finished,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (finished != null) {
@@ -1220,6 +1265,7 @@ class _$Finished implements Finished {
     required TResult Function(Reviewing value) reviewing,
     required TResult Function(Idling value) idling,
     required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return finished(this);
   }
@@ -1234,6 +1280,7 @@ class _$Finished implements Finished {
     TResult? Function(Reviewing value)? reviewing,
     TResult? Function(Idling value)? idling,
     TResult? Function(Finished value)? finished,
+    TResult? Function(Error value)? error,
   }) {
     return finished?.call(this);
   }
@@ -1248,6 +1295,7 @@ class _$Finished implements Finished {
     TResult Function(Reviewing value)? reviewing,
     TResult Function(Idling value)? idling,
     TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (finished != null) {
@@ -1265,4 +1313,172 @@ abstract class Finished implements AnswerWorkbookState {
   @JsonKey(ignore: true)
   _$$FinishedCopyWith<_$Finished> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ErrorCopyWith<$Res> {
+  factory _$$ErrorCopyWith(_$Error value, $Res Function(_$Error) then) =
+      __$$ErrorCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$ErrorCopyWithImpl<$Res>
+    extends _$AnswerWorkbookStateCopyWithImpl<$Res, _$Error>
+    implements _$$ErrorCopyWith<$Res> {
+  __$$ErrorCopyWithImpl(_$Error _value, $Res Function(_$Error) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$Error(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Error implements Error {
+  const _$Error({required this.message});
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'AnswerWorkbookState.error(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Error &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ErrorCopyWith<_$Error> get copyWith =>
+      __$$ErrorCopyWithImpl<_$Error>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() empty,
+    required TResult Function(Question question) answering,
+    required TResult Function(Question question) confirming,
+    required TResult Function(Question question) selfScoring,
+    required TResult Function(Question question, List<String> attemptAnswers)
+        reviewing,
+    required TResult Function() idling,
+    required TResult Function(List<Question> questions) finished,
+    required TResult Function(String message) error,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? empty,
+    TResult? Function(Question question)? answering,
+    TResult? Function(Question question)? confirming,
+    TResult? Function(Question question)? selfScoring,
+    TResult? Function(Question question, List<String> attemptAnswers)?
+        reviewing,
+    TResult? Function()? idling,
+    TResult? Function(List<Question> questions)? finished,
+    TResult? Function(String message)? error,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? empty,
+    TResult Function(Question question)? answering,
+    TResult Function(Question question)? confirming,
+    TResult Function(Question question)? selfScoring,
+    TResult Function(Question question, List<String> attemptAnswers)? reviewing,
+    TResult Function()? idling,
+    TResult Function(List<Question> questions)? finished,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty value) empty,
+    required TResult Function(Answering value) answering,
+    required TResult Function(Confirming value) confirming,
+    required TResult Function(SelfScoring value) selfScoring,
+    required TResult Function(Reviewing value) reviewing,
+    required TResult Function(Idling value) idling,
+    required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty value)? empty,
+    TResult? Function(Answering value)? answering,
+    TResult? Function(Confirming value)? confirming,
+    TResult? Function(SelfScoring value)? selfScoring,
+    TResult? Function(Reviewing value)? reviewing,
+    TResult? Function(Idling value)? idling,
+    TResult? Function(Finished value)? finished,
+    TResult? Function(Error value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty value)? empty,
+    TResult Function(Answering value)? answering,
+    TResult Function(Confirming value)? confirming,
+    TResult Function(SelfScoring value)? selfScoring,
+    TResult Function(Reviewing value)? reviewing,
+    TResult Function(Idling value)? idling,
+    TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Error implements AnswerWorkbookState {
+  const factory Error({required final String message}) = _$Error;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$ErrorCopyWith<_$Error> get copyWith => throw _privateConstructorUsedError;
 }
