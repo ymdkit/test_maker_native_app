@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_question_confirm_content.dart';
@@ -60,7 +59,7 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                   orElse: () => TextButton(
                     onPressed: () =>
                         _showConfirmFinishAlertDialog(context, ref, workbook),
-                    child: const Text('中断'),
+                    child: const Text('終了'),
                   ),
                 )
               ],
@@ -123,9 +122,14 @@ class AnswerWorkbookPage extends HookConsumerWidget {
   ) {
     return showAlertDialog(
       context: context,
-      title: '解答の中断',
-      content: '現在の解答を中断し、トップページに戻りますか？',
-      onPositive: () => context.router.popUntilRoot(),
+      title: '解答の終了',
+      content: '解答を終了しますか？',
+      onPositive: () => ref.read(answerWorkbookStateProvider(
+        QuestionsStateKey(
+          location: workbook.location,
+          workbookId: workbook.workbookId,
+        ),
+      ).notifier).finish(),
     );
   }
 }

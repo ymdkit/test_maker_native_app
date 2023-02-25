@@ -211,6 +211,9 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
         question: answeringQuestionFactory.from(questions[index], questions),
       );
 
+  void finish() => state = AnswerWorkbookState.finished(
+      questions: questions.take(index + 1).toList());
+
   void reset() => _setup();
 
   Future<void> updateAnswerStatus(Question question, bool isCorrect) async {
