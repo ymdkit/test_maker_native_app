@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
@@ -19,9 +20,10 @@ final questionsProvider = StateNotifierProvider.autoDispose
       questionRepository: ref.watch(questionRepositoryProvider(key.location)),
       workbookId: key.workbookId,
       query: ref.watch(questionsQueryProvider),
-      onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
+      onMutateQuestionStream:
+          ref.watch(onMutateQuestionStreamProvider(key.location)),
       onMutateDeletedQuestionStream:
-          ref.watch(onMutateDeletedQuestionStreamProvider),
+          ref.watch(onMutateDeletedQuestionStreamProvider(key.location)),
     );
   },
 );
@@ -190,6 +192,7 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
   }
 }
 
-final onMutateQuestionStreamProvider = Provider(
-  (ref) => StreamController<Question>.broadcast(),
+final onMutateQuestionStreamProvider =
+    Provider.family<StreamController<Question>, AppDataLocation>(
+  (ref, _) => StreamController<Question>.broadcast(),
 );

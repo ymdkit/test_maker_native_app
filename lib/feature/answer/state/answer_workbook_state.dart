@@ -39,7 +39,8 @@ final answerWorkbookStateProvider = StateNotifierProvider.autoDispose.family<
       workbookId: key.workbookId,
       preferences: ref.watch(preferencesStateProvider),
       questionRepository: ref.watch(questionRepositoryProvider(key.location)),
-      onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
+      onMutateQuestionStream:
+          ref.watch(onMutateQuestionStreamProvider(key.location)),
     );
   },
 );

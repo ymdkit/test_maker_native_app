@@ -12,8 +12,9 @@ final deletedFoldersProvider = StateNotifierProvider.autoDispose
     .family<DeletedFoldersStateNotifier, FoldersState, AppDataLocation>(
   (ref, location) => DeletedFoldersStateNotifier(
     folderRepository: ref.watch(folderRepositoryProvider(location)),
-    onMutateDeletedFolderStream: ref.watch(onMutateDeletedFolderStreamProvider),
-    onMutateFolderStream: ref.watch(onMutateFolderStreamProvider),
+    onMutateDeletedFolderStream:
+        ref.watch(onMutateDeletedFolderStreamProvider(location)),
+    onMutateFolderStream: ref.watch(onMutateFolderStreamProvider(location)),
   ),
 );
 
@@ -88,6 +89,7 @@ class DeletedFoldersStateNotifier extends StateNotifier<FoldersState> {
   }
 }
 
-final onMutateDeletedFolderStreamProvider = Provider(
-  (ref) => StreamController<Folder>.broadcast(),
+final onMutateDeletedFolderStreamProvider =
+    Provider.family<StreamController<Folder>, AppDataLocation>(
+  (ref, _) => StreamController<Folder>.broadcast(),
 );

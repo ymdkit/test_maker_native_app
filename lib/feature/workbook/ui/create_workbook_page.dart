@@ -145,9 +145,9 @@ class CreateWorkbookPage extends HookConsumerWidget {
 
                         result.match(
                           (l) => showAppSnackBar(context, l.message),
-                          (r) {
+                          (r) async {
                             showAppSnackBar(context, '問題集を作成しました');
-                            context.router.pop();
+                            await context.router.pop();
                           },
                         );
                       } else {

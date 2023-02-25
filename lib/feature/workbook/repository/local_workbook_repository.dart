@@ -56,8 +56,8 @@ class LocalWorkbookRepository implements WorkbookRepository {
   Future<Either<AppException, List<Workbook>>> getWorkbooks({
     required String? folderId,
   }) async {
-    return Right(
-      localDB
+    return TaskEither.tryCatch(() async {
+      return localDB
           .all<RealmWorkbook>()
           .where((e) => e.isDeleted != true)
           .where((e) => e.folderId == folderId)
@@ -70,30 +70,32 @@ class LocalWorkbookRepository implements WorkbookRepository {
               .length;
           return e.toWorkbook(questionCount: questionCount);
         },
-      ).toList(),
-    );
+      ).toList();
+    }, (e, _) => AppException.fromRawException(e: e)).run();
   }
 
   @override
   Future<Either<AppException, Workbook>> getWorkbook({
     required String workbookId,
   }) async {
-    final workbook = localDB
-        .all<RealmWorkbook>()
-        .where((e) => e.isDeleted != true)
-        .where((e) => e.workbookId == workbookId)
-        .firstOrNull;
+    return TaskEither.tryCatch(
+      () async {
+        final workbook = localDB
+            .all<RealmWorkbook>()
+            .where((e) => e.isDeleted != true)
+            .where((e) => e.workbookId == workbookId)
+            .firstOrNull;
 
-    if (workbook == null) {
-      return const Left(AppException());
-    }
-    final questionCount = localDB
-        .all<RealmQuestion>()
-        .where((e) => e.isDeleted != true)
-        .where((element) => element.workbookId == workbook.workbookId)
-        .length;
+        final questionCount = localDB
+            .all<RealmQuestion>()
+            .where((e) => e.isDeleted != true)
+            .where((element) => element.workbookId == workbook!.workbookId)
+            .length;
 
-    return Right(workbook.toWorkbook(questionCount: questionCount));
+        return workbook!.toWorkbook(questionCount: questionCount);
+      },
+      (error, stackTrace) => AppException.fromRawException(e: error),
+    ).run();
   }
 
   @override

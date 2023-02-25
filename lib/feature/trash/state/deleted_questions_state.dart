@@ -13,9 +13,10 @@ final deletedQuestionsProvider = StateNotifierProvider.autoDispose<
   (ref) => DeletedQuestionsStateNotifier(
     questionRepository:
         ref.watch(questionRepositoryProvider(AppDataLocation.local)),
-    onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
+    onMutateQuestionStream:
+        ref.watch(onMutateQuestionStreamProvider(AppDataLocation.local)),
     onMutateDeletedQuestionStream:
-        ref.watch(onMutateDeletedQuestionStreamProvider),
+        ref.watch(onMutateDeletedQuestionStreamProvider(AppDataLocation.local)),
   ),
 );
 
@@ -90,6 +91,7 @@ class DeletedQuestionsStateNotifier extends StateNotifier<QuestionsState> {
   }
 }
 
-final onMutateDeletedQuestionStreamProvider = Provider(
-  (ref) => StreamController<Question>.broadcast(),
+final onMutateDeletedQuestionStreamProvider =
+    Provider.family<StreamController<Question>, AppDataLocation>(
+  (ref, _) => StreamController<Question>.broadcast(),
 );

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
@@ -20,9 +21,11 @@ final foldersProvider = StateNotifierProvider.autoDispose
   final _ = ref.watch(accountStateProvider);
   return FoldersStateNotifier(
     folderRepository: ref.watch(folderRepositoryProvider(key.location)),
-    onMutateFolderStream: ref.watch(onMutateFolderStreamProvider),
-    onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
-    onMutateDeletedFolderStream: ref.watch(onMutateDeletedFolderStreamProvider),
+    onMutateFolderStream: ref.watch(onMutateFolderStreamProvider(key.location)),
+    onMutateWorkbookStream:
+        ref.watch(onMutateWorkbookStreamProvider(key.location)),
+    onMutateDeletedFolderStream:
+        ref.watch(onMutateDeletedFolderStreamProvider(key.location)),
   );
 });
 
@@ -143,6 +146,7 @@ class FoldersStateNotifier extends StateNotifier<FoldersState> {
   }
 }
 
-final onMutateFolderStreamProvider = Provider(
-  (ref) => StreamController<Folder>.broadcast(),
+final onMutateFolderStreamProvider =
+    Provider.family<StreamController<Folder>, AppDataLocation>(
+  (ref, _) => StreamController<Folder>.broadcast(),
 );

@@ -79,11 +79,21 @@ final homeUiStateProvider = Provider.autoDispose(
       );
     }
 
-    if (remoteFoldersState is AppAsyncState_Failure ||
-        localFoldersState is AppAsyncState_Failure ||
-        remoteWorkbooksState is AppAsyncState_Failure ||
-        localWorkbooksState is AppAsyncState_Failure) {
-      return const HomeUiState.failure(exception: AppException());
+    if (remoteFoldersState is AppAsyncState_Failure) {
+      return HomeUiState.failure(
+          exception: (remoteFoldersState as AppAsyncState_Failure).exception);
+    }
+    if (localFoldersState is AppAsyncState_Failure) {
+      return HomeUiState.failure(
+          exception: (localFoldersState as AppAsyncState_Failure).exception);
+    }
+    if (remoteWorkbooksState is AppAsyncState_Failure) {
+      return HomeUiState.failure(
+          exception: (remoteWorkbooksState as AppAsyncState_Failure).exception);
+    }
+    if (localWorkbooksState is AppAsyncState_Failure) {
+      return HomeUiState.failure(
+          exception: (localWorkbooksState as AppAsyncState_Failure).exception);
     }
 
     return const HomeUiState.loading();

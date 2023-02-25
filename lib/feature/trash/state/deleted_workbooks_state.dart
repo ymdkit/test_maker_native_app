@@ -12,9 +12,9 @@ final deletedWorkbooksProvider = StateNotifierProvider.autoDispose
     .family<WorkbooksStateNotifier, WorkbooksState, AppDataLocation>(
   (ref, location) => WorkbooksStateNotifier(
     workbookRepository: ref.watch(workbookRepositoryProvider(location)),
-    onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
+    onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider(location)),
     onMutateDeletedWorkbookStream:
-        ref.watch(onMutateDeletedWorkbookStreamProvider),
+        ref.watch(onMutateDeletedWorkbookStreamProvider(location)),
   ),
 );
 
@@ -89,6 +89,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   }
 }
 
-final onMutateDeletedWorkbookStreamProvider = Provider(
-  (ref) => StreamController<Workbook>.broadcast(),
+final onMutateDeletedWorkbookStreamProvider =
+    Provider.family<StreamController<Workbook>, AppDataLocation>(
+  (ref, _) => StreamController<Workbook>.broadcast(),
 );

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
@@ -22,10 +23,12 @@ final workbooksProvider = StateNotifierProvider.autoDispose
     return WorkbooksStateNotifier(
       folderId: key.folderId,
       workbookRepository: ref.watch(workbookRepositoryProvider(key.location)),
-      onMutateWorkbookStream: ref.watch(onMutateWorkbookStreamProvider),
-      onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
+      onMutateWorkbookStream:
+          ref.watch(onMutateWorkbookStreamProvider(key.location)),
+      onMutateQuestionStream:
+          ref.watch(onMutateQuestionStreamProvider(key.location)),
       onMutateDeletedWorkbookStream:
-          ref.watch(onMutateDeletedWorkbookStreamProvider),
+          ref.watch(onMutateDeletedWorkbookStreamProvider(key.location)),
     );
   },
 );
@@ -61,7 +64,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
     );
     result.match(
       (l) => state = WorkbooksState.failure(exception: l),
-      (r) => state = WorkbooksState.success(value: r),
+      (r) => mounted ? state = WorkbooksState.success(value: r) : null,
     );
   }
 
@@ -79,7 +82,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
     return result.match(
       (l) => left(l),
       (r) {
-        if (this.folderId == folderId) {
+        if (this.folderId == folderId && mounted) {
           state.maybeWhen(
             success: (workbooks) => state = WorkbooksState.success(
               value: [...workbooks, r],
@@ -109,7 +112,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
     return result.match(
       (l) => left(l),
       (r) {
-        if (this.folderId == folderId) {
+        if (this.folderId == folderId && mounted) {
           state.maybeWhen(
             success: (workbooks) => state = WorkbooksState.success(
               value: workbooks.map(
@@ -186,6 +189,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   }
 }
 
-final onMutateWorkbookStreamProvider = Provider(
-  (ref) => StreamController<Workbook>.broadcast(),
+final onMutateWorkbookStreamProvider =
+    Provider.family<StreamController<Workbook>, AppDataLocation>(
+  (ref, _) => StreamController<Workbook>.broadcast(),
 );
