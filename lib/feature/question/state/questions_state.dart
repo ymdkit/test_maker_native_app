@@ -187,7 +187,7 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
 
   Future<Either<AppException, void>> deleteQuestions(
       List<Question> question) async {
-    final result = await questionRepository.deleteQuestions(question);
+    final result = await questionRepository.deleteQuestions(question).run();
     return result.match(
       (l) => left(l),
       (r) {
@@ -215,9 +215,11 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
     required String destWorkbookId,
     required List<Question> questions,
   }) async {
-    final result = await questionRepository.addQuestions(
-      questions.map((e) => e.copyWith(workbookId: destWorkbookId)).toList(),
-    );
+    final result = await questionRepository
+        .addQuestions(
+          questions.map((e) => e.copyWith(workbookId: destWorkbookId)).toList(),
+        )
+        .run();
     return result.match(
       (l) => left(l),
       (r) {
@@ -227,6 +229,45 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
         return right(null);
       },
     );
+  }
+
+  Future<Either<AppException, void>> moveQuestions({
+    required String destWorkbookId,
+    required List<Question> questions,
+  }) async {
+    return questionRepository
+        .addQuestions(
+          questions.map((e) => e.copyWith(workbookId: destWorkbookId)).toList(),
+        )
+        .flatMap((r) => questionRepository.deleteQuestions(questions))
+        .flatMap(
+          (r) => TaskEither(
+            () async {
+              state = QuestionsState.success(
+                value: state.maybeWhen(
+                  success: (questions) => questions
+                      .where(
+                        (e) => !questions.any(
+                          (q) => q.questionId == e.questionId,
+                        ),
+                      )
+                      .toList(),
+                  orElse: () => [],
+                ),
+              );
+              if (questions.isNotEmpty) {
+                onMutateQuestionStream.sink.add(questions.first);
+                onMutateQuestionStream.sink.add(
+                  questions.first.copyWith(
+                    workbookId: destWorkbookId,
+                  ),
+                );
+              }
+              return right(r);
+            },
+          ),
+        )
+        .run();
   }
 
   @override

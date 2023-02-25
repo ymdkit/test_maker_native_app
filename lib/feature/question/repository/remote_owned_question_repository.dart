@@ -88,8 +88,8 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Either<AppException, List<Question>>> addQuestions(
-      List<Question> questions) async {
+  TaskEither<AppException, List<Question>> addQuestions(
+      List<Question> questions) {
     return TaskEither.tryCatch(
       () async {
         final batch = remoteDB.batch();
@@ -129,7 +129,7 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
         return questions;
       },
       (e, stack) => AppException.fromRawException(e: e),
-    ).run();
+    );
   }
 
   @override
@@ -207,8 +207,7 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Either<AppException, void>> deleteQuestions(
-      List<Question> questions) async {
+  TaskEither<AppException, void> deleteQuestions(List<Question> questions) {
     return TaskEither.tryCatch(
       () async {
         final batch = remoteDB.batch();
@@ -230,7 +229,7 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
         }
       },
       (e, stack) => AppException.fromRawException(e: e),
-    ).run();
+    );
   }
 
   @override

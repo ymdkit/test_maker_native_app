@@ -30,9 +30,9 @@ class RemoteSharedQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Either<AppException, List<Question>>> addQuestions(
-      List<Question> questions) async {
-    return const Right(<Question>[]);
+  TaskEither<AppException, List<Question>> addQuestions(
+      List<Question> questions) {
+    return TaskEither.right(const <Question>[]);
   }
 
   @override
@@ -75,9 +75,8 @@ class RemoteSharedQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Either<AppException, void>> deleteQuestions(
-      List<Question> questions) async {
-    return const Right(null);
+  TaskEither<AppException, void> deleteQuestions(List<Question> questions) {
+    return TaskEither.right(null);
   }
 
   @override

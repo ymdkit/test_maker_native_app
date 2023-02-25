@@ -42,7 +42,7 @@ abstract class QuestionRepository {
     required bool isCheckAnswerOrder,
   });
 
-  Future<Either<AppException, List<Question>>> addQuestions(
+  TaskEither<AppException, List<Question>> addQuestions(
     List<Question> questions,
   );
 
@@ -56,7 +56,7 @@ abstract class QuestionRepository {
 
   Future<Either<AppException, void>> deleteQuestion(Question question);
 
-  Future<Either<AppException, void>> deleteQuestions(List<Question> questions);
+  TaskEither<AppException, void> deleteQuestions(List<Question> questions);
 
   Future<Either<AppException, void>> destroyQuestions(List<Question> questions);
 

@@ -63,8 +63,8 @@ class LocalQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Either<AppException, List<Question>>> addQuestions(
-      List<Question> questions) async {
+  TaskEither<AppException, List<Question>> addQuestions(
+      List<Question> questions) {
     return TaskEither.tryCatch(
       () async {
         localDB.write(() {
@@ -77,7 +77,7 @@ class LocalQuestionRepository implements QuestionRepository {
         return questions;
       },
       (e, _) => AppException.fromRawException(e: e),
-    ).run();
+    );
   }
 
   @override
@@ -130,11 +130,11 @@ class LocalQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Either<AppException, void>> deleteQuestions(
-      List<Question> questions) async {
-    return Either.tryCatch(
+  TaskEither<AppException, void> deleteQuestions(
+      List<Question> questions) {
+    return TaskEither.tryCatch(
       () => localDB.write(
-        () {
+        () async {
           final targets = localDB.all<RealmQuestion>().where((e) {
             return questions
                 .any((element) => element.questionId == e.questionId);

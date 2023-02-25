@@ -86,6 +86,51 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                         context.router.push(
                           SelectWorkbookRoute(
                             location: location,
+                            title: '移動先の問題集を選択',
+                            onSelected: (selectedWorkbook) async {
+                              final result = await ref
+                                  .read(
+                                    questionsProvider(
+                                      QuestionsStateKey(
+                                        location: workbook.location,
+                                        workbookId: workbookId,
+                                      ),
+                                    ).notifier,
+                                  )
+                                  .moveQuestions(
+                                    destWorkbookId: selectedWorkbook.workbookId,
+                                    questions: selectedQuestions.value,
+                                  );
+
+                              result.match(
+                                (l) => showAppSnackBar(
+                                  context,
+                                  l.message,
+                                ),
+                                (success) {
+                                  showAppSnackBar(
+                                    context,
+                                    '選択した問題を移動しました',
+                                  );
+                                  isSelecting.value = false;
+                                  selectedQuestions.value = [];
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.move_to_inbox),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        if (selectedQuestions.value.isEmpty) {
+                          showAppSnackBar(context, '選択されていません');
+                          return;
+                        }
+                        context.router.push(
+                          SelectWorkbookRoute(
+                            location: location,
                             title: 'コピー先の問題集を選択',
                             onSelected: (selectedWorkbook) async {
                               final result = await ref
@@ -164,12 +209,12 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                       },
                       icon: const Icon(Icons.delete),
                     ),
-                    TextButton(
+                    IconButton(
                       onPressed: () {
                         isSelecting.value = !isSelecting.value;
                         selectedQuestions.value = [];
                       },
-                      child: const Text('取り消し'),
+                      icon: const Icon(Icons.close),
                     ),
                   ]
                 : [
