@@ -1,16 +1,10 @@
-# test_maker_native_app
+# バージョン管理されていないもの
 
-A new Flutter project.
+- Firebase 系の設定ファイル(`flutterfire configure` で新規作成)
+  - android/app/google-services.json
+  - ios/Runner/GoogleService-Info.plist
+  - lib/firebase_option.dart
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- リリースビルド用の署名等
+  - android/key.properties
+  - android/app/TestMaker.jks
