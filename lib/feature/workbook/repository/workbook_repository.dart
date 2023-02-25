@@ -8,6 +8,7 @@ import 'package:test_maker_native_app/data/remote/firestore.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/local_workbook_repository.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/remote_owned_workbook_repository.dart';
+import 'package:test_maker_native_app/feature/workbook/repository/remote_shared_workbook_repository.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
 final workbookRepositoryProvider =
@@ -24,8 +25,10 @@ final workbookRepositoryProvider =
         remoteDB: ref.watch(firestoreProvider),
         auth: ref.watch(firebaseAuthProvider),
       );
-    default:
-      throw const AppException(message: 'Invalid AppDataLocation');
+    case AppDataLocation.remoteShared:
+      return RemoteSharedWorkbookRepository(
+        remoteDB: ref.watch(firestoreProvider),
+      );
   }
 });
 

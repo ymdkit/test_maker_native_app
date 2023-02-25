@@ -61,7 +61,7 @@ Folder documentToFolder(
 }
 
 Workbook documentToWorkbook(
-  String userId,
+  String? userId,
   DocumentSnapshot document,
 ) {
   final data = document.data() as Map<String, dynamic>?;

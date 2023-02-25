@@ -137,7 +137,7 @@ class MyApp extends HookConsumerWidget {
 
     if (match != null) {
       final workbookRepository =
-          ref.read(workbookRepositoryProvider(AppDataLocation.remoteOwned));
+          ref.read(workbookRepositoryProvider(AppDataLocation.remoteShared));
       final result = await workbookRepository.getWorkbook(workbookId: match);
 
       result.match(
