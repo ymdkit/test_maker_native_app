@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/group/repository/group_repository.dart';
 import 'package:test_maker_native_app/feature/group/state/group_state.dart';
 import 'package:test_maker_native_app/feature/group/state/group_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/group/state/groups_state.dart';
@@ -37,6 +39,10 @@ class GroupDetailsPage extends HookConsumerWidget {
               icon: const Icon(Icons.more_vert),
               itemBuilder: (context) => [
                 const PopupMenuItem(
+                  value: _PopupMenuItems.invite,
+                  child: Text('グループへの招待'),
+                ),
+                const PopupMenuItem(
                   value: _PopupMenuItems.edit,
                   child: Text('グループの編集'),
                 ),
@@ -51,15 +57,28 @@ class GroupDetailsPage extends HookConsumerWidget {
                     child: Text('グループから退出'),
                   ),
               ],
-              onSelected: (value) {
+              onSelected: (value) async {
                 switch (value) {
+                  case _PopupMenuItems.invite:
+                    final result = await ref
+                        .read(groupRepositoryProvider)
+                        .inviteGroup(group)
+                        .run();
+                    result.match(
+                      (l) => showAppSnackBar(context, l.message),
+                      (r) {
+                        Clipboard.setData(ClipboardData(text: r));
+                        showAppSnackBar(context, '招待リンクをコピーしました');
+                      },
+                    );
+                    break;
                   case _PopupMenuItems.edit:
-                    context.router.push(
+                    await context.router.push(
                       EditGroupRoute(group: group),
                     );
                     break;
                   case _PopupMenuItems.delete:
-                    showAlertDialog(
+                    await showAlertDialog(
                       context: context,
                       title: 'グループの削除',
                       content: 'このグループを削除しますか？',
@@ -90,7 +109,7 @@ class GroupDetailsPage extends HookConsumerWidget {
                     );
                     break;
                   case _PopupMenuItems.exit:
-                    showAlertDialog(
+                    await showAlertDialog(
                       context: context,
                       title: 'グループからの退出',
                       content: 'このグループから退出しますか？',
@@ -147,6 +166,7 @@ class GroupDetailsPage extends HookConsumerWidget {
 }
 
 enum _PopupMenuItems {
+  invite,
   edit,
   delete,
   exit,
