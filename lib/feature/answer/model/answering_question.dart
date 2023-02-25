@@ -51,17 +51,14 @@ class AnsweringQuestionFactory {
           : question.answers,
       choices: question.isAutoGenerateWrongChoices
           ? [
-                ...question.answers,
-                ...questions
-                    .where(
-                        (element) => element.questionId != question.questionId)
-                    .flatMap((e) => e.answers)
-                    .shuffled()
-                    .take(question.wrongChoices.length)
-              ].shuffled() +
-              ['わからない']
-          : [...question.answers, ...question.wrongChoices].shuffled() +
-              ['わからない'],
+              ...question.answers,
+              ...questions
+                  .where((element) => element.questionId != question.questionId)
+                  .flatMap((e) => e.answers)
+                  .shuffled()
+                  .take(question.wrongChoices.length)
+            ].shuffled()
+          : [...question.answers, ...question.wrongChoices].shuffled(),
       isCheckAnswerOrder: question.isCheckAnswerOrder,
       rawQuestion: question,
     );

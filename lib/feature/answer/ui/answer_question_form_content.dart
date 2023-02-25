@@ -227,7 +227,7 @@ class _AnswerSelectQuestionContent extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return SeparatedColumn(
-      children: question.choices
+      children: (question.choices + ['わからない'])
           .map(
             (text) => ElevatedButton(
               onPressed: () => onSelected(text),
