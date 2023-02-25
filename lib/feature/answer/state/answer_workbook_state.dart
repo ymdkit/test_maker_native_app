@@ -170,6 +170,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     }
 
     if (isCorrect) {
+      await Future.delayed(const Duration(milliseconds: 500), () {});
       await forward();
     } else {
       state = AnswerWorkbookState.reviewing(
