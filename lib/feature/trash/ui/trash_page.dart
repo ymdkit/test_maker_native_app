@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/folder/ui/folder_list_item.dart';
+import 'package:test_maker_native_app/feature/question/ui/question_list_item.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_folders_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_questions_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
@@ -138,9 +139,9 @@ class TrashPage extends HookConsumerWidget {
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        return WorkbookListItem(
-                          workbook: workbooks[index],
-                          onTap: (workbook) => showAlertDialog(
+                        return QuestionListItem(
+                          question: questions[index],
+                          onTap: (question) => showAlertDialog(
                             context: context,
                             title: '問題の復元',
                             content: 'この問題を復元しますか？',
