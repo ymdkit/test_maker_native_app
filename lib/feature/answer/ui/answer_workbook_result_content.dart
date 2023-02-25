@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:test_maker_native_app/constants/magic_number.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
@@ -48,7 +49,10 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
             0;
         if (currentAnswerCount >=
             MagicNumber.requireAnswerCountForInAppReview) {
-          // TODO: アプリ内レビューを促す
+          final inAppReview = InAppReview.instance;
+          if (await inAppReview.isAvailable()) {
+            await inAppReview.requestReview();
+          }
         } else if (currentAnswerCount >=
             MagicNumber.requireAnswerCountForAppTrackingTransparency) {
           if (await AppTrackingTransparency.trackingAuthorizationStatus ==
