@@ -51,7 +51,11 @@ class GroupRepository {
 
   Future<Either<AppException, List<Group>>> getGroups() async {
     try {
-      final userId = auth.currentUser!.uid;
+      final userId = auth.currentUser?.uid;
+      if (userId == null) {
+        return right([]);
+      }
+
       final groups =
           await db.collection('users').doc(userId).collection('groups').get();
       return right(groups.docs.map((e) => documentToGroup(userId, e)).toList());
