@@ -18,6 +18,7 @@ final questionsProvider = StateNotifierProvider.autoDispose
     return QuestionsStateNotifier(
       questionRepository: ref.watch(questionRepositoryProvider(key.location)),
       workbookId: key.workbookId,
+      query: ref.watch(questionsQueryProvider),
       onMutateQuestionStream: ref.watch(onMutateQuestionStreamProvider),
       onMutateDeletedQuestionStream:
           ref.watch(onMutateDeletedQuestionStreamProvider),
@@ -25,31 +26,45 @@ final questionsProvider = StateNotifierProvider.autoDispose
   },
 );
 
+final questionsQueryProvider = StateProvider.autoDispose<String>((ref) => '');
+
 class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
   QuestionsStateNotifier({
     required this.questionRepository,
     required this.workbookId,
+    required this.query,
     required this.onMutateQuestionStream,
     required StreamController<Question> onMutateDeletedQuestionStream,
   }) : super(const QuestionsState.loading()) {
-    setupQuestions();
+    setupQuestions(query);
     onDeletedMutateQuestionSubscription =
         onMutateDeletedQuestionStream.stream.listen(
-      (question) => setupQuestions(),
+      (question) => setupQuestions(query),
     );
   }
 
   final QuestionRepository questionRepository;
   final String workbookId;
+  final String query;
   final StreamController<Question> onMutateQuestionStream;
   late final StreamSubscription<Question> onDeletedMutateQuestionSubscription;
 
-  Future<void> setupQuestions() async {
+  Future<void> setupQuestions(String query) async {
     state = const QuestionsState.loading();
     final result = await questionRepository.getQuestions(workbookId);
     result.match(
       (l) => state = QuestionsState.failure(exception: l),
-      (r) => state = QuestionsState.success(value: r),
+      (r) => state = QuestionsState.success(
+        value: r
+            .where(
+              (e) =>
+                  e.problem.contains(query) ||
+                  e.answers.any((e) => e.contains(query)) ||
+                  e.wrongChoices.any((e) => e.contains(query)) ||
+                  (e.explanation?.contains(query) ?? false),
+            )
+            .toList(),
+      ),
     );
   }
 
