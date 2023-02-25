@@ -44,9 +44,13 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
             ListTile(
               leading: const Icon(Icons.play_arrow),
               title: const Text('解答する'),
-              onTap: () => context.router.push(
-                AnswerWorkbookRoute(workbook: workbook),
-              ),
+              onTap: () async {
+                await context.router.pop();
+                // ignore: use_build_context_synchronously
+                await context.router.push(
+                  AnswerWorkbookRoute(workbook: workbook),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.report),
