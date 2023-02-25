@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_maker_native_app/feature/group/repository/group_repository.dart';
 import 'package:test_maker_native_app/feature/group/state/group_state.dart';
 import 'package:test_maker_native_app/feature/group/state/group_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/group/state/groups_state.dart';
 import 'package:test_maker_native_app/feature/group/ui/operate_group_workbook_sheet.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/workbook_list_item.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
+import 'package:test_maker_native_app/utils/dynamic_link_creator.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
@@ -54,9 +54,8 @@ class GroupDetailsPage extends HookConsumerWidget {
               onSelected: (value) async {
                 switch (value) {
                   case _PopupMenuItems.invite:
-                    final result = await ref
-                        .read(groupRepositoryProvider)
-                        .inviteGroup(group)
+                    final result = await DynamicLinkCreator.create(
+                            'groups/${group.groupId}')
                         .run();
                     result.match(
                       (l) => showAppSnackBar(context, l.message),

@@ -1,13 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_setting_sheet.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
+import 'package:test_maker_native_app/utils/dynamic_link_creator.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
+import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 Future<T?> showOperateWorkbookSheet<T>(
   BuildContext context,
@@ -38,7 +42,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
     final isMounted = useIsMounted();
 
     return AppDraggableScrollableSheet(
-      initialChildSize: 0.5,
+      initialChildSize: 0.6,
       builder: (sheetContext, scrollController) => SingleChildScrollView(
         controller: scrollController,
         child: Column(
@@ -113,6 +117,27 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                   ),
                 );
                 context.router.pop();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.link),
+              title: const Text('共有する'),
+              onTap: () async {
+                if (workbook.location == AppDataLocation.local) {
+                  //TODO: アップロードの動線を作る
+                  await context.router.pop();
+                  return;
+                } else {
+                  final result =
+                      await DynamicLinkCreator.create(workbook.workbookId)
+                          .run();
+
+                  result.match((l) => showAppSnackBar(context, l.message), (r) {
+                    Clipboard.setData(ClipboardData(text: r));
+                    showAppSnackBar(context, '共有用のリンクをコピーしました');
+                    context.router.pop();
+                  });
+                }
               },
             ),
           ],
