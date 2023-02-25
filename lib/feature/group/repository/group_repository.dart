@@ -92,18 +92,14 @@ class GroupRepository {
     }
   }
 
-  Future<Either<AppException, void>> deleteGroup(Group group) async {
-    try {
-      await db
-          .collection('users')
-          .doc(auth.currentUser!.uid)
-          .collection('groups')
-          .doc(group.groupId)
-          .delete();
-      return right(null);
-    } catch (e) {
-      return left(AppException.fromRawException(e: e));
-    }
+  TaskEither<AppException, Group> deleteGroup(Group group) {
+    return TaskEither.tryCatch(
+      () async {
+        await db.collection('groups').doc(group.groupId).delete();
+        return group;
+      },
+      (e, _) => AppException.fromRawException(e: e),
+    );
   }
 
   TaskEither<AppException, Group> joinGroup(Group group) => TaskEither.tryCatch(
@@ -123,20 +119,19 @@ class GroupRepository {
         (e, _) => AppException.fromRawException(e: e),
       );
 
-  Future<Either<AppException, void>> leaveGroup({
-    required String groupId,
-  }) async {
-    try {
-      await db
-          .collection('users')
-          .doc(auth.currentUser!.uid)
-          .collection('groups')
-          .doc(groupId)
-          .delete();
-      return right(null);
-    } catch (e) {
-      return left(AppException.fromRawException(e: e));
-    }
+  TaskEither<AppException, Group> leaveGroup(Group group) {
+    return TaskEither.tryCatch(
+      () async {
+        await db
+            .collection('users')
+            .doc(auth.currentUser!.uid)
+            .collection('groups')
+            .doc(group.groupId)
+            .delete();
+        return group;
+      },
+      (e, _) => AppException.fromRawException(e: e),
+    );
   }
 
   Future<Either<AppException, List<Workbook>>> getGroupWorkbooks({

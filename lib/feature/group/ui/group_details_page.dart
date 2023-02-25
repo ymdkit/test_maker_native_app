@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/group/state/group_state.dart';
 import 'package:test_maker_native_app/feature/group/state/group_workbooks_state.dart';
+import 'package:test_maker_native_app/feature/group/state/groups_state.dart';
 import 'package:test_maker_native_app/feature/group/ui/operate_group_workbook_sheet.dart';
 import 'package:test_maker_native_app/feature/workbook/ui/workbook_list_item.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -11,6 +12,7 @@ import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
 import 'package:test_maker_native_app/widget/app_error_content.dart';
+import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 class GroupDetailsPage extends HookConsumerWidget {
   const GroupDetailsPage({
@@ -64,7 +66,26 @@ class GroupDetailsPage extends HookConsumerWidget {
                       isDangerous: true,
                       positiveButtonText: '削除する',
                       onPositive: () async {
-                        //TODO: グループの削除
+                        await showAlertDialog(
+                          context: context,
+                          title: 'グループの削除',
+                          content: 'このグループを削除しますか？',
+                          isDangerous: true,
+                          positiveButtonText: '削除する',
+                          onPositive: () async {
+                            final result = await ref
+                                .read(groupsProvider.notifier)
+                                .deleteGroup(group);
+
+                            result.match(
+                              (l) => showAppSnackBar(context, l.message),
+                              (success) {
+                                showAppSnackBar(context, 'グループを削除しました');
+                                context.router.pop();
+                              },
+                            );
+                          },
+                        );
                       },
                     );
                     break;

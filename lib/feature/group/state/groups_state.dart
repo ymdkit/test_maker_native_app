@@ -98,22 +98,23 @@ class GroupsStateNotifier extends StateNotifier<GroupsState> {
   }
 
   Future<Either<AppException, void>> deleteGroup(Group group) async {
-    final result = await groupRepository.deleteGroup(group);
-    //TODO: 自分自身の退出
-    return result.match(
-      (l) => left(l),
-      (r) {
-        state.maybeWhen(
-          success: (groups) {
-            state = GroupsState.success(
-              value: groups.where((e) => e.groupId != group.groupId).toList(),
-            );
-          },
-          orElse: () {},
-        );
-
-        return right(r);
-      },
-    );
+    return groupRepository
+        .deleteGroup(group)
+        .flatMap(groupRepository.leaveGroup)
+        .flatMap(
+          (group) => TaskEither<AppException, void>(
+            () async {
+              state.maybeWhen(
+                success: (groups) => state = GroupsState.success(
+                  value:
+                      groups.where((e) => e.groupId != group.groupId).toList(),
+                ),
+                orElse: () {},
+              );
+              return right(null);
+            },
+          ),
+        )
+        .run();
   }
 }
