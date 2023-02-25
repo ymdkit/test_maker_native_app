@@ -47,7 +47,7 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                 .read(sharedPreferencesProvider)
                 .getInt(PreferenceKey.answerWorkbookCount.name) ??
             0;
-        if (currentAnswerCount >=
+        if (currentAnswerCount ==
             MagicNumber.requireAnswerCountForInAppReview) {
           final inAppReview = InAppReview.instance;
           if (await inAppReview.isAvailable()) {
