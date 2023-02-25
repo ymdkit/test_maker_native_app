@@ -26,10 +26,17 @@ class SearchWorkbookPage extends HookConsumerWidget {
           titleSpacing: 8,
           title: TextField(
             controller: queryController,
-            decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.search),
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.search),
               hintText: '検索',
               border: InputBorder.none,
+              suffix: IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () {
+                  queryController.clear();
+                  ref.read(searchWorkbooksQueryProvider.notifier).state = '';
+                },
+              ),
             ),
             onSubmitted: (query) {
               ref.read(searchWorkbooksQueryProvider.notifier).state = query;
