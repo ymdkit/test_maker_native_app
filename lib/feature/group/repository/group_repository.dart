@@ -66,9 +66,25 @@ class GroupRepository {
 
   Future<Either<AppException, void>> updateGroup(Group group) async {
     try {
+      final userId = auth.currentUser?.uid;
+      if (userId == null) {
+        return right(null);
+      }
+
       await db.collection('groups').doc(group.groupId).update({
         'name': group.title,
         'color': group.color.index,
+        'updatedAt': Timestamp.now(),
+      });
+      await db
+          .collection('users')
+          .doc(userId)
+          .collection('groups')
+          .doc(group.groupId)
+          .update({
+        'name': group.title,
+        'color': group.color.index,
+        'updatedAt': Timestamp.now(),
       });
       return right(null);
     } catch (e) {
@@ -100,7 +116,6 @@ class GroupRepository {
               'name': group.title,
               'color': group.color.index,
               'userId': userId,
-              'createdAt': Timestamp.now(),
             },
           );
           return documentToGroup(userId, await doc.get());

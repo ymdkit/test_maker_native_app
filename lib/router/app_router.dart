@@ -8,6 +8,7 @@ import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/folder/ui/create_folder_page.dart';
 import 'package:test_maker_native_app/feature/folder/ui/edit_folder_page.dart';
 import 'package:test_maker_native_app/feature/folder/ui/folder_details_page.dart';
+import 'package:test_maker_native_app/feature/group/model/group.dart';
 import 'package:test_maker_native_app/feature/group/ui/create_group_page.dart';
 import 'package:test_maker_native_app/feature/group/ui/create_group_workbook_in_folder_page.dart';
 import 'package:test_maker_native_app/feature/group/ui/create_group_workbook_page.dart';

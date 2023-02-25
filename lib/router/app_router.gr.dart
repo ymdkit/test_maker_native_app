@@ -229,9 +229,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     EditGroupRoute.name: (routeData) {
+      final args = routeData.argsAs<EditGroupRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const EditGroupPage(),
+        child: EditGroupPage(
+          key: args.key,
+          group: args.group,
+        ),
       );
     },
     RecordRoute.name: (routeData) {
@@ -1056,14 +1060,36 @@ class CreateGroupWorkbookInFolderRouteArgs {
 
 /// generated route for
 /// [EditGroupPage]
-class EditGroupRoute extends PageRouteInfo<void> {
-  const EditGroupRoute()
-      : super(
+class EditGroupRoute extends PageRouteInfo<EditGroupRouteArgs> {
+  EditGroupRoute({
+    Key? key,
+    required Group group,
+  }) : super(
           EditGroupRoute.name,
           path: 'edit-group-page',
+          args: EditGroupRouteArgs(
+            key: key,
+            group: group,
+          ),
         );
 
   static const String name = 'EditGroupRoute';
+}
+
+class EditGroupRouteArgs {
+  const EditGroupRouteArgs({
+    this.key,
+    required this.group,
+  });
+
+  final Key? key;
+
+  final Group group;
+
+  @override
+  String toString() {
+    return 'EditGroupRouteArgs{key: $key, group: $group}';
+  }
 }
 
 /// generated route for

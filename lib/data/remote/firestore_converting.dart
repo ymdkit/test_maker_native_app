@@ -42,12 +42,12 @@ Folder documentToFolder(
       color: AppThemeColor.fromIndex(data.getOrElse('color', () => 0) as int),
       workbookCount: data['size'] as int,
       createdAt: (data.getOrElse(
-        'created_at',
+        'createdAt',
         () => Timestamp.now(),
       ) as Timestamp)
           .toDate(),
       updatedAt: (data.getOrElse(
-        'updated_at',
+        'updatedAt',
         () => Timestamp.now(),
       ) as Timestamp)
           .toDate(),

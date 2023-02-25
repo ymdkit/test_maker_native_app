@@ -35,23 +35,26 @@ class GroupListPage extends HookConsumerWidget {
                 ? AppEmptyContent.group(onPressedFallbackButton: () {
                     context.router.push(const CreateGroupRoute());
                   })
-                : ListView.builder(
-                    itemCount: groups.length,
-                    itemBuilder: (context, index) {
-                      final group = groups[index];
-                      return ListTile(
-                        leading: Icon(
-                          Icons.group,
-                          color: group.color.displayColor(),
-                        ),
-                        title: Text(group.title),
-                        onTap: () => context.router.push(
-                          GroupDetailsRoute(
-                            groupId: group.groupId,
+                : RefreshIndicator(
+                    onRefresh: () async => ref.refresh(groupsProvider),
+                    child: ListView.builder(
+                      itemCount: groups.length,
+                      itemBuilder: (context, index) {
+                        final group = groups[index];
+                        return ListTile(
+                          leading: Icon(
+                            Icons.group,
+                            color: group.color.displayColor(),
                           ),
-                        ),
-                      );
-                    },
+                          title: Text(group.title),
+                          onTap: () => context.router.push(
+                            GroupDetailsRoute(
+                              groupId: group.groupId,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
           ),
         ),

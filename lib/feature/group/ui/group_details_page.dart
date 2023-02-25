@@ -8,6 +8,7 @@ import 'package:test_maker_native_app/feature/workbook/ui/workbook_list_item.dar
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
+import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_empty_content.dart';
 import 'package:test_maker_native_app/widget/app_error_content.dart';
 
@@ -29,6 +30,60 @@ class GroupDetailsPage extends HookConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(group.title),
+          actions: [
+            PopupMenuButton(
+              icon: const Icon(Icons.more_vert),
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: _PopupMenuItems.edit,
+                  child: Text('グループの編集'),
+                ),
+                if (group.isOwned)
+                  const PopupMenuItem(
+                    value: _PopupMenuItems.delete,
+                    child: Text('グループの削除'),
+                  )
+                else
+                  const PopupMenuItem(
+                    value: _PopupMenuItems.delete,
+                    child: Text('グループから退出'),
+                  ),
+              ],
+              onSelected: (value) {
+                switch (value) {
+                  case _PopupMenuItems.edit:
+                    context.router.push(
+                      EditGroupRoute(group: group),
+                    );
+                    break;
+                  case _PopupMenuItems.delete:
+                    showAlertDialog(
+                      context: context,
+                      title: 'グループの削除',
+                      content: 'このグループを削除しますか？',
+                      isDangerous: true,
+                      positiveButtonText: '削除する',
+                      onPositive: () async {
+                        //TODO: グループの削除
+                      },
+                    );
+                    break;
+                  case _PopupMenuItems.exit:
+                    showAlertDialog(
+                      context: context,
+                      title: 'グループからの退出',
+                      content: 'このグループから退出しますか？',
+                      isDangerous: true,
+                      positiveButtonText: '退出する',
+                      onPositive: () async {
+                        //TODO: グループから退出
+                      },
+                    );
+                    break;
+                }
+              },
+            ),
+          ],
         ),
         body: groupWorkbookState.when(
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -68,4 +123,10 @@ class GroupDetailsPage extends HookConsumerWidget {
       ),
     );
   }
+}
+
+enum _PopupMenuItems {
+  edit,
+  delete,
+  exit,
 }
