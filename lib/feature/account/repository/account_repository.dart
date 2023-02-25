@@ -98,6 +98,14 @@ class AccountRepository {
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
+
+  TaskEither<AppException, void> delete() => TaskEither.tryCatch(
+        () async => FirebaseAuth.instance.currentUser?.delete(),
+        (e, _) => AppException.fromRawException(
+          e: e,
+          code: AppExceptionCode.unAuthorized,
+        ),
+      );
 }
 
 extension FirebaseUserExt on User {

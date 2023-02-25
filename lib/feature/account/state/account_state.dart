@@ -77,4 +77,18 @@ class AccountStateNotifier extends StateNotifier<AccountState> {
     await accountRepository.signOut();
     state = const AccountState.guest();
   }
+
+  Future<Either<AppException, void>> deleteAccount() async {
+    return accountRepository
+        .delete()
+        .flatMap(
+          (r) => TaskEither(
+            () async {
+              state = const AccountState.guest();
+              return right(r);
+            },
+          ),
+        )
+        .run();
+  }
 }

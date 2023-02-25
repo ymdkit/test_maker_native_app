@@ -13,9 +13,11 @@ class AppException with _$AppException implements Exception {
 
   factory AppException.fromRawException({
     required Object e,
+    AppExceptionCode? code,
     String? message,
   }) =>
       AppException(
+        code: code ?? AppExceptionCode.unknown,
         message: message ?? 'システムエラーが発生しました。ご迷惑をおかけしますがしばらく時間を置いてから再度お試しください',
         rawException: e is Exception ? e : Exception(e.toString()),
       );

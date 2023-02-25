@@ -8,6 +8,7 @@ import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/answer/model/question_condition.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
+import 'package:test_maker_native_app/utils/app_exception.dart';
 import 'package:test_maker_native_app/utils/package_information.dart';
 import 'package:test_maker_native_app/utils/url_launcher.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
@@ -16,6 +17,7 @@ import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_color_picker_sheet.dart';
 import 'package:test_maker_native_app/widget/app_picker_sheet.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
+import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 class SettingPage extends HookConsumerWidget {
   const SettingPage({super.key});
@@ -64,25 +66,74 @@ class SettingPage extends HookConsumerWidget {
                 padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: AppSectionTitle(title: 'アカウント設定'),
               ),
-              account.maybeWhen(
-                guest: () => ListTile(
-                  title: const Text('ログイン'),
-                  onTap: () => context.router.push(const SignInRoute()),
-                ),
-                authenticated: (user) => ListTile(
-                  title: const Text('ログアウト'),
-                  onTap: () async {
-                    await showAlertDialog(
-                      context: context,
-                      title: 'ログアウトの確認',
-                      content: 'ログアウトしてもよろしいですか？',
-                      onPositive: () async {
-                        await ref.read(accountStateProvider.notifier).signOut();
-                      },
-                    );
-                  },
-                ),
-                orElse: () => const SizedBox.shrink(),
+              ...account.maybeWhen(
+                guest: () => [
+                  ListTile(
+                    title: const Text('ログイン'),
+                    onTap: () => context.router.push(const SignInRoute()),
+                  )
+                ],
+                authenticated: (user) => [
+                  ListTile(
+                    title: const Text('ログアウト'),
+                    onTap: () async {
+                      await showAlertDialog(
+                        context: context,
+                        title: 'ログアウトの確認',
+                        content: 'ログアウトしてもよろしいですか？',
+                        isDangerous: true,
+                        positiveButtonText: 'ログアウトする',
+                        onPositive: () async {
+                          await ref
+                              .read(accountStateProvider.notifier)
+                              .signOut();
+                        },
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('退会'),
+                    onTap: () async {
+                      await showAlertDialog(
+                        context: context,
+                        title: '退会について',
+                        content:
+                            '''退会すると、クラウド上に同期した問題集にアクセスすることは不可能になります。こちらをご理解した上で次に進んでください。''',
+                        isDangerous: true,
+                        positiveButtonText: '次へ進む',
+                        onPositive: () async {
+                          await showAlertDialog(
+                            context: context,
+                            title: '退会の確認',
+                            content: '本当に退会してもよろしいですか？',
+                            isDangerous: true,
+                            onPositive: () async {
+                              final result = await ref
+                                  .read(accountStateProvider.notifier)
+                                  .deleteAccount();
+
+                              result.match(
+                                (l) {
+                                  switch (l.code) {
+                                    case AppExceptionCode.unAuthorized:
+                                      context.router.push(const SignInRoute());
+                                      showAppSnackBar(
+                                          context, 'この操作を行うには再ログインが必要です');
+                                      break;
+                                    default:
+                                      showAppSnackBar(context, '退会に失敗しました');
+                                  }
+                                },
+                                (r) => showAppSnackBar(context, '退会しました'),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  )
+                ],
+                orElse: () => [const SizedBox.shrink()],
               ),
               const Divider(indent: 16, endIndent: 16),
               const Padding(
