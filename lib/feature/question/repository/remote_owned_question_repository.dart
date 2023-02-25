@@ -79,21 +79,7 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
           'explanationImageRef': question.explanationImageUrl,
         });
 
-        final questionsCount = await remoteDB
-            .collection('tests')
-            .doc(workbookId)
-            .collection('questions')
-            .get()
-            .then(
-              (value) => value.docs
-                  .where((e) =>
-                      e.data().getOrElse('deleted', () => false) == false)
-                  .count(),
-            );
-
-        await remoteDB.collection('tests').doc(workbookId).update({
-          'size': questionsCount,
-        });
+        await _updateWorkbookSize(workbookId: question.workbookId);
 
         return Future.value(question);
       },
@@ -169,21 +155,34 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
             .doc(question.questionId)
             .update({'deleted': true});
 
-        final questionsCount = await remoteDB
-            .collection('tests')
-            .doc(question.workbookId)
-            .collection('questions')
-            .get()
-            .then(
-              (value) => value.docs
-                  .where((e) =>
-                      e.data().getOrElse('deleted', () => false) == false)
-                  .count(),
-            );
+        await _updateWorkbookSize(workbookId: question.workbookId);
+      },
+      (e, stack) => AppException.fromRawException(e: e),
+    ).run();
+  }
 
-        await remoteDB.collection('tests').doc(question.workbookId).update({
-          'size': questionsCount,
-        });
+  @override
+  Future<Either<AppException, void>> deleteQuestions(
+      List<Question> questions) async {
+    return TaskEither.tryCatch(
+      () async {
+        final batch = remoteDB.batch();
+
+        for (final question in questions) {
+          batch.update(
+            remoteDB
+                .collection('tests')
+                .doc(question.workbookId)
+                .collection('questions')
+                .doc(question.questionId),
+            {'deleted': true},
+          );
+        }
+
+        await batch.commit();
+        if (questions.isNotEmpty) {
+          await _updateWorkbookSize(workbookId: questions.first.workbookId);
+        }
       },
       (e, stack) => AppException.fromRawException(e: e),
     ).run();
@@ -198,5 +197,24 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
   @override
   Future<Either<AppException, void>> restoreQuestion(Question question) async {
     return const Right(null);
+  }
+
+  Future<void> _updateWorkbookSize({
+    required String workbookId,
+  }) async {
+    final questionsCount = await remoteDB
+        .collection('tests')
+        .doc(workbookId)
+        .collection('questions')
+        .get()
+        .then(
+          (value) => value.docs
+              .where((e) => e.data().getOrElse('deleted', () => false) == false)
+              .count(),
+        );
+
+    await remoteDB.collection('tests').doc(workbookId).update({
+      'size': questionsCount,
+    });
   }
 }

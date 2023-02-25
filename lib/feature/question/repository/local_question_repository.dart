@@ -112,6 +112,25 @@ class LocalQuestionRepository implements QuestionRepository {
   }
 
   @override
+  Future<Either<AppException, void>> deleteQuestions(
+      List<Question> questions) async {
+    return Either.tryCatch(
+      () => localDB.write(
+        () {
+          final targets = localDB.all<RealmQuestion>().where((e) {
+            return questions
+                .any((element) => element.questionId == e.questionId);
+          }).toList();
+          localDB.addAll(
+            targets.map((e) => e..isDeleted = true).toList(),
+          );
+        },
+      ),
+      (e, s) => AppException.fromRawException(e: e),
+    );
+  }
+
+  @override
   Future<Either<AppException, void>> destroyQuestions(
       List<Question> questions) async {
     localDB.write(

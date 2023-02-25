@@ -185,6 +185,31 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
     );
   }
 
+  Future<Either<AppException, void>> deleteQuestions(List<Question> question) async {
+    final result = await questionRepository.deleteQuestions(question);
+    return result.match(
+      (l) => left(l),
+      (r) {
+        state.maybeWhen(
+          success: (questions) {
+            state = QuestionsState.success(
+              value: questions
+                  .where((e) => !question.any((q) => q.questionId == e.questionId))
+                  .toList(),
+            );
+            question.forEach((element) {
+              onMutateQuestionStream.sink.add(element);
+            });
+          },
+          orElse: () {},
+        );
+
+        return right(r);
+      },
+    );
+  }
+
+
   @override
   void dispose() {
     onDeletedMutateQuestionSubscription.cancel();

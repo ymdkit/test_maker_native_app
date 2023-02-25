@@ -52,6 +52,8 @@ abstract class QuestionRepository {
 
   Future<Either<AppException, void>> deleteQuestion(Question question);
 
+  Future<Either<AppException, void>> deleteQuestions(List<Question> questions);
+
   Future<Either<AppException, void>> destroyQuestions(List<Question> questions);
 
   Future<Either<AppException, void>> restoreQuestion(Question question);

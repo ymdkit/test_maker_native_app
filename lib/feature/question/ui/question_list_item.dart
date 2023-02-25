@@ -9,16 +9,19 @@ class QuestionListItem extends HookConsumerWidget {
     super.key,
     required this.question,
     required this.onTap,
+    this.leading,
   });
 
   final Question question;
   final void Function(Question) onTap;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeColor =
         ref.watch(preferencesStateProvider.select((e) => e.themeColor));
     return ListTile(
+      leading: leading,
       title: Text(
         question.problem,
         maxLines: 2,

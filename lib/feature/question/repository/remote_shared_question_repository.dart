@@ -69,6 +69,12 @@ class RemoteSharedQuestionRepository implements QuestionRepository {
   }
 
   @override
+  Future<Either<AppException, void>> deleteQuestions(
+      List<Question> questions) async {
+    return const Right(null);
+  }
+
+  @override
   Future<Either<AppException, void>> destroyQuestions(
       List<Question> questions) async {
     return const Right(null);
