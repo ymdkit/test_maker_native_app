@@ -12,7 +12,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
-import 'package:test_maker_native_app/feature/group/repository/group_repository.dart';
+import 'package:test_maker_native_app/feature/group/state/groups_state.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/setting/utils/shared_preference.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/workbook_repository.dart';
@@ -139,11 +139,8 @@ class MyApp extends HookConsumerWidget {
       if (parameters.length == 2 && parameters[0] == 'groups') {
         final groupId = parameters[1];
 
-        final groupRepository = ref.read(groupRepositoryProvider);
-        final result = await groupRepository
-            .getGroup(groupId)
-            .flatMap(groupRepository.joinGroup)
-            .run();
+        final result =
+            await ref.read(groupsProvider.notifier).joinGroup(groupId);
 
         //TODO: 未ログインやグループが存在しない場合のエラー出し分け
         await result.match(

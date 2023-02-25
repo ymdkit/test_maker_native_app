@@ -46,16 +46,10 @@ class GroupDetailsPage extends HookConsumerWidget {
                   value: _PopupMenuItems.edit,
                   child: Text('グループの編集'),
                 ),
-                if (group.isOwned)
-                  const PopupMenuItem(
-                    value: _PopupMenuItems.delete,
-                    child: Text('グループの削除'),
-                  )
-                else
-                  const PopupMenuItem(
-                    value: _PopupMenuItems.delete,
-                    child: Text('グループから退出'),
-                  ),
+                const PopupMenuItem(
+                  value: _PopupMenuItems.exit,
+                  child: Text('グループから退出'),
+                ),
               ],
               onSelected: (value) async {
                 switch (value) {
@@ -77,37 +71,7 @@ class GroupDetailsPage extends HookConsumerWidget {
                       EditGroupRoute(group: group),
                     );
                     break;
-                  case _PopupMenuItems.delete:
-                    await showAlertDialog(
-                      context: context,
-                      title: 'グループの削除',
-                      content: 'このグループを削除しますか？',
-                      isDangerous: true,
-                      positiveButtonText: '削除する',
-                      onPositive: () async {
-                        await showAlertDialog(
-                          context: context,
-                          title: 'グループの削除',
-                          content: 'このグループを削除しますか？',
-                          isDangerous: true,
-                          positiveButtonText: '削除する',
-                          onPositive: () async {
-                            final result = await ref
-                                .read(groupsProvider.notifier)
-                                .deleteGroup(group);
 
-                            result.match(
-                              (l) => showAppSnackBar(context, l.message),
-                              (success) {
-                                showAppSnackBar(context, 'グループを削除しました');
-                                context.router.pop();
-                              },
-                            );
-                          },
-                        );
-                      },
-                    );
-                    break;
                   case _PopupMenuItems.exit:
                     await showAlertDialog(
                       context: context,
@@ -116,7 +80,17 @@ class GroupDetailsPage extends HookConsumerWidget {
                       isDangerous: true,
                       positiveButtonText: '退出する',
                       onPositive: () async {
-                        //TODO: グループから退出
+                        final result = await ref
+                            .read(groupsProvider.notifier)
+                            .exitGroup(group);
+
+                        result.match(
+                          (l) => showAppSnackBar(context, l.message),
+                          (success) {
+                            showAppSnackBar(context, 'グループから退出しました');
+                            context.router.pop();
+                          },
+                        );
                       },
                     );
                     break;
@@ -168,6 +142,5 @@ class GroupDetailsPage extends HookConsumerWidget {
 enum _PopupMenuItems {
   invite,
   edit,
-  delete,
   exit,
 }

@@ -157,7 +157,7 @@ class GroupRepository {
               'id': ref.id,
               'name': group.title,
               'color': group.color.index,
-              'userId': userId,
+              'userId': group.ownerId,
             },
           );
           return group;

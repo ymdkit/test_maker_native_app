@@ -97,10 +97,29 @@ class GroupsStateNotifier extends StateNotifier<GroupsState> {
     );
   }
 
-  Future<Either<AppException, void>> deleteGroup(Group group) async {
+  Future<Either<AppException, void>> joinGroup(String groupId) async {
     return groupRepository
-        .deleteGroup(group)
-        .flatMap(groupRepository.leaveGroup)
+        .getGroup(groupId)
+        .flatMap(groupRepository.joinGroup)
+        .flatMap(
+          (group) => TaskEither<AppException, void>(
+            () async {
+              state.maybeWhen(
+                success: (groups) => state = GroupsState.success(
+                  value: [...groups, group],
+                ),
+                orElse: () {},
+              );
+              return right(null);
+            },
+          ),
+        )
+        .run();
+  }
+
+  Future<Either<AppException, void>> exitGroup(Group group) async {
+    return groupRepository
+        .leaveGroup(group)
         .flatMap(
           (group) => TaskEither<AppException, void>(
             () async {
