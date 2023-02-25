@@ -165,6 +165,19 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    SelectWorkbookRoute.name: (routeData) {
+      final args = routeData.argsAs<SelectWorkbookRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: SelectWorkbookPage(
+          key: args.key,
+          title: args.title,
+          location: args.location,
+          onSelected: args.onSelected,
+          folderId: args.folderId,
+        ),
+      );
+    },
     SearchWorkbookRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -291,6 +304,11 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(
                   EditWorkbookRoute.name,
                   path: 'edit-workbook-page',
+                  parent: HomeTabRoute.name,
+                ),
+                RouteConfig(
+                  SelectWorkbookRoute.name,
+                  path: 'select-workbook-page',
                   parent: HomeTabRoute.name,
                 ),
               ],
@@ -834,6 +852,55 @@ class EditWorkbookRouteArgs {
   @override
   String toString() {
     return 'EditWorkbookRouteArgs{key: $key, workbook: $workbook}';
+  }
+}
+
+/// generated route for
+/// [SelectWorkbookPage]
+class SelectWorkbookRoute extends PageRouteInfo<SelectWorkbookRouteArgs> {
+  SelectWorkbookRoute({
+    Key? key,
+    required String title,
+    required AppDataLocation location,
+    required void Function(Workbook) onSelected,
+    String? folderId,
+  }) : super(
+          SelectWorkbookRoute.name,
+          path: 'select-workbook-page',
+          args: SelectWorkbookRouteArgs(
+            key: key,
+            title: title,
+            location: location,
+            onSelected: onSelected,
+            folderId: folderId,
+          ),
+        );
+
+  static const String name = 'SelectWorkbookRoute';
+}
+
+class SelectWorkbookRouteArgs {
+  const SelectWorkbookRouteArgs({
+    this.key,
+    required this.title,
+    required this.location,
+    required this.onSelected,
+    this.folderId,
+  });
+
+  final Key? key;
+
+  final String title;
+
+  final AppDataLocation location;
+
+  final void Function(Workbook) onSelected;
+
+  final String? folderId;
+
+  @override
+  String toString() {
+    return 'SelectWorkbookRouteArgs{key: $key, title: $title, location: $location, onSelected: $onSelected, folderId: $folderId}';
   }
 }
 

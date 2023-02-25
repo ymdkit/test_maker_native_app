@@ -42,6 +42,10 @@ abstract class QuestionRepository {
     required bool isCheckAnswerOrder,
   });
 
+  Future<Either<AppException, List<Question>>> addQuestions(
+    List<Question> questions,
+  );
+
   Future<Either<AppException, List<Question>>> getQuestions(
     String workbookId,
   );

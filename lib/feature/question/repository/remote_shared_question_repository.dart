@@ -30,6 +30,12 @@ class RemoteSharedQuestionRepository implements QuestionRepository {
   }
 
   @override
+  Future<Either<AppException, List<Question>>> addQuestions(
+      List<Question> questions) async {
+    return const Right(<Question>[]);
+  }
+
+  @override
   Future<Either<AppException, List<Question>>> getQuestions(
     String workbookId,
   ) async {

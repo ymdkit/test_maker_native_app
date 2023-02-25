@@ -83,7 +83,51 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                           showAppSnackBar(context, '選択されていません');
                           return;
                         }
+                        context.router.push(
+                          SelectWorkbookRoute(
+                            location: location,
+                            title: 'コピー先の問題集を選択',
+                            onSelected: (selectedWorkbook) async {
+                              final result = await ref
+                                  .read(
+                                    questionsProvider(
+                                      QuestionsStateKey(
+                                        location: workbook.location,
+                                        workbookId: workbookId,
+                                      ),
+                                    ).notifier,
+                                  )
+                                  .copyQuestions(
+                                    destWorkbookId: selectedWorkbook.workbookId,
+                                    questions: selectedQuestions.value,
+                                  );
 
+                              result.match(
+                                (l) => showAppSnackBar(
+                                  context,
+                                  l.message,
+                                ),
+                                (success) {
+                                  showAppSnackBar(
+                                    context,
+                                    '選択した問題をコピーしました',
+                                  );
+                                  isSelecting.value = false;
+                                  selectedQuestions.value = [];
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.copy),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        if (selectedQuestions.value.isEmpty) {
+                          showAppSnackBar(context, '選択されていません');
+                          return;
+                        }
                         showAlertDialog(
                           context: context,
                           title: '選択した問題を削除',

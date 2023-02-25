@@ -88,6 +88,51 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
   }
 
   @override
+  Future<Either<AppException, List<Question>>> addQuestions(
+      List<Question> questions) async {
+    return TaskEither.tryCatch(
+      () async {
+        final batch = remoteDB.batch();
+
+        for (final question in questions) {
+          final questionId = Uuid.v4().toString();
+
+          batch.set(
+            remoteDB
+                .collection('tests')
+                .doc(question.workbookId)
+                .collection('questions')
+                .doc(questionId),
+            {
+              'documentId': questionId,
+              'type': question.questionType.index,
+              'question': question.problem,
+              'answers': question.answers,
+              'answer': question.answers.firstOrNull ?? '',
+              'others': question.wrongChoices,
+              'auto': question.isAutoGenerateWrongChoices,
+              'checkOrder': question.isCheckAnswerOrder,
+              'order': question.order,
+              'createdAt': Timestamp.now(),
+              'updatedAt': Timestamp.now(),
+              'imageRef': question.problemImageUrl,
+              'explanation': question.explanation,
+              'explanationImageRef': question.explanationImageUrl,
+            },
+          );
+        }
+
+        await batch.commit();
+
+        await _updateWorkbookSize(workbookId: questions.first.workbookId);
+
+        return questions;
+      },
+      (e, stack) => AppException.fromRawException(e: e),
+    ).run();
+  }
+
+  @override
   Future<Either<AppException, List<Question>>> getQuestions(
     String workbookId,
   ) async {

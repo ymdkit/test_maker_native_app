@@ -185,7 +185,8 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
     );
   }
 
-  Future<Either<AppException, void>> deleteQuestions(List<Question> question) async {
+  Future<Either<AppException, void>> deleteQuestions(
+      List<Question> question) async {
     final result = await questionRepository.deleteQuestions(question);
     return result.match(
       (l) => left(l),
@@ -194,12 +195,13 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
           success: (questions) {
             state = QuestionsState.success(
               value: questions
-                  .where((e) => !question.any((q) => q.questionId == e.questionId))
+                  .where(
+                      (e) => !question.any((q) => q.questionId == e.questionId))
                   .toList(),
             );
-            question.forEach((element) {
-              onMutateQuestionStream.sink.add(element);
-            });
+            if (questions.isNotEmpty) {
+              onMutateQuestionStream.sink.add(questions.first);
+            }
           },
           orElse: () {},
         );
@@ -209,6 +211,23 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
     );
   }
 
+  Future<Either<AppException, void>> copyQuestions({
+    required String destWorkbookId,
+    required List<Question> questions,
+  }) async {
+    final result = await questionRepository.addQuestions(
+      questions.map((e) => e.copyWith(workbookId: destWorkbookId)).toList(),
+    );
+    return result.match(
+      (l) => left(l),
+      (r) {
+        if (r.isNotEmpty) {
+          onMutateQuestionStream.sink.add(r.first);
+        }
+        return right(null);
+      },
+    );
+  }
 
   @override
   void dispose() {

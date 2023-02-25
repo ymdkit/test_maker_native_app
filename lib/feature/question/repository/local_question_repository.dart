@@ -63,6 +63,24 @@ class LocalQuestionRepository implements QuestionRepository {
   }
 
   @override
+  Future<Either<AppException, List<Question>>> addQuestions(
+      List<Question> questions) async {
+    return TaskEither.tryCatch(
+      () async {
+        localDB.write(() {
+          for (final question in questions) {
+            localDB.add<RealmQuestion>(
+              RealmQuestionConverting.fromQuestion(question),
+            );
+          }
+        });
+        return questions;
+      },
+      (e, _) => AppException.fromRawException(e: e),
+    ).run();
+  }
+
+  @override
   Future<Either<AppException, List<Question>>> getQuestions(
     String workbookId,
   ) async {
