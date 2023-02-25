@@ -206,13 +206,17 @@ class EditQuestionForm extends HookConsumerWidget {
                                 (index, controller) => Column(
                                   children: [
                                     AppTextFormField(
+                                      enabled:
+                                          !isAutoGenerateWrongChoices.value,
                                       controller: controller,
                                       hintText: '不正解の選択肢を入力してください',
                                       labelText: '不正解の選択肢',
-                                      validator: (value) =>
-                                          value?.isEmpty ?? true
+                                      validator: !isAutoGenerateWrongChoices
+                                              .value
+                                          ? (value) => value?.isEmpty ?? true
                                               ? '不正解の選択肢を入力してください'
-                                              : null,
+                                              : null
+                                          : null,
                                       textInputAction: TextInputAction.next,
                                     ),
                                     const SizedBox(height: 16),

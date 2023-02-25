@@ -24,7 +24,7 @@ class AppDropdownButtonFormField<T> extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 16,
+          vertical: 12,
           horizontal: 16,
         ),
         border: const OutlineInputBorder(),

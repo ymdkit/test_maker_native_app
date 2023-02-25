@@ -14,6 +14,7 @@ class AppTextFormField extends StatelessWidget {
     this.focusNode,
     this.onChanged,
     this.keyboardType,
+    this.enabled = true,
   });
 
   final TextEditingController controller;
@@ -27,6 +28,7 @@ class AppTextFormField extends StatelessWidget {
   final FocusNode? focusNode;
   final void Function(String)? onChanged;
   final TextInputType? keyboardType;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class AppTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 16,
+          vertical: 12,
           horizontal: 16,
         ),
         border: const OutlineInputBorder(),
@@ -50,6 +52,7 @@ class AppTextFormField extends StatelessWidget {
       maxLines: maxLines,
       onChanged: onChanged,
       keyboardType: keyboardType,
+      enabled: enabled,
     );
   }
 }
