@@ -73,12 +73,12 @@ class MyApp extends HookConsumerWidget {
       theme: ThemeData.light().copyWithSharedTheme(appThemeColor).copyWith(
             appBarTheme: const AppBarTheme(
               elevation: 0,
-              foregroundColor: Colors.black,
+              foregroundColor: Colors.black87,
               backgroundColor: Colors.transparent,
               titleTextStyle: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Colors.black,
+                color: Colors.black87,
               ),
             ),
           ),
