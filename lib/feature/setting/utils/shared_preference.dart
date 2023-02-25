@@ -25,7 +25,8 @@ enum PreferenceKey {
   themeColor('theme_color'),
 
   //その他
-  answerWorkbookCount('play_count');
+  answerWorkbookCount('play_count'),
+  isRemovedAds('isRemovedAd');
 
   final String name;
 

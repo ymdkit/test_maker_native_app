@@ -1,12 +1,16 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/magic_number.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/question/ui/question_list_item.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
+import 'package:test_maker_native_app/feature/setting/utils/shared_preference.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
@@ -35,6 +39,26 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
             answeringQuestions.length;
 
     final wrongRate = 1 - correctRate;
+
+    useEffect(() {
+      () async {
+        final currentAnswerCount = ref
+                .read(sharedPreferencesProvider)
+                .getInt(PreferenceKey.answerWorkbookCount.name) ??
+            0;
+        if (currentAnswerCount >=
+            MagicNumber.requireAnswerCountForInAppReview) {
+          // TODO: アプリ内レビューを促す
+        } else if (currentAnswerCount >=
+            MagicNumber.requireAnswerCountForAppTrackingTransparency) {
+          if (await AppTrackingTransparency.trackingAuthorizationStatus ==
+              TrackingStatus.notDetermined) {
+            await AppTrackingTransparency.requestTrackingAuthorization();
+          }
+        }
+      }();
+      return null;
+    }, []);
 
     return Column(
       children: [

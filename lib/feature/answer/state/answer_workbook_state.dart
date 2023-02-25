@@ -11,6 +11,7 @@ import 'package:test_maker_native_app/feature/question/repository/question_repos
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
+import 'package:test_maker_native_app/feature/setting/utils/shared_preference.dart';
 
 part 'answer_workbook_state.freezed.dart';
 
@@ -43,6 +44,7 @@ final answerWorkbookStateProvider = StateNotifierProvider.autoDispose.family<
       workbookId: key.workbookId,
       preferences: ref.watch(preferencesStateProvider),
       questionRepository: ref.watch(questionRepositoryProvider(key.location)),
+      ref: ref,
       answeringQuestionFactory: ref.watch(answeringQuestionFactoryProvider),
       onMutateQuestionStream:
           ref.watch(onMutateQuestionStreamProvider(key.location)),
@@ -55,6 +57,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     required this.workbookId,
     required this.preferences,
     required this.questionRepository,
+    required this.ref,
     required this.answeringQuestionFactory,
     required StreamController<Question> onMutateQuestionStream,
   }) : super(const AnswerWorkbookState.idling()) {
@@ -94,6 +97,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   final QuestionRepository questionRepository;
   final AnsweringQuestionFactory answeringQuestionFactory;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
+  final Ref ref;
   int index = 0;
   List<Question> questions = [];
 
@@ -200,7 +204,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
       }
     } else {
       await Future<void>.delayed(const Duration(milliseconds: 100));
-      state = AnswerWorkbookState.finished(questions: questions);
+      await finish();
     }
   }
 
@@ -212,8 +216,17 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
         question: answeringQuestionFactory.from(questions[index], questions),
       );
 
-  void finish() => state = AnswerWorkbookState.finished(
-      questions: questions.take(index + 1).toList());
+  Future<void> finish() async {
+    final currentAnswerCount = ref
+            .read(sharedPreferencesProvider)
+            .getInt(PreferenceKey.answerWorkbookCount.name) ??
+        0;
+    await ref
+        .read(sharedPreferencesProvider)
+        .setInt(PreferenceKey.answerWorkbookCount.name, currentAnswerCount + 1);
+    state = AnswerWorkbookState.finished(
+        questions: questions.take(index + 1).toList());
+  }
 
   void reset() => _setup();
 

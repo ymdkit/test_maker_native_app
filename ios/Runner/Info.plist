@@ -267,5 +267,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>ユーザの利用状況に合わせた広告を配信するために利用します。</string>
 </dict>
 </plist>

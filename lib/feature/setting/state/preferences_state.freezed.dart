@@ -25,7 +25,6 @@ mixin _$PreferencesState {
   bool get isShowAnswerSettingDialog => throw _privateConstructorUsedError;
   int get numberOfQuestions => throw _privateConstructorUsedError;
   int get startPosition => throw _privateConstructorUsedError;
-  int get answerWorkbookCount => throw _privateConstructorUsedError;
   AppThemeColor get themeColor => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -49,7 +48,6 @@ abstract class $PreferencesStateCopyWith<$Res> {
       bool isShowAnswerSettingDialog,
       int numberOfQuestions,
       int startPosition,
-      int answerWorkbookCount,
       AppThemeColor themeColor});
 }
 
@@ -75,7 +73,6 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
     Object? isShowAnswerSettingDialog = null,
     Object? numberOfQuestions = null,
     Object? startPosition = null,
-    Object? answerWorkbookCount = null,
     Object? themeColor = null,
   }) {
     return _then(_value.copyWith(
@@ -115,10 +112,6 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
           ? _value.startPosition
           : startPosition // ignore: cast_nullable_to_non_nullable
               as int,
-      answerWorkbookCount: null == answerWorkbookCount
-          ? _value.answerWorkbookCount
-          : answerWorkbookCount // ignore: cast_nullable_to_non_nullable
-              as int,
       themeColor: null == themeColor
           ? _value.themeColor
           : themeColor // ignore: cast_nullable_to_non_nullable
@@ -145,7 +138,6 @@ abstract class _$$_PreferencesStateCopyWith<$Res>
       bool isShowAnswerSettingDialog,
       int numberOfQuestions,
       int startPosition,
-      int answerWorkbookCount,
       AppThemeColor themeColor});
 }
 
@@ -169,7 +161,6 @@ class __$$_PreferencesStateCopyWithImpl<$Res>
     Object? isShowAnswerSettingDialog = null,
     Object? numberOfQuestions = null,
     Object? startPosition = null,
-    Object? answerWorkbookCount = null,
     Object? themeColor = null,
   }) {
     return _then(_$_PreferencesState(
@@ -209,10 +200,6 @@ class __$$_PreferencesStateCopyWithImpl<$Res>
           ? _value.startPosition
           : startPosition // ignore: cast_nullable_to_non_nullable
               as int,
-      answerWorkbookCount: null == answerWorkbookCount
-          ? _value.answerWorkbookCount
-          : answerWorkbookCount // ignore: cast_nullable_to_non_nullable
-              as int,
       themeColor: null == themeColor
           ? _value.themeColor
           : themeColor // ignore: cast_nullable_to_non_nullable
@@ -234,7 +221,6 @@ class _$_PreferencesState implements _PreferencesState {
       required this.isShowAnswerSettingDialog,
       required this.numberOfQuestions,
       required this.startPosition,
-      required this.answerWorkbookCount,
       required this.themeColor});
 
   @override
@@ -256,13 +242,11 @@ class _$_PreferencesState implements _PreferencesState {
   @override
   final int startPosition;
   @override
-  final int answerWorkbookCount;
-  @override
   final AppThemeColor themeColor;
 
   @override
   String toString() {
-    return 'PreferencesState(isRandom: $isRandom, isSwapProblemAndAnswer: $isSwapProblemAndAnswer, questionCondition: $questionCondition, isSelfScoring: $isSelfScoring, isAlwaysShowExplanation: $isAlwaysShowExplanation, isCaseInsensitive: $isCaseInsensitive, isShowAnswerSettingDialog: $isShowAnswerSettingDialog, numberOfQuestions: $numberOfQuestions, startPosition: $startPosition, answerWorkbookCount: $answerWorkbookCount, themeColor: $themeColor)';
+    return 'PreferencesState(isRandom: $isRandom, isSwapProblemAndAnswer: $isSwapProblemAndAnswer, questionCondition: $questionCondition, isSelfScoring: $isSelfScoring, isAlwaysShowExplanation: $isAlwaysShowExplanation, isCaseInsensitive: $isCaseInsensitive, isShowAnswerSettingDialog: $isShowAnswerSettingDialog, numberOfQuestions: $numberOfQuestions, startPosition: $startPosition, themeColor: $themeColor)';
   }
 
   @override
@@ -290,8 +274,6 @@ class _$_PreferencesState implements _PreferencesState {
                 other.numberOfQuestions == numberOfQuestions) &&
             (identical(other.startPosition, startPosition) ||
                 other.startPosition == startPosition) &&
-            (identical(other.answerWorkbookCount, answerWorkbookCount) ||
-                other.answerWorkbookCount == answerWorkbookCount) &&
             (identical(other.themeColor, themeColor) ||
                 other.themeColor == themeColor));
   }
@@ -308,7 +290,6 @@ class _$_PreferencesState implements _PreferencesState {
       isShowAnswerSettingDialog,
       numberOfQuestions,
       startPosition,
-      answerWorkbookCount,
       themeColor);
 
   @JsonKey(ignore: true)
@@ -329,7 +310,6 @@ abstract class _PreferencesState implements PreferencesState {
       required final bool isShowAnswerSettingDialog,
       required final int numberOfQuestions,
       required final int startPosition,
-      required final int answerWorkbookCount,
       required final AppThemeColor themeColor}) = _$_PreferencesState;
 
   @override
@@ -350,8 +330,6 @@ abstract class _PreferencesState implements PreferencesState {
   int get numberOfQuestions;
   @override
   int get startPosition;
-  @override
-  int get answerWorkbookCount;
   @override
   AppThemeColor get themeColor;
   @override
