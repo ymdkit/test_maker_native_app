@@ -84,7 +84,6 @@ class MyApp extends HookConsumerWidget {
     }, const []);
 
     return MaterialApp.router(
-      // TODO(ymdkit): Dynamic Links のハンドリング
       // TODO(ymdkit): ローカライズ
       locale: const Locale('ja', ''),
       localizationsDelegates: const [
