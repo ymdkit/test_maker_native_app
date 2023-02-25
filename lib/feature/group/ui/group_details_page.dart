@@ -60,6 +60,7 @@ class GroupDetailsPage extends HookConsumerWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          heroTag: 'groupDetailsPage',
           onPressed: () =>
               context.router.push(CreateGroupWorkbookRoute(groupId: groupId)),
           child: const Icon(Icons.add),

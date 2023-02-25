@@ -349,6 +349,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
           failure: (e) => AppErrorContent.serverError(),
         ),
         floatingActionButton: FloatingActionButton(
+          heroTag: 'createQuestion',
           onPressed: () => context.router.push(
             CreateQuestionRoute(
               location: workbook.location,

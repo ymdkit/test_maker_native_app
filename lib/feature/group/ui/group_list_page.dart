@@ -56,6 +56,7 @@ class GroupListPage extends HookConsumerWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          heroTag: 'groupListPage',
           onPressed: () => context.router.push(
             const CreateGroupRoute(),
           ),

@@ -114,6 +114,7 @@ class FolderDetailsPage extends HookConsumerWidget {
           failure: (_) => AppErrorContent.serverError(),
         ),
         floatingActionButton: FloatingActionButton(
+          heroTag: 'folder_details_page',
           onPressed: () => context.router.push(
             CreateWorkbookRoute(folder: folder, location: location),
           ),

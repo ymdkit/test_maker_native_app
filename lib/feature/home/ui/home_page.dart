@@ -116,6 +116,7 @@ class HomePage extends HookConsumerWidget {
           failure: (_) => AppErrorContent.serverError(),
         ),
         floatingActionButton: FloatingActionButton(
+          heroTag: 'home',
           onPressed: () => context.router.push(
             CreateWorkbookRoute(
               folder: null,
