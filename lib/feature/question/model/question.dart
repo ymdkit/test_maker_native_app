@@ -1,4 +1,3 @@
-import 'package:dartx/dartx.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
@@ -152,7 +151,7 @@ class Question with _$Question {
         location: AppDataLocation.local,
       );
 
-  List<String> get shuffledChoices {
-    return [...answers, ...wrongChoices].shuffled();
-  }
+  bool get reversible =>
+      questionType == QuestionType.write ||
+      questionType == QuestionType.complete;
 }

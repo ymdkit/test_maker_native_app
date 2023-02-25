@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_question_confirm_content.dart';
@@ -85,8 +86,9 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                         ],
                       ),
                     ),
-                    answering: (question) =>
-                        AnswerQuestionFormContent(question: question),
+                    answering: (question) => AnswerQuestionFormContent(
+                      question: question,
+                    ),
                     reviewing: (question, attemptAnswers) =>
                         AnswerQuestionReviewContent(
                       workbook: workbook,

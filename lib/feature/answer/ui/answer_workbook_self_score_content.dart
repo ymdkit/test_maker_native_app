@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_explanation_section.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
-import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -18,14 +18,14 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
   });
 
   final Workbook workbook;
-  final Question question;
+  final AnsweringQuestion question;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final uiStateNotifier =
         ref.watch(answerWorkbookStateProvider(QuestionsStateKey(
-      location: question.location,
-      workbookId: question.workbookId,
+      location: question.rawQuestion.location,
+      workbookId: question.rawQuestion.workbookId,
     )).notifier);
 
     return Column(
@@ -55,8 +55,8 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
                       child: TextButton.icon(
                         onPressed: () => context.router.push(
                           EditQuestionRoute(
-                            workbookId: question.workbookId,
-                            question: question,
+                            workbookId: question.rawQuestion.workbookId,
+                            question: question.rawQuestion,
                           ),
                         ),
                         icon: const Icon(
@@ -80,7 +80,8 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      uiStateNotifier.updateAnswerStatus(question, true);
+                      await uiStateNotifier.updateAnswerStatus(
+                          question.rawQuestion, true);
                       await uiStateNotifier.forward();
                     },
                     child: const Text('正解'),
@@ -88,7 +89,8 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
                   const SizedBox(height: 16),
                   OutlinedButton(
                     onPressed: () async {
-                      uiStateNotifier.updateAnswerStatus(question, false);
+                      await uiStateNotifier.updateAnswerStatus(
+                          question.rawQuestion, false);
                       await uiStateNotifier.forward();
                     },
                     child: const Text('不正解'),

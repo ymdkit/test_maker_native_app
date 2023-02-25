@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dartx/dartx_io.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
 import 'package:test_maker_native_app/feature/answer/model/question_condition.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
@@ -16,14 +17,17 @@ part 'answer_workbook_state.freezed.dart';
 @freezed
 class AnswerWorkbookState with _$AnswerWorkbookState {
   const factory AnswerWorkbookState.empty() = Empty;
-  const factory AnswerWorkbookState.answering({required Question question}) =
-      Answering;
-  const factory AnswerWorkbookState.confirming({required Question question}) =
-      Confirming;
-  const factory AnswerWorkbookState.selfScoring({required Question question}) =
-      SelfScoring;
+  const factory AnswerWorkbookState.answering({
+    required AnsweringQuestion question,
+  }) = Answering;
+  const factory AnswerWorkbookState.confirming({
+    required AnsweringQuestion question,
+  }) = Confirming;
+  const factory AnswerWorkbookState.selfScoring({
+    required AnsweringQuestion question,
+  }) = SelfScoring;
   const factory AnswerWorkbookState.reviewing({
-    required Question question,
+    required AnsweringQuestion question,
     required List<String> attemptAnswers,
   }) = Reviewing;
   const factory AnswerWorkbookState.idling() = Idling;
@@ -39,6 +43,7 @@ final answerWorkbookStateProvider = StateNotifierProvider.autoDispose.family<
       workbookId: key.workbookId,
       preferences: ref.watch(preferencesStateProvider),
       questionRepository: ref.watch(questionRepositoryProvider(key.location)),
+      answeringQuestionFactory: ref.watch(answeringQuestionFactoryProvider),
       onMutateQuestionStream:
           ref.watch(onMutateQuestionStreamProvider(key.location)),
     );
@@ -50,6 +55,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     required this.workbookId,
     required this.preferences,
     required this.questionRepository,
+    required this.answeringQuestionFactory,
     required StreamController<Question> onMutateQuestionStream,
   }) : super(const AnswerWorkbookState.idling()) {
     onMutateQuestionSubscription =
@@ -61,13 +67,15 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
       state.maybeWhen(
         selfScoring: (selfScoringQuestion) {
           if (selfScoringQuestion.questionId == question.questionId) {
-            state = AnswerWorkbookState.selfScoring(question: question);
+            state = AnswerWorkbookState.selfScoring(
+              question: answeringQuestionFactory.from(question, questions),
+            );
           }
         },
         reviewing: (reviewingQuestion, attemptAnswers) {
           if (reviewingQuestion.questionId == question.questionId) {
             state = AnswerWorkbookState.reviewing(
-              question: question,
+              question: answeringQuestionFactory.from(question, questions),
               attemptAnswers: attemptAnswers,
             );
           }
@@ -84,6 +92,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   final String workbookId;
   final PreferencesState preferences;
   final QuestionRepository questionRepository;
+  final AnsweringQuestionFactory answeringQuestionFactory;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
   int index = 0;
   List<Question> questions = [];
@@ -96,9 +105,13 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
       return;
     }
     if (preferences.isSelfScoring) {
-      state = AnswerWorkbookState.confirming(question: questions[index]);
+      state = AnswerWorkbookState.confirming(
+        question: answeringQuestionFactory.from(questions[index], questions),
+      );
     } else {
-      state = AnswerWorkbookState.answering(question: questions[index]);
+      state = AnswerWorkbookState.answering(
+        question: answeringQuestionFactory.from(questions[index], questions),
+      );
     }
   }
 
@@ -151,7 +164,8 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   }) async {
     if (preferences.isAlwaysShowExplanation) {
       state = AnswerWorkbookState.reviewing(
-          question: questions[index], attemptAnswers: attemptAnswers);
+          question: answeringQuestionFactory.from(questions[index], questions),
+          attemptAnswers: attemptAnswers);
       return;
     }
 
@@ -159,7 +173,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
       await forward();
     } else {
       state = AnswerWorkbookState.reviewing(
-        question: questions[index],
+        question: answeringQuestionFactory.from(questions[index], questions),
         attemptAnswers: attemptAnswers,
       );
     }
@@ -175,9 +189,13 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
       index++;
 
       if (preferences.isSelfScoring) {
-        state = AnswerWorkbookState.confirming(question: questions[index]);
+        state = AnswerWorkbookState.confirming(
+          question: answeringQuestionFactory.from(questions[index], questions),
+        );
       } else {
-        state = AnswerWorkbookState.answering(question: questions[index]);
+        state = AnswerWorkbookState.answering(
+          question: answeringQuestionFactory.from(questions[index], questions),
+        );
       }
     } else {
       await Future<void>.delayed(const Duration(milliseconds: 100));
@@ -185,20 +203,22 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     }
   }
 
-  void confirm() =>
-      state = AnswerWorkbookState.confirming(question: questions[index]);
+  void confirm() => state = AnswerWorkbookState.confirming(
+        question: answeringQuestionFactory.from(questions[index], questions),
+      );
 
-  void selfScore() =>
-      state = AnswerWorkbookState.selfScoring(question: questions[index]);
+  void selfScore() => state = AnswerWorkbookState.selfScoring(
+        question: answeringQuestionFactory.from(questions[index], questions),
+      );
 
   void reset() => _setup();
 
-  void updateAnswerStatus(Question question, bool isCorrect) {
+  Future<void> updateAnswerStatus(Question question, bool isCorrect) async {
     final newQuestion = question.copyWith(
       answerStatus: isCorrect ? AnswerStatus.correct : AnswerStatus.wrong,
       lastAnsweredAt: DateTime.now(),
     );
-    questionRepository.updateQuestion(newQuestion);
+    await questionRepository.updateQuestion(newQuestion);
     questions = questions
         .map((e) => e.questionId == question.questionId ? newQuestion : e)
         .toList();

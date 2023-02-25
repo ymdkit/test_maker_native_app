@@ -2,11 +2,11 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_effect_widget.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_problem_section.dart';
 import 'package:test_maker_native_app/feature/answer/usecase/check_is_correct_use_case.dart';
-import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/widget/app_text_form_field.dart';
@@ -18,7 +18,7 @@ class AnswerQuestionFormContent extends HookConsumerWidget {
     required this.question,
   });
 
-  final Question question;
+  final AnsweringQuestion question;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -101,12 +101,14 @@ class AnswerQuestionFormContent extends HookConsumerWidget {
     ref.read(answerEffectStateProvider.notifier).state = isCorrect;
     ref
         .read(answerWorkbookStateProvider(QuestionsStateKey(
-                location: question.location, workbookId: question.workbookId))
+                location: question.rawQuestion.location,
+                workbookId: question.rawQuestion.workbookId))
             .notifier)
-        .updateAnswerStatus(question, isCorrect);
+        .updateAnswerStatus(question.rawQuestion, isCorrect);
     ref
         .read(answerWorkbookStateProvider(QuestionsStateKey(
-                location: question.location, workbookId: question.workbookId))
+                location: question.rawQuestion.location,
+                workbookId: question.rawQuestion.workbookId))
             .notifier)
         .onAnswered(
           isCorrect: isCorrect,
@@ -140,7 +142,7 @@ class _AnswerCompleteQuestionContent extends HookWidget {
     required this.onChanged,
   });
 
-  final Question question;
+  final AnsweringQuestion question;
   final void Function(List<String>) onChanged;
 
   @override
@@ -178,15 +180,15 @@ class _AnswerSelectCompleteQuestionContent extends HookWidget {
     required this.onChanged,
   });
 
-  final Question question;
+  final AnsweringQuestion question;
   final List<String> value;
   final void Function(List<String>) onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final shuffledChoices = useMemoized(() => question.shuffledChoices);
+    final choices = useMemoized(() => question.choices);
     return SeparatedColumn(
-      children: shuffledChoices
+      children: choices
           .map(
             (text) => CheckboxListTile(
               title: Text(text),
@@ -219,16 +221,13 @@ class _AnswerSelectQuestionContent extends HookWidget {
     required this.onSelected,
   });
 
-  final Question question;
+  final AnsweringQuestion question;
   final void Function(String) onSelected;
 
   @override
   Widget build(BuildContext context) {
-    final shuffledChoices =
-        useMemoized(() => question.shuffledChoices + ['わからない']);
-
     return SeparatedColumn(
-      children: shuffledChoices
+      children: question.choices
           .map(
             (text) => ElevatedButton(
               onPressed: () => onSelected(text),

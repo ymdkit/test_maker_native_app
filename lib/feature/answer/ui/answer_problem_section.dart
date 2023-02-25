@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
 
 class AnswerProblemSection extends StatelessWidget {
   const AnswerProblemSection({
@@ -9,7 +9,7 @@ class AnswerProblemSection extends StatelessWidget {
     required this.question,
   });
 
-  final Question question;
+  final AnsweringQuestion question;
 
   @override
   Widget build(BuildContext context) {
