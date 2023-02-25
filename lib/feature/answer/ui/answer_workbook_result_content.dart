@@ -142,6 +142,22 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                           ),
                         ],
                       ),
+                      Visibility(
+                        visible: !workbook.isOwned,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton.icon(
+                              icon: const Icon(Icons.copy),
+                              onPressed: () {
+                                //TOOD: 問題集の複製
+                              },
+                              label: const Text('問題集を自分用にコピーする'),
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
