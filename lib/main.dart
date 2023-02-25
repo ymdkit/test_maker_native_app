@@ -115,6 +115,9 @@ class MyApp extends HookConsumerWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            listTileTheme: const ListTileThemeData(
+              iconColor: Colors.grey,
+            ),
           ),
       routerDelegate: appRouter.delegate(
         navigatorObservers: () => [
