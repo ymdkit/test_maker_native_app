@@ -109,7 +109,9 @@ class HomePage extends HookConsumerWidget {
                       ),
                     ),
                   ),
-                )
+                ),
+                //NOTE: 末尾の要素が FAB に隠れないようにするためのスペース
+                const AppSliverSpace(height: 64),
               ],
             ),
           ),
