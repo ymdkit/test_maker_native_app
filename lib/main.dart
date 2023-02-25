@@ -12,13 +12,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
+import 'package:test_maker_native_app/feature/group/repository/group_repository.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/setting/utils/shared_preference.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/workbook_repository.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/theme/theme_ext.dart';
 import 'package:test_maker_native_app/utils/package_information.dart';
-import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -133,19 +133,43 @@ class MyApp extends HookConsumerWidget {
         r'(?<=https://testmaker-1cb29\.com/).*|(?<=https://ankimaker\.com/).*');
     final match = regex.stringMatch(link);
 
-    //TODO: グループ用の招待リンク受け取り
-
     if (match != null) {
-      final workbookRepository =
-          ref.read(workbookRepositoryProvider(AppDataLocation.remoteShared));
-      final result = await workbookRepository.getWorkbook(workbookId: match);
+      final parameters = match.split('/');
 
-      result.match(
-        (l) => showAppSnackBar(context, l.message),
-        (r) => appRouter.push(
-          AnswerWorkbookRoute(workbook: r),
-        ),
-      );
+      if (parameters.length == 2 && parameters[0] == 'groups') {
+        final groupId = parameters[1];
+
+        final groupRepository = ref.read(groupRepositoryProvider);
+        final result = await groupRepository
+            .getGroup(groupId)
+            .flatMap(groupRepository.joinGroup)
+            .run();
+
+        //TODO: 未ログインやグループが存在しない場合のエラー出し分け
+        await result.match(
+          (l) {},
+          (r) => appRouter.push(
+            const RootRoute(children: [
+              GroupTabRoute(
+                children: [
+                  GroupListRoute(),
+                ],
+              ),
+            ]),
+          ),
+        );
+      } else {
+        final workbookRepository =
+            ref.read(workbookRepositoryProvider(AppDataLocation.remoteShared));
+        final result = await workbookRepository.getWorkbook(workbookId: match);
+
+        await result.match(
+          (l) {},
+          (r) => appRouter.push(
+            AnswerWorkbookRoute(workbook: r),
+          ),
+        );
+      }
     }
   }
 }

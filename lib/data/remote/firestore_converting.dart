@@ -11,7 +11,7 @@ import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 
 //TODO: テスト書く
 Group documentToGroup(
-  String userId,
+  String? userId,
   DocumentSnapshot document,
 ) {
   final data = document.data() as Map<String, dynamic>?;
@@ -22,7 +22,9 @@ Group documentToGroup(
       color: AppThemeColor.fromIndex(data.getOrElse('color', () => 0) as int),
       ownerId: data['userId'] as String,
       isOwned: data['userId'] == userId,
-      createdAt: (data['createdAt'] as Timestamp).toDate(),
+      createdAt:
+          (data.getOrElse('createdAt', () => Timestamp.now()) as Timestamp)
+              .toDate(),
     );
   } else {
     return Group.empty();
@@ -32,7 +34,7 @@ Group documentToGroup(
 Folder documentToFolder(
   String userId,
   DocumentSnapshot document,
-){
+) {
   final data = document.data() as Map<String, dynamic>?;
   if (data != null) {
     return Folder(

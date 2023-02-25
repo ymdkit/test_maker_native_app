@@ -65,6 +65,17 @@ class GroupRepository {
     }
   }
 
+  TaskEither<AppException, Group> getGroup(String groupId) {
+    return TaskEither.tryCatch(
+      () async {
+        final userId = auth.currentUser?.uid;
+        final group = await db.collection('groups').doc(groupId).get();
+        return documentToGroup(userId, group);
+      },
+      (e, stack) => AppException.fromRawException(e: e),
+    );
+  }
+
   Future<Either<AppException, void>> updateGroup(Group group) async {
     try {
       final userId = auth.currentUser?.uid;
@@ -134,9 +145,14 @@ class GroupRepository {
 
   TaskEither<AppException, Group> joinGroup(Group group) => TaskEither.tryCatch(
         () async {
-          final userId = auth.currentUser!.uid;
+          final userId = auth.currentUser?.uid;
+
+          if (userId == null) {
+            throw const AppException();
+          }
+
           final ref = db.collection('users').doc(userId).collection('groups');
-          final doc = await ref.add(
+          await ref.doc(group.groupId).set(
             {
               'id': ref.id,
               'name': group.title,
@@ -144,7 +160,7 @@ class GroupRepository {
               'userId': userId,
             },
           );
-          return documentToGroup(userId, await doc.get());
+          return group;
         },
         (e, _) => AppException.fromRawException(e: e),
       );
