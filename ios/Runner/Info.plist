@@ -48,9 +48,9 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>撮影した画像を問題に添付します</string>
+	<string>Take a picture to attach to the question.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>取得した画像を問題に添付します</string>
+	<string>Get an image to attach to the question.</string>
 	<key>GADApplicationIdentifier</key>
 	<string>$(adMobIOSAppId)</string>
 	<key>SKAdNetworkItems</key>
@@ -268,6 +268,6 @@
 		</dict>
 	</array>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>ユーザの利用状況に合わせた広告を配信するために利用します。</string>
+	<string>We use this information to deliver advertisements tailored to the user's usage.</string>
 </dict>
 </plist>
