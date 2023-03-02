@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
 
@@ -49,27 +51,51 @@ class _PickImageSheet extends HookWidget {
                 leading: const Icon(Icons.camera_alt),
                 title: const Text('カメラで撮影'),
                 onTap: () async {
+                  try {
+                    final filePath = await _pickImage(
+                      source: ImageSource.camera,
+                    );
+                    if (isMounted()) {
+                      // ignore: use_build_context_synchronously
+                      await sheetContext.router.pop();
+                    }
+                    onPicked(filePath);
+                  } on PlatformException catch (e) {
+                    if (e.code == 'camera_access_denied') {
+                      await showAlertDialog(
+                        context: sheetContext,
+                        title: '権限エラー',
+                        content: 'カメラへのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
+                        positiveButtonText: '許可する',
+                        onPositive: () => openAppSettings(),
+                      );
+                    }
+                  }
+                }),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('ライブラリから選択'),
+              onTap: () async {
+                try {
                   final filePath = await _pickImage(
-                    source: ImageSource.camera,
+                    source: ImageSource.gallery,
                   );
                   if (isMounted()) {
                     // ignore: use_build_context_synchronously
                     await sheetContext.router.pop();
                   }
                   onPicked(filePath);
-                }),
-            ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text('ライブラリから選択'),
-              onTap: () async {
-                final filePath = await _pickImage(
-                  source: ImageSource.gallery,
-                );
-                if (isMounted()) {
-                  // ignore: use_build_context_synchronously
-                  await sheetContext.router.pop();
+                } on PlatformException catch (e) {
+                  if (e.code == 'photo_access_denied') {
+                    await showAlertDialog(
+                      context: sheetContext,
+                      title: '権限エラー',
+                      content: '端末内の画像へのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
+                      positiveButtonText: '許可する',
+                      onPositive: () => openAppSettings(),
+                    );
+                  }
                 }
-                onPicked(filePath);
               },
             ),
             ListTile(

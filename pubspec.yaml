@@ -37,6 +37,7 @@ dependencies:
   in_app_review: ^2.0.6
   package_info: ^2.0.2
   path_provider: ^2.0.12
+  permission_handler: ^10.2.0
   realm: ^0.9.0+rc
   riverpod_annotation: ^1.2.1
   shared_preferences: ^2.0.17
