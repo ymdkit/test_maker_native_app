@@ -7,3 +7,4 @@
 NSCameraUsageDescription = "撮影した画像を問題に添付します";
 NSPhotoLibraryUsageDescription = "取得した画像を問題に添付します";
 NSUserTrackingUsageDescription = "ユーザの利用状況に合わせた広告を配信するために利用します。";
+CFBundleDisplayName = "暗記メーカー";

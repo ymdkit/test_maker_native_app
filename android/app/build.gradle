@@ -62,7 +62,6 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         applicationIdSuffix appIdSuffix
-        resValue "string", "app_name", appName
         resValue "string", "admob_app_name", adMobAndroidAppId
     }
 
