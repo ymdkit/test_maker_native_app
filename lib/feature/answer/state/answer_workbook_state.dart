@@ -121,7 +121,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
 
   Future<void> _setupQuestions() async {
     //TODO: テスト書く
-    final result = await questionRepository.getQuestions(workbookId);
+    final result = await questionRepository.getQuestions(workbookId).run();
 
     result.match(
       //TODO: 問題の読み込みに失敗した場合に、 UI へエラーを伝搬する

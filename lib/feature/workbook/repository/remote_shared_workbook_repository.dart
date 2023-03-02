@@ -14,13 +14,12 @@ class RemoteSharedWorkbookRepository implements WorkbookRepository {
   final FirebaseFirestore remoteDB;
 
   @override
-  Future<Either<AppException, Workbook>> addWorkbook({
+  TaskEither<AppException, Workbook> addWorkbook({
     required String title,
     required AppThemeColor color,
     required String? folderId,
-  }) async {
-    return Right(Workbook.empty());
-  }
+  }) =>
+      TaskEither.right(Workbook.empty());
 
   @override
   Future<Either<AppException, List<Workbook>>> getWorkbooks({
@@ -56,9 +55,8 @@ class RemoteSharedWorkbookRepository implements WorkbookRepository {
   }
 
   @override
-  Future<Either<AppException, void>> deleteWorkbook(Workbook workbook) async {
-    return const Right(null);
-  }
+  TaskEither<AppException, void> deleteWorkbook(Workbook workbook) =>
+      TaskEither.right(null);
 
   @override
   Future<Either<AppException, void>> destroyWorkbooks(

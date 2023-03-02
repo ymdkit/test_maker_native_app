@@ -20,51 +20,50 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
   final FirebaseFirestore remoteDB;
 
   @override
-  Future<Either<AppException, Workbook>> addWorkbook({
+  TaskEither<AppException, Workbook> addWorkbook({
     required String title,
     required AppThemeColor color,
     required String? folderId,
-  }) async {
-    return TaskEither.tryCatch(
-      () async {
-        final user = auth.currentUser!;
-        final workbookId = Uuid.v4().toString();
-        final workbook = Workbook(
-          workbookId: workbookId,
-          title: title,
-          color: color,
-          folderId: folderId,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-          order: -1,
-          location: AppDataLocation.remoteOwned,
-          questionCount: 0,
-        );
-        await remoteDB.collection('tests').doc(workbookId).set({
-          'documentId': workbookId,
-          'groupId': '',
-          'folderId': folderId ?? '',
-          'name': workbook.title,
-          'color': workbook.color.index,
-          'size': workbook.questionCount,
-          'created_at': Timestamp.now(),
-          'updated_at': Timestamp.now(),
-          'order': workbook.order,
-          'userId': user.uid,
-          'userName': user.displayName,
-          //TODO: 動的に設定する
-          'public': false,
-        }).then((value) => workbook);
+  }) =>
+      TaskEither.tryCatch(
+        () async {
+          final user = auth.currentUser!;
+          final workbookId = Uuid.v4().toString();
+          final workbook = Workbook(
+            workbookId: workbookId,
+            title: title,
+            color: color,
+            folderId: folderId,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+            order: -1,
+            location: AppDataLocation.remoteOwned,
+            questionCount: 0,
+          );
+          await remoteDB.collection('tests').doc(workbookId).set({
+            'documentId': workbookId,
+            'groupId': '',
+            'folderId': folderId ?? '',
+            'name': workbook.title,
+            'color': workbook.color.index,
+            'size': workbook.questionCount,
+            'created_at': Timestamp.now(),
+            'updated_at': Timestamp.now(),
+            'order': workbook.order,
+            'userId': user.uid,
+            'userName': user.displayName,
+            //TODO: 動的に設定する
+            'public': false,
+          }).then((value) => workbook);
 
-        if (folderId != null) {
-          await _updateFolderCount(folderId: folderId, userId: user.uid);
-        }
+          if (folderId != null) {
+            await _updateFolderCount(folderId: folderId, userId: user.uid);
+          }
 
-        return Future.value(workbook);
-      },
-      (e, stack) => AppException.fromRawException(e: e),
-    ).run();
-  }
+          return Future.value(workbook);
+        },
+        (e, stack) => AppException.fromRawException(e: e),
+      );
 
   @override
   Future<Either<AppException, List<Workbook>>> getWorkbooks({
@@ -164,25 +163,24 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
   }
 
   @override
-  Future<Either<AppException, void>> deleteWorkbook(Workbook workbook) async {
-    return TaskEither.tryCatch(
-      () async {
-        final user = auth.currentUser!;
-        await remoteDB.collection('tests').doc(workbook.workbookId).update({
-          'deleted': true,
-          'userId': user.uid,
-          'userName': user.displayName,
-          'updatedAt': Timestamp.now(),
-        });
+  TaskEither<AppException, void> deleteWorkbook(Workbook workbook) =>
+      TaskEither.tryCatch(
+        () async {
+          final user = auth.currentUser!;
+          await remoteDB.collection('tests').doc(workbook.workbookId).update({
+            'deleted': true,
+            'userId': user.uid,
+            'userName': user.displayName,
+            'updatedAt': Timestamp.now(),
+          });
 
-        if (workbook.folderId != null) {
-          await _updateFolderCount(
-              folderId: workbook.folderId!, userId: user.uid);
-        }
-      },
-      (e, stack) => AppException.fromRawException(e: e),
-    ).run();
-  }
+          if (workbook.folderId != null) {
+            await _updateFolderCount(
+                folderId: workbook.folderId!, userId: user.uid);
+          }
+        },
+        (e, stack) => AppException.fromRawException(e: e),
+      );
 
   @override
   Future<Either<AppException, void>> destroyWorkbooks(

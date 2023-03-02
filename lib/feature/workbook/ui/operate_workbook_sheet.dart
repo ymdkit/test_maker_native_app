@@ -2,12 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
+import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/answer/ui/answer_workbook_setting_sheet.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
+import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
+import 'package:test_maker_native_app/utils/app_exception.dart';
 import 'package:test_maker_native_app/utils/dynamic_link_creator.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
@@ -124,19 +129,53 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
               title: const Text('共有する'),
               onTap: () async {
                 if (workbook.location == AppDataLocation.local) {
-                  //TODO: アップロードの動線を作る
-                  await context.router.pop();
-                  return;
-                } else {
-                  final result =
-                      await DynamicLinkCreator.create(workbook.workbookId)
-                          .run();
+                  {
+                    await showAlertDialog(
+                      context: context,
+                      title: '共有エラー',
+                      content: 'クラウド上にアップロードされていない問題集は共有できません。問題集をアップロードしてください',
+                      positiveButtonText: 'アップロードする',
+                      onPositive: () {
+                        ref.read(accountStateProvider).maybeWhen(
+                          authenticated: (user) async {
+                            final notifier = ref.read(
+                              workbooksProvider(
+                                WorkbooksStateKey.from(workbook),
+                              ).notifier,
+                            );
 
-                  result.match((l) => showAppSnackBar(context, l.message), (r) {
-                    Clipboard.setData(ClipboardData(text: r));
-                    showAppSnackBar(context, '共有用のリンクをコピーしました');
-                    context.router.pop();
-                  });
+                            final transferWorkbookResult =
+                                await notifier.transferWorkbook(
+                              sourceWorkbook: workbook,
+                              destination: AppDataLocation.remoteOwned,
+                            );
+
+                            transferWorkbookResult.match(
+                              (l) => showAppSnackBar(
+                                  context, l.rawException.toString()),
+                              (r) async {
+                                final result =
+                                    // ignore: use_build_context_synchronously
+                                    await _createAndCopyWorkbookLink(context);
+                                // ignore: use_build_context_synchronously
+                                result.isRight() && await context.router.pop();
+                              },
+                            );
+                          },
+                          orElse: () {
+                            context.router.push(
+                              const SignInRoute(),
+                            );
+                          },
+                        );
+                      },
+                    );
+                    return;
+                  }
+                } else {
+                  final result = await _createAndCopyWorkbookLink(context);
+                  // ignore: use_build_context_synchronously
+                  result.isRight() && await context.router.pop();
                 }
               },
             ),
@@ -144,5 +183,16 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<Either<AppException, String>> _createAndCopyWorkbookLink(
+      BuildContext context) async {
+    final result = await DynamicLinkCreator.create(workbook.workbookId).run();
+
+    result.match((l) => showAppSnackBar(context, l.message), (r) {
+      Clipboard.setData(ClipboardData(text: r));
+      showAppSnackBar(context, '共有リンクをコピーしました');
+    });
+    return result;
   }
 }

@@ -6,6 +6,7 @@ import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
@@ -21,6 +22,7 @@ final workbooksProvider = StateNotifierProvider.autoDispose
   (ref, key) {
     final _ = ref.watch(accountStateProvider);
     return WorkbooksStateNotifier(
+      ref: ref,
       folderId: key.folderId,
       workbookRepository: ref.watch(workbookRepositoryProvider(key.location)),
       onMutateWorkbookStream:
@@ -35,6 +37,7 @@ final workbooksProvider = StateNotifierProvider.autoDispose
 
 class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   WorkbooksStateNotifier({
+    required this.ref,
     required this.folderId,
     required this.workbookRepository,
     required this.onMutateWorkbookStream,
@@ -51,6 +54,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
     );
   }
 
+  final Ref ref;
   final String? folderId;
   final WorkbookRepository workbookRepository;
   final StreamController<Workbook> onMutateWorkbookStream;
@@ -73,11 +77,13 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
     required AppThemeColor color,
     required String? folderId,
   }) async {
-    final result = await workbookRepository.addWorkbook(
-      title: title,
-      color: color,
-      folderId: folderId,
-    );
+    final result = await workbookRepository
+        .addWorkbook(
+          title: title,
+          color: color,
+          folderId: folderId,
+        )
+        .run();
 
     return result.match(
       (l) => left(l),
@@ -135,7 +141,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   }
 
   Future<Either<AppException, void>> deleteWorkbook(Workbook workbook) async {
-    final result = await workbookRepository.deleteWorkbook(workbook);
+    final result = await workbookRepository.deleteWorkbook(workbook).run();
     return result.match(
       (l) => left(l),
       (r) {
@@ -154,6 +160,60 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
         return right(r);
       },
     );
+  }
+
+  Future<Either<AppException, void>> transferWorkbook({
+    required Workbook sourceWorkbook,
+    required AppDataLocation destination,
+  }) async {
+    final destWorkbookRepository = ref.read(
+      workbookRepositoryProvider(destination),
+    );
+    final destQuestionRepository = ref.read(
+      questionRepositoryProvider(destination),
+    );
+    final sourceQuestionRepository = ref.read(
+      questionRepositoryProvider(sourceWorkbook.location),
+    );
+
+    return destWorkbookRepository
+        .addWorkbook(
+          title: sourceWorkbook.title,
+          color: sourceWorkbook.color,
+          folderId: null,
+        )
+        .flatMap(
+          (destWorkbook) => sourceQuestionRepository
+              .getQuestions(sourceWorkbook.workbookId)
+              .flatMap(
+                (r) => TaskEither.right(
+                  r
+                      .map(
+                        (e) => e.copyWith(
+                          workbookId: destWorkbook.workbookId,
+                          location: destination,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+        )
+        .flatMap(
+          (r) => destQuestionRepository.addQuestions(r),
+        )
+        .flatMap(
+      (r) {
+        ref
+            .read(
+              workbooksProvider(
+                      WorkbooksStateKey(location: destination, folderId: null))
+                  .notifier,
+            )
+            .setupWorkbooks();
+
+        return TaskEither.right(r);
+      },
+    ).run();
   }
 
   Future<void> _syncWorkbook(String workbookId) async {

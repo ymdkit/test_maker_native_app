@@ -33,7 +33,7 @@ final workbookRepositoryProvider =
 });
 
 abstract class WorkbookRepository {
-  Future<Either<AppException, Workbook>> addWorkbook({
+  TaskEither<AppException, Workbook> addWorkbook({
     required String title,
     required AppThemeColor color,
     required String? folderId,
@@ -51,7 +51,7 @@ abstract class WorkbookRepository {
 
   Future<Either<AppException, void>> updateWorkbook(Workbook workbook);
 
-  Future<Either<AppException, void>> deleteWorkbook(Workbook workbook);
+  TaskEither<AppException, void> deleteWorkbook(Workbook workbook);
 
   Future<Either<AppException, void>> destroyWorkbooks(List<Workbook> workbooks);
 

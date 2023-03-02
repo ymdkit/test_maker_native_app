@@ -53,7 +53,7 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
 
   Future<void> setupQuestions(String query) async {
     state = const QuestionsState.loading();
-    final result = await questionRepository.getQuestions(workbookId);
+    final result = await questionRepository.getQuestions(workbookId).run();
     result.match(
       (l) => state = QuestionsState.failure(exception: l),
       (r) => state = QuestionsState.success(

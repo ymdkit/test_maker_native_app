@@ -23,34 +23,38 @@ class LocalWorkbookRepository implements WorkbookRepository {
   final FirebaseAuth auth;
 
   @override
-  Future<Either<AppException, Workbook>> addWorkbook({
+  TaskEither<AppException, Workbook> addWorkbook({
     required String title,
     required AppThemeColor color,
     required String? folderId,
-  }) async {
-    final newOrder =
-        (localDB.all<RealmWorkbook>().maxBy((e) => e.order)?.order ?? 0) + 1;
+  }) =>
+      TaskEither.tryCatch(
+        () async {
+          final newOrder =
+              (localDB.all<RealmWorkbook>().maxBy((e) => e.order)?.order ?? 0) +
+                  1;
 
-    final workbook = Workbook(
-      workbookId: Uuid.v4().toString(),
-      title: title,
-      order: newOrder,
-      color: color,
-      folderId: folderId,
-      questionCount: 0,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      location: AppDataLocation.local,
-    );
+          final workbook = Workbook(
+            workbookId: Uuid.v4().toString(),
+            title: title,
+            order: newOrder,
+            color: color,
+            folderId: folderId,
+            questionCount: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+            location: AppDataLocation.local,
+          );
 
-    localDB.write(() {
-      localDB.add<RealmWorkbook>(
-        RealmWorkbookConverting.fromWorkbook(workbook),
+          localDB.write(() {
+            localDB.add<RealmWorkbook>(
+              RealmWorkbookConverting.fromWorkbook(workbook),
+            );
+          });
+          return workbook;
+        },
+        (e, _) => AppException.fromRawException(e: e),
       );
-    });
-
-    return Right(workbook);
-  }
 
   @override
   Future<Either<AppException, List<Workbook>>> getWorkbooks({
@@ -126,15 +130,18 @@ class LocalWorkbookRepository implements WorkbookRepository {
   }
 
   @override
-  Future<Either<AppException, void>> deleteWorkbook(Workbook workbook) async {
-    localDB.write(() {
-      localDB.add<RealmWorkbook>(
-        RealmWorkbookConverting.fromWorkbook(workbook)..isDeleted = true,
-        update: true,
+  TaskEither<AppException, void> deleteWorkbook(Workbook workbook) =>
+      TaskEither.tryCatch(
+        () async {
+          localDB.write(() {
+            localDB.add<RealmWorkbook>(
+              RealmWorkbookConverting.fromWorkbook(workbook)..isDeleted = true,
+              update: true,
+            );
+          });
+        },
+        (e, _) => AppException.fromRawException(e: e),
       );
-    });
-    return const Right(null);
-  }
 
   @override
   Future<Either<AppException, void>> destroyWorkbooks(

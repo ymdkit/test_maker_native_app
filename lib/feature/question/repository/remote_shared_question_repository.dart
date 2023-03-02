@@ -36,28 +36,27 @@ class RemoteSharedQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Either<AppException, List<Question>>> getQuestions(
+  TaskEither<AppException, List<Question>> getQuestions(
     String workbookId,
-  ) async {
-    return TaskEither.tryCatch(
-      () async {
-        return remoteDB
-            .collection('tests')
-            .doc(workbookId)
-            .collection('questions')
-            .where('deleted', isEqualTo: null)
-            .get()
-            .then((value) => value.docs
-                .map((e) => documentToQuestion(
-                      isOwned: false,
-                      workbookId: workbookId,
-                      document: e,
-                    ))
-                .toList());
-      },
-      (e, stack) => AppException.fromRawException(e: e),
-    ).run();
-  }
+  ) =>
+      TaskEither.tryCatch(
+        () async {
+          return remoteDB
+              .collection('tests')
+              .doc(workbookId)
+              .collection('questions')
+              .where('deleted', isEqualTo: null)
+              .get()
+              .then((value) => value.docs
+                  .map((e) => documentToQuestion(
+                        isOwned: false,
+                        workbookId: workbookId,
+                        document: e,
+                      ))
+                  .toList());
+        },
+        (e, stack) => AppException.fromRawException(e: e),
+      );
 
   @override
   Future<Either<AppException, List<Question>>> getDeletedQuestions() async {

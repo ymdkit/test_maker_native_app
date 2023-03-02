@@ -133,10 +133,9 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Either<AppException, List<Question>>> getQuestions(
+  TaskEither<AppException, List<Question>> getQuestions(
     String workbookId,
-  ) async {
-    return TaskEither.tryCatch(
+  ) => TaskEither.tryCatch(
       () async {
         return remoteDB
             .collection('tests')
@@ -154,8 +153,7 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
                 .toList());
       },
       (e, stack) => AppException.fromRawException(e: e),
-    ).run();
-  }
+    );
 
   @override
   Future<Either<AppException, List<Question>>> getDeletedQuestions() async {

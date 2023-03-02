@@ -46,7 +46,7 @@ abstract class QuestionRepository {
     List<Question> questions,
   );
 
-  Future<Either<AppException, List<Question>>> getQuestions(
+  TaskEither<AppException, List<Question>> getQuestions(
     String workbookId,
   );
 

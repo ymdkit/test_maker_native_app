@@ -81,16 +81,20 @@ class LocalQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Either<AppException, List<Question>>> getQuestions(
+  TaskEither<AppException, List<Question>> getQuestions(
     String workbookId,
-  ) async {
-    return Right(localDB
-        .all<RealmQuestion>()
-        .where((e) => e.workbookId == workbookId)
-        .where((e) => e.isDeleted != true)
-        .map((e) => e.toQuestion())
-        .toList());
-  }
+  ) =>
+      TaskEither.tryCatch(
+        () async {
+          return localDB
+              .all<RealmQuestion>()
+              .where((e) => e.workbookId == workbookId)
+              .where((e) => e.isDeleted != true)
+              .map((e) => e.toQuestion())
+              .toList();
+        },
+        (e, s) => AppException.fromRawException(e: e),
+      );
 
   @override
   Future<Either<AppException, List<Question>>> getDeletedQuestions() async {
@@ -130,8 +134,7 @@ class LocalQuestionRepository implements QuestionRepository {
   }
 
   @override
-  TaskEither<AppException, void> deleteQuestions(
-      List<Question> questions) {
+  TaskEither<AppException, void> deleteQuestions(List<Question> questions) {
     return TaskEither.tryCatch(
       () => localDB.write(
         () async {
