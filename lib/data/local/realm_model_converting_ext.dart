@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:test_maker_native_app/data/local/realm_schema.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
+import 'package:test_maker_native_app/feature/record/model/answer_history.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 
 extension RealmQuestionConverting on RealmQuestion {
@@ -51,6 +52,18 @@ extension RealmFolderConverting on RealmFolder {
       folder.color.index,
       folder.createdAt,
       folder.updatedAt,
+    );
+  }
+}
+
+extension RealmAnswerHistoryConverting on RealmAnswerHistory {
+  static RealmAnswerHistory fromAnswerHistory(AnswerHistory answerHistory) {
+    return RealmAnswerHistory(
+      answerHistory.answerHistoryId,
+      answerHistory.questionId,
+      answerHistory.workbookId,
+      answerHistory.isCorrect,
+      answerHistory.createdAt,
     );
   }
 }

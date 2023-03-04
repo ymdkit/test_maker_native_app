@@ -6,6 +6,7 @@ import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/feature/question/model/answer_status.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
+import 'package:test_maker_native_app/feature/record/model/answer_history.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/utils/app_image.dart';
 
@@ -117,6 +118,28 @@ class _RealmFolder {
       createdAt: createdAt,
       updatedAt: updatedAt,
       location: AppDataLocation.local,
+    );
+  }
+}
+
+@RealmModel()
+@MapTo('RealmAnswerHistory')
+class _RealmAnswerHistory {
+   @PrimaryKey()
+  late String answerHistoryId;
+
+  late String questionId;
+  late String workbookId;
+  late bool isCorrect;
+  late DateTime createdAt;
+
+  AnswerHistory toAnswerHistory() {
+    return AnswerHistory(
+      answerHistoryId: answerHistoryId,
+      questionId: questionId,
+      workbookId: workbookId,
+      isCorrect: isCorrect,
+      createdAt: createdAt,
     );
   }
 }

@@ -14,6 +14,7 @@ final realmProvider = Provider(
         RealmQuestion.schema,
         RealmWorkbook.schema,
         RealmFolder.schema,
+        RealmAnswerHistory.schema,
       ],
       schemaVersion: 23,
       migrationCallback: (migration, oldSchemaVersion) {
@@ -21,6 +22,7 @@ final realmProvider = Provider(
           if (Platform.isIOS) {
             _migrateIOSFolders(migration);
             _migrateIOSWorkbooks(migration);
+            _migrateIOSAnswerHistories(migration);
           } else if (Platform.isAndroid) {
             _migrateAndroidFolders(migration);
             _migrateAndroidWorkbooks(migration);
@@ -81,6 +83,23 @@ void _migrateIOSWorkbooks(Migration migration) {
         newWorkbook.workbookId,
         oldQuestions,
       );
+    }
+  }
+}
+
+void _migrateIOSAnswerHistories(Migration migration) {
+  final oldAnswerHistories = migration.oldRealm.all('RealmAnswerHistory');
+  for (final oldAnswerHistory in oldAnswerHistories) {
+    final newAnswerHistory =
+        migration.findInNewRealm<RealmAnswerHistory>(oldAnswerHistory);
+
+    if (newAnswerHistory != null) {
+      newAnswerHistory
+        ..answerHistoryId = oldAnswerHistory.dynamic.get<String>('id')
+        ..workbookId = oldAnswerHistory.dynamic.get<String>('workbookId')
+        ..questionId = oldAnswerHistory.dynamic.get<String>('questionId')
+        ..createdAt = DateTime.now()
+        ..isCorrect = oldAnswerHistory.dynamic.get<bool>('isCorrect');
     }
   }
 }

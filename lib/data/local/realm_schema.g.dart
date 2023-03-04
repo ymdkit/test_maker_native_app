@@ -389,3 +389,78 @@ class RealmFolder extends _RealmFolder
     ]);
   }
 }
+
+class RealmAnswerHistory extends _RealmAnswerHistory
+    with RealmEntity, RealmObjectBase, RealmObject {
+  RealmAnswerHistory(
+    String answerHistoryId,
+    String questionId,
+    String workbookId,
+    bool isCorrect,
+    DateTime createdAt,
+  ) {
+    RealmObjectBase.set(this, 'answerHistoryId', answerHistoryId);
+    RealmObjectBase.set(this, 'questionId', questionId);
+    RealmObjectBase.set(this, 'workbookId', workbookId);
+    RealmObjectBase.set(this, 'isCorrect', isCorrect);
+    RealmObjectBase.set(this, 'createdAt', createdAt);
+  }
+
+  RealmAnswerHistory._();
+
+  @override
+  String get answerHistoryId =>
+      RealmObjectBase.get<String>(this, 'answerHistoryId') as String;
+  @override
+  set answerHistoryId(String value) =>
+      RealmObjectBase.set(this, 'answerHistoryId', value);
+
+  @override
+  String get questionId =>
+      RealmObjectBase.get<String>(this, 'questionId') as String;
+  @override
+  set questionId(String value) =>
+      RealmObjectBase.set(this, 'questionId', value);
+
+  @override
+  String get workbookId =>
+      RealmObjectBase.get<String>(this, 'workbookId') as String;
+  @override
+  set workbookId(String value) =>
+      RealmObjectBase.set(this, 'workbookId', value);
+
+  @override
+  bool get isCorrect => RealmObjectBase.get<bool>(this, 'isCorrect') as bool;
+  @override
+  set isCorrect(bool value) => RealmObjectBase.set(this, 'isCorrect', value);
+
+  @override
+  DateTime get createdAt =>
+      RealmObjectBase.get<DateTime>(this, 'createdAt') as DateTime;
+  @override
+  set createdAt(DateTime value) =>
+      RealmObjectBase.set(this, 'createdAt', value);
+
+  @override
+  Stream<RealmObjectChanges<RealmAnswerHistory>> get changes =>
+      RealmObjectBase.getChanges<RealmAnswerHistory>(this);
+
+  @override
+  RealmAnswerHistory freeze() =>
+      RealmObjectBase.freezeObject<RealmAnswerHistory>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(RealmAnswerHistory._);
+    return const SchemaObject(
+        ObjectType.realmObject, RealmAnswerHistory, 'RealmAnswerHistory', [
+      SchemaProperty('answerHistoryId', RealmPropertyType.string,
+          primaryKey: true),
+      SchemaProperty('questionId', RealmPropertyType.string),
+      SchemaProperty('workbookId', RealmPropertyType.string),
+      SchemaProperty('isCorrect', RealmPropertyType.bool),
+      SchemaProperty('createdAt', RealmPropertyType.timestamp),
+    ]);
+  }
+}
