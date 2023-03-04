@@ -10,6 +10,7 @@ import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
+import 'package:test_maker_native_app/feature/record/repository/answer_history_repository.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/setting/utils/shared_preference.dart';
 
@@ -44,6 +45,7 @@ final answerWorkbookStateProvider = StateNotifierProvider.autoDispose.family<
       workbookId: key.workbookId,
       preferences: ref.watch(preferencesStateProvider),
       questionRepository: ref.watch(questionRepositoryProvider(key.location)),
+      answerHistoryRepository: ref.watch(answerHistoryRepositoryProvider),
       ref: ref,
       answeringQuestionFactory: ref.watch(answeringQuestionFactoryProvider),
       onMutateQuestionStream:
@@ -57,6 +59,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     required this.workbookId,
     required this.preferences,
     required this.questionRepository,
+    required this.answerHistoryRepository,
     required this.ref,
     required this.answeringQuestionFactory,
     required StreamController<Question> onMutateQuestionStream,
@@ -95,6 +98,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   final String workbookId;
   final PreferencesState preferences;
   final QuestionRepository questionRepository;
+  final AnswerHistoryRepository answerHistoryRepository;
   final AnsweringQuestionFactory answeringQuestionFactory;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
   final Ref ref;
@@ -236,6 +240,15 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
       lastAnsweredAt: DateTime.now(),
     );
     await questionRepository.updateQuestion(newQuestion);
+
+    await answerHistoryRepository
+        .addAnswerHistory(
+          workbookId: newQuestion.workbookId,
+          questionId: newQuestion.questionId,
+          isCorrect: isCorrect,
+        )
+        .run();
+
     questions = questions
         .map((e) => e.questionId == question.questionId ? newQuestion : e)
         .toList();

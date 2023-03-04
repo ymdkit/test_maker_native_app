@@ -4,7 +4,7 @@ import 'package:test_maker_native_app/feature/record/repository/answer_history_r
 
 final answerHistoriesProvider =
     FutureProvider.autoDispose<List<AnswerHistory>>((ref) async {
-  final repository = ref.watch(answerHistoriesRepositoryProvider);
+  final repository = ref.watch(answerHistoryRepositoryProvider);
   final answerHistories = await repository.getAnswerHistories().run();
 
   return answerHistories.match(

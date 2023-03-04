@@ -18,16 +18,19 @@ class RecordPage extends HookConsumerWidget {
           title: const Text('学習記録'),
         ),
         body: answerHistories.when(
-          data: (answerHistories) => ListView.builder(
-            itemCount: answerHistories.length,
-            itemBuilder: (context, index) {
-              final answerHistory = answerHistories[index];
-              return ListTile(
-                title: Text(answerHistory.questionId),
-                subtitle: Text(answerHistory.answerHistoryId),
-                trailing: Text(answerHistory.isCorrect ? '正解' : '不正解'),
-              );
-            },
+          data: (answerHistories) => RefreshIndicator(
+            onRefresh: () async => ref.refresh(answerHistoriesProvider),
+            child: ListView.builder(
+              itemCount: answerHistories.length,
+              itemBuilder: (context, index) {
+                final answerHistory = answerHistories[index];
+                return ListTile(
+                  title: Text(answerHistory.questionId),
+                  subtitle: Text(answerHistory.answerHistoryId),
+                  trailing: Text(answerHistory.isCorrect ? '正解' : '不正解'),
+                );
+              },
+            ),
           ),
           error: (error, stackTrace) => Center(
             child: AppErrorContent.serverError(),

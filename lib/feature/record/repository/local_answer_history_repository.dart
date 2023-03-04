@@ -14,15 +14,27 @@ class LocalAnswerHistoryRepository implements AnswerHistoryRepository {
   final Realm localDB;
 
   @override
-  TaskEither<AppException, AnswerHistory> addAnswerHistory(
-          AnswerHistory answerHistory) =>
+  TaskEither<AppException, AnswerHistory> addAnswerHistory({
+    required String workbookId,
+    required String questionId,
+    required bool isCorrect,
+  }) =>
       TaskEither.tryCatch(
         () async {
+          final nerAnswerHistory = AnswerHistory(
+            answerHistoryId: Uuid.v4().toString(),
+            workbookId: workbookId,
+            questionId: questionId,
+            isCorrect: isCorrect,
+            createdAt: DateTime.now(),
+          );
+
           localDB.write(() {
             localDB.add<RealmAnswerHistory>(
-                RealmAnswerHistoryConverting.fromAnswerHistory(answerHistory));
+                RealmAnswerHistoryConverting.fromAnswerHistory(
+                    nerAnswerHistory));
           });
-          return answerHistory;
+          return nerAnswerHistory;
         },
         (e, _) => AppException.fromRawException(e: e),
       );
