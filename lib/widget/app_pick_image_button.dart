@@ -1,33 +1,37 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
+import 'package:test_maker_native_app/widget/app_image_content.dart';
 import 'package:test_maker_native_app/widget/pick_image_sheet.dart';
 
 class AppPickImageButton extends StatelessWidget {
   const AppPickImageButton({
     super.key,
-    required this.imageUrl,
+    required this.image,
     required this.onPicked,
+    required this.location,
   });
 
-  final String? imageUrl;
-  final ValueChanged<String?> onPicked;
+  final AppImage image;
+  final ValueChanged<AppImage> onPicked;
+  final AppDataLocation location;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (imageUrl != null && File(imageUrl!).existsSync())
+        if (image != const AppImage.empty())
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: InkWell(
               onTap: () async => showPickImageSheet(
                 context: context,
                 onPicked: onPicked,
-                onDeleted: () => onPicked(null),
+                onDeleted: () => onPicked(const AppImage.empty()),
+                location: location,
               ),
-              child: Image.file(
-                File(imageUrl!),
+              child: AppImageContent(
+                image: image,
                 width: 64,
                 height: 64,
                 fit: BoxFit.cover,
@@ -39,7 +43,8 @@ class AppPickImageButton extends StatelessWidget {
             onPressed: () async => showPickImageSheet(
               context: context,
               onPicked: onPicked,
-              onDeleted: () => onPicked(null),
+              onDeleted: () => onPicked(const AppImage.empty()),
+              location: location,
             ),
             label: const Text('画像を設定'),
             icon: const Icon(Icons.photo),

@@ -20,11 +20,11 @@ mixin _$Question {
   String get workbookId => throw _privateConstructorUsedError;
   QuestionType get questionType => throw _privateConstructorUsedError;
   String get problem => throw _privateConstructorUsedError;
-  String? get problemImageUrl => throw _privateConstructorUsedError;
+  AppImage get problemImage => throw _privateConstructorUsedError;
   List<String> get answers => throw _privateConstructorUsedError;
   List<String> get wrongChoices => throw _privateConstructorUsedError;
   String? get explanation => throw _privateConstructorUsedError;
-  String? get explanationImageUrl => throw _privateConstructorUsedError;
+  AppImage get explanationImage => throw _privateConstructorUsedError;
   bool get isAutoGenerateWrongChoices => throw _privateConstructorUsedError;
   bool get isCheckAnswerOrder => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
@@ -49,11 +49,11 @@ abstract class $QuestionCopyWith<$Res> {
       String workbookId,
       QuestionType questionType,
       String problem,
-      String? problemImageUrl,
+      AppImage problemImage,
       List<String> answers,
       List<String> wrongChoices,
       String? explanation,
-      String? explanationImageUrl,
+      AppImage explanationImage,
       bool isAutoGenerateWrongChoices,
       bool isCheckAnswerOrder,
       int order,
@@ -62,6 +62,9 @@ abstract class $QuestionCopyWith<$Res> {
       DateTime updatedAt,
       DateTime? lastAnsweredAt,
       AppDataLocation location});
+
+  $AppImageCopyWith<$Res> get problemImage;
+  $AppImageCopyWith<$Res> get explanationImage;
 }
 
 /// @nodoc
@@ -81,11 +84,11 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? workbookId = null,
     Object? questionType = null,
     Object? problem = null,
-    Object? problemImageUrl = freezed,
+    Object? problemImage = null,
     Object? answers = null,
     Object? wrongChoices = null,
     Object? explanation = freezed,
-    Object? explanationImageUrl = freezed,
+    Object? explanationImage = null,
     Object? isAutoGenerateWrongChoices = null,
     Object? isCheckAnswerOrder = null,
     Object? order = null,
@@ -112,10 +115,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.problem
           : problem // ignore: cast_nullable_to_non_nullable
               as String,
-      problemImageUrl: freezed == problemImageUrl
-          ? _value.problemImageUrl
-          : problemImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      problemImage: null == problemImage
+          ? _value.problemImage
+          : problemImage // ignore: cast_nullable_to_non_nullable
+              as AppImage,
       answers: null == answers
           ? _value.answers
           : answers // ignore: cast_nullable_to_non_nullable
@@ -128,10 +131,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.explanation
           : explanation // ignore: cast_nullable_to_non_nullable
               as String?,
-      explanationImageUrl: freezed == explanationImageUrl
-          ? _value.explanationImageUrl
-          : explanationImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      explanationImage: null == explanationImage
+          ? _value.explanationImage
+          : explanationImage // ignore: cast_nullable_to_non_nullable
+              as AppImage,
       isAutoGenerateWrongChoices: null == isAutoGenerateWrongChoices
           ? _value.isAutoGenerateWrongChoices
           : isAutoGenerateWrongChoices // ignore: cast_nullable_to_non_nullable
@@ -166,6 +169,22 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
               as AppDataLocation,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AppImageCopyWith<$Res> get problemImage {
+    return $AppImageCopyWith<$Res>(_value.problemImage, (value) {
+      return _then(_value.copyWith(problemImage: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AppImageCopyWith<$Res> get explanationImage {
+    return $AppImageCopyWith<$Res>(_value.explanationImage, (value) {
+      return _then(_value.copyWith(explanationImage: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -180,11 +199,11 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       String workbookId,
       QuestionType questionType,
       String problem,
-      String? problemImageUrl,
+      AppImage problemImage,
       List<String> answers,
       List<String> wrongChoices,
       String? explanation,
-      String? explanationImageUrl,
+      AppImage explanationImage,
       bool isAutoGenerateWrongChoices,
       bool isCheckAnswerOrder,
       int order,
@@ -193,6 +212,11 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       DateTime updatedAt,
       DateTime? lastAnsweredAt,
       AppDataLocation location});
+
+  @override
+  $AppImageCopyWith<$Res> get problemImage;
+  @override
+  $AppImageCopyWith<$Res> get explanationImage;
 }
 
 /// @nodoc
@@ -210,11 +234,11 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? workbookId = null,
     Object? questionType = null,
     Object? problem = null,
-    Object? problemImageUrl = freezed,
+    Object? problemImage = null,
     Object? answers = null,
     Object? wrongChoices = null,
     Object? explanation = freezed,
-    Object? explanationImageUrl = freezed,
+    Object? explanationImage = null,
     Object? isAutoGenerateWrongChoices = null,
     Object? isCheckAnswerOrder = null,
     Object? order = null,
@@ -241,10 +265,10 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.problem
           : problem // ignore: cast_nullable_to_non_nullable
               as String,
-      problemImageUrl: freezed == problemImageUrl
-          ? _value.problemImageUrl
-          : problemImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      problemImage: null == problemImage
+          ? _value.problemImage
+          : problemImage // ignore: cast_nullable_to_non_nullable
+              as AppImage,
       answers: null == answers
           ? _value._answers
           : answers // ignore: cast_nullable_to_non_nullable
@@ -257,10 +281,10 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.explanation
           : explanation // ignore: cast_nullable_to_non_nullable
               as String?,
-      explanationImageUrl: freezed == explanationImageUrl
-          ? _value.explanationImageUrl
-          : explanationImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      explanationImage: null == explanationImage
+          ? _value.explanationImage
+          : explanationImage // ignore: cast_nullable_to_non_nullable
+              as AppImage,
       isAutoGenerateWrongChoices: null == isAutoGenerateWrongChoices
           ? _value.isAutoGenerateWrongChoices
           : isAutoGenerateWrongChoices // ignore: cast_nullable_to_non_nullable
@@ -305,11 +329,11 @@ class _$_Question extends _Question {
       required this.workbookId,
       required this.questionType,
       required this.problem,
-      required this.problemImageUrl,
+      required this.problemImage,
       required final List<String> answers,
       required final List<String> wrongChoices,
       required this.explanation,
-      required this.explanationImageUrl,
+      required this.explanationImage,
       required this.isAutoGenerateWrongChoices,
       required this.isCheckAnswerOrder,
       required this.order,
@@ -331,7 +355,7 @@ class _$_Question extends _Question {
   @override
   final String problem;
   @override
-  final String? problemImageUrl;
+  final AppImage problemImage;
   final List<String> _answers;
   @override
   List<String> get answers {
@@ -351,7 +375,7 @@ class _$_Question extends _Question {
   @override
   final String? explanation;
   @override
-  final String? explanationImageUrl;
+  final AppImage explanationImage;
   @override
   final bool isAutoGenerateWrongChoices;
   @override
@@ -371,7 +395,7 @@ class _$_Question extends _Question {
 
   @override
   String toString() {
-    return 'Question(questionId: $questionId, workbookId: $workbookId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, answers: $answers, wrongChoices: $wrongChoices, explanation: $explanation, explanationImageUrl: $explanationImageUrl, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus, createdAt: $createdAt, updatedAt: $updatedAt, lastAnsweredAt: $lastAnsweredAt, location: $location)';
+    return 'Question(questionId: $questionId, workbookId: $workbookId, questionType: $questionType, problem: $problem, problemImage: $problemImage, answers: $answers, wrongChoices: $wrongChoices, explanation: $explanation, explanationImage: $explanationImage, isAutoGenerateWrongChoices: $isAutoGenerateWrongChoices, isCheckAnswerOrder: $isCheckAnswerOrder, order: $order, answerStatus: $answerStatus, createdAt: $createdAt, updatedAt: $updatedAt, lastAnsweredAt: $lastAnsweredAt, location: $location)';
   }
 
   @override
@@ -386,15 +410,15 @@ class _$_Question extends _Question {
             (identical(other.questionType, questionType) ||
                 other.questionType == questionType) &&
             (identical(other.problem, problem) || other.problem == problem) &&
-            (identical(other.problemImageUrl, problemImageUrl) ||
-                other.problemImageUrl == problemImageUrl) &&
+            (identical(other.problemImage, problemImage) ||
+                other.problemImage == problemImage) &&
             const DeepCollectionEquality().equals(other._answers, _answers) &&
             const DeepCollectionEquality()
                 .equals(other._wrongChoices, _wrongChoices) &&
             (identical(other.explanation, explanation) ||
                 other.explanation == explanation) &&
-            (identical(other.explanationImageUrl, explanationImageUrl) ||
-                other.explanationImageUrl == explanationImageUrl) &&
+            (identical(other.explanationImage, explanationImage) ||
+                other.explanationImage == explanationImage) &&
             (identical(other.isAutoGenerateWrongChoices,
                     isAutoGenerateWrongChoices) ||
                 other.isAutoGenerateWrongChoices ==
@@ -421,11 +445,11 @@ class _$_Question extends _Question {
       workbookId,
       questionType,
       problem,
-      problemImageUrl,
+      problemImage,
       const DeepCollectionEquality().hash(_answers),
       const DeepCollectionEquality().hash(_wrongChoices),
       explanation,
-      explanationImageUrl,
+      explanationImage,
       isAutoGenerateWrongChoices,
       isCheckAnswerOrder,
       order,
@@ -448,11 +472,11 @@ abstract class _Question extends Question {
       required final String workbookId,
       required final QuestionType questionType,
       required final String problem,
-      required final String? problemImageUrl,
+      required final AppImage problemImage,
       required final List<String> answers,
       required final List<String> wrongChoices,
       required final String? explanation,
-      required final String? explanationImageUrl,
+      required final AppImage explanationImage,
       required final bool isAutoGenerateWrongChoices,
       required final bool isCheckAnswerOrder,
       required final int order,
@@ -472,7 +496,7 @@ abstract class _Question extends Question {
   @override
   String get problem;
   @override
-  String? get problemImageUrl;
+  AppImage get problemImage;
   @override
   List<String> get answers;
   @override
@@ -480,7 +504,7 @@ abstract class _Question extends Question {
   @override
   String? get explanation;
   @override
-  String? get explanationImageUrl;
+  AppImage get explanationImage;
   @override
   bool get isAutoGenerateWrongChoices;
   @override

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
@@ -11,25 +12,28 @@ class EditQuestionPage extends HookConsumerWidget {
     super.key,
     required this.workbookId,
     required this.question,
+    required this.location,
   });
 
   final String workbookId;
   final Question question;
+  final AppDataLocation location;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return EditQuestionForm.edit(
       workbookId: workbookId,
       question: question,
+      location: location,
       onSubmit: ({
         required workbookId,
         required questionType,
         required problem,
-        required problemImageUrl,
+        required problemImage,
         required answers,
         required wrongChoices,
         required explanation,
-        required explanationImageUrl,
+        required explanationImage,
         required isAutoGenerateWrongChoices,
         required isCheckAnswerOrder,
       }) async {
@@ -44,11 +48,11 @@ class EditQuestionPage extends HookConsumerWidget {
               currentQuestion: question,
               questionType: questionType,
               problem: problem,
-              problemImageUrl: problemImageUrl,
+              problemImage: problemImage,
               answers: answers,
               wrongChoices: wrongChoices,
               explanation: explanation,
-              explanationImageUrl: explanationImageUrl,
+              explanationImage: explanationImage,
               isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
               isCheckAnswerOrder: isCheckAnswerOrder,
             );

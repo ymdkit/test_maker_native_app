@@ -9,6 +9,7 @@ import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 
 class LocalQuestionRepository implements QuestionRepository {
   LocalQuestionRepository({
@@ -22,11 +23,11 @@ class LocalQuestionRepository implements QuestionRepository {
     required String workbookId,
     required QuestionType questionType,
     required String problem,
-    required String? problemImageUrl,
+    required AppImage problemImage,
     required List<String> answers,
     required List<String> wrongChoices,
     required String? explanation,
-    required String? explanationImageUrl,
+    required AppImage explanationImage,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
   }) async {
@@ -38,11 +39,11 @@ class LocalQuestionRepository implements QuestionRepository {
       questionType: questionType,
       workbookId: workbookId,
       problem: problem,
-      problemImageUrl: problemImageUrl,
+      problemImage: problemImage,
       answers: answers,
       wrongChoices: wrongChoices,
       explanation: explanation,
-      explanationImageUrl: explanationImageUrl,
+      explanationImage: explanationImage,
       isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
       isCheckAnswerOrder: isCheckAnswerOrder,
       order: newOrder,

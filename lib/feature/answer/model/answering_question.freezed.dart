@@ -19,9 +19,9 @@ mixin _$AnsweringQuestion {
   String get questionId => throw _privateConstructorUsedError;
   QuestionType get questionType => throw _privateConstructorUsedError;
   String get problem => throw _privateConstructorUsedError;
-  String? get problemImageUrl => throw _privateConstructorUsedError;
+  AppImage get problemImage => throw _privateConstructorUsedError;
   String? get explanation => throw _privateConstructorUsedError;
-  String? get explanationImageUrl => throw _privateConstructorUsedError;
+  AppImage get explanationImage => throw _privateConstructorUsedError;
   List<String> get answers => throw _privateConstructorUsedError;
   List<String> get choices => throw _privateConstructorUsedError;
   bool get isCheckAnswerOrder => throw _privateConstructorUsedError;
@@ -42,14 +42,16 @@ abstract class $AnsweringQuestionCopyWith<$Res> {
       {String questionId,
       QuestionType questionType,
       String problem,
-      String? problemImageUrl,
+      AppImage problemImage,
       String? explanation,
-      String? explanationImageUrl,
+      AppImage explanationImage,
       List<String> answers,
       List<String> choices,
       bool isCheckAnswerOrder,
       Question rawQuestion});
 
+  $AppImageCopyWith<$Res> get problemImage;
+  $AppImageCopyWith<$Res> get explanationImage;
   $QuestionCopyWith<$Res> get rawQuestion;
 }
 
@@ -69,9 +71,9 @@ class _$AnsweringQuestionCopyWithImpl<$Res, $Val extends AnsweringQuestion>
     Object? questionId = null,
     Object? questionType = null,
     Object? problem = null,
-    Object? problemImageUrl = freezed,
+    Object? problemImage = null,
     Object? explanation = freezed,
-    Object? explanationImageUrl = freezed,
+    Object? explanationImage = null,
     Object? answers = null,
     Object? choices = null,
     Object? isCheckAnswerOrder = null,
@@ -90,18 +92,18 @@ class _$AnsweringQuestionCopyWithImpl<$Res, $Val extends AnsweringQuestion>
           ? _value.problem
           : problem // ignore: cast_nullable_to_non_nullable
               as String,
-      problemImageUrl: freezed == problemImageUrl
-          ? _value.problemImageUrl
-          : problemImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      problemImage: null == problemImage
+          ? _value.problemImage
+          : problemImage // ignore: cast_nullable_to_non_nullable
+              as AppImage,
       explanation: freezed == explanation
           ? _value.explanation
           : explanation // ignore: cast_nullable_to_non_nullable
               as String?,
-      explanationImageUrl: freezed == explanationImageUrl
-          ? _value.explanationImageUrl
-          : explanationImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      explanationImage: null == explanationImage
+          ? _value.explanationImage
+          : explanationImage // ignore: cast_nullable_to_non_nullable
+              as AppImage,
       answers: null == answers
           ? _value.answers
           : answers // ignore: cast_nullable_to_non_nullable
@@ -119,6 +121,22 @@ class _$AnsweringQuestionCopyWithImpl<$Res, $Val extends AnsweringQuestion>
           : rawQuestion // ignore: cast_nullable_to_non_nullable
               as Question,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AppImageCopyWith<$Res> get problemImage {
+    return $AppImageCopyWith<$Res>(_value.problemImage, (value) {
+      return _then(_value.copyWith(problemImage: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AppImageCopyWith<$Res> get explanationImage {
+    return $AppImageCopyWith<$Res>(_value.explanationImage, (value) {
+      return _then(_value.copyWith(explanationImage: value) as $Val);
+    });
   }
 
   @override
@@ -142,14 +160,18 @@ abstract class _$$_AnsweringQuestionCopyWith<$Res>
       {String questionId,
       QuestionType questionType,
       String problem,
-      String? problemImageUrl,
+      AppImage problemImage,
       String? explanation,
-      String? explanationImageUrl,
+      AppImage explanationImage,
       List<String> answers,
       List<String> choices,
       bool isCheckAnswerOrder,
       Question rawQuestion});
 
+  @override
+  $AppImageCopyWith<$Res> get problemImage;
+  @override
+  $AppImageCopyWith<$Res> get explanationImage;
   @override
   $QuestionCopyWith<$Res> get rawQuestion;
 }
@@ -168,9 +190,9 @@ class __$$_AnsweringQuestionCopyWithImpl<$Res>
     Object? questionId = null,
     Object? questionType = null,
     Object? problem = null,
-    Object? problemImageUrl = freezed,
+    Object? problemImage = null,
     Object? explanation = freezed,
-    Object? explanationImageUrl = freezed,
+    Object? explanationImage = null,
     Object? answers = null,
     Object? choices = null,
     Object? isCheckAnswerOrder = null,
@@ -189,18 +211,18 @@ class __$$_AnsweringQuestionCopyWithImpl<$Res>
           ? _value.problem
           : problem // ignore: cast_nullable_to_non_nullable
               as String,
-      problemImageUrl: freezed == problemImageUrl
-          ? _value.problemImageUrl
-          : problemImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      problemImage: null == problemImage
+          ? _value.problemImage
+          : problemImage // ignore: cast_nullable_to_non_nullable
+              as AppImage,
       explanation: freezed == explanation
           ? _value.explanation
           : explanation // ignore: cast_nullable_to_non_nullable
               as String?,
-      explanationImageUrl: freezed == explanationImageUrl
-          ? _value.explanationImageUrl
-          : explanationImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      explanationImage: null == explanationImage
+          ? _value.explanationImage
+          : explanationImage // ignore: cast_nullable_to_non_nullable
+              as AppImage,
       answers: null == answers
           ? _value._answers
           : answers // ignore: cast_nullable_to_non_nullable
@@ -228,9 +250,9 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
       {required this.questionId,
       required this.questionType,
       required this.problem,
-      required this.problemImageUrl,
+      required this.problemImage,
       required this.explanation,
-      required this.explanationImageUrl,
+      required this.explanationImage,
       required final List<String> answers,
       required final List<String> choices,
       required this.isCheckAnswerOrder,
@@ -245,11 +267,11 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
   @override
   final String problem;
   @override
-  final String? problemImageUrl;
+  final AppImage problemImage;
   @override
   final String? explanation;
   @override
-  final String? explanationImageUrl;
+  final AppImage explanationImage;
   final List<String> _answers;
   @override
   List<String> get answers {
@@ -273,7 +295,7 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
 
   @override
   String toString() {
-    return 'AnsweringQuestion(questionId: $questionId, questionType: $questionType, problem: $problem, problemImageUrl: $problemImageUrl, explanation: $explanation, explanationImageUrl: $explanationImageUrl, answers: $answers, choices: $choices, isCheckAnswerOrder: $isCheckAnswerOrder, rawQuestion: $rawQuestion)';
+    return 'AnsweringQuestion(questionId: $questionId, questionType: $questionType, problem: $problem, problemImage: $problemImage, explanation: $explanation, explanationImage: $explanationImage, answers: $answers, choices: $choices, isCheckAnswerOrder: $isCheckAnswerOrder, rawQuestion: $rawQuestion)';
   }
 
   @override
@@ -286,12 +308,12 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
             (identical(other.questionType, questionType) ||
                 other.questionType == questionType) &&
             (identical(other.problem, problem) || other.problem == problem) &&
-            (identical(other.problemImageUrl, problemImageUrl) ||
-                other.problemImageUrl == problemImageUrl) &&
+            (identical(other.problemImage, problemImage) ||
+                other.problemImage == problemImage) &&
             (identical(other.explanation, explanation) ||
                 other.explanation == explanation) &&
-            (identical(other.explanationImageUrl, explanationImageUrl) ||
-                other.explanationImageUrl == explanationImageUrl) &&
+            (identical(other.explanationImage, explanationImage) ||
+                other.explanationImage == explanationImage) &&
             const DeepCollectionEquality().equals(other._answers, _answers) &&
             const DeepCollectionEquality().equals(other._choices, _choices) &&
             (identical(other.isCheckAnswerOrder, isCheckAnswerOrder) ||
@@ -306,9 +328,9 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
       questionId,
       questionType,
       problem,
-      problemImageUrl,
+      problemImage,
       explanation,
-      explanationImageUrl,
+      explanationImage,
       const DeepCollectionEquality().hash(_answers),
       const DeepCollectionEquality().hash(_choices),
       isCheckAnswerOrder,
@@ -327,9 +349,9 @@ abstract class _AnsweringQuestion implements AnsweringQuestion {
       {required final String questionId,
       required final QuestionType questionType,
       required final String problem,
-      required final String? problemImageUrl,
+      required final AppImage problemImage,
       required final String? explanation,
-      required final String? explanationImageUrl,
+      required final AppImage explanationImage,
       required final List<String> answers,
       required final List<String> choices,
       required final bool isCheckAnswerOrder,
@@ -342,11 +364,11 @@ abstract class _AnsweringQuestion implements AnsweringQuestion {
   @override
   String get problem;
   @override
-  String? get problemImageUrl;
+  AppImage get problemImage;
   @override
   String? get explanation;
   @override
-  String? get explanationImageUrl;
+  AppImage get explanationImage;
   @override
   List<String> get answers;
   @override

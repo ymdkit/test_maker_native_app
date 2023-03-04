@@ -214,8 +214,10 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                         if (workbook.isOwned) {
                           context.router.push(
                             EditQuestionRoute(
-                                workbookId: question.workbookId,
-                                question: question),
+                              workbookId: question.workbookId,
+                              question: question,
+                              location: workbook.location,
+                            ),
                           );
                         }
                       },

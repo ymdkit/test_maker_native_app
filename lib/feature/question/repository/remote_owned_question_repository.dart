@@ -10,6 +10,7 @@ import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 
 class RemoteOwnedQuestionRepository implements QuestionRepository {
   RemoteOwnedQuestionRepository({
@@ -25,11 +26,11 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
     required String workbookId,
     required QuestionType questionType,
     required String problem,
-    required String? problemImageUrl,
+    required AppImage problemImage,
     required List<String> answers,
     required List<String> wrongChoices,
     required String? explanation,
-    required String? explanationImageUrl,
+    required AppImage explanationImage,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
   }) async {
@@ -42,11 +43,11 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
           workbookId: workbookId,
           questionType: questionType,
           problem: problem,
-          problemImageUrl: problemImageUrl,
+          problemImage: problemImage,
           answers: answers,
           wrongChoices: wrongChoices,
           explanation: explanation,
-          explanationImageUrl: explanationImageUrl,
+          explanationImage: explanationImage,
           isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
           isCheckAnswerOrder: isCheckAnswerOrder,
           createdAt: DateTime.now(),
@@ -74,9 +75,9 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
           'order': question.order,
           'createdAt': Timestamp.now(),
           'updatedAt': Timestamp.now(),
-          'imageRef': question.problemImageUrl,
+          'imageRef': question.problemImage.toStringOrNull(),
           'explanation': question.explanation,
-          'explanationImageRef': question.explanationImageUrl,
+          'explanationImageRef': question.explanationImage.toStringOrNull(),
         });
 
         await _updateWorkbookSize(workbookId: question.workbookId);
@@ -115,9 +116,9 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
               'order': question.order,
               'createdAt': Timestamp.now(),
               'updatedAt': Timestamp.now(),
-              'imageRef': question.problemImageUrl,
+              'imageRef': question.problemImage.toStringOrNull(),
               'explanation': question.explanation,
-              'explanationImageRef': question.explanationImageUrl,
+              'explanationImageRef': question.explanationImage.toStringOrNull(),
             },
           );
         }
@@ -135,25 +136,26 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
   @override
   TaskEither<AppException, List<Question>> getQuestions(
     String workbookId,
-  ) => TaskEither.tryCatch(
-      () async {
-        return remoteDB
-            .collection('tests')
-            .doc(workbookId)
-            .collection('questions')
-            .get()
-            .then((value) => value.docs
-                .where(
-                    (e) => e.data().getOrElse('deleted', () => false) == false)
-                .map((e) => documentToQuestion(
-                      isOwned: true,
-                      workbookId: workbookId,
-                      document: e,
-                    ))
-                .toList());
-      },
-      (e, stack) => AppException.fromRawException(e: e),
-    );
+  ) =>
+      TaskEither.tryCatch(
+        () async {
+          return remoteDB
+              .collection('tests')
+              .doc(workbookId)
+              .collection('questions')
+              .get()
+              .then((value) => value.docs
+                  .where((e) =>
+                      e.data().getOrElse('deleted', () => false) == false)
+                  .map((e) => documentToQuestion(
+                        isOwned: true,
+                        workbookId: workbookId,
+                        document: e,
+                      ))
+                  .toList());
+        },
+        (e, stack) => AppException.fromRawException(e: e),
+      );
 
   @override
   Future<Either<AppException, List<Question>>> getDeletedQuestions() async {
@@ -178,9 +180,9 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
           'checkOrder': question.isCheckAnswerOrder,
           'order': question.order,
           'updatedAt': Timestamp.now(),
-          'imageRef': question.problemImageUrl,
+          'imageRef': question.problemImage.toStringOrNull(),
           'explanation': question.explanation,
-          'explanationImageRef': question.explanationImageUrl,
+          'explanationImageRef': question.explanationImage.toStringOrNull(),
         }).then((value) => null);
       },
       (e, stack) => AppException.fromRawException(e: e),

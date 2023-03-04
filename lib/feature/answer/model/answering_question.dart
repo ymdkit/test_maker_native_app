@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 
 part 'answering_question.freezed.dart';
 
@@ -13,9 +14,9 @@ class AnsweringQuestion with _$AnsweringQuestion {
     required String questionId,
     required QuestionType questionType,
     required String problem,
-    required String? problemImageUrl,
+    required AppImage problemImage,
     required String? explanation,
-    required String? explanationImageUrl,
+    required AppImage explanationImage,
     required List<String> answers,
     required List<String> choices,
     required bool isCheckAnswerOrder,
@@ -43,9 +44,9 @@ class AnsweringQuestionFactory {
       problem: preferences.isSwapProblemAndAnswer && question.reversible
           ? question.answers.join(' ')
           : question.problem,
-      problemImageUrl: question.problemImageUrl,
+      problemImage: question.problemImage,
       explanation: question.explanation,
-      explanationImageUrl: question.explanationImageUrl,
+      explanationImage: question.explanationImage,
       answers: preferences.isSwapProblemAndAnswer && question.reversible
           ? [question.problem]
           : question.answers,

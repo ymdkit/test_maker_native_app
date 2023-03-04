@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
+import 'package:test_maker_native_app/widget/app_image_content.dart';
 
 class AnswerProblemSection extends StatelessWidget {
   const AnswerProblemSection({
@@ -13,22 +12,15 @@ class AnswerProblemSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(question.problemImage.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(question.problem),
-        const SizedBox(height: 16),
-        if (question.problemImageUrl != null &&
-            File(question.problemImageUrl!).existsSync())
-          Column(
-            children: [
-              Image.file(
-                File(question.problemImageUrl!),
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
+        Text(question.problemImage.toString()),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: AppImageContent(image: question.problemImage),
+        )
       ],
     );
   }

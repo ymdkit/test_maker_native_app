@@ -2,8 +2,10 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
 import 'package:test_maker_native_app/widget/app_ad_wrapper.dart';
 import 'package:test_maker_native_app/widget/app_dropdown_button_form_field.dart';
@@ -20,6 +22,7 @@ class EditQuestionForm extends HookConsumerWidget {
     required this.title,
     required this.submitButtonText,
     required this.completionMessage,
+    required this.location,
     required this.onSubmit,
   });
 
@@ -28,15 +31,16 @@ class EditQuestionForm extends HookConsumerWidget {
   final String title;
   final String submitButtonText;
   final String completionMessage;
+  final AppDataLocation location;
   final void Function({
     required String workbookId,
     required QuestionType questionType,
     required String problem,
-    required String? problemImageUrl,
+    required AppImage problemImage,
     required List<String> answers,
     required List<String> wrongChoices,
     required String? explanation,
-    required String? explanationImageUrl,
+    required AppImage explanationImage,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
   }) onSubmit;
@@ -45,6 +49,7 @@ class EditQuestionForm extends HookConsumerWidget {
     super.key,
     required this.workbookId,
     required this.onSubmit,
+    required this.location,
   })  : title = '問題の作成',
         submitButtonText = '問題を作成する',
         completionMessage = '問題を作成しました',
@@ -55,6 +60,7 @@ class EditQuestionForm extends HookConsumerWidget {
     required this.workbookId,
     required this.question,
     required this.onSubmit,
+    required this.location,
   })  : title = '問題の編集',
         submitButtonText = '編集内容を保存する',
         completionMessage = '編集内容を保存しました';
@@ -66,7 +72,8 @@ class EditQuestionForm extends HookConsumerWidget {
     final formKey = useMemoized(() => GlobalKey<FormState>());
     final questionType = useState(question?.questionType ?? QuestionType.write);
     final problemController = useTextEditingController(text: question?.problem);
-    final problemImageUrl = useState(question?.problemImageUrl);
+    final problemImage =
+        useState(question?.problemImage ?? const AppImage.empty());
     final answerControllers = useState<List<TextEditingController>>(
       question?.answers
               .map((text) => TextEditingController(text: text))
@@ -80,7 +87,8 @@ class EditQuestionForm extends HookConsumerWidget {
           [],
     );
     final explanationController = useTextEditingController();
-    final explanationImageUrl = useState(question?.explanationImageUrl);
+    final explanationImageUrl =
+        useState(question?.explanationImage ?? const AppImage.empty());
     final isAutoGenerateWrongChoices =
         useState(question?.isAutoGenerateWrongChoices ?? false);
     final isCheckAnswerOrder = useState(question?.isCheckAnswerOrder ?? false);
@@ -177,10 +185,11 @@ class EditQuestionForm extends HookConsumerWidget {
                               children: [
                                 const Spacer(),
                                 AppPickImageButton(
-                                  imageUrl: problemImageUrl.value,
+                                  image: problemImage.value,
                                   onPicked: (filePath) async {
-                                    problemImageUrl.value = filePath;
+                                    problemImage.value = filePath;
                                   },
+                                  location: location,
                                 ),
                               ],
                             ),
@@ -305,10 +314,11 @@ class EditQuestionForm extends HookConsumerWidget {
                               children: [
                                 const Spacer(),
                                 AppPickImageButton(
-                                  imageUrl: explanationImageUrl.value,
+                                  image: explanationImageUrl.value,
                                   onPicked: (filePath) async {
                                     explanationImageUrl.value = filePath;
                                   },
+                                  location: location,
                                 ),
                               ],
                             ),
@@ -355,7 +365,7 @@ class EditQuestionForm extends HookConsumerWidget {
                               workbookId: workbookId,
                               questionType: questionType.value,
                               problem: problemController.text,
-                              problemImageUrl: problemImageUrl.value,
+                              problemImage: problemImage.value,
                               answers: answerControllers.value
                                   .map((e) => e.text)
                                   .toList(),
@@ -363,7 +373,7 @@ class EditQuestionForm extends HookConsumerWidget {
                                   .map((e) => e.text)
                                   .toList(),
                               explanation: explanationController.text,
-                              explanationImageUrl: explanationImageUrl.value,
+                              explanationImage: explanationImageUrl.value,
                               isAutoGenerateWrongChoices:
                                   isAutoGenerateWrongChoices.value,
                               isCheckAnswerOrder: isCheckAnswerOrder.value,
@@ -373,7 +383,7 @@ class EditQuestionForm extends HookConsumerWidget {
 
                             // 入力内容をリセット
                             problemController.clear();
-                            problemImageUrl.value = null;
+                            problemImage.value = const AppImage.empty();
                             for (final controller in answerControllers.value) {
                               controller.clear();
                             }
@@ -382,7 +392,7 @@ class EditQuestionForm extends HookConsumerWidget {
                               controller.clear();
                             }
                             explanationController.clear();
-                            explanationImageUrl.value = null;
+                            explanationImageUrl.value = const AppImage.empty();
 
                             // フォーカスを問題文に戻す
                             firstFormFocusNode.requestFocus();

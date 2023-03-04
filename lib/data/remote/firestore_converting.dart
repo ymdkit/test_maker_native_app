@@ -8,6 +8,7 @@ import 'package:test_maker_native_app/feature/question/model/answer_status.dart'
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 
 //TODO: テスト書く
 Group documentToGroup(
@@ -106,13 +107,15 @@ Question documentToQuestion({
       workbookId: workbookId,
       questionType: QuestionType.values[data.getOrElse('type', () => 0) as int],
       problem: data['question'] as String,
-      problemImageUrl: data['imageRef'] as String?,
+      problemImage: AppImage.from(
+          data.getOrElse('imageRef', () => '') as String),
       answers: (data['answers'] as List<dynamic>).isNotEmpty
           ? List.from(data['answers'] as List<dynamic>)
           : [data['answer'] as String],
       wrongChoices: List.from(data['others'] as List<dynamic>),
       explanation: data['explanation'] as String?,
-      explanationImageUrl: data['explanationImageRef'] as String?,
+      explanationImage: AppImage.from(
+          data.getOrElse('explanationImageRef', () => '') as String),
       isAutoGenerateWrongChoices: data['auto'] as bool,
       isCheckAnswerOrder: data['checkOrder'] as bool,
       order: data['order'] as int,

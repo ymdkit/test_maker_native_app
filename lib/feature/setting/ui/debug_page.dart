@@ -8,6 +8,7 @@ import 'package:test_maker_native_app/feature/question/state/questions_state.dar
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 
@@ -74,11 +75,11 @@ class DebugPage extends HookConsumerWidget {
                         workbookId: newWorkbook.workbookId,
                         questionType: QuestionType.write,
                         problem: '記述問題の問題文',
-                        problemImageUrl: null,
+                        problemImage: const AppImage.empty(),
                         answers: ['記述問題の答え'],
                         wrongChoices: [],
                         explanation: '',
-                        explanationImageUrl: null,
+                        explanationImage: const AppImage.empty(),
                         isAutoGenerateWrongChoices: false,
                         isCheckAnswerOrder: false,
                       )
@@ -87,11 +88,11 @@ class DebugPage extends HookConsumerWidget {
                         questionType: QuestionType.write,
                         problem:
                             List.generate(20, (index) => '記述問題の問題文').join(),
-                        problemImageUrl: null,
+                        problemImage: const AppImage.empty(),
                         answers: ['記述問題の答え'],
                         wrongChoices: [],
                         explanation: '',
-                        explanationImageUrl: null,
+                        explanationImage: const AppImage.empty(),
                         isAutoGenerateWrongChoices: false,
                         isCheckAnswerOrder: false,
                       )
@@ -99,11 +100,11 @@ class DebugPage extends HookConsumerWidget {
                         workbookId: newWorkbook.workbookId,
                         questionType: QuestionType.select,
                         problem: '選択問題の問題文',
-                        problemImageUrl: null,
+                        problemImage: const AppImage.empty(),
                         answers: ['選択問題の答え'],
                         wrongChoices: ['選択問題の間違い1', '選択問題の間違い2'],
                         explanation: '',
-                        explanationImageUrl: null,
+                        explanationImage: const AppImage.empty(),
                         isAutoGenerateWrongChoices: false,
                         isCheckAnswerOrder: false,
                       )
@@ -111,11 +112,11 @@ class DebugPage extends HookConsumerWidget {
                         workbookId: newWorkbook.workbookId,
                         questionType: QuestionType.complete,
                         problem: '完答問題の問題文',
-                        problemImageUrl: null,
+                        problemImage: const AppImage.empty(),
                         answers: ['完答問題の答え1', '完答問題の答え2'],
                         wrongChoices: [],
                         explanation: '',
-                        explanationImageUrl: null,
+                        explanationImage: const AppImage.empty(),
                         isAutoGenerateWrongChoices: false,
                         isCheckAnswerOrder: false,
                       )
@@ -123,11 +124,11 @@ class DebugPage extends HookConsumerWidget {
                         workbookId: newWorkbook.workbookId,
                         questionType: QuestionType.complete,
                         problem: '完答問題の問題文（順序チェックあり）',
-                        problemImageUrl: null,
+                        problemImage: const AppImage.empty(),
                         answers: ['完答問題の答え1', '完答問題の答え2'],
                         wrongChoices: [],
                         explanation: '',
-                        explanationImageUrl: null,
+                        explanationImage: const AppImage.empty(),
                         isAutoGenerateWrongChoices: false,
                         isCheckAnswerOrder: true,
                       )
@@ -135,11 +136,11 @@ class DebugPage extends HookConsumerWidget {
                         workbookId: newWorkbook.workbookId,
                         questionType: QuestionType.selectComplete,
                         problem: '選択完答問題の問題文',
-                        problemImageUrl: null,
+                        problemImage: const AppImage.empty(),
                         answers: ['選択完答問題の答え1', '選択完答問題の答え2'],
                         wrongChoices: ['選択完答問題の間違い1', '選択完答問題の間違い2'],
                         explanation: '',
-                        explanationImageUrl: null,
+                        explanationImage: const AppImage.empty(),
                         isAutoGenerateWrongChoices: false,
                         isCheckAnswerOrder: false,
                       )
@@ -147,11 +148,11 @@ class DebugPage extends HookConsumerWidget {
                         workbookId: newWorkbook.workbookId,
                         questionType: QuestionType.selectComplete,
                         problem: '選択完答問題（順序チェックあり）の問題文',
-                        problemImageUrl: null,
+                        problemImage: const AppImage.empty(),
                         answers: ['選択完答問題の答え1', '選択完答問題の答え2'],
                         wrongChoices: ['選択完答問題の間違い1', '選択完答問題の間違い2'],
                         explanation: '',
-                        explanationImageUrl: null,
+                        explanationImage: const AppImage.empty(),
                         isAutoGenerateWrongChoices: false,
                         isCheckAnswerOrder: true,
                       );

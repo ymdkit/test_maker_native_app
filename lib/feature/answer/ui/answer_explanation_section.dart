@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
+import 'package:test_maker_native_app/widget/app_image_content.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
 
 class AnswerExplanationSection extends StatelessWidget {
@@ -24,15 +25,8 @@ class AnswerExplanationSection extends StatelessWidget {
           Text(
             question.explanation ?? '',
           ),
-          if (question.explanationImageUrl != null &&
-              File(question.explanationImageUrl!).existsSync()) ...[
-            const SizedBox(height: 16),
-            Image.file(
-              File(question.explanationImageUrl!),
-              fit: BoxFit.contain,
-            ),
-          ],
           const SizedBox(height: 16),
+          AppImageContent(image: question.explanationImage),
         ],
       ),
     );

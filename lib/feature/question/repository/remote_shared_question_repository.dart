@@ -5,6 +5,7 @@ import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 
 class RemoteSharedQuestionRepository implements QuestionRepository {
   RemoteSharedQuestionRepository({
@@ -18,11 +19,11 @@ class RemoteSharedQuestionRepository implements QuestionRepository {
     required String workbookId,
     required QuestionType questionType,
     required String problem,
-    required String? problemImageUrl,
+    required AppImage problemImage,
     required List<String> answers,
     required List<String> wrongChoices,
     required String? explanation,
-    required String? explanationImageUrl,
+    required AppImage explanationImage,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
   }) async {

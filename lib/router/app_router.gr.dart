@@ -54,6 +54,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           workbookId: args.workbookId,
           question: args.question,
+          location: args.location,
         ),
         fullscreenDialog: true,
       );
@@ -514,6 +515,7 @@ class EditQuestionRoute extends PageRouteInfo<EditQuestionRouteArgs> {
     Key? key,
     required String workbookId,
     required Question question,
+    required AppDataLocation location,
   }) : super(
           EditQuestionRoute.name,
           path: '/edit-question-page',
@@ -521,6 +523,7 @@ class EditQuestionRoute extends PageRouteInfo<EditQuestionRouteArgs> {
             key: key,
             workbookId: workbookId,
             question: question,
+            location: location,
           ),
         );
 
@@ -532,6 +535,7 @@ class EditQuestionRouteArgs {
     this.key,
     required this.workbookId,
     required this.question,
+    required this.location,
   });
 
   final Key? key;
@@ -540,9 +544,11 @@ class EditQuestionRouteArgs {
 
   final Question question;
 
+  final AppDataLocation location;
+
   @override
   String toString() {
-    return 'EditQuestionRouteArgs{key: $key, workbookId: $workbookId, question: $question}';
+    return 'EditQuestionRouteArgs{key: $key, workbookId: $workbookId, question: $question, location: $location}';
   }
 }
 

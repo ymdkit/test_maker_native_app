@@ -7,6 +7,7 @@ import 'package:test_maker_native_app/feature/question/model/answer_status.dart'
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 
 part 'realm_schema.g.dart';
 
@@ -40,11 +41,11 @@ class _RealmQuestion {
       workbookId: workbookId,
       questionType: QuestionType.from(questionType),
       problem: problem,
-      problemImageUrl: problemImageUrl,
+      problemImage: AppImage.from(problemImageUrl),
       answers: answers,
       wrongChoices: wrongChoices,
       explanation: explanation,
-      explanationImageUrl: explanationImageUrl,
+      explanationImage: AppImage.from(explanationImageUrl),
       isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
       isCheckAnswerOrder: isCheckAnswerOrder,
       order: order,

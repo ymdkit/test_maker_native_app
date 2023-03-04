@@ -10,6 +10,7 @@ import 'package:test_maker_native_app/feature/question/state/questions_state_key
 import 'package:test_maker_native_app/feature/trash/state/deleted_questions_state.dart';
 import 'package:test_maker_native_app/utils/app_async_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 
 typedef QuestionsState = AppAsyncState<List<Question>>;
 
@@ -74,11 +75,11 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
     required String workbookId,
     required QuestionType questionType,
     required String problem,
-    required String? problemImageUrl,
+    required AppImage problemImage,
     required List<String> answers,
     required List<String> wrongChoices,
     required String? explanation,
-    required String? explanationImageUrl,
+    required AppImage explanationImage,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
   }) async {
@@ -86,11 +87,11 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
       workbookId: workbookId,
       questionType: questionType,
       problem: problem,
-      problemImageUrl: problemImageUrl,
+      problemImage: problemImage,
       answers: answers,
       wrongChoices: wrongChoices,
       explanation: explanation,
-      explanationImageUrl: explanationImageUrl,
+      explanationImage: explanationImage,
       isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
       isCheckAnswerOrder: isCheckAnswerOrder,
     );
@@ -116,22 +117,22 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
     required Question currentQuestion,
     required QuestionType questionType,
     required String problem,
-    required String? problemImageUrl,
+    required AppImage problemImage,
     required List<String> answers,
     required List<String> wrongChoices,
     required String? explanation,
-    required String? explanationImageUrl,
+    required AppImage explanationImage,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
   }) async {
     final newQuestion = currentQuestion.copyWith(
       questionType: questionType,
       problem: problem,
-      problemImageUrl: problemImageUrl,
+      problemImage: problemImage,
       answers: answers,
       wrongChoices: wrongChoices,
       explanation: explanation,
-      explanationImageUrl: explanationImageUrl,
+      explanationImage: explanationImage,
       isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
       isCheckAnswerOrder: isCheckAnswerOrder,
     );

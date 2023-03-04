@@ -18,11 +18,11 @@ extension RealmQuestionConverting on RealmQuestion {
       question.answerStatus.value,
       question.createdAt,
       question.updatedAt,
-      problemImageUrl: question.problemImageUrl,
+      problemImageUrl: question.problemImage.toStringOrNull(),
       answers: question.answers,
       wrongChoices: question.wrongChoices,
       explanation: question.explanation,
-      explanationImageUrl: question.explanationImageUrl,
+      explanationImageUrl: question.explanationImage.toStringOrNull(),
       lastAnsweredAt: question.lastAnsweredAt,
     );
   }

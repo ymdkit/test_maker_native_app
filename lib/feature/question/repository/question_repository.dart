@@ -10,6 +10,7 @@ import 'package:test_maker_native_app/feature/question/repository/local_question
 import 'package:test_maker_native_app/feature/question/repository/remote_owned_question_repository.dart';
 import 'package:test_maker_native_app/feature/question/repository/remote_shared_question_repository.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 
 final questionRepositoryProvider =
     Provider.family<QuestionRepository, AppDataLocation>((ref, location) {
@@ -33,11 +34,11 @@ abstract class QuestionRepository {
     required String workbookId,
     required QuestionType questionType,
     required String problem,
-    required String? problemImageUrl,
+    required AppImage problemImage,
     required List<String> answers,
     required List<String> wrongChoices,
     required String? explanation,
-    required String? explanationImageUrl,
+    required AppImage explanationImage,
     required bool isAutoGenerateWrongChoices,
     required bool isCheckAnswerOrder,
   });

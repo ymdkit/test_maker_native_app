@@ -54,6 +54,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                   EditQuestionRoute(
                     workbookId: question.workbookId,
                     question: question,
+                    location: question.location,
                   ),
                 );
                 context.router.pop();

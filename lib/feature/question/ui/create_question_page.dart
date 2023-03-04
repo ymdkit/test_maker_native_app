@@ -19,32 +19,35 @@ class CreateQuestionPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return EditQuestionForm.create(
       workbookId: workbookId,
+      location: location,
       onSubmit: ({
         required workbookId,
         required questionType,
         required problem,
-        required problemImageUrl,
+        required problemImage,
         required answers,
         required wrongChoices,
         required explanation,
-        required explanationImageUrl,
+        required explanationImage,
         required isAutoGenerateWrongChoices,
         required isCheckAnswerOrder,
       }) {
-        ref.read(questionsProvider(
-          QuestionsStateKey(
-            location: location,
-            workbookId: workbookId,
-          ),
-        ).notifier).addQuestion(
+        ref
+            .read(questionsProvider(
+              QuestionsStateKey(
+                location: location,
+                workbookId: workbookId,
+              ),
+            ).notifier)
+            .addQuestion(
               workbookId: workbookId,
               questionType: questionType,
               problem: problem,
-              problemImageUrl: problemImageUrl,
+              problemImage: problemImage,
               answers: answers,
               wrongChoices: wrongChoices,
               explanation: explanation,
-              explanationImageUrl: explanationImageUrl,
+              explanationImage: explanationImage,
               isAutoGenerateWrongChoices: isAutoGenerateWrongChoices,
               isCheckAnswerOrder: isCheckAnswerOrder,
             );

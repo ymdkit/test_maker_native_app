@@ -1,22 +1,30 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:test_maker_native_app/constants/app_data_location.dart';
+import 'package:test_maker_native_app/utils/app_image.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
 import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
 
 Future<T?> showPickImageSheet<T>({
   required BuildContext context,
-  required void Function(String?) onPicked,
+  required AppDataLocation location,
+  required void Function(AppImage) onPicked,
   required void Function()? onDeleted,
 }) async =>
     showModalBottomSheet(
       context: context,
       useRootNavigator: true,
       builder: (context) => _PickImageSheet(
+        location: location,
         onPicked: onPicked,
         onDeleted: onDeleted,
       ),
@@ -24,11 +32,13 @@ Future<T?> showPickImageSheet<T>({
 
 class _PickImageSheet extends HookWidget {
   const _PickImageSheet({
+    required this.location,
     required this.onPicked,
     required this.onDeleted,
   });
 
-  final void Function(String?) onPicked;
+  final AppDataLocation location;
+  final void Function(AppImage) onPicked;
   final void Function()? onDeleted;
 
   @override
@@ -54,6 +64,7 @@ class _PickImageSheet extends HookWidget {
                   try {
                     final filePath = await _pickImage(
                       source: ImageSource.camera,
+                      location: location,
                     );
                     if (isMounted()) {
                       // ignore: use_build_context_synchronously
@@ -79,6 +90,7 @@ class _PickImageSheet extends HookWidget {
                 try {
                   final filePath = await _pickImage(
                     source: ImageSource.gallery,
+                    location: location,
                   );
                   if (isMounted()) {
                     // ignore: use_build_context_synchronously
@@ -121,27 +133,45 @@ class _PickImageSheet extends HookWidget {
     );
   }
 
-  Future<String?> _pickImage({
+  Future<AppImage> _pickImage({
     required ImageSource source,
+    required AppDataLocation location,
   }) async {
     final picker = ImagePicker();
     final image = await picker.pickImage(
       source: source,
     );
     if (image == null) {
-      return null;
+      return const AppImage.empty();
     }
 
     final imageFileName = image.name;
 
-    // find path
-    final appDocDir = await getApplicationDocumentsDirectory();
-    final appDocPath = appDocDir.path;
-    final filePath = '$appDocPath/$imageFileName';
+    switch (location) {
+      case AppDataLocation.local:
+        final appDocDir = await getApplicationDocumentsDirectory();
+        final appDocPath = appDocDir.path;
+        final filePath = '$appDocPath/$imageFileName';
 
-    // save imageFile in filePath
-    await image.saveTo(filePath);
+        await image.saveTo(filePath);
 
-    return filePath;
+        return AppImage.local(path: filePath);
+      case AppDataLocation.remoteOwned:
+
+        final storage = FirebaseStorage.instance;
+        final userId = FirebaseAuth.instance.currentUser?.uid;
+
+        if(userId == null) {
+          return const AppImage.empty();
+        }
+        final ref = storage.ref().child('$userId/$imageFileName');
+        final snapshot = await ref.putFile(File(image.path));
+
+        final url = await snapshot.ref.getDownloadURL();
+
+        return AppImage.http(url: url);
+      case AppDataLocation.remoteShared:
+        throw UnimplementedError();
+    }
   }
 }

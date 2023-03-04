@@ -57,6 +57,7 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
                           EditQuestionRoute(
                             workbookId: question.rawQuestion.workbookId,
                             question: question.rawQuestion,
+                            location: question.rawQuestion.location,
                           ),
                         ),
                         icon: const Icon(
