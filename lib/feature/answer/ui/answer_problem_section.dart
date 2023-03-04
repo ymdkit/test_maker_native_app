@@ -12,11 +12,10 @@ class AnswerProblemSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(question.problemImage.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(question.problemImage.toString()),
+        Text(question.problem),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: AppImageContent(image: question.problemImage),
