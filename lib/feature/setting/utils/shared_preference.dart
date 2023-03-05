@@ -26,7 +26,8 @@ enum PreferenceKey {
 
   //その他
   answerWorkbookCount('play_count'),
-  isRemovedAds('isRemovedAd');
+  isRemovedAds('isRemovedAd'),
+  preferenceAlreadyMigrated('preference_already_migrated');
 
   final String name;
 

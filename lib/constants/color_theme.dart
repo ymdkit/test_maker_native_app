@@ -73,6 +73,10 @@ enum AppThemeColor {
         AppThemeColor.blue;
   }
 
+  static AppThemeColor fromAndroidPreference(String value) {
+    return AppThemeColor.from(value.toLowerCase());
+  }
+
   static AppThemeColor fromIndex(int index) {
     return AppThemeColor.values.elementAtOrNull(index) ?? AppThemeColor.blue;
   }

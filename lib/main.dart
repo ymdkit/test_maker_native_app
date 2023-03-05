@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/group/state/groups_state.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
+import 'package:test_maker_native_app/feature/setting/utils/preference_migrator.dart';
 import 'package:test_maker_native_app/feature/setting/utils/shared_preference.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/workbook_repository.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -43,6 +44,7 @@ void main() async {
 
   final packageInfo = await PackageInfo.fromPlatform();
   final preferences = await SharedPreferences.getInstance();
+  await PreferenceMigrator.migrate(preferences);
 
   runApp(
     ProviderScope(

@@ -125,7 +125,7 @@ class GroupRepository {
           uriPrefix: 'https://testmaker.page.link',
           link: Uri.parse('https://ankimaker.com/groups/${group.groupId}'),
           androidParameters: const AndroidParameters(
-            packageName: 'com.example.test_maker_native_app',
+            packageName: 'jp.gr.java_conf.foobar.testmaker.service',
             minimumVersion: 87,
           ),
           iosParameters: const IOSParameters(

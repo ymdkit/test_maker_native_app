@@ -10,7 +10,7 @@ class DynamicLinkCreator {
           uriPrefix: 'https://testmaker.page.link',
           link: Uri.parse('https://ankimaker.com/$path'),
           androidParameters: const AndroidParameters(
-            packageName: 'jp.gr.java-conf.foobar.testmaker.service',
+            packageName: 'jp.gr.java_conf.foobar.testmaker.service',
             minimumVersion: 87,
           ),
           iosParameters: const IOSParameters(
