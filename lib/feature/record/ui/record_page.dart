@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:dartx/dartx.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -77,24 +78,22 @@ class RecordPage extends HookConsumerWidget {
                               barRods: [
                                 BarChartRodData(
                                   toY: answerHistories
-                                      .where((answerHistory) =>
-                                          !answerHistory.isCorrect &&
-                                          answerHistory.createdAt.date
+                                          .firstWhereOrNull((element) => element
+                                              .date
                                               .eqvYearMonthDay(date))
-                                      .length
-                                      .toDouble(),
+                                          ?.incorrectCount
+                                          .toDouble() ??
+                                      0,
                                   color: Colors.grey,
                                 ),
                                 BarChartRodData(
                                   toY: answerHistories
-                                      .where(
-                                        (answerHistory) =>
-                                            answerHistory.isCorrect &&
-                                            answerHistory.createdAt.date
-                                                .eqvYearMonthDay(date),
-                                      )
-                                      .length
-                                      .toDouble(),
+                                          .firstWhereOrNull((element) => element
+                                              .date
+                                              .eqvYearMonthDay(date))
+                                          ?.correctCount
+                                          .toDouble() ??
+                                      0,
                                 ),
                               ],
                             );
@@ -110,9 +109,13 @@ class RecordPage extends HookConsumerWidget {
                     (context, index) {
                       final answerHistory = answerHistories[index];
                       return ListTile(
-                        title: Text(answerHistory.questionId),
-                        subtitle: Text(answerHistory.answerHistoryId),
-                        trailing: Text(answerHistory.isCorrect ? '正解' : '不正解'),
+                        leading: const Icon(Icons.history),
+                        title: Text(
+                            '''${answerHistory.totalCount}問解答して${answerHistory.correctCount}問正解しました'''),
+                        subtitle: Text(
+                          DateFormat(DateFormat.YEAR_NUM_MONTH_DAY)
+                              .format(answerHistory.date),
+                        ),
                       );
                     },
                     childCount: answerHistories.length,
