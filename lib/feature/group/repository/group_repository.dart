@@ -57,8 +57,12 @@ class GroupRepository {
         return right([]);
       }
 
-      final groups =
-          await db.collection('users').doc(userId).collection('groups').get();
+      final groups = await db
+          .collection('users')
+          .doc(userId)
+          .collection('groups')
+          .orderBy('createdAt', descending: true)
+          .get();
       return right(groups.docs.map((e) => documentToGroup(userId, e)).toList());
     } catch (e) {
       return left(AppException.fromRawException(e: e));

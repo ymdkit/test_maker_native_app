@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/group/state/groups_state.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -47,6 +48,8 @@ class GroupListPage extends HookConsumerWidget {
                             color: group.color.displayColor(),
                           ),
                           title: Text(group.title),
+                          subtitle: Text(
+                              '''作成日 ${DateFormat(DateFormat.YEAR_NUM_MONTH_DAY).format(group.createdAt)}'''),
                           onTap: () => context.router.push(
                             GroupDetailsRoute(
                               groupId: group.groupId,
