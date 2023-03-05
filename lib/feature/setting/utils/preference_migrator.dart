@@ -75,7 +75,11 @@ class PreferenceMigrator {
       await pref.setInt(PreferenceKey.themeColor.name,
           AppThemeColor.fromAndroidPreference(themeColor as String).index);
     } else {
-      //TODO: iOS の場合の移行処理
+      final themeColor = preferences?.getOrElse('themeColor', () => 0);
+      await pref.setInt(
+        PreferenceKey.themeColor.name,
+        themeColor as int,
+      );
     }
 
     final isRemovedAds = preferences?.getOrElse('isRemovedAds', () => false);
@@ -89,6 +93,13 @@ class PreferenceMigrator {
     await pref.setBool(
       PreferenceKey.isCaseInsensitive.name,
       isCaseInsensitive as bool,
+    );
+
+    final questionCondition =
+        preferences?.getOrElse('questionCondition', () => 0);
+    await pref.setInt(
+      PreferenceKey.questionCondition.name,
+      questionCondition as int,
     );
 
     await pref.setBool(PreferenceKey.preferenceAlreadyMigrated.name, true);
