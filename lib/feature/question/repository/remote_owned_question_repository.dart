@@ -116,9 +116,11 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
               'order': question.order,
               'createdAt': Timestamp.now(),
               'updatedAt': Timestamp.now(),
+              'lastAnsweredAt': null,
               'imageRef': question.problemImage.toStringOrNull(),
               'explanation': question.explanation,
               'explanationImageRef': question.explanationImage.toStringOrNull(),
+              'answerStatus': 0,
             },
           );
         }
@@ -180,9 +182,11 @@ class RemoteOwnedQuestionRepository implements QuestionRepository {
           'checkOrder': question.isCheckAnswerOrder,
           'order': question.order,
           'updatedAt': Timestamp.now(),
+          'lastAnsweredAt': Timestamp.now(),
           'imageRef': question.problemImage.toStringOrNull(),
           'explanation': question.explanation,
           'explanationImageRef': question.explanationImage.toStringOrNull(),
+          'answerStatus': question.answerStatus.index,
         }).then((value) => null);
       },
       (e, stack) => AppException.fromRawException(e: e),

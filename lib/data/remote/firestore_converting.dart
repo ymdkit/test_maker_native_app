@@ -107,8 +107,8 @@ Question documentToQuestion({
       workbookId: workbookId,
       questionType: QuestionType.values[data.getOrElse('type', () => 0) as int],
       problem: data['question'] as String,
-      problemImage: AppImage.from(
-          data.getOrElse('imageRef', () => '') as String),
+      problemImage:
+          AppImage.from(data.getOrElse('imageRef', () => '') as String),
       answers: (data['answers'] as List<dynamic>).isNotEmpty
           ? List.from(data['answers'] as List<dynamic>)
           : [data['answer'] as String],
@@ -119,11 +119,18 @@ Question documentToQuestion({
       isAutoGenerateWrongChoices: data['auto'] as bool,
       isCheckAnswerOrder: data['checkOrder'] as bool,
       order: data['order'] as int,
-      answerStatus: AnswerStatus.unAnswered,
-      //TODO: リモートで管理できるようにする
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      lastAnsweredAt: null,
+      answerStatus: AnswerStatus.values.elementAtOrElse(
+          data.getOrElse('answerStatus', () => 0) as int,
+          (_) => AnswerStatus.unAnswered),
+      createdAt: data.getOrElse('createdAt', () => null) != null
+          ? (data['createdAt'] as Timestamp).toDate()
+          : DateTime.now(),
+      updatedAt: data.getOrElse('updatedAt', () => null) != null
+          ? (data['updatedAt'] as Timestamp).toDate()
+          : DateTime.now(),
+      lastAnsweredAt: data.getOrElse('lastAnsweredAt', () => null) != null
+          ? (data['lastAnsweredAt'] as Timestamp).toDate()
+          : null,
       location:
           isOwned ? AppDataLocation.remoteOwned : AppDataLocation.remoteShared,
     );

@@ -11,6 +11,7 @@ import 'package:test_maker_native_app/feature/question/model/question_type.dart'
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
 import 'package:test_maker_native_app/widget/app_text_form_field.dart';
 import 'package:test_maker_native_app/widget/separated_flex.dart';
+import 'package:test_maker_native_app/widget/synchronized_button.dart';
 
 class AnswerQuestionFormContent extends HookConsumerWidget {
   const AnswerQuestionFormContent({
@@ -74,9 +75,9 @@ class AnswerQuestionFormContent extends HookConsumerWidget {
               const Divider(height: 1),
               Padding(
                 padding: const EdgeInsets.all(16),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _checkIsCorrectYourAnswer(
+                child: SynchronizedButton.elevated(
+                  onPressed: () async {
+                    await _checkIsCorrectYourAnswer(
                         context, ref, editingAnswers.value);
                   },
                   child: const Text('OK'),
@@ -89,23 +90,23 @@ class AnswerQuestionFormContent extends HookConsumerWidget {
     );
   }
 
-  void _checkIsCorrectYourAnswer(
+  Future<void> _checkIsCorrectYourAnswer(
     BuildContext context,
     WidgetRef ref,
     List<String> attemptAnswers,
-  ) {
+  ) async {
     final isCorrect = ref.read(checkIsCorrectUseCaseProvider).call(
           question: question,
           attemptAnswers: attemptAnswers,
         );
     ref.read(answerEffectStateProvider.notifier).state = isCorrect;
-    ref
+    await ref
         .read(answerWorkbookStateProvider(QuestionsStateKey(
                 location: question.rawQuestion.location,
                 workbookId: question.rawQuestion.workbookId))
             .notifier)
         .updateAnswerStatus(question.rawQuestion, isCorrect);
-    ref
+    await ref
         .read(answerWorkbookStateProvider(QuestionsStateKey(
                 location: question.rawQuestion.location,
                 workbookId: question.rawQuestion.workbookId))

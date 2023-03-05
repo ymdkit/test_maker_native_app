@@ -22,6 +22,15 @@ class SynchronizedButton extends HookConsumerWidget {
           child: child,
         );
 
+  SynchronizedButton.outlined({
+    super.key,
+    required Widget child,
+    required AsyncCallback? onPressed,
+  }) : body = _SynchronizedOutlinedButton(
+          onPressed: onPressed,
+          child: child,
+        );
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(onTap: () {}, child: body);
@@ -44,6 +53,26 @@ class _SynchronizedElevatedButton extends HookConsumerWidget {
     final isWorking = useState(false);
     final isMounted = useIsMounted();
     return ElevatedButton(
+      onPressed: _onPressedValue(isWorking, isMounted, onPressed),
+      child: child,
+    );
+  }
+}
+
+class _SynchronizedOutlinedButton extends HookConsumerWidget {
+  const _SynchronizedOutlinedButton({
+    required this.child,
+    required this.onPressed,
+  });
+
+  final Widget child;
+  final AsyncCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isWorking = useState(false);
+    final isMounted = useIsMounted();
+    return OutlinedButton(
       onPressed: _onPressedValue(isWorking, isMounted, onPressed),
       child: child,
     );

@@ -9,6 +9,7 @@ import 'package:test_maker_native_app/feature/question/state/questions_state_key
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_section_title.dart';
+import 'package:test_maker_native_app/widget/synchronized_button.dart';
 
 class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
   const AnswerQuestionSelfScoreContent({
@@ -79,7 +80,7 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  ElevatedButton(
+                  SynchronizedButton.elevated(
                     onPressed: () async {
                       await uiStateNotifier.updateAnswerStatus(
                           question.rawQuestion, true);
@@ -88,7 +89,7 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
                     child: const Text('正解'),
                   ),
                   const SizedBox(height: 16),
-                  OutlinedButton(
+                  SynchronizedButton.outlined(
                     onPressed: () async {
                       await uiStateNotifier.updateAnswerStatus(
                           question.rawQuestion, false);
