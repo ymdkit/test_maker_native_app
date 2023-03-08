@@ -31,8 +31,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppDraggableScrollableSheet(
-      initialChildSize: 0.4,
-      maxChildSize: 0.4,
+      initialChildSize: 0.6,
       builder: (sheetContext, scrollController) => SingleChildScrollView(
         controller: scrollController,
         child: Column(
@@ -58,6 +57,20 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                   ),
                 );
                 context.router.pop();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.copy),
+              title: const Text('コピーする'),
+              onTap: () {
+                ref
+                    .read(questionsProvider(QuestionsStateKey(
+                      location: question.location,
+                      workbookId: question.workbookId,
+                    )).notifier)
+                    .copyQuestion(question: question);
+                context.router.pop();
+                showAppSnackBar(context, '問題を末尾にコピーしました');
               },
             ),
             ListTile(

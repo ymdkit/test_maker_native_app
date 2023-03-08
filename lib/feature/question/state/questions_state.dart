@@ -166,6 +166,36 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
     );
   }
 
+  Future<Either<AppException, void>> copyQuestion({
+    required Question question,
+  }) async {
+    final result = await questionRepository.addQuestion(
+      workbookId: question.workbookId,
+      questionType: question.questionType,
+      problem: question.problem,
+      problemImage: question.problemImage,
+      answers: question.answers,
+      wrongChoices: question.wrongChoices,
+      explanation: question.explanation,
+      explanationImage: question.explanationImage,
+      isAutoGenerateWrongChoices: question.isAutoGenerateWrongChoices,
+      isCheckAnswerOrder: question.isCheckAnswerOrder,
+    );
+
+    return result.match(
+      (l) => left(l),
+      (r) {
+        state.maybeWhen(
+          success: (questions) => state = QuestionsState.success(
+            value: [...questions, r],
+          ),
+          orElse: () {},
+        );
+        return right(null);
+      },
+    );
+  }
+
   Future<Either<AppException, void>> deleteQuestion(Question question) async {
     final result = await questionRepository.deleteQuestion(question);
     return result.match(
