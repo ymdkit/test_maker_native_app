@@ -43,92 +43,116 @@ class _PickImageSheet extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPicking = useState(false);
     final isMounted = useIsMounted();
     return AppDraggableScrollableSheet(
       initialChildSize: 0.5,
       maxChildSize: 0.5,
       builder: (sheetContext, scrollController) => SingleChildScrollView(
         controller: scrollController,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text('画像設定'),
-            ),
-            ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('カメラで撮影'),
-                onTap: () async {
-                  try {
-                    final filePath = await _pickImage(
-                      source: ImageSource.camera,
-                      location: location,
-                    );
-                    if (isMounted()) {
-                      // ignore: use_build_context_synchronously
-                      await sheetContext.router.pop();
-                    }
-                    onPicked(filePath);
-                  } on PlatformException catch (e) {
-                    if (e.code == 'camera_access_denied') {
-                      await showAlertDialog(
+        child: isPicking.value
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Text('画像の設定中'),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  CircularProgressIndicator(),
+                ],
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text('画像設定'),
+                  ),
+                  ListTile(
+                      leading: const Icon(Icons.camera_alt),
+                      title: const Text('カメラで撮影'),
+                      onTap: () async {
+                        try {
+                          isPicking.value = true;
+                          final filePath = await _pickImage(
+                            source: ImageSource.camera,
+                            location: location,
+                          );
+
+                          if (isMounted()) {
+                            isPicking.value = false;
+                            // ignore: use_build_context_synchronously
+                            await sheetContext.router.pop();
+                          }
+                          onPicked(filePath);
+                        } on PlatformException catch (e) {
+                          if (e.code == 'camera_access_denied') {
+                            await showAlertDialog(
+                              context: sheetContext,
+                              title: '権限エラー',
+                              content:
+                                  'カメラへのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
+                              positiveButtonText: '許可する',
+                              onPositive: () => openAppSettings(),
+                            );
+                          }
+                        }
+                      }),
+                  ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('ライブラリから選択'),
+                    onTap: () async {
+                      try {
+                        isPicking.value = true;
+                        final filePath = await _pickImage(
+                          source: ImageSource.gallery,
+                          location: location,
+                        );
+
+                        if (isMounted()) {
+                          isPicking.value = false;
+                          // ignore: use_build_context_synchronously
+                          await sheetContext.router.pop();
+                        }
+                        onPicked(filePath);
+                      } on PlatformException catch (e) {
+                        if (e.code == 'photo_access_denied') {
+                          await showAlertDialog(
+                            context: sheetContext,
+                            title: '権限エラー',
+                            content:
+                                '端末内の画像へのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
+                            positiveButtonText: '許可する',
+                            onPositive: () => openAppSettings(),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.delete),
+                    title: const Text('画像を削除'),
+                    onTap: () {
+                      showAlertDialog(
                         context: sheetContext,
-                        title: '権限エラー',
-                        content: 'カメラへのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
-                        positiveButtonText: '許可する',
-                        onPositive: () => openAppSettings(),
+                        title: '画像の削除',
+                        content: '画像を削除してもよろしいですか？',
+                        onPositive: () {
+                          sheetContext.router.pop();
+                          onDeleted?.call();
+                        },
+                        isDangerous: true,
                       );
-                    }
-                  }
-                }),
-            ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text('ライブラリから選択'),
-              onTap: () async {
-                try {
-                  final filePath = await _pickImage(
-                    source: ImageSource.gallery,
-                    location: location,
-                  );
-                  if (isMounted()) {
-                    // ignore: use_build_context_synchronously
-                    await sheetContext.router.pop();
-                  }
-                  onPicked(filePath);
-                } on PlatformException catch (e) {
-                  if (e.code == 'photo_access_denied') {
-                    await showAlertDialog(
-                      context: sheetContext,
-                      title: '権限エラー',
-                      content: '端末内の画像へのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
-                      positiveButtonText: '許可する',
-                      onPositive: () => openAppSettings(),
-                    );
-                  }
-                }
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.delete),
-              title: const Text('画像を削除'),
-              onTap: () {
-                showAlertDialog(
-                  context: sheetContext,
-                  title: '画像の削除',
-                  content: '画像を削除してもよろしいですか？',
-                  onPositive: () {
-                    sheetContext.router.pop();
-                    onDeleted?.call();
-                  },
-                  isDangerous: true,
-                );
-              },
-            ),
-            const SizedBox(height: 32),
-          ],
-        ),
+                    },
+                  ),
+                  const SizedBox(height: 32),
+                ],
+              ),
       ),
     );
   }
@@ -157,11 +181,10 @@ class _PickImageSheet extends HookWidget {
 
         return AppImage.local(path: filePath);
       case AppDataLocation.remoteOwned:
-
         final storage = FirebaseStorage.instance;
         final userId = FirebaseAuth.instance.currentUser?.uid;
 
-        if(userId == null) {
+        if (userId == null) {
           return const AppImage.empty();
         }
         final ref = storage.ref().child('$userId/$imageFileName');
