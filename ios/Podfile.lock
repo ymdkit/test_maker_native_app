@@ -205,8 +205,14 @@ PODS:
   - permission_handler_apple (9.0.4):
     - Flutter
   - PromisesObjC (2.2.0)
+  - purchases_flutter (4.10.3):
+    - Flutter
+    - PurchasesHybridCommon (= 4.13.4)
+  - PurchasesHybridCommon (4.13.4):
+    - RevenueCat (= 4.17.7)
   - "realm (0.9.0+rc)":
     - Flutter
+  - RevenueCat (4.17.7)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -232,6 +238,7 @@ DEPENDENCIES:
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
   - realm (from `.symlinks/plugins/realm/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
@@ -262,6 +269,8 @@ SPEC REPOS:
     - nanopb
     - OrderedSet
     - PromisesObjC
+    - PurchasesHybridCommon
+    - RevenueCat
 
 EXTERNAL SOURCES:
   app_tracking_transparency:
@@ -301,6 +310,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  purchases_flutter:
+    :path: ".symlinks/plugins/purchases_flutter/ios"
   realm:
     :path: ".symlinks/plugins/realm/ios"
   shared_preferences_foundation:
@@ -356,7 +367,10 @@ SPEC CHECKSUMS:
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  purchases_flutter: feb241b9dd91e8255e2d2d9d5b0266fa8427fe29
+  PurchasesHybridCommon: d8948a07502c3160fddb0e6ff1c06496222dcddf
   realm: 471983de316e6e5b93461944d11b980719a51c2d
+  RevenueCat: 15a06dbce1021474e6dc9b31b1fce43fe55fcaf2
   shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 

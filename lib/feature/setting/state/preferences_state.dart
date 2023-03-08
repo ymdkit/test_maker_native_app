@@ -48,8 +48,12 @@ class PreferencesStateNotifier extends StateNotifier<PreferencesState> {
             startPosition:
                 sharedPreferences.getInt(PreferenceKey.startPosition.name) ?? 0,
             themeColor: AppThemeColor.values.elementAtOrDefault(
-                sharedPreferences.getInt(PreferenceKey.themeColor.name) ?? 0,
-                AppThemeColor.blue),
+              sharedPreferences.getInt(PreferenceKey.themeColor.name) ?? 0,
+              AppThemeColor.blue,
+            ),
+            isRemovedAds: sharedPreferences
+                    .getBool(PreferenceKey.isRemovedAds.name) ??
+                false,
           ),
         );
 
@@ -111,6 +115,11 @@ class PreferencesStateNotifier extends StateNotifier<PreferencesState> {
     state = state.copyWith(themeColor: themeColor);
     sharedPreferences.setInt(PreferenceKey.themeColor.name, themeColor.index);
   }
+
+  void setRemovedAds(bool isRemovedAds) {
+    state = state.copyWith(isRemovedAds: isRemovedAds);
+    sharedPreferences.setBool(PreferenceKey.isRemovedAds.name, isRemovedAds);
+  }
 }
 
 @freezed
@@ -126,5 +135,6 @@ class PreferencesState with _$PreferencesState {
     required int numberOfQuestions,
     required int startPosition,
     required AppThemeColor themeColor,
+    required bool isRemovedAds,
   }) = _PreferencesState;
 }

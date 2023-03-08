@@ -6,6 +6,7 @@ import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/question/model/question_type.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
+import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/setting/utils/shared_preference.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
@@ -19,7 +20,9 @@ class DebugPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final account = ref.watch(accountStateProvider);
-    final preferences = ref.watch(sharedPreferencesProvider);
+    final sharedPreferences = ref.watch(sharedPreferencesProvider);
+    final preferences = ref.watch(preferencesStateProvider);
+    final preferenceNotifier = ref.watch(preferencesStateProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -188,14 +191,16 @@ class DebugPage extends HookConsumerWidget {
             ListTile(
               title: const Text('解答回数'),
               subtitle: Text(
-                '${preferences.getInt(PreferenceKey.answerWorkbookCount.name)}',
+                '''${sharedPreferences.getInt(PreferenceKey.answerWorkbookCount.name)}''',
               ),
             ),
-            ListTile(
+            SwitchListTile(
               title: const Text('広告削除'),
               subtitle: Text(
-                '${preferences.getBool(PreferenceKey.isRemovedAds.name)}',
+                '${sharedPreferences.getBool(PreferenceKey.isRemovedAds.name)}',
               ),
+              value: preferences.isRemovedAds,
+              onChanged: (value) => preferenceNotifier.setRemovedAds(value),
             ),
           ],
         ),

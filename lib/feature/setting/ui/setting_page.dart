@@ -2,7 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:test_maker_native_app/constants/web_url.dart';
 import 'package:test_maker_native_app/feature/account/state/account_state.dart';
 import 'package:test_maker_native_app/feature/answer/model/question_condition.dart';
@@ -31,6 +34,8 @@ class SettingPage extends HookConsumerWidget {
     final urlLauncher = ref.watch(urlLauncherProvider);
 
     final account = ref.watch(accountStateProvider);
+
+    final isMounted = useIsMounted();
 
     return AppAdWrapper(
       adUnitId: AppAdUnitId.settingBanner,
@@ -144,7 +149,65 @@ class SettingPage extends HookConsumerWidget {
                 title: const Text('ゴミ箱'),
                 onTap: () => context.router.push(const TrashRoute()),
               ),
-              // TODO: 広告削除
+              ListTile(
+                title: const Text('広告削除'),
+                subtitle:
+                    preferences.isRemovedAds ? const Text('広告削除済み') : null,
+                onTap: () async {
+                  if (preferences.isRemovedAds) {
+                    showAppSnackBar(context, '広告削除済みです');
+                    return;
+                  }
+                  try {
+                    final offerings = await Purchases.getOfferings();
+                    final offering = offerings.current;
+                    final package = offering?.getPackage('removeAd');
+
+                    if (package != null) {
+                      final purchaseInfo =
+                          await Purchases.purchasePackage(package);
+                      final isRemovedAd =
+                          purchaseInfo.entitlements.all['RemoveAd']?.isActive ??
+                              false;
+                      if (isRemovedAd) {
+                        preferencesNotifier.setRemovedAds(true);
+                      }
+                    } else {
+                      if (isMounted()) {
+                        // ignore: use_build_context_synchronously
+                        showAppSnackBar(context, '購入可能な商品が存在しません');
+                      }
+                      return;
+                    }
+                  } on PlatformException catch (e) {
+                    final errorCode = PurchasesErrorHelper.getErrorCode(e);
+                    if (errorCode !=
+                        PurchasesErrorCode.purchaseCancelledError) {
+                      showAppSnackBar(
+                          context, '購入に失敗しました。しばらくお待ちの上、もう一度やり直してください');
+                    }
+                  }
+                },
+              ),
+              ListTile(
+                title: const Text('購入復元'),
+                onTap: () async {
+                  try {
+                    final restoredInfo = await Purchases.restorePurchases();
+                    final isRemovedAd =
+                        restoredInfo.entitlements.all['RemoveAd']?.isActive ??
+                            false;
+                    if (isRemovedAd) {
+                      // ignore: use_build_context_synchronously
+                      showAppSnackBar(context, '購入情報を復元しました');
+                      preferencesNotifier.setRemovedAds(isRemovedAd);
+                    }
+                  } on PlatformException {
+                    showAppSnackBar(
+                        context, '購入復元に失敗しました。しばらくお待ちの上、もう一度やり直してください');
+                  }
+                },
+              ),
               ListTile(
                 title: const Text('よくある質問'),
                 onTap: () => urlLauncher.launch(WebUrl.faq),

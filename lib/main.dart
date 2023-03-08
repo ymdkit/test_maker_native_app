@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info/package_info.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/group/state/groups_state.dart';
@@ -45,6 +48,15 @@ void main() async {
   final packageInfo = await PackageInfo.fromPlatform();
   final preferences = await SharedPreferences.getInstance();
   await PreferenceMigrator.migrate(preferences);
+
+  await Purchases.setLogLevel(LogLevel.debug);
+  await Purchases.configure(
+    PurchasesConfiguration(
+      Platform.isAndroid
+          ? const String.fromEnvironment('revenueCatAndroidPublicApiKey')
+          : const String.fromEnvironment('revenueCatIOSPublicApiKey'),
+    ),
+  );
 
   runApp(
     ProviderScope(
