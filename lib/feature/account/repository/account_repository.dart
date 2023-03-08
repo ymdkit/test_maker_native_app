@@ -1,23 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:test_maker_native_app/data/remote/firebase_auth.dart';
+import 'package:test_maker_native_app/data/remote/firestore.dart';
 import 'package:test_maker_native_app/feature/account/model/account.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
 final accountRepositoryProvider = Provider<AccountRepository>(
   (ref) => AccountRepository(
     auth: ref.watch(firebaseAuthProvider),
+    remoteDB: ref.watch(firestoreProvider),
   ),
 );
 
 class AccountRepository {
   const AccountRepository({
     required this.auth,
+    required this.remoteDB,
   });
 
   final FirebaseAuth auth;
+  final FirebaseFirestore remoteDB;
 
   Future<Either<AppException, Account>> signInWithEmailAndPassword({
     required String email,
@@ -34,6 +39,7 @@ class AccountRepository {
         return const Left(AppException(message: 'user not found'));
       }
 
+      await _updateUser(user);
       return Right(user.toAccount());
     } on FirebaseAuthException catch (e) {
       return Left(
@@ -64,6 +70,7 @@ class AccountRepository {
         return const Left(AppException(message: 'ログインに失敗しました'));
       }
 
+      await _updateUser(user);
       return Right(user.toAccount());
     } catch (e) {
       return Left(AppException.fromRawException(e: e));
@@ -81,6 +88,8 @@ class AccountRepository {
       if (user == null) {
         return const Left(AppException(message: 'user not found'));
       }
+
+      await _updateUser(user);
       return Right(user.toAccount());
     } catch (e) {
       return Left(AppException.fromRawException(e: e));
@@ -105,6 +114,17 @@ class AccountRepository {
           e: e,
           code: AppExceptionCode.unAuthorized,
         ),
+      );
+
+  Future<void> _updateUser(User user) async =>
+      remoteDB.collection('users').doc(user.uid).set(
+        {
+          'id': user.uid,
+          'name': user.displayName,
+          'email': user.email,
+          'photo_url': user.photoURL,
+          'last_login_at': Timestamp.fromDate(DateTime.now()),
+        },
       );
 }
 
