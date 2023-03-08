@@ -49,7 +49,7 @@ void main() async {
   final preferences = await SharedPreferences.getInstance();
   await PreferenceMigrator.migrate(preferences);
 
-  await Purchases.setLogLevel(LogLevel.debug);
+  await Purchases.setLogLevel(LogLevel.error);
   await Purchases.configure(
     PurchasesConfiguration(
       Platform.isAndroid
