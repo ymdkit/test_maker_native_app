@@ -55,20 +55,22 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
   Future<void> setupQuestions(String query) async {
     state = const QuestionsState.loading();
     final result = await questionRepository.getQuestions(workbookId).run();
-    result.match(
-      (l) => state = QuestionsState.failure(exception: l),
-      (r) => state = QuestionsState.success(
-        value: r
-            .where(
-              (e) =>
-                  e.problem.contains(query) ||
-                  e.answers.any((e) => e.contains(query)) ||
-                  e.wrongChoices.any((e) => e.contains(query)) ||
-                  (e.explanation?.contains(query) ?? false),
-            )
-            .toList(),
-      ),
-    );
+    if (mounted) {
+      result.match(
+        (l) => state = QuestionsState.failure(exception: l),
+        (r) => state = QuestionsState.success(
+          value: r
+              .where(
+                (e) =>
+                    e.problem.contains(query) ||
+                    e.answers.any((e) => e.contains(query)) ||
+                    e.wrongChoices.any((e) => e.contains(query)) ||
+                    (e.explanation?.contains(query) ?? false),
+              )
+              .toList(),
+        ),
+      );
+    }
   }
 
   Future<Either<AppException, Question>> addQuestion({
@@ -142,7 +144,7 @@ class QuestionsStateNotifier extends StateNotifier<QuestionsState> {
     return result.match(
       (l) => left(l),
       (r) {
-        if (newQuestion.workbookId == workbookId) {
+        if (newQuestion.workbookId == workbookId && mounted) {
           state.maybeWhen(
             success: (questions) => state = QuestionsState.success(
               value: questions.map(
