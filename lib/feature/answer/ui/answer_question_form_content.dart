@@ -35,6 +35,7 @@ class AnswerQuestionFormContent extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   AnswerProblemSection(question: question),
+                  const SizedBox(height: 16),
                   (() {
                     switch (question.questionType) {
                       case QuestionType.write:

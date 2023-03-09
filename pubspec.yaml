@@ -40,6 +40,7 @@ dependencies:
   package_info: ^2.0.2
   path_provider: ^2.0.12
   permission_handler: ^10.2.0
+  photo_view: ^0.14.0
   purchases_flutter: ^4.10.3
   realm: ^0.9.0+rc
   riverpod_annotation: ^1.2.1
