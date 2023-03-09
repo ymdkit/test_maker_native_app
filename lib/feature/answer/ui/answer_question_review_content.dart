@@ -40,6 +40,7 @@ class AnswerQuestionReviewContent extends HookConsumerWidget {
                   AnswerProblemSection(
                     question: question,
                   ),
+                  const SizedBox(height: 16),
                   Visibility(
                     visible: attemptAnswers.any((e) => e.isNotEmpty),
                     child: Column(

@@ -41,6 +41,7 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
                   AnswerProblemSection(
                     question: question,
                   ),
+                  const SizedBox(height: 16),
                   const AppSectionTitle(title: '解答'),
                   Text(
                     question.answers.join('\n'),
