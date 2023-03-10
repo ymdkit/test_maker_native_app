@@ -11,6 +11,8 @@ part 'answering_question.freezed.dart';
 @freezed
 class AnsweringQuestion with _$AnsweringQuestion {
   const factory AnsweringQuestion({
+    required int displayIndex,
+    required int totalCount,
     required String questionId,
     required QuestionType questionType,
     required String problem,
@@ -36,9 +38,16 @@ class AnsweringQuestionFactory {
   });
   final PreferencesState preferences;
 
-  AnsweringQuestion from(Question question, List<Question> questions) {
+  AnsweringQuestion from(
+    List<Question> questions,
+    int index,
+    int totalCount,
+  ) {
+    final question = questions[index];
     //TODO: テスト書く
     return AnsweringQuestion(
+      displayIndex: index + 1,
+      totalCount: totalCount,
       questionId: question.questionId,
       questionType: question.questionType,
       problem: preferences.isSwapProblemAndAnswer && question.reversible

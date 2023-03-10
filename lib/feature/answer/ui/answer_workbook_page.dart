@@ -124,12 +124,14 @@ class AnswerWorkbookPage extends HookConsumerWidget {
       context: context,
       title: '解答の終了',
       content: '解答を終了しますか？',
-      onPositive: () => ref.read(answerWorkbookStateProvider(
-        QuestionsStateKey(
-          location: workbook.location,
-          workbookId: workbook.workbookId,
-        ),
-      ).notifier).finish(),
+      onPositive: () => ref
+          .read(answerWorkbookStateProvider(
+            QuestionsStateKey(
+              location: workbook.location,
+              workbookId: workbook.workbookId,
+            ),
+          ).notifier)
+          .finish(),
     );
   }
 }

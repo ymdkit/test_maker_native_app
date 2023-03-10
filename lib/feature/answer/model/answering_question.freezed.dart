@@ -16,6 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AnsweringQuestion {
+  int get displayIndex => throw _privateConstructorUsedError;
+  int get totalCount => throw _privateConstructorUsedError;
   String get questionId => throw _privateConstructorUsedError;
   QuestionType get questionType => throw _privateConstructorUsedError;
   String get problem => throw _privateConstructorUsedError;
@@ -39,7 +41,9 @@ abstract class $AnsweringQuestionCopyWith<$Res> {
       _$AnsweringQuestionCopyWithImpl<$Res, AnsweringQuestion>;
   @useResult
   $Res call(
-      {String questionId,
+      {int displayIndex,
+      int totalCount,
+      String questionId,
       QuestionType questionType,
       String problem,
       AppImage problemImage,
@@ -68,6 +72,8 @@ class _$AnsweringQuestionCopyWithImpl<$Res, $Val extends AnsweringQuestion>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? displayIndex = null,
+    Object? totalCount = null,
     Object? questionId = null,
     Object? questionType = null,
     Object? problem = null,
@@ -80,6 +86,14 @@ class _$AnsweringQuestionCopyWithImpl<$Res, $Val extends AnsweringQuestion>
     Object? rawQuestion = null,
   }) {
     return _then(_value.copyWith(
+      displayIndex: null == displayIndex
+          ? _value.displayIndex
+          : displayIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalCount: null == totalCount
+          ? _value.totalCount
+          : totalCount // ignore: cast_nullable_to_non_nullable
+              as int,
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
@@ -157,7 +171,9 @@ abstract class _$$_AnsweringQuestionCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String questionId,
+      {int displayIndex,
+      int totalCount,
+      String questionId,
       QuestionType questionType,
       String problem,
       AppImage problemImage,
@@ -187,6 +203,8 @@ class __$$_AnsweringQuestionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? displayIndex = null,
+    Object? totalCount = null,
     Object? questionId = null,
     Object? questionType = null,
     Object? problem = null,
@@ -199,6 +217,14 @@ class __$$_AnsweringQuestionCopyWithImpl<$Res>
     Object? rawQuestion = null,
   }) {
     return _then(_$_AnsweringQuestion(
+      displayIndex: null == displayIndex
+          ? _value.displayIndex
+          : displayIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalCount: null == totalCount
+          ? _value.totalCount
+          : totalCount // ignore: cast_nullable_to_non_nullable
+              as int,
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
@@ -247,7 +273,9 @@ class __$$_AnsweringQuestionCopyWithImpl<$Res>
 
 class _$_AnsweringQuestion implements _AnsweringQuestion {
   const _$_AnsweringQuestion(
-      {required this.questionId,
+      {required this.displayIndex,
+      required this.totalCount,
+      required this.questionId,
       required this.questionType,
       required this.problem,
       required this.problemImage,
@@ -260,6 +288,10 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
       : _answers = answers,
         _choices = choices;
 
+  @override
+  final int displayIndex;
+  @override
+  final int totalCount;
   @override
   final String questionId;
   @override
@@ -295,7 +327,7 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
 
   @override
   String toString() {
-    return 'AnsweringQuestion(questionId: $questionId, questionType: $questionType, problem: $problem, problemImage: $problemImage, explanation: $explanation, explanationImage: $explanationImage, answers: $answers, choices: $choices, isCheckAnswerOrder: $isCheckAnswerOrder, rawQuestion: $rawQuestion)';
+    return 'AnsweringQuestion(displayIndex: $displayIndex, totalCount: $totalCount, questionId: $questionId, questionType: $questionType, problem: $problem, problemImage: $problemImage, explanation: $explanation, explanationImage: $explanationImage, answers: $answers, choices: $choices, isCheckAnswerOrder: $isCheckAnswerOrder, rawQuestion: $rawQuestion)';
   }
 
   @override
@@ -303,6 +335,10 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AnsweringQuestion &&
+            (identical(other.displayIndex, displayIndex) ||
+                other.displayIndex == displayIndex) &&
+            (identical(other.totalCount, totalCount) ||
+                other.totalCount == totalCount) &&
             (identical(other.questionId, questionId) ||
                 other.questionId == questionId) &&
             (identical(other.questionType, questionType) ||
@@ -325,6 +361,8 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      displayIndex,
+      totalCount,
       questionId,
       questionType,
       problem,
@@ -346,7 +384,9 @@ class _$_AnsweringQuestion implements _AnsweringQuestion {
 
 abstract class _AnsweringQuestion implements AnsweringQuestion {
   const factory _AnsweringQuestion(
-      {required final String questionId,
+      {required final int displayIndex,
+      required final int totalCount,
+      required final String questionId,
       required final QuestionType questionType,
       required final String problem,
       required final AppImage problemImage,
@@ -357,6 +397,10 @@ abstract class _AnsweringQuestion implements AnsweringQuestion {
       required final bool isCheckAnswerOrder,
       required final Question rawQuestion}) = _$_AnsweringQuestion;
 
+  @override
+  int get displayIndex;
+  @override
+  int get totalCount;
   @override
   String get questionId;
   @override

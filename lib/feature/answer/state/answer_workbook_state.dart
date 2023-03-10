@@ -74,14 +74,16 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
         selfScoring: (selfScoringQuestion) {
           if (selfScoringQuestion.questionId == question.questionId) {
             state = AnswerWorkbookState.selfScoring(
-              question: answeringQuestionFactory.from(question, questions),
+              question: answeringQuestionFactory.from(
+                  questions, index, questions.length),
             );
           }
         },
         reviewing: (reviewingQuestion, attemptAnswers) {
           if (reviewingQuestion.questionId == question.questionId) {
             state = AnswerWorkbookState.reviewing(
-              question: answeringQuestionFactory.from(question, questions),
+              question: answeringQuestionFactory.from(
+                  questions, index, questions.length),
               attemptAnswers: attemptAnswers,
             );
           }
@@ -114,11 +116,13 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     }
     if (preferences.isSelfScoring) {
       state = AnswerWorkbookState.confirming(
-        question: answeringQuestionFactory.from(questions[index], questions),
+        question:
+            answeringQuestionFactory.from(questions, index, questions.length),
       );
     } else {
       state = AnswerWorkbookState.answering(
-        question: answeringQuestionFactory.from(questions[index], questions),
+        question:
+            answeringQuestionFactory.from(questions, index, questions.length),
       );
     }
   }
@@ -172,7 +176,8 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   }) async {
     if (preferences.isAlwaysShowExplanation) {
       state = AnswerWorkbookState.reviewing(
-          question: answeringQuestionFactory.from(questions[index], questions),
+          question:
+              answeringQuestionFactory.from(questions, index, questions.length),
           attemptAnswers: attemptAnswers);
       return;
     }
@@ -182,7 +187,8 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
       await forward();
     } else {
       state = AnswerWorkbookState.reviewing(
-        question: answeringQuestionFactory.from(questions[index], questions),
+        question:
+            answeringQuestionFactory.from(questions, index, questions.length),
         attemptAnswers: attemptAnswers,
       );
     }
@@ -199,11 +205,13 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
 
       if (preferences.isSelfScoring) {
         state = AnswerWorkbookState.confirming(
-          question: answeringQuestionFactory.from(questions[index], questions),
+          question:
+              answeringQuestionFactory.from(questions, index, questions.length),
         );
       } else {
         state = AnswerWorkbookState.answering(
-          question: answeringQuestionFactory.from(questions[index], questions),
+          question:
+              answeringQuestionFactory.from(questions, index, questions.length),
         );
       }
     } else {
@@ -213,11 +221,13 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
   }
 
   void confirm() => state = AnswerWorkbookState.confirming(
-        question: answeringQuestionFactory.from(questions[index], questions),
+        question:
+            answeringQuestionFactory.from(questions, index, questions.length),
       );
 
   void selfScore() => state = AnswerWorkbookState.selfScoring(
-        question: answeringQuestionFactory.from(questions[index], questions),
+        question:
+            answeringQuestionFactory.from(questions, index, questions.length),
       );
 
   Future<void> finish() async {
