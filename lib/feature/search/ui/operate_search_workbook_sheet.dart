@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/widget/app_modal_bottom_sheet.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future<T?> showOperateSearchedWorkbookSheet<T>(
   BuildContext context,
@@ -56,7 +57,12 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
               leading: const Icon(Icons.report),
               title: const Text('通報する'),
               onTap: () async {
-                //TODO: 通報機能を実装する
+                final title = '問題集の通報（ID: ${workbook.workbookId}';
+                final body = '${workbook.title} を通報する理由を以下に記載してください';
+                const mailAddress = 'testmaker.contact@gmail.com';
+
+                await launchUrl(
+                    Uri.parse('mailto:$mailAddress?subject=$title&body=$body'));
               },
             ),
           ],
