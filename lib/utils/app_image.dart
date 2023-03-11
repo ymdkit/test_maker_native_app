@@ -24,7 +24,6 @@ class AppImage with _$AppImage {
         http: (url) => url,
       );
 
-  // TODO: テスト書く
   factory AppImage.from(String? rawString) {
     if (rawString == null || rawString.isEmpty) {
       return const AppImage.empty();
