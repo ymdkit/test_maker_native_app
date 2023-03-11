@@ -64,9 +64,11 @@ class DebugPage extends HookConsumerWidget {
                       folderId: null,
                     )).notifier)
                     .addWorkbook(
-                        title: 'サンプル問題集',
-                        color: AppThemeColor.blue,
-                        folderId: null);
+                      title: 'サンプル問題集',
+                      color: AppThemeColor.blue,
+                      folderId: null,
+                      isPublic: false,
+                    );
 
                 result.match(
                   (l) => showAppSnackBar(context, l.message),

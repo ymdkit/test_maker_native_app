@@ -76,12 +76,14 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
     required String title,
     required AppThemeColor color,
     required String? folderId,
+    required bool isPublic,
   }) async {
     final result = await workbookRepository
         .addWorkbook(
           title: title,
           color: color,
           folderId: folderId,
+          isPublic: isPublic,
         )
         .run();
 
@@ -181,6 +183,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
           title: sourceWorkbook.title,
           color: sourceWorkbook.color,
           folderId: null,
+          isPublic: false,
         )
         .flatMap(
           (destWorkbook) => sourceQuestionRepository

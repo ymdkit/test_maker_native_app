@@ -24,6 +24,7 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
     required String title,
     required AppThemeColor color,
     required String? folderId,
+    required bool isPublic,
   }) =>
       TaskEither.tryCatch(
         () async {
@@ -52,8 +53,7 @@ class RemoteOwnedWorkbookRepository implements WorkbookRepository {
             'order': workbook.order,
             'userId': user.uid,
             'userName': user.displayName,
-            //TODO: 動的に設定する
-            'public': false,
+            'public': isPublic,
           }).then((value) => workbook);
 
           if (folderId != null) {

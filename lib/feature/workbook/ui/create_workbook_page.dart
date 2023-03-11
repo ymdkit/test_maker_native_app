@@ -40,6 +40,7 @@ class CreateWorkbookPage extends HookConsumerWidget {
     final workbookTitleController = useTextEditingController();
     final selectedColor = useState(AppThemeColor.blue);
     final selectedFolder = useState<Folder?>(folder);
+    final isOnlySharedByLink = useState(false);
 
     return AppAdWrapper(
       adUnitId: AppAdUnitId.createWorkbookBanner,
@@ -96,6 +97,15 @@ class CreateWorkbookPage extends HookConsumerWidget {
                             ),
                           ],
                         ),
+                        Visibility(
+                          visible: location == AppDataLocation.remoteOwned,
+                          child: CheckboxListTile(
+                            title: const Text('リンクを知っている人にのみ公開'),
+                            value: isOnlySharedByLink.value,
+                            onChanged: (value) =>
+                                isOnlySharedByLink.value = value ?? false,
+                          ),
+                        ),
                         const SizedBox(height: 16),
                         const Divider(),
                         const SizedBox(height: 16),
@@ -141,6 +151,7 @@ class CreateWorkbookPage extends HookConsumerWidget {
                               title: workbookTitleController.text,
                               color: selectedColor.value,
                               folderId: selectedFolder.value?.folderId,
+                              isPublic: !isOnlySharedByLink.value,
                             );
 
                         result.match(

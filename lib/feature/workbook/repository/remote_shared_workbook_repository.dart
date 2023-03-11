@@ -18,6 +18,7 @@ class RemoteSharedWorkbookRepository implements WorkbookRepository {
     required String title,
     required AppThemeColor color,
     required String? folderId,
+    required bool isPublic,
   }) =>
       TaskEither.right(Workbook.empty());
 

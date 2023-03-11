@@ -37,6 +37,7 @@ abstract class WorkbookRepository {
     required String title,
     required AppThemeColor color,
     required String? folderId,
+    required bool isPublic
   });
 
   Future<Either<AppException, List<Workbook>>> getWorkbooks({
