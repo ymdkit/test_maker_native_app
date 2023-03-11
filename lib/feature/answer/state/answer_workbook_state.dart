@@ -10,6 +10,7 @@ import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/repository/question_repository.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state_key.dart';
+import 'package:test_maker_native_app/feature/record/model/correct_answer_rate_calculator.dart';
 import 'package:test_maker_native_app/feature/record/repository/answer_history_repository.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/setting/utils/shared_preference.dart';
@@ -162,7 +163,10 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
                 .toList();
             break;
           case QuestionCondition.weekPoints:
-            //TODO: 正答率を算出する
+            final calculator = ref.read(calculateAnswerRateUseCaseProvider);
+            questions = questions
+                .where((e) => calculator.call(questionId: e.questionId) < 0.5)
+                .toList();
             break;
         }
         questions = questions.take(preferences.numberOfQuestions).toList();
@@ -251,13 +255,11 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
     );
     await questionRepository.updateQuestion(newQuestion);
 
-    await answerHistoryRepository
-        .addAnswerHistory(
-          workbookId: newQuestion.workbookId,
-          questionId: newQuestion.questionId,
-          isCorrect: isCorrect,
-        )
-        .run();
+    answerHistoryRepository.addAnswerHistory(
+      workbookId: newQuestion.workbookId,
+      questionId: newQuestion.questionId,
+      isCorrect: isCorrect,
+    );
 
     questions = questions
         .map((e) => e.questionId == question.questionId ? newQuestion : e)
