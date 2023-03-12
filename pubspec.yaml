@@ -45,6 +45,7 @@ dependencies:
   purchases_flutter: ^4.10.3
   realm: ^0.9.0+rc
   riverpod_annotation: ^1.2.1
+  share_plus: ^6.3.1
   shared_preferences: ^2.0.17
   shimmer: ^2.0.0
   sliver_tools: ^0.2.8

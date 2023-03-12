@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
@@ -11,6 +15,7 @@ import 'package:test_maker_native_app/feature/question/ui/question_list_item.dar
 import 'package:test_maker_native_app/feature/workbook/state/workbook_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
+import 'package:test_maker_native_app/feature/workbook/usecase/export_workbook_use_case.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
 import 'package:test_maker_native_app/utils/list_ext.dart';
 import 'package:test_maker_native_app/widget/app_ad_widget.dart';
@@ -242,6 +247,10 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                           child: Text('問題集の編集'),
                         ),
                         const PopupMenuItem(
+                          value: _PopupMenuItems.export,
+                          child: Text('問題集のエクスポート'),
+                        ),
+                        const PopupMenuItem(
                           value: _PopupMenuItems.delete,
                           child: Text('問題集の削除'),
                         ),
@@ -255,6 +264,37 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                             context.router.push(
                               EditWorkbookRoute(workbook: workbook),
                             );
+                            break;
+                          case _PopupMenuItems.export:
+                            () async {
+                              final result = await ref
+                                  .read(exportWorkbookUseCaseProvider)
+                                  .call(
+                                    workbook: workbook,
+                                    questions: questionsState.maybeWhen(
+                                      success: (data) => data,
+                                      orElse: () => [],
+                                    ),
+                                  );
+
+                              result.match(
+                                (l) => showAppSnackBar(
+                                  context,
+                                  l.message,
+                                ),
+                                (text) async {
+                                  final file = File(
+                                    '${(await getTemporaryDirectory()).path}/${workbook.title}.csv',
+                                  );
+                                  await file.writeAsString(text);
+                                  await Share.shareXFiles(
+                                    [XFile(file.path)],
+                                  );
+
+                                  return null;
+                                },
+                              );
+                            }();
                             break;
                           case _PopupMenuItems.delete:
                             showAlertDialog(
@@ -366,5 +406,6 @@ class WorkbookDetailsPage extends HookConsumerWidget {
 enum _PopupMenuItems {
   select,
   edit,
+  export,
   delete,
 }
