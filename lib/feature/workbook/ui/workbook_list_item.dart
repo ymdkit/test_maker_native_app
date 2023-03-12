@@ -26,7 +26,11 @@ class WorkbookListItem extends StatelessWidget {
         workbook.title,
         maxLines: 2,
       ),
-      subtitle: Text('問題数 ${workbook.questionCount}'),
+      subtitle: Text(
+        AppLocalizations.of(context)!.valueQuestionCount(
+          workbook.questionCount,
+        ),
+      ),
       onTap: () => onTap(workbook),
       trailing: () {
         switch (workbook.location) {

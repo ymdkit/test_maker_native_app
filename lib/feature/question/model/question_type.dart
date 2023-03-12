@@ -1,4 +1,6 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum QuestionType {
   write,
@@ -6,17 +8,16 @@ enum QuestionType {
   complete,
   selectComplete;
 
-  //TODO: ローカライズ
-  String toDisplayString() {
+  String toDisplayString(BuildContext context) {
     switch (this) {
       case QuestionType.write:
-        return '記述';
+        return AppLocalizations.of(context)!.questionTypeWrite;
       case QuestionType.select:
-        return '選択';
+        return AppLocalizations.of(context)!.questionTypeSelect;
       case QuestionType.complete:
-        return '完答';
+        return AppLocalizations.of(context)!.questionTypeComplete;
       case QuestionType.selectComplete:
-        return '選択完答';
+        return AppLocalizations.of(context)!.questionTypeSelectComplete;
     }
   }
 

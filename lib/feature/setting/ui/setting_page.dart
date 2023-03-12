@@ -274,7 +274,11 @@ class SettingPage extends HookConsumerWidget {
               ),
               ListTile(
                 title: Text(AppLocalizations.of(context)!.aboutThisApp),
-                subtitle: Text('バージョン: ${packageInfo.version}'),
+                subtitle: Text(
+                  AppLocalizations.of(context)!.valueVersion(
+                    packageInfo.version,
+                  ),
+                ),
                 onLongPress: () {
                   if (kDebugMode) {
                     context.router.push(const DebugRoute());

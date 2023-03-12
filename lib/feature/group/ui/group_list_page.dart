@@ -35,7 +35,7 @@ class GroupListPage extends HookConsumerWidget {
                   context.router.push(const SignInRoute())),
           authenticated: (account) => groupsState.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            failure: (e) => AppErrorContent.serverError(),
+            failure: (e) => AppErrorContent.serverError(context: context),
             success: (groups) => groups.isEmpty
                 ? AppEmptyContent.group(
                     context: context,
@@ -56,7 +56,11 @@ class GroupListPage extends HookConsumerWidget {
                           ),
                           title: Text(group.title),
                           subtitle: Text(
-                              '''作成日 ${DateFormat(DateFormat.YEAR_NUM_MONTH_DAY).format(group.createdAt)}'''),
+                            AppLocalizations.of(context)!.valueCreatedAt(
+                              DateFormat(DateFormat.YEAR_NUM_MONTH_DAY)
+                                  .format(group.createdAt),
+                            ),
+                          ),
                           onTap: () => context.router.push(
                             GroupDetailsRoute(
                               groupId: group.groupId,

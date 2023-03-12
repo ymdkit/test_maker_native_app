@@ -76,6 +76,10 @@
     "questionConditionOnlyUnAnswered": "Only un-answered",
     "questionConditionOnlyUnAnsweredAndWrong": "Only un-answered and wrong",
     "questionConditionWeekPoints": "Weekpoint",
+    "questionTypeWrite": "Write",
+    "questionTypeSelect": "Select",
+    "questionTypeComplete": "Complete",
+    "questionTypeSelectComplete": "Select Complete",
     "answerSettingIsRandom": "Randomize order",
     "answerSettingIsSwapProblemAndAnswer": "Swap question and answer",
     "answerSettingIsAlwaysShowExplanation": "Always show explanation",
@@ -176,6 +180,8 @@
     "messageAboutDeleteAccount": "If you delete your account, all your data will be deleted. Are you sure you want to delete your account?",
     "messageCameraPermissionDenied": "Camera permission denied. Please allow access to camera.",
     "messageLibraryPermissionDenied": "Library permission denied. Please allow access to library.",
+    "messageDynamicLinksContent": "Please download this app to see the content.",
+    "messageSystemError": "System error occurred. Please try again later.",
     "labelYourAnswer": "Your answer",
     "labelGiveUp": "Give up",
     "labelFolderName": "Folder name",
@@ -242,5 +248,12 @@
     "titleDeleteAccountExactly": "Delete account exactly",
     "titleImageSelecting": "Image selecting",
     "titleImageSetting": "Image setting",
-    "titlePermissionError": "Permission error"
+    "titlePermissionError": "Permission error",
+    "titleSystemError": "System error",
+    "valueCorrectRate": "{correctRate}%",
+    "valueWorkbookCount": "{workbookCount} workbooks",
+    "valueQuestionCount": "{questionCount} questions",
+    "valueCreatedAt": "{createdAt}",
+    "valueReportWorkbook": "Report workbook ${workbookId}",
+    "valueVersion": "Version ${version}"
 }

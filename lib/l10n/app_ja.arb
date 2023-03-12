@@ -76,6 +76,10 @@
     "questionConditionOnlyUnAnswered": "未出題のみ",
     "questionConditionOnlyUnAnsweredAndWrong": "不正解 + 未出題",
     "questionConditionWeekPoints": "ニガテ問題",
+    "questionTypeWrite": "記述",
+    "questionTypeSelect": "選択",
+    "questionTypeComplete": "完答",
+    "questionTypeSelectComplete": "選択完答",
     "answerSettingIsRandom": "出題順をランダムにする",
     "answerSettingIsSwapProblemAndAnswer": "問題文と解答を入れ替える",
     "answerSettingIsAlwaysShowExplanation": "正解時も解説を表示する",
@@ -176,6 +180,8 @@
     "messageAboutDeleteAccount": "退会すると、クラウド上に同期した問題集にアクセスすることは不可能になります。こちらをご理解した上で次に進んでください。",
     "messageCameraPermissionDenied": "カメラへのアクセスが許可されていません。アプリの設定からアクセスを許可してください",
     "messageLibraryPermissionDenied": "端末内の画像へのアクセスが許可されていません。アプリの設定からアクセスを許可してください",
+    "messageDynamicLinksContent": "「暗記メーカー」は、自学自習の効率化を目的とした問題集作成用のアプリです。資格習得のための勉強や、複数人への問題集の配布のために利用できます。",
+    "messageSystemError": "システムエラーが発生しました。しばらくお待ちの上、もう一度やり直してください",
     "labelYourAnswer": "解答",
     "labelGiveUp": "わからない",
     "labelFolderName": "フォルダ名",
@@ -242,5 +248,12 @@
     "titleDeleteAccountExactly": "退会の確認",
     "titleImageSelecting": "画像の設定中",
     "titleImageSetting": "画像設定",
-    "titlePermissionError": "権限エラー"
+    "titlePermissionError": "権限エラー",
+    "titleSystemError": "システムエラー",
+    "valueCorrectRate": "正答率 {correctRate}%",
+    "valueWorkbookCount": "問題集数 {workbookCount}",
+    "valueQuestionCount": "問題数 {questionCount}",
+    "valueCreatedAt": "作成日 {createdAt}",
+    "valueReportWorkbook": "問題集の通報（ID ${workbookId}）",
+    "valueVersion": "バージョン ${version}"
 }

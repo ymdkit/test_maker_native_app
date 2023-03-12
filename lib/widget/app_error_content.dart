@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppErrorContent extends StatelessWidget {
   const AppErrorContent({
@@ -10,14 +11,17 @@ class AppErrorContent extends StatelessWidget {
     this.onPressedRetryButton,
   });
 
-  factory AppErrorContent.serverError({AsyncCallback? onPressedRetryButton}) =>
+  factory AppErrorContent.serverError({
+    required BuildContext context,
+    AsyncCallback? onPressedRetryButton,
+  }) =>
       AppErrorContent(
         icon: const Icon(
           Icons.error_outline,
           size: 96,
         ),
-        title: 'システムエラー',
-        description: 'システムエラーが発生しました。\nしばらく時間を置いてから再度お試しください',
+        title: AppLocalizations.of(context)!.titleSystemError,
+        description: AppLocalizations.of(context)!.messageSystemError,
         onPressedRetryButton: onPressedRetryButton,
       );
 

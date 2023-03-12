@@ -186,7 +186,7 @@ class TrashPage extends HookConsumerWidget {
               ),
             ],
           ),
-          failure: (e) => AppErrorContent.serverError(),
+          failure: (e) => AppErrorContent.serverError(context: context),
         ),
       ),
     );

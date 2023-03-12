@@ -129,7 +129,7 @@ class EditQuestionForm extends HookConsumerWidget {
                                   .map(
                                     (e) => DropdownMenuItem(
                                       value: e,
-                                      child: Text(e.toDisplayString()),
+                                      child: Text(e.toDisplayString(context)),
                                     ),
                                   )
                                   .toList(),

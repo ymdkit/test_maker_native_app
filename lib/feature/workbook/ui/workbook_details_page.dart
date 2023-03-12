@@ -429,7 +429,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                     ),
                   ],
                 ),
-          failure: (e) => AppErrorContent.serverError(),
+          failure: (e) => AppErrorContent.serverError(context: context),
         ),
         floatingActionButton: FloatingActionButton(
           heroTag: 'createQuestion',

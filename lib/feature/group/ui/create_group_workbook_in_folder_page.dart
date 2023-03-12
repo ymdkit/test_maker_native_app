@@ -81,7 +81,7 @@ class CreateGroupWorkbookInFolderPage extends HookConsumerWidget {
                         );
                       }),
                 ),
-          failure: (_) => AppErrorContent.serverError(),
+          failure: (_) => AppErrorContent.serverError(context: context),
         ),
       ),
     );

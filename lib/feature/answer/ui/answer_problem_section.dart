@@ -82,7 +82,9 @@ class AnswerProblemSection extends HookConsumerWidget {
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
-                '''正答率 ${(answerRate * 100).toStringAsFixed(2)}%''',
+                AppLocalizations.of(context)!.valueCorrectRate(
+                  (answerRate * 100).toStringAsFixed(2),
+                ),
                 style: TextStyle(
                   color: answerRate > 0.5
                       ? themeColor.displayColor()

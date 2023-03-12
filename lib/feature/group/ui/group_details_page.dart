@@ -116,7 +116,7 @@ class GroupDetailsPage extends HookConsumerWidget {
         ),
         body: groupWorkbookState.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          failure: (e) => AppErrorContent.serverError(),
+          failure: (e) => AppErrorContent.serverError(context: context),
           success: (groupWorkbooks) => RefreshIndicator(
             onRefresh: () async =>
                 ref.refresh(groupWorkbooksStateProvider(groupId)),

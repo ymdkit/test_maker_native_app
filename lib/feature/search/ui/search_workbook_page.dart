@@ -88,7 +88,8 @@ class SearchWorkbookPage extends HookConsumerWidget {
           loading: () => const Center(
             child: CircularProgressIndicator(),
           ),
-          error: (error, stack) => AppErrorContent.serverError(),
+          error: (error, stack) =>
+              AppErrorContent.serverError(context: context),
         ),
       ),
     );

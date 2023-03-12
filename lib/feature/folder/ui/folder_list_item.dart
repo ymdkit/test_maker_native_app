@@ -23,7 +23,11 @@ class FolderListItem extends StatelessWidget {
         color: folder.color.displayColor(),
       ),
       title: Text(folder.title),
-      subtitle: Text('問題集数 ${folder.workbookCount}'),
+      subtitle: Text(
+        AppLocalizations.of(context)!.valueWorkbookCount(
+          folder.workbookCount,
+        ),
+      ),
       onTap: () => onTap(folder),
       trailing: () {
         switch (folder.location) {

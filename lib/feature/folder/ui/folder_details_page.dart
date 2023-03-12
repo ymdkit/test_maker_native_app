@@ -123,7 +123,7 @@ class FolderDetailsPage extends HookConsumerWidget {
                         showOperateWorkbookSheet(context, workbook),
                   ),
                 ),
-          failure: (_) => AppErrorContent.serverError(),
+          failure: (_) => AppErrorContent.serverError(context: context),
         ),
         floatingActionButton: FloatingActionButton(
           heroTag: 'folder_details_page',
