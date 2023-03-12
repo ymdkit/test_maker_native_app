@@ -381,7 +381,11 @@ class AnswerWorkbookSettings extends StatelessWidget {
         ),
         ListTile(
           title: Text(AppLocalizations.of(context)!.answerSettingLimit),
-          subtitle: Text('${preferences.numberOfQuestions}問'),
+          subtitle: Text(
+            AppLocalizations.of(context)!.valueLimitQuestion(
+              preferences.numberOfQuestions,
+            ),
+          ),
           onTap: () => showAppPickerSheet(
             context: context,
             title: AppLocalizations.of(context)!.answerSettingLimit,

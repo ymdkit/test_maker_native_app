@@ -88,7 +88,8 @@ class FolderDetailsPage extends HookConsumerWidget {
                             .deleteFolder(folder);
 
                         result.match(
-                          (l) => showAppSnackBar(context, l.message),
+                          (l) => showAppSnackBar(
+                              context, l.message.displayString(context)),
                           (r) {
                             showAppSnackBar(
                               context,

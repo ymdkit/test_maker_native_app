@@ -201,7 +201,8 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
       workbook.workbookId,
     ).run();
 
-    result.match((l) => showAppSnackBar(context, l.message), (r) {
+    result.match(
+        (l) => showAppSnackBar(context, l.message.displayString(context)), (r) {
       Clipboard.setData(ClipboardData(text: r));
       showAppSnackBar(
         context,

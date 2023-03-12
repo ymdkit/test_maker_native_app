@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/utils/app_image.dart';
 import 'package:test_maker_native_app/widget/app_image_content.dart';
@@ -46,7 +47,9 @@ class AppPickImageButton extends StatelessWidget {
               onDeleted: () => onPicked(const AppImage.empty()),
               location: location,
             ),
-            label: const Text('画像を設定'),
+            label: Text(
+              AppLocalizations.of(context)!.buttonSelectImage,
+            ),
             icon: const Icon(Icons.photo),
           ),
       ],

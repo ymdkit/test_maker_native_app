@@ -110,7 +110,11 @@ class RecordPage extends HookConsumerWidget {
                     return ListTile(
                       leading: const Icon(Icons.history),
                       title: Text(
-                          '''${answerHistory.totalCount}問解答して${answerHistory.correctCount}問正解しました'''),
+                        AppLocalizations.of(context)!.valueAnswerHistory(
+                          answerHistory.correctCount,
+                          answerHistory.totalCount,
+                        ),
+                      ),
                       subtitle: Text(
                         DateFormat(DateFormat.YEAR_NUM_MONTH_DAY)
                             .format(answerHistory.date),

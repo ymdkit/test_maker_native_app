@@ -64,7 +64,8 @@ class SignInPage extends HookConsumerWidget {
                             );
 
                         result.match(
-                          (l) => showAppSnackBar(context, l.message),
+                          (l) => showAppSnackBar(
+                              context, l.message.displayString(context)),
                           (r) {
                             showAppSnackBar(
                               context,
@@ -92,7 +93,7 @@ class SignInPage extends HookConsumerWidget {
               SignInButton(
                 Buttons.Google,
                 padding: const EdgeInsets.all(4),
-                text: 'Google でログイン',
+                text: AppLocalizations.of(context)!.buttonGoogleSignIn,
                 onPressed: () async {
                   final result = await ref
                       .read(accountStateProvider.notifier)
@@ -100,7 +101,8 @@ class SignInPage extends HookConsumerWidget {
                           signInProvider: SignInProvider.google);
 
                   result.match(
-                    (l) => showAppSnackBar(context, l.message),
+                    (l) => showAppSnackBar(
+                        context, l.message.displayString(context)),
                     (r) {
                       showAppSnackBar(
                         context,

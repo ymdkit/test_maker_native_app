@@ -60,8 +60,9 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
               onTap: () async {
                 final title = AppLocalizations.of(context)!
                     .valueReportWorkbook(workbook.workbookId);
+                final body = AppLocalizations.of(context)!
+                    .valueReportWorkbookContent(workbook.title);
 
-                final body = '${workbook.title} を通報する理由を以下に記載してください';
                 const mailAddress = 'testmaker.contact@gmail.com';
 
                 await launchUrl(

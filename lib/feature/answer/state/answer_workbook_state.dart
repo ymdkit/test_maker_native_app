@@ -134,7 +134,7 @@ class AnswerWorkbookStateNotifier extends StateNotifier<AnswerWorkbookState> {
 
     result.match(
       //TODO: 問題の読み込みに失敗した場合に、 UI へエラーを伝搬する
-      (l) => state = AnswerWorkbookState.error(message: l.message),
+      (l) => state = const AnswerWorkbookState.error(message: ''),
       (r) {
         questions = r;
 

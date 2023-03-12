@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AppException {
-  String get message => throw _privateConstructorUsedError;
+  AppExceptionMessage get message => throw _privateConstructorUsedError;
   AppExceptionCode get code => throw _privateConstructorUsedError;
   Exception? get rawException => throw _privateConstructorUsedError;
 
@@ -31,7 +31,10 @@ abstract class $AppExceptionCopyWith<$Res> {
           AppException value, $Res Function(AppException) then) =
       _$AppExceptionCopyWithImpl<$Res, AppException>;
   @useResult
-  $Res call({String message, AppExceptionCode code, Exception? rawException});
+  $Res call(
+      {AppExceptionMessage message,
+      AppExceptionCode code,
+      Exception? rawException});
 }
 
 /// @nodoc
@@ -55,7 +58,7 @@ class _$AppExceptionCopyWithImpl<$Res, $Val extends AppException>
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as AppExceptionMessage,
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -76,7 +79,10 @@ abstract class _$$_AppExceptionCopyWith<$Res>
       __$$_AppExceptionCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String message, AppExceptionCode code, Exception? rawException});
+  $Res call(
+      {AppExceptionMessage message,
+      AppExceptionCode code,
+      Exception? rawException});
 }
 
 /// @nodoc
@@ -98,7 +104,7 @@ class __$$_AppExceptionCopyWithImpl<$Res>
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as AppExceptionMessage,
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -115,14 +121,14 @@ class __$$_AppExceptionCopyWithImpl<$Res>
 
 class _$_AppException extends _AppException {
   const _$_AppException(
-      {this.message = 'システムエラーが発生しました。ご迷惑をおかけしますがしばらく時間を置いてから再度お試しください',
+      {this.message = AppExceptionMessage.systemError,
       this.code = AppExceptionCode.unknown,
       this.rawException})
       : super._();
 
   @override
   @JsonKey()
-  final String message;
+  final AppExceptionMessage message;
   @override
   @JsonKey()
   final AppExceptionCode code;
@@ -152,13 +158,13 @@ class _$_AppException extends _AppException {
 
 abstract class _AppException extends AppException {
   const factory _AppException(
-      {final String message,
+      {final AppExceptionMessage message,
       final AppExceptionCode code,
       final Exception? rawException}) = _$_AppException;
   const _AppException._() : super._();
 
   @override
-  String get message;
+  AppExceptionMessage get message;
   @override
   AppExceptionCode get code;
   @override

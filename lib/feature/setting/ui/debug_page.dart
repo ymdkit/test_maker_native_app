@@ -71,7 +71,8 @@ class DebugPage extends HookConsumerWidget {
                     );
 
                 result.match(
-                  (l) => showAppSnackBar(context, l.message),
+                  (l) => showAppSnackBar(
+                      context, l.message.displayString(context)),
                   (newWorkbook) {
                     ref.read(questionsProvider(
                       QuestionsStateKey(
@@ -180,7 +181,8 @@ class DebugPage extends HookConsumerWidget {
                     );
 
                 result.match(
-                  (l) => showAppSnackBar(context, l.message),
+                  (l) => showAppSnackBar(
+                      context, l.message.displayString(context)),
                   (r) => showAppSnackBar(context, 'ログインに成功しました'),
                 );
               },

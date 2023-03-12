@@ -26,7 +26,7 @@ class DynamicLinkCreator {
           socialMetaTagParameters: SocialMetaTagParameters(
             title: AppLocalizations.of(context)!.appName,
             description:
-                '''「暗記メーカー」は、自学自習の効率化を目的とした問題集作成用のアプリです。資格習得のための勉強や、複数人への問題集の配布のために利用できます。''',
+                AppLocalizations.of(context)!.messageDynamicLinksContent,
           ),
         );
         final link = await FirebaseDynamicLinks.instance

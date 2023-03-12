@@ -135,7 +135,7 @@ class EditWorkbookPage extends HookConsumerWidget {
                         result.match(
                           (l) => showAppSnackBar(
                             context,
-                            l.message,
+                            l.message.displayString(context),
                           ),
                           (_) {
                             showAppSnackBar(

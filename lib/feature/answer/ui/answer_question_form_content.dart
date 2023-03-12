@@ -162,7 +162,8 @@ class _AnswerCompleteQuestionContent extends HookWidget {
               controller: answerControllers.value[index],
               hintText: AppLocalizations.of(context)!
                   .hintQuestionIndexedAnswer(index + 1),
-              labelText: '${index + 1}つ目の答え',
+              labelText:
+                  AppLocalizations.of(context)!.valueIndexedAnswer(index + 1),
               textInputAction: TextInputAction.next,
               onChanged: (_) {
                 onChanged(

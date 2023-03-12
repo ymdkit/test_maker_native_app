@@ -79,7 +79,8 @@ class CreateGroupPage extends HookConsumerWidget {
                                 );
 
                         result.match(
-                          (l) => showAppSnackBar(context, l.message),
+                          (l) => showAppSnackBar(
+                              context, l.message.displayString(context)),
                           (r) {
                             showAppSnackBar(
                               context,

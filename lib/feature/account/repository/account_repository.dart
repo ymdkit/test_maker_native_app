@@ -36,14 +36,18 @@ class AccountRepository {
 
       final user = credential.user;
       if (user == null) {
-        return const Left(AppException(message: 'user not found'));
+        return const Left(
+            AppException(message: AppExceptionMessage.signInFailure));
       }
 
       await _updateUser(user);
       return Right(user.toAccount());
     } on FirebaseAuthException catch (e) {
       return Left(
-        AppException.fromRawException(message: '入力情報に誤りがあります', e: e),
+        AppException.fromRawException(
+          message: AppExceptionMessage.signInFailure,
+          e: e,
+        ),
       );
     } catch (e) {
       return Left(AppException.fromRawException(e: e));
@@ -54,7 +58,9 @@ class AccountRepository {
     try {
       final googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
-        return const Left(AppException(message: 'ログインに失敗しました'));
+        return const Left(AppException(
+          message: AppExceptionMessage.signInFailure,
+        ));
       }
 
       final googleAuth = await googleUser.authentication;
@@ -67,7 +73,9 @@ class AccountRepository {
           await FirebaseAuth.instance.signInWithCredential(credential);
       final user = authResult.user;
       if (user == null) {
-        return const Left(AppException(message: 'ログインに失敗しました'));
+        return const Left(AppException(
+          message: AppExceptionMessage.signInFailure,
+        ));
       }
 
       await _updateUser(user);
@@ -86,7 +94,9 @@ class AccountRepository {
 
       final user = credential.user;
       if (user == null) {
-        return const Left(AppException(message: 'user not found'));
+        return const Left(AppException(
+          message: AppExceptionMessage.signInFailure,
+        ));
       }
 
       await _updateUser(user);
@@ -99,7 +109,9 @@ class AccountRepository {
   Either<AppException, Account> fetchAccount() {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      return const Left(AppException(message: 'user not found'));
+      return const Left(AppException(
+        message: AppExceptionMessage.signInFailure,
+      ));
     }
     return Right(user.toAccount());
   }

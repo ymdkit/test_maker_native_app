@@ -66,7 +66,8 @@ class GroupDetailsPage extends HookConsumerWidget {
                       'groups/${group.groupId}',
                     ).run();
                     result.match(
-                      (l) => showAppSnackBar(context, l.message),
+                      (l) => showAppSnackBar(
+                          context, l.message.displayString(context)),
                       (r) {
                         Clipboard.setData(ClipboardData(text: r));
                         showAppSnackBar(
@@ -96,7 +97,8 @@ class GroupDetailsPage extends HookConsumerWidget {
                             .exitGroup(group);
 
                         result.match(
-                          (l) => showAppSnackBar(context, l.message),
+                          (l) => showAppSnackBar(
+                              context, l.message.displayString(context)),
                           (success) {
                             showAppSnackBar(
                               context,

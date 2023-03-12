@@ -32,7 +32,9 @@ class SearchWorkbookRepository {
             .toList();
         return Right(workbooks);
       } else {
-        return const Left(AppException(message: '問題集の取得に失敗しました'));
+        return const Left(AppException(
+          message: AppExceptionMessage.systemError,
+        ));
       }
     } catch (e) {
       return Left(AppException.fromRawException(e: e));

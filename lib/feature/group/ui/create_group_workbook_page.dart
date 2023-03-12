@@ -35,7 +35,9 @@ class CreateGroupWorkbookPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.groupDetailsBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('登録する問題集を選択'),
+          title: Text(
+            AppLocalizations.of(context)!.titleSelectWorkbook,
+          ),
         ),
         body: uiState.when(
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -114,7 +116,8 @@ class CreateGroupWorkbookPage extends HookConsumerWidget {
                                     .addWorkbookToGroup(workbook: workbook);
 
                                 result.match(
-                                  (l) => showAppSnackBar(context, l.message),
+                                  (l) => showAppSnackBar(context,
+                                      l.message.displayString(context)),
                                   (r) {
                                     showAppSnackBar(
                                       context,

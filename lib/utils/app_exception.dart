@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_exception.freezed.dart';
@@ -6,7 +8,7 @@ part 'app_exception.freezed.dart';
 class AppException with _$AppException implements Exception {
   const AppException._();
   const factory AppException({
-    @Default('システムエラーが発生しました。ご迷惑をおかけしますがしばらく時間を置いてから再度お試しください') String message,
+    @Default(AppExceptionMessage.systemError) AppExceptionMessage message,
     @Default(AppExceptionCode.unknown) AppExceptionCode code,
     Exception? rawException,
   }) = _AppException;
@@ -14,11 +16,11 @@ class AppException with _$AppException implements Exception {
   factory AppException.fromRawException({
     required Object e,
     AppExceptionCode? code,
-    String? message,
+    AppExceptionMessage? message,
   }) =>
       AppException(
         code: code ?? AppExceptionCode.unknown,
-        message: message ?? 'システムエラーが発生しました。ご迷惑をおかけしますがしばらく時間を置いてから再度お試しください',
+        message: message ?? AppExceptionMessage.systemError,
         rawException: e is Exception ? e : Exception(e.toString()),
       );
 
@@ -32,4 +34,25 @@ class AppException with _$AppException implements Exception {
 enum AppExceptionCode {
   unAuthorized,
   unknown,
+}
+
+enum AppExceptionMessage {
+  systemError,
+  signInFailure,
+  importWorkbookFailure,
+  exportWorkbookFailure;
+
+  String displayString(BuildContext context) {
+    switch (this) {
+      case AppExceptionMessage.systemError:
+        return AppLocalizations.of(context)!.messageSystemError;
+      case AppExceptionMessage.signInFailure:
+        return AppLocalizations.of(context)!.messageSignInFailure;
+      case AppExceptionMessage.importWorkbookFailure:
+        return AppLocalizations.of(context)!.messageImportWorkbookFailure;
+      case AppExceptionMessage.exportWorkbookFailure:
+        return AppLocalizations.of(context)!.messageExportWorkbookFailure;
+
+    }
+  }
 }

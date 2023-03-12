@@ -23,7 +23,7 @@ final folderRepositoryProvider =
         auth: ref.watch(firebaseAuthProvider),
       );
     default:
-      throw const AppException(message: 'Invalid AppDataLocation');
+      throw const AppException(message: AppExceptionMessage.systemError);
   }
 });
 

@@ -149,7 +149,8 @@ class CreateWorkbookPage extends HookConsumerWidget {
                                   );
 
                               importResult.match(
-                                (l) => showAppSnackBar(context, l.message),
+                                (l) => showAppSnackBar(
+                                    context, l.message.displayString(context)),
                                 (r) async {
                                   showAppSnackBar(
                                     context,
@@ -208,7 +209,8 @@ class CreateWorkbookPage extends HookConsumerWidget {
                             );
 
                         result.match(
-                          (l) => showAppSnackBar(context, l.message),
+                          (l) => showAppSnackBar(
+                              context, l.message.displayString(context)),
                           (r) async {
                             showAppSnackBar(
                               context,

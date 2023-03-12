@@ -116,7 +116,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                               result.match(
                                 (l) => showAppSnackBar(
                                   context,
-                                  l.message,
+                                  l.message.displayString(context),
                                 ),
                                 (success) {
                                   showAppSnackBar(
@@ -167,7 +167,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                               result.match(
                                 (l) => showAppSnackBar(
                                   context,
-                                  l.message,
+                                  l.message.displayString(context),
                                 ),
                                 (success) {
                                   showAppSnackBar(
@@ -221,7 +221,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                             result.match(
                               (l) => showAppSnackBar(
                                 context,
-                                l.message,
+                                l.message.displayString(context),
                               ),
                               (success) {
                                 showAppSnackBar(
@@ -314,7 +314,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                               result.match(
                                 (l) => showAppSnackBar(
                                   context,
-                                  l.message,
+                                  l.message.displayString(context),
                                 ),
                                 (text) async {
                                   final file = File(
@@ -352,7 +352,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                                 result.match(
                                   (l) => showAppSnackBar(
                                     context,
-                                    l.message,
+                                    l.message.displayString(context),
                                   ),
                                   (success) {
                                     showAppSnackBar(

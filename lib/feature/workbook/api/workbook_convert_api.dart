@@ -39,7 +39,9 @@ class WorkbookConvertApi {
             return ImportWorkbookResponse.fromJson(
                 json.decode(response.body) as Map<String, dynamic>);
           } else {
-            throw const AppException(message: '問題集のインポートに失敗しました');
+            throw const AppException(
+              message: AppExceptionMessage.importWorkbookFailure,
+            );
           }
         },
         (error, _) => AppException.fromRawException(e: error),
@@ -74,7 +76,9 @@ class WorkbookConvertApi {
             return ExportWorkbookResponse.fromJson(
                 json.decode(response.body) as Map<String, dynamic>);
           } else {
-            throw const AppException(message: '問題集のエクスポートに失敗しました');
+            throw const AppException(
+              message: AppExceptionMessage.exportWorkbookFailure,
+            );
           }
         },
         (error, _) => AppException.fromRawException(e: error),
