@@ -11,6 +11,13 @@
     "contact": "Contact",
     "faq": "FAQ",
     "trash": "Trash",
+    "removeAds": "Remove Ads",
+    "restorePurchase": "Restore Purchase",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "aboutThisApp": "About this app",
+    "email": "Email",
+    "password": "Password",
     "signIn": "Sign in",
     "signOut": "Sign out",
     "correct": "Correct",
@@ -63,5 +70,13 @@
     "questionConditionOnlyWrong": "Only wrong",
     "questionConditionOnlyUnAnswered": "Only un-answered",
     "questionConditionOnlyUnAnsweredAndWrong": "Only un-answered and wrong",
-    "questionConditionWeekPoints": "Weekpoint"
+    "questionConditionWeekPoints": "Weekpoint",
+    "answerSettingIsRandom": "出題順をランダムにする",
+    "answerSettingIsSwapProblemAndAnswer": "問題文と解答を入れ替える",
+    "answerSettingIsAlwaysShowExplanation": "正解時も解説を表示する",
+    "answerSettingIsSelfScoring": "自己採点する",
+    "answerSettingIsCaseInsensitive": "大文字と小文字を区別しない",
+    "answerSettingIsShowSettingDialog": "解答前に出題設定を確認する",
+    "answerSettingLimit": "出題数",
+    "answerSettingQuestionCondition": "出題範囲"
 }

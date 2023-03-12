@@ -79,13 +79,13 @@ class SettingPage extends HookConsumerWidget {
               ...account.maybeWhen(
                 guest: () => [
                   ListTile(
-                    title: const Text('ログイン'),
+                    title: Text(AppLocalizations.of(context)!.signIn),
                     onTap: () => context.router.push(const SignInRoute()),
                   )
                 ],
                 authenticated: (user) => [
                   ListTile(
-                    title: const Text('ログアウト'),
+                    title: Text(AppLocalizations.of(context)!.signOut),
                     onTap: () async {
                       await showAlertDialog(
                         context: context,
@@ -152,11 +152,11 @@ class SettingPage extends HookConsumerWidget {
                     title: AppLocalizations.of(context)!.sectionSettingOther),
               ),
               ListTile(
-                title: const Text('ゴミ箱'),
+                title: Text(AppLocalizations.of(context)!.trash),
                 onTap: () => context.router.push(const TrashRoute()),
               ),
               ListTile(
-                title: const Text('広告削除'),
+                title: Text(AppLocalizations.of(context)!.removeAds),
                 subtitle:
                     preferences.isRemovedAds ? const Text('広告削除済み') : null,
                 onTap: () async {
@@ -196,7 +196,7 @@ class SettingPage extends HookConsumerWidget {
                 },
               ),
               ListTile(
-                title: const Text('購入復元'),
+                title: Text(AppLocalizations.of(context)!.restorePurchase),
                 onTap: () async {
                   try {
                     final restoredInfo = await Purchases.restorePurchases();
@@ -215,23 +215,23 @@ class SettingPage extends HookConsumerWidget {
                 },
               ),
               ListTile(
-                title: const Text('よくある質問'),
+                title: Text(AppLocalizations.of(context)!.faq),
                 onTap: () => urlLauncher.launch(WebUrl.faq),
               ),
               ListTile(
-                title: const Text('お問い合わせ'),
+                title: Text(AppLocalizations.of(context)!.contact),
                 onTap: () => urlLauncher.launch(WebUrl.contact),
               ),
               ListTile(
-                title: const Text('プライバシーポリシー'),
+                title: Text(AppLocalizations.of(context)!.privacyPolicy),
                 onTap: () => urlLauncher.launch(WebUrl.privacyPolicy),
               ),
               ListTile(
-                title: const Text('利用規約'),
+                title: Text(AppLocalizations.of(context)!.termsOfService),
                 onTap: () => urlLauncher.launch(WebUrl.termsOfService),
               ),
               ListTile(
-                title: const Text('このアプリについて'),
+                title: Text(AppLocalizations.of(context)!.aboutThisApp),
                 subtitle: Text('バージョン: ${packageInfo.version}'),
                 onLongPress: () {
                   if (kDebugMode) {
@@ -274,40 +274,47 @@ class AnswerWorkbookSettings extends StatelessWidget {
               title: AppLocalizations.of(context)!.sectionSettingAnswer),
         ),
         SwitchListTile(
-          title: const Text('出題順をランダムにする'),
+          title: Text(AppLocalizations.of(context)!.answerSettingIsRandom),
           value: preferences.isRandom,
           onChanged: (value) => preferencesNotifier.setRandom(value),
         ),
         SwitchListTile(
-          title: const Text('問題文と解答を入れ替える'),
+          title: Text(AppLocalizations.of(context)!
+              .answerSettingIsSwapProblemAndAnswer),
           value: preferences.isSwapProblemAndAnswer,
           onChanged: (value) =>
               preferencesNotifier.setSwapProblemAndAnswer(value),
         ),
         SwitchListTile(
-          title: const Text('自己採点する'),
+          title: Text(AppLocalizations.of(context)!.answerSettingIsSelfScoring),
           value: preferences.isSelfScoring,
           onChanged: (value) => preferencesNotifier.setSelfScoring(value),
         ),
         SwitchListTile(
-          title: const Text('正解時も解説を表示する'),
+          title: Text(
+            AppLocalizations.of(context)!.answerSettingIsAlwaysShowExplanation,
+          ),
           value: preferences.isAlwaysShowExplanation,
           onChanged: (value) =>
               preferencesNotifier.setAlwaysShowExplanation(value),
         ),
         SwitchListTile(
-          title: const Text('大文字と小文字を区別しない'),
+          title: Text(
+              AppLocalizations.of(context)!.answerSettingIsCaseInsensitive),
           value: preferences.isCaseInsensitive,
           onChanged: (value) => preferencesNotifier.setCaseInsensitive(value),
         ),
         SwitchListTile(
-          title: const Text('解答前に出題設定を確認する'),
+          title: Text(
+              AppLocalizations.of(context)!.answerSettingIsShowSettingDialog),
           value: preferences.isShowAnswerSettingDialog,
           onChanged: (value) =>
               preferencesNotifier.setShowAnswerSettingDialog(value),
         ),
         ListTile(
-          title: const Text('出題範囲'),
+          title: Text(
+            AppLocalizations.of(context)!.answerSettingQuestionCondition,
+          ),
           subtitle: Text(
             QuestionCondition.values
                 .elementAtOrDefault(
@@ -316,7 +323,7 @@ class AnswerWorkbookSettings extends StatelessWidget {
           ),
           onTap: () => showAppPickerSheet(
             context: context,
-            title: '出題範囲',
+            title: AppLocalizations.of(context)!.answerSettingQuestionCondition,
             items: QuestionCondition.values
                 .map(
                   (e) => PickerItem(label: e.displayString(context), value: e),
@@ -327,11 +334,11 @@ class AnswerWorkbookSettings extends StatelessWidget {
           ),
         ),
         ListTile(
-          title: const Text('出題数'),
+          title: Text(AppLocalizations.of(context)!.answerSettingLimit),
           subtitle: Text('${preferences.numberOfQuestions}問'),
           onTap: () => showAppPickerSheet(
             context: context,
-            title: '出題数',
+            title: AppLocalizations.of(context)!.answerSettingLimit,
             items: const [
               10,
               20,

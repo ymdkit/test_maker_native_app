@@ -43,14 +43,14 @@ class SignInPage extends HookConsumerWidget {
                     AppTextFormField(
                       controller: emailController,
                       hintText: AppLocalizations.of(context)!.hintEmail,
-                      labelText: 'メールアドレス',
+                      labelText: AppLocalizations.of(context)!.email,
                       keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 16),
                     AppTextFormField(
                       controller: passwordController,
                       hintText: AppLocalizations.of(context)!.hintPassword,
-                      labelText: 'パスワード',
+                      labelText: AppLocalizations.of(context)!.password,
                       keyboardType: TextInputType.visiblePassword,
                     ),
                     const SizedBox(height: 16),
