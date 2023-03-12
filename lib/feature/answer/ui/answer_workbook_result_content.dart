@@ -185,7 +185,10 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                               onPressed: () {
                                 //TOOD: 問題集の複製
                               },
-                              label: const Text('問題集を自分用にコピーする'),
+                              label: Text(
+                                AppLocalizations.of(context)!
+                                    .buttonCopyWorkbookForMe,
+                              ),
                             ),
                           ),
                         ),
@@ -250,7 +253,9 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                           workbookId: workbook.workbookId,
                         )).notifier)
                         .reset(),
-                    child: const Text('もう一度解き直す'),
+                    child: Text(
+                      AppLocalizations.of(context)!.buttonRetry,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   OutlinedButton(
@@ -259,7 +264,9 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                         [const RootRoute()],
                       );
                     },
-                    child: const Text('トップに戻る'),
+                    child: Text(
+                      AppLocalizations.of(context)!.buttonBackToTop,
+                    ),
                   ),
                   const SizedBox(height: 16),
                 ],

@@ -20,7 +20,7 @@ class Folder with _$Folder {
 
   factory Folder.empty() => Folder(
         folderId: '',
-        title: '削除済みフォルダ',
+        title: '',
         order: 0,
         color: AppThemeColor.blue,
         workbookCount: 0,

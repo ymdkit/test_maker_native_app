@@ -1,4 +1,5 @@
 {
+    "appName": "暗記メーカー",
     "tabHome": "ホーム",
     "tabSearch": "さがす",
     "tabGroup": "グループ",
@@ -103,6 +104,11 @@
     "buttonSignIn": "ログインする",
     "buttonSync": "同期する",
     "buttonExit": "退出する",
+    "buttonCopyWorkbookForMe": "問題集を自分用にコピーする",
+    "buttonRetry": "もう一度解き直す",
+    "buttonBackToTop": "トップに戻る",
+    "buttonStartAnswering": "解答を開始する",
+    "buttonFinishAnswering": "終了",
     "menuEditFolder": "フォルダの編集",
     "menuDeleteFolder": "フォルダの削除",
     "menuEditWorkbook": "問題集の編集",

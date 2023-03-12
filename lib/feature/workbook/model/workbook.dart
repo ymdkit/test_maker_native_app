@@ -25,7 +25,7 @@ class Workbook with _$Workbook {
 
   factory Workbook.empty() => Workbook(
         workbookId: '',
-        title: '削除済み問題集',
+        title: '',
         order: 0,
         color: AppThemeColor.blue,
         folderId: null,

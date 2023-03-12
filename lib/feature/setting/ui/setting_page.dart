@@ -42,7 +42,9 @@ class SettingPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.settingBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('設定'),
+          title: Text(
+            AppLocalizations.of(context)!.tabSetting,
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(

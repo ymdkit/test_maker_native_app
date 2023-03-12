@@ -11,6 +11,7 @@ import 'package:test_maker_native_app/data/remote/firestore_converting.dart';
 import 'package:test_maker_native_app/feature/group/model/group.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
+import 'package:test_maker_native_app/utils/dynamic_link_creator.dart';
 
 final groupRepositoryProvider = Provider<GroupRepository>(
   (ref) => GroupRepository(
@@ -113,35 +114,6 @@ class GroupRepository {
       () async {
         await db.collection('groups').doc(group.groupId).delete();
         return group;
-      },
-      (e, _) => AppException.fromRawException(e: e),
-    );
-  }
-
-  TaskEither<AppException, String> inviteGroup(Group group) {
-    return TaskEither.tryCatch(
-      () async {
-        final dynamicLinkParams = DynamicLinkParameters(
-          uriPrefix: 'https://testmaker.page.link',
-          link: Uri.parse('https://ankimaker.com/groups/${group.groupId}'),
-          androidParameters: const AndroidParameters(
-            packageName: 'jp.gr.java_conf.foobar.testmaker.service',
-            minimumVersion: 87,
-          ),
-          iosParameters: const IOSParameters(
-            bundleId: 'jp.gr.java-conf.foobar.testmaker.service',
-            minimumVersion: '2.1.5',
-            appStoreId: '1201200202',
-          ),
-          socialMetaTagParameters: const SocialMetaTagParameters(
-            title: '暗記メーカー',
-            description:
-                '''「暗記メーカー」は、自学自習の効率化を目的とした問題集作成用のアプリです。資格習得のための勉強や、複数人への問題集の配布のために利用できます。''',
-          ),
-        );
-        final link = await FirebaseDynamicLinks.instance
-            .buildShortLink(dynamicLinkParams);
-        return link.shortUrl.toString();
       },
       (e, _) => AppException.fromRawException(e: e),
     );

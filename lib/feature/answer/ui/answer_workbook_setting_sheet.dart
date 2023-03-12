@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
 import 'package:test_maker_native_app/feature/setting/ui/setting_page.dart';
@@ -47,7 +48,9 @@ class _AnswerWorkbookSettingSheet extends HookConsumerWidget {
                   context.router.pop();
                   onStart();
                 },
-                child: const Text('解答を開始する'),
+                child: Text(
+                  AppLocalizations.of(context)!.buttonStartAnswering,
+                ),
               ),
             ),
             const SizedBox(height: 32),

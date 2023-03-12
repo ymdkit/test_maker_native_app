@@ -1,4 +1,5 @@
 {
+    "appName": "TestMaker",
     "tabHome": "home",
     "tabSearch": "search",
     "tabGroup": "group",
@@ -103,6 +104,11 @@
     "buttonSignIn": "Sign in",
     "buttonSync": "Sync",
     "buttonExit": "Exit",
+    "buttonCopyWorkbookForMe": "Copy workbook",
+    "buttonRetry": "Retry",
+    "buttonBackToTop": "Back to top",
+    "buttonStartAnswering": "Start answering",
+    "buttonFinishAnswering": "Finish",
     "menuEditFolder": "Edit folder",
     "menuDeleteFolder": "Delete folder",
     "menuEditWorkbook": "Edit workbook",

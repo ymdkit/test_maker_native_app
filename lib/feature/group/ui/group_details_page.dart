@@ -56,8 +56,9 @@ class GroupDetailsPage extends HookConsumerWidget {
                 switch (value) {
                   case _PopupMenuItems.invite:
                     final result = await DynamicLinkCreator.create(
-                            'groups/${group.groupId}')
-                        .run();
+                      context,
+                      'groups/${group.groupId}',
+                    ).run();
                     result.match(
                       (l) => showAppSnackBar(context, l.message),
                       (r) {

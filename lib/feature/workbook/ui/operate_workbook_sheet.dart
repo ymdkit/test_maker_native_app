@@ -195,7 +195,10 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
 
   Future<Either<AppException, String>> _createAndCopyWorkbookLink(
       BuildContext context) async {
-    final result = await DynamicLinkCreator.create(workbook.workbookId).run();
+    final result = await DynamicLinkCreator.create(
+      context,
+      workbook.workbookId,
+    ).run();
 
     result.match((l) => showAppSnackBar(context, l.message), (r) {
       Clipboard.setData(ClipboardData(text: r));

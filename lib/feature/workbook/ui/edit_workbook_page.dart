@@ -98,7 +98,8 @@ class EditWorkbookPage extends HookConsumerWidget {
                               onPressed: () => context.router.push(
                                 CreateFolderRoute(location: workbook.location),
                               ),
-                              label: const Text('フォルダ作成'),
+                              label: Text(AppLocalizations.of(context)!
+                                  .buttonCreateFolder),
                               icon: const Icon(Icons.add),
                             ),
                           ],

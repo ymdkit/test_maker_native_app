@@ -30,7 +30,7 @@ class HomePage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.homeBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('暗記メーカー'),
+          title: Text(AppLocalizations.of(context)!.tabHome),
         ),
         body: uiState.when(
           loading: () => const Center(child: CircularProgressIndicator()),

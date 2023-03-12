@@ -60,7 +60,9 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                   orElse: () => TextButton(
                     onPressed: () =>
                         _showConfirmFinishAlertDialog(context, ref, workbook),
-                    child: const Text('終了'),
+                    child: Text(
+                      AppLocalizations.of(context)!.buttonFinishAnswering,
+                    ),
                   ),
                 )
               ],
