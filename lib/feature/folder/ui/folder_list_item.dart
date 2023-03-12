@@ -31,7 +31,7 @@ class FolderListItem extends StatelessWidget {
             return IconButton(
               onPressed: () => showAlertDialog(
                 context: context,
-                title: 'クラウドへの同期',
+                title: AppLocalizations.of(context)!.titleSync,
                 content: 'クラウド上にアップロードすることで、複数端末で情報を同期することができます。（ログインが必要です）',
                 positiveButtonText: AppLocalizations.of(context)!.buttonSync,
                 onPositive: () {

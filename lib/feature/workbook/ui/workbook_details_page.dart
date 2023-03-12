@@ -96,7 +96,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                         context.router.push(
                           SelectWorkbookRoute(
                             location: location,
-                            title: '移動先の問題集を選択',
+                            title: AppLocalizations.of(context)!
+                                .titleSelectWorkbookToMove,
                             onSelected: (selectedWorkbook) async {
                               final result = await ref
                                   .read(
@@ -120,7 +121,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                                 (success) {
                                   showAppSnackBar(
                                     context,
-                                    '選択した問題を移動しました',
+                                    AppLocalizations.of(context)!
+                                        .messageMoveQuestionsSuccess,
                                   );
                                   isSelecting.value = false;
                                   selectedQuestions.value = [];
@@ -145,7 +147,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                         context.router.push(
                           SelectWorkbookRoute(
                             location: location,
-                            title: 'コピー先の問題集を選択',
+                            title: AppLocalizations.of(context)!
+                                .titleSelectWorkbookToCopy,
                             onSelected: (selectedWorkbook) async {
                               final result = await ref
                                   .read(
@@ -169,7 +172,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                                 (success) {
                                   showAppSnackBar(
                                     context,
-                                    '選択した問題をコピーしました',
+                                    AppLocalizations.of(context)!
+                                        .messageCopyQuestionsSuccess,
                                   );
                                   isSelecting.value = false;
                                   selectedQuestions.value = [];
@@ -193,7 +197,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                         }
                         showAlertDialog(
                           context: context,
-                          title: '選択した問題を削除',
+                          title:
+                              AppLocalizations.of(context)!.titleDeleteQuestion,
                           content: AppLocalizations.of(context)!
                               .confirmDeleteSelectedQuestions,
                           isDangerous: true,
@@ -259,9 +264,11 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                     PopupMenuButton(
                       icon: const Icon(Icons.more_vert),
                       itemBuilder: (context) => [
-                        const PopupMenuItem(
+                        PopupMenuItem(
                           value: _PopupMenuItems.select,
-                          child: Text('まとめて選択'),
+                          child: Text(
+                            AppLocalizations.of(context)!.menuSelectQuestions,
+                          ),
                         ),
                         PopupMenuItem(
                           value: _PopupMenuItems.edit,
@@ -269,9 +276,11 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                             AppLocalizations.of(context)!.menuEditWorkbook,
                           ),
                         ),
-                        const PopupMenuItem(
+                        PopupMenuItem(
                           value: _PopupMenuItems.export,
-                          child: Text('問題集のエクスポート'),
+                          child: Text(
+                            AppLocalizations.of(context)!.menuExportWorkbook,
+                          ),
                         ),
                         PopupMenuItem(
                           value: _PopupMenuItems.delete,

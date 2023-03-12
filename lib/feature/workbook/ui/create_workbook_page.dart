@@ -112,7 +112,10 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         Visibility(
                           visible: location == AppDataLocation.remoteOwned,
                           child: CheckboxListTile(
-                            title: const Text('リンクを知っている人にのみ公開'),
+                            title: Text(
+                              AppLocalizations.of(context)!
+                                  .labelIsOnlyShareByLink,
+                            ),
                             value: isOnlySharedByLink.value,
                             onChanged: (value) =>
                                 isOnlySharedByLink.value = value ?? false,
@@ -160,7 +163,9 @@ class CreateWorkbookPage extends HookConsumerWidget {
                               );
                             }
                           },
-                          child: const Text('ファイルのインポート'),
+                          child: Text(
+                            AppLocalizations.of(context)!.buttonImport,
+                          ),
                         ),
                         Row(
                           children: [
@@ -169,7 +174,9 @@ class CreateWorkbookPage extends HookConsumerWidget {
                               onPressed: () => ref
                                   .read(urlLauncherProvider)
                                   .launch(WebUrl.importHelp),
-                              label: const Text('ファイルのインポートとは？'),
+                              label: Text(
+                                AppLocalizations.of(context)!.labelHowToImport,
+                              ),
                               icon: const Icon(Icons.help_outline),
                             ),
                           ],

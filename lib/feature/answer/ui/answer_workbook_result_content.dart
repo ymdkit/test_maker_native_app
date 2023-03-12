@@ -121,7 +121,8 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                                 TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: '解答数',
+                                      text: AppLocalizations.of(context)!
+                                          .labelAnsweredCount,
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleSmall,
@@ -136,7 +137,8 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                                     const WidgetSpan(
                                         child: SizedBox(width: 16)),
                                     TextSpan(
-                                      text: '正答数',
+                                      text: AppLocalizations.of(context)!
+                                          .labelCorrectCount,
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleSmall,
@@ -155,7 +157,8 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                                     const WidgetSpan(
                                         child: SizedBox(width: 16)),
                                     TextSpan(
-                                      text: '正答率',
+                                      text: AppLocalizations.of(context)!
+                                          .labelCorrectRate,
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleSmall,
