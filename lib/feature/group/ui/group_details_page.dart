@@ -79,7 +79,7 @@ class GroupDetailsPage extends HookConsumerWidget {
                     await showAlertDialog(
                       context: context,
                       title: 'グループからの退出',
-                      content: 'このグループから退出しますか？',
+                      content: AppLocalizations.of(context)!.confirmExitGroup,
                       isDangerous: true,
                       positiveButtonText: '退出する',
                       onPositive: () async {

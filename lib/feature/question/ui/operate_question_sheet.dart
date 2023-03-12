@@ -81,7 +81,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                 showAlertDialog(
                   context: context,
                   title: '問題の削除',
-                  content: 'この問題を削除してもよろしいですか？',
+                  content: AppLocalizations.of(context)!.confirmDeleteQuestion,
                   positiveButtonText:
                       AppLocalizations.of(context)!.buttonDelete,
                   isDangerous: true,

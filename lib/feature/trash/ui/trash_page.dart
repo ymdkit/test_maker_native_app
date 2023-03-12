@@ -35,7 +35,7 @@ class TrashPage extends HookConsumerWidget {
               onPressed: () => showAlertDialog(
                 context: context,
                 title: 'ゴミ箱を空にする',
-                content: 'ゴミ箱内に含まれるデータを全て削除しますか？',
+                content: AppLocalizations.of(context)!.confirmDestroyContents,
                 isDangerous: true,
                 onPositive: () async {
                   //TODO リファクタする
@@ -91,7 +91,8 @@ class TrashPage extends HookConsumerWidget {
                           onTap: (workbook) => showAlertDialog(
                             context: context,
                             title: 'フォルダの復元',
-                            content: 'フォルダ ${folders[index].title} を復元しますか？',
+                            content: AppLocalizations.of(context)!
+                                .confirmRestoreFolder,
                             onPositive: () {
                               ref
                                   .read(deletedFoldersProvider(
@@ -124,7 +125,8 @@ class TrashPage extends HookConsumerWidget {
                           onTap: (workbook) => showAlertDialog(
                             context: context,
                             title: '問題集の復元',
-                            content: '問題集 ${workbooks[index].title} を復元しますか？',
+                            content: AppLocalizations.of(context)!
+                                .confirmRestoreWorkbook,
                             onPositive: () {
                               ref
                                   .read(deletedWorkbooksProvider(
@@ -157,7 +159,8 @@ class TrashPage extends HookConsumerWidget {
                           onTap: (question) => showAlertDialog(
                             context: context,
                             title: '問題の復元',
-                            content: 'この問題を復元しますか？',
+                            content: AppLocalizations.of(context)!
+                                .confirmRestoreQuestion,
                             onPositive: () {
                               ref
                                   .read(deletedQuestionsProvider.notifier)

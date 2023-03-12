@@ -132,7 +132,7 @@ class _AnswerWriteQuestionContent extends HookWidget {
       autofocus: true,
       controller: answerController,
       hintText: AppLocalizations.of(context)!.hintQuestionAnswer,
-      labelText: '答え',
+      labelText: AppLocalizations.of(context)!.labelYourAnswer,
       textInputAction: TextInputAction.next,
       onChanged: onChanged,
     );
@@ -231,7 +231,7 @@ class _AnswerSelectQuestionContent extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return SeparatedColumn(
-      children: (question.choices + ['わからない'])
+      children: (question.choices + [AppLocalizations.of(context)!.labelGiveUp])
           .map(
             (text) => ElevatedButton(
               onPressed: () => onSelected(text),

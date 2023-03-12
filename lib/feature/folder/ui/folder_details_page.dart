@@ -72,7 +72,8 @@ class FolderDetailsPage extends HookConsumerWidget {
                     showAlertDialog(
                       context: context,
                       title: 'フォルダの削除',
-                      content: 'このフォルダを削除しますか？',
+                      content:
+                          AppLocalizations.of(context)!.confirmDeleteFolder,
                       isDangerous: true,
                       positiveButtonText:
                           AppLocalizations.of(context)!.buttonDelete,

@@ -17,7 +17,7 @@ class Group with _$Group {
 
   factory Group.empty() => Group(
         groupId: '',
-        title: '削除済みグループ',
+        title: '',
         color: AppThemeColor.blue,
         createdAt: DateTime.now(),
         ownerId: '',

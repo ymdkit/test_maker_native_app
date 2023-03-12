@@ -144,7 +144,8 @@ class _PickImageSheet extends HookWidget {
                       showAlertDialog(
                         context: sheetContext,
                         title: '画像の削除',
-                        content: '画像を削除してもよろしいですか？',
+                        content:
+                            AppLocalizations.of(context)!.confirmDeleteImage,
                         onPositive: () {
                           sheetContext.router.pop();
                           onDeleted?.call();

@@ -83,7 +83,9 @@ class AnswerQuestionReviewContent extends HookConsumerWidget {
                         icon: const Icon(
                           Icons.edit,
                         ),
-                        label: const Text('問題内容を修正する'),
+                        label: Text(
+                          AppLocalizations.of(context)!.buttonFixQuestion,
+                        ),
                       ),
                     ),
                   ),

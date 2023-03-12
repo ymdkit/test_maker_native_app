@@ -144,7 +144,13 @@ class CreateWorkbookPage extends HookConsumerWidget {
                               importResult.match(
                                 (l) => showAppSnackBar(context, l.message),
                                 (r) async {
-                                  showAppSnackBar(context, '問題集をインポートしました');
+                                  showAppSnackBar(
+                                    context,
+                                    AppLocalizations.of(
+                                      context,
+                                    )!
+                                        .messageImportWorkbookSuccess,
+                                  );
                                   await context.router.pop();
                                 },
                               );

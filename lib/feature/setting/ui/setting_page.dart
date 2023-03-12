@@ -90,7 +90,7 @@ class SettingPage extends HookConsumerWidget {
                       await showAlertDialog(
                         context: context,
                         title: 'ログアウトの確認',
-                        content: 'ログアウトしてもよろしいですか？',
+                        content: AppLocalizations.of(context)!.confirmSignOut,
                         isDangerous: true,
                         positiveButtonText:
                             AppLocalizations.of(context)!.buttonSignOut,
@@ -116,7 +116,8 @@ class SettingPage extends HookConsumerWidget {
                           await showAlertDialog(
                             context: context,
                             title: '退会の確認',
-                            content: '本当に退会してもよろしいですか？',
+                            content: AppLocalizations.of(context)!
+                                .confirmDeleteAccountExactly,
                             isDangerous: true,
                             onPositive: () async {
                               final result = await ref

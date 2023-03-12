@@ -199,7 +199,10 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
 
     result.match((l) => showAppSnackBar(context, l.message), (r) {
       Clipboard.setData(ClipboardData(text: r));
-      showAppSnackBar(context, '共有リンクをコピーしました');
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.messageCopyLink,
+      );
     });
     return result;
   }

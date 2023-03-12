@@ -182,7 +182,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                         showAlertDialog(
                           context: context,
                           title: '選択した問題を削除',
-                          content: '選択した問題を削除しますか？',
+                          content: AppLocalizations.of(context)!
+                              .confirmDeleteSelectedQuestions,
                           isDangerous: true,
                           positiveButtonText:
                               AppLocalizations.of(context)!.buttonDelete,
@@ -302,7 +303,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                             showAlertDialog(
                               context: context,
                               title: '問題集の削除',
-                              content: 'この問題集を削除しますか？',
+                              content: AppLocalizations.of(context)!
+                                  .confirmDeleteWorkbook,
                               isDangerous: true,
                               positiveButtonText:
                                   AppLocalizations.of(context)!.buttonDelete,
