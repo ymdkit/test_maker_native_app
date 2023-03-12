@@ -12,6 +12,7 @@ import 'package:test_maker_native_app/feature/trash/state/deleted_workbooks_stat
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/feature/workbook/repository/workbook_repository.dart';
 import 'package:test_maker_native_app/feature/workbook/state/workbooks_state_key.dart';
+import 'package:test_maker_native_app/feature/workbook/usecase/import_workbook_use_case.dart';
 import 'package:test_maker_native_app/utils/app_async_state.dart';
 import 'package:test_maker_native_app/utils/app_exception.dart';
 
@@ -24,6 +25,8 @@ final workbooksProvider = StateNotifierProvider.autoDispose
     return WorkbooksStateNotifier(
       ref: ref,
       folderId: key.folderId,
+      importWorkbookUseCase:
+          ref.watch(importWorkbookUseCaseProvider(key.location)),
       workbookRepository: ref.watch(workbookRepositoryProvider(key.location)),
       onMutateWorkbookStream:
           ref.watch(onMutateWorkbookStreamProvider(key.location)),
@@ -39,6 +42,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
   WorkbooksStateNotifier({
     required this.ref,
     required this.folderId,
+    required this.importWorkbookUseCase,
     required this.workbookRepository,
     required this.onMutateWorkbookStream,
     required StreamController<Question> onMutateQuestionStream,
@@ -56,6 +60,7 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
 
   final Ref ref;
   final String? folderId;
+  final ImportWorkbookUseCase importWorkbookUseCase;
   final WorkbookRepository workbookRepository;
   final StreamController<Workbook> onMutateWorkbookStream;
   late final StreamSubscription<Question> onMutateQuestionSubscription;
@@ -217,6 +222,31 @@ class WorkbooksStateNotifier extends StateNotifier<WorkbooksState> {
         return TaskEither.right(r);
       },
     ).run();
+  }
+
+  Future<Either<AppException, void>> importWorkbook({
+    required String workbookTitle,
+    required String text,
+  }) async {
+    final result = await importWorkbookUseCase.call(
+      workbookTitle: workbookTitle,
+      text: text,
+    );
+
+    return result.match(
+      (l) => left(l),
+      (r) {
+        state = state.maybeMap(
+          success: (state) {
+            return WorkbooksState.success(
+              value: [...state.value, r],
+            );
+          },
+          orElse: () => state,
+        );
+        return right(null);
+      },
+    );
   }
 
   Future<void> _syncWorkbook(String workbookId) async {

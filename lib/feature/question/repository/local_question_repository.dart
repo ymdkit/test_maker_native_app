@@ -70,8 +70,15 @@ class LocalQuestionRepository implements QuestionRepository {
       () async {
         localDB.write(() {
           for (final question in questions) {
+            final questionId = Uuid.v4().toString();
             localDB.add<RealmQuestion>(
-              RealmQuestionConverting.fromQuestion(question),
+              RealmQuestionConverting.fromQuestion(
+                question.copyWith(
+                  questionId: questionId,
+                  createdAt: DateTime.now(),
+                  updatedAt: DateTime.now(),
+                ),
+              ),
             );
           }
         });

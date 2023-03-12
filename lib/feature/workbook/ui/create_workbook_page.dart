@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:dartx/dartx_io.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -110,10 +114,36 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         const Divider(),
                         const SizedBox(height: 16),
                         const AppSectionTitle(title: 'その他の方法で作成'),
-                        OutlinedButton(
-                          // TODO(ymdkit): ファイルのインポート機能を実装する
-                          onPressed: () =>
-                              showAppSnackBar(context, 'ファイルのインポート'),
+                        SynchronizedButton.outlined(
+                          onPressed: () async {
+                            final result = await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              allowedExtensions: ['csv'],
+                            );
+
+                            if (result != null) {
+                              final file = File(result.files.single.path ?? '');
+                              final text = await file.readAsLines();
+
+                              final importResult = await ref
+                                  .read(workbooksProvider(WorkbooksStateKey(
+                                    location: location,
+                                    folderId: selectedFolder.value?.folderId,
+                                  )).notifier)
+                                  .importWorkbook(
+                                    workbookTitle: file.nameWithoutExtension,
+                                    text: text.join('\r¥n'),
+                                  );
+
+                              importResult.match(
+                                (l) => showAppSnackBar(context, l.message),
+                                (r) async {
+                                  showAppSnackBar(context, '問題集をインポートしました');
+                                  await context.router.pop();
+                                },
+                              );
+                            }
+                          },
                           child: const Text('ファイルのインポート'),
                         ),
                         Row(
