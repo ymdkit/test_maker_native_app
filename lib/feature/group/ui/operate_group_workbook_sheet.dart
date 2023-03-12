@@ -60,13 +60,16 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
               visible: workbook.isOwned,
               child: ListTile(
                 leading: const Icon(Icons.report),
-                title: const Text('グループから削除する'),
+                title: Text(
+                  AppLocalizations.of(context)!.buttonDeleteWorkbookFromGroup,
+                ),
                 onTap: () async {
                   await showAlertDialog(
                       context: context,
                       title: AppLocalizations.of(context)!
                           .titleDeleteWorkbookFromGroup,
-                      content: '問題集をグループから削除しますか？',
+                      content: AppLocalizations.of(context)!
+                          .confirmDeleteWorkbookFromGroup,
                       isDangerous: true,
                       positiveButtonText:
                           AppLocalizations.of(context)!.buttonDelete,

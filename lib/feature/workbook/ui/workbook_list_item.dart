@@ -34,8 +34,8 @@ class WorkbookListItem extends StatelessWidget {
             return IconButton(
               onPressed: () => showAlertDialog(
                 context: context,
-                title: 'クラウドへの同期',
-                content: 'クラウド上にアップロードすることで、複数端末で情報を同期することができます。（ログインが必要です）',
+                title: AppLocalizations.of(context)!.titleSync,
+                content: AppLocalizations.of(context)!.messageAboutSync,
                 positiveButtonText: AppLocalizations.of(context)!.buttonSync,
                 onPositive: () {
                   //TODO: 問題集のアップロード
@@ -45,7 +45,10 @@ class WorkbookListItem extends StatelessWidget {
             );
           case AppDataLocation.remoteOwned:
             return IconButton(
-              onPressed: () => showAppSnackBar(context, 'この問題集はクラウド上で同期されています'),
+              onPressed: () => showAppSnackBar(
+                context,
+                AppLocalizations.of(context)!.messageAlreadySyncWorkbook,
+              ),
               icon: const Icon(Icons.cloud_done_outlined),
             );
           default:

@@ -32,7 +32,7 @@ class FolderListItem extends StatelessWidget {
               onPressed: () => showAlertDialog(
                 context: context,
                 title: AppLocalizations.of(context)!.titleSync,
-                content: 'クラウド上にアップロードすることで、複数端末で情報を同期することができます。（ログインが必要です）',
+                content: AppLocalizations.of(context)!.messageAboutSync,
                 positiveButtonText: AppLocalizations.of(context)!.buttonSync,
                 onPositive: () {
                   //TODO: フォルダのアップロード
@@ -42,7 +42,10 @@ class FolderListItem extends StatelessWidget {
             );
           case AppDataLocation.remoteOwned:
             return IconButton(
-              onPressed: () => showAppSnackBar(context, 'この問題集はクラウド上で同期されています'),
+              onPressed: () => showAppSnackBar(
+                context,
+                AppLocalizations.of(context)!.messageAlreadySyncFolder,
+              ),
               icon: const Icon(Icons.cloud_done_outlined),
             );
           default:

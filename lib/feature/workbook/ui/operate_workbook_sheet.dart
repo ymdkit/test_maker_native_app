@@ -71,8 +71,9 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                 if (workbook.questionCount == 0) {
                   await showAlertDialog(
                       context: context,
-                      title: '出題エラー',
-                      content: '保存されている問題はありません。問題を作成してください',
+                      title: AppLocalizations.of(context)!.titleAnswerError,
+                      content: AppLocalizations.of(context)!
+                          .messageNotExistsQuestions,
                       onPositive: () {
                         context.router.pushAll(
                           [
@@ -139,8 +140,8 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                   {
                     await showAlertDialog(
                       context: context,
-                      title: '共有エラー',
-                      content: 'クラウド上にアップロードされていない問題集は共有できません。問題集をアップロードしてください',
+                      title: AppLocalizations.of(context)!.titleShareError,
+                      content: AppLocalizations.of(context)!.messageUnUploaded,
                       positiveButtonText:
                           AppLocalizations.of(context)!.buttonUpload,
                       onPositive: () {

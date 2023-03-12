@@ -107,19 +107,23 @@ class SettingPage extends HookConsumerWidget {
                     },
                   ),
                   ListTile(
-                    title: const Text('退会'),
+                    title:
+                        Text(AppLocalizations.of(context)!.buttonDeleteAccount),
                     onTap: () async {
                       await showAlertDialog(
                         context: context,
-                        title: '退会について',
-                        content:
-                            '''退会すると、クラウド上に同期した問題集にアクセスすることは不可能になります。こちらをご理解した上で次に進んでください。''',
+                        title: AppLocalizations.of(context)!
+                            .titleAboutDeleteAccount,
+                        content: AppLocalizations.of(context)!
+                            .messageAboutDeleteAccount,
                         isDangerous: true,
-                        positiveButtonText: '次へ進む',
+                        positiveButtonText:
+                            AppLocalizations.of(context)!.buttonNext,
                         onPositive: () async {
                           await showAlertDialog(
                             context: context,
-                            title: '退会の確認',
+                            title: AppLocalizations.of(context)!
+                                .titleDeleteAccountExactly,
                             content: AppLocalizations.of(context)!
                                 .confirmDeleteAccountExactly,
                             isDangerous: true,
@@ -134,13 +138,24 @@ class SettingPage extends HookConsumerWidget {
                                     case AppExceptionCode.unAuthorized:
                                       context.router.push(const SignInRoute());
                                       showAppSnackBar(
-                                          context, 'この操作を行うには再ログインが必要です');
+                                        context,
+                                        AppLocalizations.of(context)!
+                                            .messageRequireSignIn,
+                                      );
                                       break;
                                     default:
-                                      showAppSnackBar(context, '退会に失敗しました');
+                                      showAppSnackBar(
+                                        context,
+                                        AppLocalizations.of(context)!
+                                            .messageDeleteAccountFailure,
+                                      );
                                   }
                                 },
-                                (r) => showAppSnackBar(context, '退会しました'),
+                                (r) => showAppSnackBar(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .messageDeleteAccountSuccess,
+                                ),
                               );
                             },
                           );
