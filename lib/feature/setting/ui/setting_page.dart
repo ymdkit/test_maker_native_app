@@ -3,6 +3,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -51,9 +52,11 @@ class SettingPage extends HookConsumerWidget {
                   preferences: preferences,
                   preferencesNotifier: preferencesNotifier),
               const Divider(indent: 16, endIndent: 16),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: AppSectionTitle(title: '外観設定'),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: AppSectionTitle(
+                  title: AppLocalizations.of(context)!.sectionSettingAppearance,
+                ),
               ),
               ListTile(
                 title: const Text('テーマカラー'),
@@ -67,9 +70,11 @@ class SettingPage extends HookConsumerWidget {
                 ),
               ),
               const Divider(indent: 16, endIndent: 16),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: AppSectionTitle(title: 'アカウント設定'),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: AppSectionTitle(
+                  title: AppLocalizations.of(context)!.sectionSettingAccount,
+                ),
               ),
               ...account.maybeWhen(
                 guest: () => [
@@ -141,9 +146,10 @@ class SettingPage extends HookConsumerWidget {
                 orElse: () => [const SizedBox.shrink()],
               ),
               const Divider(indent: 16, endIndent: 16),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: AppSectionTitle(title: 'その他'),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: AppSectionTitle(
+                    title: AppLocalizations.of(context)!.sectionSettingOther),
               ),
               ListTile(
                 title: const Text('ゴミ箱'),
@@ -262,9 +268,10 @@ class AnswerWorkbookSettings extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-          child: AppSectionTitle(title: '出題設定'),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          child: AppSectionTitle(
+              title: AppLocalizations.of(context)!.sectionSettingAnswer),
         ),
         SwitchListTile(
           title: const Text('出題順をランダムにする'),

@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
@@ -64,7 +65,9 @@ class CreateWorkbookPage extends HookConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const AppSectionTitle(title: 'アプリから作成'),
+                        AppSectionTitle(
+                            title: AppLocalizations.of(context)!
+                                .sectionCreateWorkbookInApp),
                         AppTextFormField(
                           autofocus: true,
                           controller: workbookTitleController,
@@ -113,7 +116,9 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         const SizedBox(height: 16),
                         const Divider(),
                         const SizedBox(height: 16),
-                        const AppSectionTitle(title: 'その他の方法で作成'),
+                        AppSectionTitle(
+                            title: AppLocalizations.of(context)!
+                                .sectionCreateWorkbookOther),
                         SynchronizedButton.outlined(
                           onPressed: () async {
                             final result = await FilePicker.platform.pickFiles(

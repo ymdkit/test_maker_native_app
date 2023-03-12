@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/search/state/search_workbooks_state.dart';
@@ -56,10 +57,13 @@ class SearchWorkbookPage extends HookConsumerWidget {
               child: CustomScrollView(
                 slivers: [
                   const AppSliverSpace(height: 16),
-                  const SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     sliver: SliverToBoxAdapter(
-                      child: AppSectionTitle(title: '検索結果'),
+                      child: AppSectionTitle(
+                        title:
+                            AppLocalizations.of(context)!.sectionSearchResult,
+                      ),
                     ),
                   ),
                   SliverList(

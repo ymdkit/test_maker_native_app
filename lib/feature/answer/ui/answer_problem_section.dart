@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_view/photo_view.dart';
@@ -35,7 +36,10 @@ class AnswerProblemSection extends HookConsumerWidget {
       children: [
         Row(
           children: [
-            AppSectionTitle(title: 'No.${question.displayIndex}'),
+            AppSectionTitle(
+              title: AppLocalizations.of(context)!
+                  .sectionQuestionIndex(question.displayIndex),
+            ),
             const SizedBox(width: 16),
             Expanded(
               child: Padding(

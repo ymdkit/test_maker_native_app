@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
 import 'package:test_maker_native_app/feature/answer/state/answer_workbook_state.dart';
@@ -42,7 +43,9 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
                     question: question,
                   ),
                   const SizedBox(height: 16),
-                  const AppSectionTitle(title: '解答'),
+                  AppSectionTitle(
+                    title: AppLocalizations.of(context)!.sectionQuestionAnswer,
+                  ),
                   Text(
                     question.answers.join('\n'),
                   ),

@@ -1,6 +1,7 @@
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -78,7 +79,10 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const AppSectionTitle(title: '解答結果'),
+                      AppSectionTitle(
+                        title:
+                            AppLocalizations.of(context)!.sectionAnswerResult,
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
                         child: Row(
@@ -199,10 +203,12 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                   ),
                 ),
               ),
-              const SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 sliver: SliverToBoxAdapter(
-                  child: AppSectionTitle(title: '問題'),
+                  child: AppSectionTitle(
+                    title: AppLocalizations.of(context)!.sectionQuestion,
+                  ),
                 ),
               ),
               SliverList(
