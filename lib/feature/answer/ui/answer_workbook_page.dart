@@ -70,6 +70,7 @@ class AnswerWorkbookPage extends HookConsumerWidget {
                 children: [
                   state.maybeWhen(
                     empty: () => AppEmptyContent.question(
+                      context: context,
                       onPressedFallbackButton: () => context.router.replaceAll(
                         [
                           const HomeRoute(),

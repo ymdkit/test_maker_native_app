@@ -91,7 +91,9 @@ class CreateFolderPage extends HookConsumerWidget {
                         showAppSnackBar(context, '入力内容に不備があります');
                       }
                     },
-                    child: const Text('フォルダを作成する'),
+                    child: Text(
+                      AppLocalizations.of(context)!.buttonCreateFolder,
+                    ),
                   ),
                 ),
               ],

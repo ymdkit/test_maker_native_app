@@ -142,7 +142,9 @@ class EditWorkbookPage extends HookConsumerWidget {
                         showAppSnackBar(context, '入力内容に不備があります');
                       }
                     },
-                    child: const Text('編集内容を保存する'),
+                    child: Text(
+                      AppLocalizations.of(context)!.buttonUpdate,
+                    ),
                   ),
                 ),
               ],

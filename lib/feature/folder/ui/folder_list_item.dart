@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/widget/app_alert_dialog.dart';
@@ -32,7 +33,7 @@ class FolderListItem extends StatelessWidget {
                 context: context,
                 title: 'クラウドへの同期',
                 content: 'クラウド上にアップロードすることで、複数端末で情報を同期することができます。（ログインが必要です）',
-                positiveButtonText: '同期する',
+                positiveButtonText: AppLocalizations.of(context)!.buttonSync,
                 onPositive: () {
                   //TODO: フォルダのアップロード
                 },

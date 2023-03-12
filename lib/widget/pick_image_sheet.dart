@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -97,7 +98,8 @@ class _PickImageSheet extends HookWidget {
                               title: '権限エラー',
                               content:
                                   'カメラへのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
-                              positiveButtonText: '許可する',
+                              positiveButtonText:
+                                  AppLocalizations.of(context)!.buttonPermit,
                               onPositive: () => openAppSettings(),
                             );
                           }
@@ -127,7 +129,8 @@ class _PickImageSheet extends HookWidget {
                             title: '権限エラー',
                             content:
                                 '端末内の画像へのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
-                            positiveButtonText: '許可する',
+                            positiveButtonText:
+                                AppLocalizations.of(context)!.buttonPermit,
                             onPositive: () => openAppSettings(),
                           );
                         }

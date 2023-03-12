@@ -18,6 +18,7 @@ class CreateQuestionPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return EditQuestionForm.create(
+      context: context,
       workbookId: workbookId,
       location: location,
       onSubmit: ({

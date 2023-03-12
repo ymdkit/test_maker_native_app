@@ -92,7 +92,8 @@ class SettingPage extends HookConsumerWidget {
                         title: 'ログアウトの確認',
                         content: 'ログアウトしてもよろしいですか？',
                         isDangerous: true,
-                        positiveButtonText: 'ログアウトする',
+                        positiveButtonText:
+                            AppLocalizations.of(context)!.buttonSignOut,
                         onPositive: () async {
                           await ref
                               .read(accountStateProvider.notifier)

@@ -40,6 +40,7 @@ class CreateGroupWorkbookPage extends HookConsumerWidget {
         body: uiState.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           empty: () => AppEmptyContent.workbook(
+            context: context,
             onPressedFallbackButton: () => context.router.push(
               CreateWorkbookRoute(
                 folder: null,

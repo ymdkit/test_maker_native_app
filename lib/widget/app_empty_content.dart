@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppEmptyContent extends StatelessWidget {
   const AppEmptyContent({
@@ -14,19 +15,21 @@ class AppEmptyContent extends StatelessWidget {
   final String? fallbackButtonText;
   final VoidCallback? onPressedFallbackButton;
 
-  const AppEmptyContent.workbook({
+  AppEmptyContent.workbook({
     super.key,
+    required BuildContext context,
     required this.onPressedFallbackButton,
   })  : icon = Icons.edit_document,
         text = '保存されている問題集はありません\n問題集を作成してください',
-        fallbackButtonText = '問題集を作成する';
+        fallbackButtonText = AppLocalizations.of(context)!.buttonCreateWorkbook;
 
-  const AppEmptyContent.question({
+  AppEmptyContent.question({
     super.key,
+    required BuildContext context,
     required this.onPressedFallbackButton,
   })  : icon = Icons.edit,
         text = '保存されている問題はありません\n問題を作成してください',
-        fallbackButtonText = '問題を作成する';
+        fallbackButtonText = AppLocalizations.of(context)!.buttonCreateQuestion;
 
   const AppEmptyContent.search({
     super.key,
@@ -35,19 +38,21 @@ class AppEmptyContent extends StatelessWidget {
         fallbackButtonText = null,
         onPressedFallbackButton = null;
 
-  const AppEmptyContent.groupNotAuthorized({
+  AppEmptyContent.groupNotAuthorized({
     super.key,
+    required BuildContext context,
     required this.onPressedFallbackButton,
   })  : icon = Icons.group,
         text = 'グループ機能を利用するにはログインが必要です\nログインしてください',
-        fallbackButtonText = 'ログインする';
+        fallbackButtonText = AppLocalizations.of(context)!.buttonSignIn;
 
-  const AppEmptyContent.group({
+  AppEmptyContent.group({
     super.key,
+    required BuildContext context,
     required this.onPressedFallbackButton,
   })  : icon = Icons.group,
         text = '所属しているグループはありません\nグループを作成してください',
-        fallbackButtonText = 'グループを作成する';
+        fallbackButtonText = AppLocalizations.of(context)!.buttonCreateGroup;
 
   const AppEmptyContent.groupWorkbook({
     super.key,
@@ -60,7 +65,7 @@ class AppEmptyContent extends StatelessWidget {
     super.key,
   })  : icon = Icons.delete,
         text = 'ゴミ箱の中は空です',
-        fallbackButtonText = '問題を作成する',
+        fallbackButtonText = '',
         onPressedFallbackButton = null;
 
   @override

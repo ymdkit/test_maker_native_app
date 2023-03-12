@@ -46,24 +46,26 @@ class EditQuestionForm extends HookConsumerWidget {
     required bool isCheckAnswerOrder,
   }) onSubmit;
 
-  const EditQuestionForm.create({
+  EditQuestionForm.create({
     super.key,
+    required BuildContext context,
     required this.workbookId,
     required this.onSubmit,
     required this.location,
   })  : title = '問題の作成',
-        submitButtonText = '問題を作成する',
+        submitButtonText = AppLocalizations.of(context)!.buttonCreateQuestion,
         completionMessage = '問題を作成しました',
         question = null;
 
-  const EditQuestionForm.edit({
+  EditQuestionForm.edit({
     super.key,
+    required BuildContext context,
     required this.workbookId,
     required this.question,
     required this.onSubmit,
     required this.location,
   })  : title = '問題の編集',
-        submitButtonText = '編集内容を保存する',
+        submitButtonText = AppLocalizations.of(context)!.buttonUpdate,
         completionMessage = '編集内容を保存しました';
 
   @override

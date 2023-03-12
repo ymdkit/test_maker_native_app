@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/folder/state/folder_state.dart';
@@ -73,7 +74,8 @@ class FolderDetailsPage extends HookConsumerWidget {
                       title: 'フォルダの削除',
                       content: 'このフォルダを削除しますか？',
                       isDangerous: true,
-                      positiveButtonText: '削除する',
+                      positiveButtonText:
+                          AppLocalizations.of(context)!.buttonDelete,
                       onPositive: () async {
                         final result = await ref
                             .read(foldersProvider(FoldersStateKey.from(folder))
@@ -99,6 +101,7 @@ class FolderDetailsPage extends HookConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           success: (workbooks) => workbooks.isEmpty
               ? AppEmptyContent.workbook(
+                  context: context,
                   onPressedFallbackButton: () => context.router.push(
                     CreateWorkbookRoute(folder: folder, location: location),
                   ),

@@ -184,7 +184,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                           title: '選択した問題を削除',
                           content: '選択した問題を削除しますか？',
                           isDangerous: true,
-                          positiveButtonText: '削除する',
+                          positiveButtonText:
+                              AppLocalizations.of(context)!.buttonDelete,
                           onPositive: () async {
                             final result = await ref
                                 .read(
@@ -303,7 +304,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                               title: '問題集の削除',
                               content: 'この問題集を削除しますか？',
                               isDangerous: true,
-                              positiveButtonText: '削除する',
+                              positiveButtonText:
+                                  AppLocalizations.of(context)!.buttonDelete,
                               onPositive: () async {
                                 final result = await ref
                                     .read(
@@ -338,6 +340,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
           ),
           success: (questions) => questions.isEmpty
               ? AppEmptyContent.question(
+                  context: context,
                   onPressedFallbackButton: () => context.router.push(
                     CreateQuestionRoute(
                       location: location,

@@ -27,15 +27,19 @@ class GroupListPage extends HookConsumerWidget {
         body: accountState.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           guest: () => AppEmptyContent.groupNotAuthorized(
+              context: context,
               onPressedFallbackButton: () =>
                   context.router.push(const SignInRoute())),
           authenticated: (account) => groupsState.when(
             loading: () => const Center(child: CircularProgressIndicator()),
             failure: (e) => AppErrorContent.serverError(),
             success: (groups) => groups.isEmpty
-                ? AppEmptyContent.group(onPressedFallbackButton: () {
-                    context.router.push(const CreateGroupRoute());
-                  })
+                ? AppEmptyContent.group(
+                    context: context,
+                    onPressedFallbackButton: () {
+                      context.router.push(const CreateGroupRoute());
+                    },
+                  )
                 : RefreshIndicator(
                     onRefresh: () async => ref.refresh(groupsProvider),
                     child: ListView.builder(

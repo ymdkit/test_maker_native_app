@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/question/model/question.dart';
 import 'package:test_maker_native_app/feature/question/state/questions_state.dart';
@@ -47,7 +48,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.edit),
-              title: const Text('編集する'),
+              title: Text(AppLocalizations.of(context)!.buttonEdit),
               onTap: () {
                 context.router.push(
                   EditQuestionRoute(
@@ -61,7 +62,7 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.copy),
-              title: const Text('コピーする'),
+              title: Text(AppLocalizations.of(context)!.buttonCopy),
               onTap: () {
                 ref
                     .read(questionsProvider(QuestionsStateKey(
@@ -75,13 +76,14 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.delete),
-              title: const Text('削除する'),
+              title: Text(AppLocalizations.of(context)!.buttonDelete),
               onTap: () {
                 showAlertDialog(
                   context: context,
                   title: '問題の削除',
                   content: 'この問題を削除してもよろしいですか？',
-                  positiveButtonText: '削除する',
+                  positiveButtonText:
+                      AppLocalizations.of(context)!.buttonDelete,
                   isDangerous: true,
                   onPositive: () {
                     context.router.pop();

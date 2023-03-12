@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
 import 'package:test_maker_native_app/router/app_router.dart';
@@ -44,7 +45,7 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.play_arrow),
-              title: const Text('解答する'),
+              title: Text(AppLocalizations.of(context)!.buttonAnswer),
               onTap: () async {
                 await context.router.pop();
                 // ignore: use_build_context_synchronously
@@ -55,7 +56,7 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.report),
-              title: const Text('通報する'),
+              title: Text(AppLocalizations.of(context)!.buttonReport),
               onTap: () async {
                 final title = '問題集の通報（ID: ${workbook.workbookId}';
                 final body = '${workbook.title} を通報する理由を以下に記載してください';

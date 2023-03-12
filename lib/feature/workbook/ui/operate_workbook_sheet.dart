@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -63,7 +64,9 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.play_arrow),
-              title: const Text('解答する'),
+              title: Text(
+                AppLocalizations.of(context)!.buttonAnswer,
+              ),
               onTap: () async {
                 if (workbook.questionCount == 0) {
                   await showAlertDialog(
@@ -112,7 +115,9 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.edit),
-              title: const Text('編集する'),
+              title: Text(
+                AppLocalizations.of(context)!.buttonEdit,
+              ),
               onTap: () {
                 context.router.push(
                   WorkbookDetailsRoute(
@@ -126,7 +131,9 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.link),
-              title: const Text('共有する'),
+              title: Text(
+                AppLocalizations.of(context)!.buttonShare,
+              ),
               onTap: () async {
                 if (workbook.location == AppDataLocation.local) {
                   {
@@ -134,7 +141,8 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                       context: context,
                       title: '共有エラー',
                       content: 'クラウド上にアップロードされていない問題集は共有できません。問題集をアップロードしてください',
-                      positiveButtonText: 'アップロードする',
+                      positiveButtonText:
+                          AppLocalizations.of(context)!.buttonUpload,
                       onPositive: () {
                         ref.read(accountStateProvider).maybeWhen(
                           authenticated: (user) async {

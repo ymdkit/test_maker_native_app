@@ -22,6 +22,7 @@ class EditQuestionPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return EditQuestionForm.edit(
+      context: context,
       workbookId: workbookId,
       question: question,
       location: location,

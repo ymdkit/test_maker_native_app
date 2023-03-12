@@ -86,7 +86,9 @@ class CreateGroupPage extends HookConsumerWidget {
                         showAppSnackBar(context, '入力内容に不備があります');
                       }
                     },
-                    child: const Text('グループを作成する'),
+                    child: Text(
+                      AppLocalizations.of(context)!.buttonCreateGroup,
+                    ),
                   ),
                 ),
               ],

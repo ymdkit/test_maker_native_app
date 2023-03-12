@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/group/state/group_workbooks_state.dart';
 import 'package:test_maker_native_app/feature/workbook/model/workbook.dart';
@@ -50,7 +51,7 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.play_arrow),
-              title: const Text('解答する'),
+              title: Text(AppLocalizations.of(context)!.buttonAnswer),
               onTap: () => context.router.push(
                 AnswerWorkbookRoute(workbook: workbook),
               ),
@@ -66,7 +67,8 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
                       title: 'グループから削除',
                       content: '問題集をグループから削除しますか？',
                       isDangerous: true,
-                      positiveButtonText: '削除する',
+                      positiveButtonText:
+                          AppLocalizations.of(context)!.buttonDelete,
                       onPositive: () async {
                         final result = await ref
                             .read(
