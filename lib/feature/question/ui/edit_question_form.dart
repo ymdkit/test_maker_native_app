@@ -52,7 +52,7 @@ class EditQuestionForm extends HookConsumerWidget {
     required this.workbookId,
     required this.onSubmit,
     required this.location,
-  })  : title = '問題の作成',
+  })  : title = AppLocalizations.of(context)!.titleCreateQuestion,
         submitButtonText = AppLocalizations.of(context)!.buttonCreateQuestion,
         completionMessage =
             AppLocalizations.of(context)!.messageCreateQuestionSuccess,
@@ -65,7 +65,7 @@ class EditQuestionForm extends HookConsumerWidget {
     required this.question,
     required this.onSubmit,
     required this.location,
-  })  : title = '問題の編集',
+  })  : title = AppLocalizations.of(context)!.titleEditQuestion,
         submitButtonText = AppLocalizations.of(context)!.buttonUpdate,
         completionMessage = AppLocalizations.of(context)!.messageUpdateSuccess;
 
@@ -174,7 +174,8 @@ class EditQuestionForm extends HookConsumerWidget {
                                   }
                                 }
                               },
-                              labelText: '問題形式',
+                              labelText: AppLocalizations.of(context)!
+                                  .labelQuestionType,
                               hintText: AppLocalizations.of(context)!
                                   .hintQuestionType,
                             ),
@@ -185,7 +186,8 @@ class EditQuestionForm extends HookConsumerWidget {
                               controller: problemController,
                               hintText: AppLocalizations.of(context)!
                                   .hintQuestionProblem,
-                              labelText: '問題文',
+                              labelText: AppLocalizations.of(context)!
+                                  .labelQuestionProblem,
                               validator: (value) => value?.isEmpty ?? true
                                   ? AppLocalizations.of(context)!
                                       .hintQuestionProblem
@@ -212,7 +214,8 @@ class EditQuestionForm extends HookConsumerWidget {
                                     controller: controller,
                                     hintText: AppLocalizations.of(context)!
                                         .hintQuestionAnswer,
-                                    labelText: '答え',
+                                    labelText: AppLocalizations.of(context)!
+                                        .labelQuestionAnswer,
                                     validator: (value) => value?.isEmpty ?? true
                                         ? AppLocalizations.of(context)!
                                             .hintQuestionAnswer
@@ -233,7 +236,8 @@ class EditQuestionForm extends HookConsumerWidget {
                                       controller: controller,
                                       hintText: AppLocalizations.of(context)!
                                           .hintQuestionWrongChoice,
-                                      labelText: '不正解の選択肢',
+                                      labelText: AppLocalizations.of(context)!
+                                          .labelQuestionWrongChoice,
                                       validator: !isAutoGenerateWrongChoices
                                               .value
                                           ? (value) => value?.isEmpty ?? true
@@ -276,7 +280,8 @@ class EditQuestionForm extends HookConsumerWidget {
                                         );
                                       }
                                     },
-                                    labelText: '答えの数',
+                                    labelText: AppLocalizations.of(context)!
+                                        .labelQuestionAnswerCount,
                                     hintText: AppLocalizations.of(context)!
                                         .hintQuestionAnswerCount,
                                   ),
@@ -312,7 +317,8 @@ class EditQuestionForm extends HookConsumerWidget {
                                     );
                                   }
                                 },
-                                labelText: '不正解の数',
+                                labelText: AppLocalizations.of(context)!
+                                    .labelQuestionWrongChoiceCount,
                                 hintText: AppLocalizations.of(context)!
                                     .hintQuestionWrongChoiceCount,
                               ),
@@ -328,7 +334,8 @@ class EditQuestionForm extends HookConsumerWidget {
                               controller: explanationController,
                               hintText: AppLocalizations.of(context)!
                                   .hintQuestionExplanation,
-                              labelText: '解説',
+                              labelText: AppLocalizations.of(context)!
+                                  .labelQuestionExplanation,
                               maxLines: 5,
                             ),
                             Row(
@@ -353,7 +360,8 @@ class EditQuestionForm extends HookConsumerWidget {
                                     isAutoGenerateWrongChoices.value = value;
                                   }
                                 },
-                                title: const Text('不正解の選択肢を自動生成する'),
+                                title: Text(AppLocalizations.of(context)!
+                                    .labelIsAutoGenerateWrongChoice),
                               ),
                             ),
                             Visibility(
@@ -365,7 +373,10 @@ class EditQuestionForm extends HookConsumerWidget {
                                     isCheckAnswerOrder.value = value;
                                   }
                                 },
-                                title: const Text('解答順序をチェックする'),
+                                title: Text(
+                                  AppLocalizations.of(context)!
+                                      .labelIsCheckAnswerOrder,
+                                ),
                               ),
                             ),
                           ],

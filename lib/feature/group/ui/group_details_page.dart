@@ -85,7 +85,7 @@ class GroupDetailsPage extends HookConsumerWidget {
                   case _PopupMenuItems.exit:
                     await showAlertDialog(
                       context: context,
-                      title: 'グループからの退出',
+                      title: AppLocalizations.of(context)!.titleExitGroup,
                       content: AppLocalizations.of(context)!.confirmExitGroup,
                       isDangerous: true,
                       positiveButtonText:

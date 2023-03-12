@@ -86,7 +86,11 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                     IconButton(
                       onPressed: () {
                         if (selectedQuestions.value.isEmpty) {
-                          showAppSnackBar(context, '選択されていません');
+                          showAppSnackBar(
+                            context,
+                            AppLocalizations.of(context)!
+                                .messageNotSelectedQuestion,
+                          );
                           return;
                         }
                         context.router.push(
@@ -131,7 +135,11 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                     IconButton(
                       onPressed: () {
                         if (selectedQuestions.value.isEmpty) {
-                          showAppSnackBar(context, '選択されていません');
+                          showAppSnackBar(
+                            context,
+                            AppLocalizations.of(context)!
+                                .messageNotSelectedQuestion,
+                          );
                           return;
                         }
                         context.router.push(
@@ -176,7 +184,11 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                     IconButton(
                       onPressed: () {
                         if (selectedQuestions.value.isEmpty) {
-                          showAppSnackBar(context, '選択されていません');
+                          showAppSnackBar(
+                            context,
+                            AppLocalizations.of(context)!
+                                .messageNotSelectedQuestion,
+                          );
                           return;
                         }
                         showAlertDialog(
@@ -207,7 +219,13 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                                 l.message,
                               ),
                               (success) {
-                                showAppSnackBar(context, '問題を削除しました');
+                                showAppSnackBar(
+                                  context,
+                                  AppLocalizations.of(
+                                    context,
+                                  )!
+                                      .messageDeleteQuestionSuccess,
+                                );
                                 isSelecting.value = false;
                                 selectedQuestions.value = [];
                               },

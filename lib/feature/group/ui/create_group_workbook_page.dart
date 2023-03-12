@@ -116,7 +116,11 @@ class CreateGroupWorkbookPage extends HookConsumerWidget {
                                 result.match(
                                   (l) => showAppSnackBar(context, l.message),
                                   (r) {
-                                    showAppSnackBar(context, '問題集を登録しました');
+                                    showAppSnackBar(
+                                      context,
+                                      AppLocalizations.of(context)!
+                                          .messageLinkWorkbookToGroupSuccess,
+                                    );
                                     context.router.pop();
                                   },
                                 );

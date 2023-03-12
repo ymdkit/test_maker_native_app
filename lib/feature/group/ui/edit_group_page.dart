@@ -47,7 +47,8 @@ class EditGroupPage extends HookConsumerWidget {
                           autofocus: true,
                           controller: workbookTitleController,
                           hintText: AppLocalizations.of(context)!.hintGroupName,
-                          labelText: 'グループ名',
+                          labelText:
+                              AppLocalizations.of(context)!.labelGroupName,
                           validator: (value) => value?.isEmpty ?? true
                               ? AppLocalizations.of(context)!.hintGroupName
                               : null,

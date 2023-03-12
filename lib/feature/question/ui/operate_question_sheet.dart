@@ -71,7 +71,10 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                     )).notifier)
                     .copyQuestion(question: question);
                 context.router.pop();
-                showAppSnackBar(context, '問題を末尾にコピーしました');
+                showAppSnackBar(
+                  context,
+                  AppLocalizations.of(context)!.messageCopyQuestionSuccess,
+                );
               },
             ),
             ListTile(

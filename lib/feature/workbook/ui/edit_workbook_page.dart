@@ -73,7 +73,8 @@ class EditWorkbookPage extends HookConsumerWidget {
                           controller: workbookTitleController,
                           hintText:
                               AppLocalizations.of(context)!.hintWorkbookName,
-                          labelText: '問題集のタイトル',
+                          labelText:
+                              AppLocalizations.of(context)!.labelWorkbookName,
                           validator: (value) => value?.isEmpty ?? true
                               ? AppLocalizations.of(context)!.hintWorkbookName
                               : null,

@@ -126,7 +126,7 @@ class AnswerWorkbookPage extends HookConsumerWidget {
   ) {
     return showAlertDialog(
       context: context,
-      title: '解答の終了',
+      title: AppLocalizations.of(context)!.titleFinishAnswering,
       content: AppLocalizations.of(context)!.confirmFinishAnswer,
       onPositive: () => ref
           .read(answerWorkbookStateProvider(

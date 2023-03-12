@@ -51,7 +51,8 @@ class CreateFolderPage extends HookConsumerWidget {
                           controller: folderTitleController,
                           hintText:
                               AppLocalizations.of(context)!.hintFolderName,
-                          labelText: 'フォルダ名',
+                          labelText:
+                              AppLocalizations.of(context)!.labelFolderName,
                           validator: (value) => value?.isEmpty ?? true
                               ? AppLocalizations.of(context)!.hintFolderName
                               : null,

@@ -61,7 +61,9 @@ class SettingPage extends HookConsumerWidget {
                 ),
               ),
               ListTile(
-                title: const Text('テーマカラー'),
+                title: Text(
+                  AppLocalizations.of(context)!.appearanceSettingThemeColor,
+                ),
                 subtitle: Text(
                   preferences.themeColor.displayString(context),
                 ),
@@ -91,7 +93,7 @@ class SettingPage extends HookConsumerWidget {
                     onTap: () async {
                       await showAlertDialog(
                         context: context,
-                        title: 'ログアウトの確認',
+                        title: AppLocalizations.of(context)!.titleSignOut,
                         content: AppLocalizations.of(context)!.confirmSignOut,
                         isDangerous: true,
                         positiveButtonText:
@@ -161,11 +163,17 @@ class SettingPage extends HookConsumerWidget {
               ),
               ListTile(
                 title: Text(AppLocalizations.of(context)!.removeAds),
-                subtitle:
-                    preferences.isRemovedAds ? const Text('広告削除済み') : null,
+                subtitle: preferences.isRemovedAds
+                    ? Text(
+                        AppLocalizations.of(context)!.messageAlreadyRemovedAds,
+                      )
+                    : null,
                 onTap: () async {
                   if (preferences.isRemovedAds) {
-                    showAppSnackBar(context, '広告削除済みです');
+                    showAppSnackBar(
+                      context,
+                      AppLocalizations.of(context)!.messageAlreadyRemovedAds,
+                    );
                     return;
                   }
                   try {
@@ -185,7 +193,12 @@ class SettingPage extends HookConsumerWidget {
                     } else {
                       if (isMounted()) {
                         // ignore: use_build_context_synchronously
-                        showAppSnackBar(context, '購入可能な商品が存在しません');
+                        showAppSnackBar(
+                          context,
+                          // ignore: use_build_context_synchronously
+                          AppLocalizations.of(context)!
+                              .messageNotExistPurchasableItem,
+                        );
                       }
                       return;
                     }
@@ -194,7 +207,9 @@ class SettingPage extends HookConsumerWidget {
                     if (errorCode !=
                         PurchasesErrorCode.purchaseCancelledError) {
                       showAppSnackBar(
-                          context, '購入に失敗しました。しばらくお待ちの上、もう一度やり直してください');
+                        context,
+                        AppLocalizations.of(context)!.messagePurchaseFailure,
+                      );
                     }
                   }
                 },
@@ -209,12 +224,20 @@ class SettingPage extends HookConsumerWidget {
                             false;
                     if (isRemovedAd) {
                       // ignore: use_build_context_synchronously
-                      showAppSnackBar(context, '購入情報を復元しました');
+                      showAppSnackBar(
+                        context,
+                        // ignore: use_build_context_synchronously
+                        AppLocalizations.of(context)!
+                            .messageRestorePurchaseSuccess,
+                      );
                       preferencesNotifier.setRemovedAds(isRemovedAd);
                     }
                   } on PlatformException {
                     showAppSnackBar(
-                        context, '購入復元に失敗しました。しばらくお待ちの上、もう一度やり直してください');
+                      context,
+                      AppLocalizations.of(context)!
+                          .messageRestorePurchaseFailure,
+                    );
                   }
                 },
               ),

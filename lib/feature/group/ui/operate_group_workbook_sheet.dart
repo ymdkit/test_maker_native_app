@@ -81,7 +81,11 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
 
                         result.match(
                           (l) => showAppSnackBar(context, l.message),
-                          (r) => showAppSnackBar(context, '問題集をグループから削除しました'),
+                          (r) => showAppSnackBar(
+                            context,
+                            AppLocalizations.of(context)!
+                                .messageDeleteWorkbookFromGroupSuccess,
+                          ),
                         );
                       });
                 },
