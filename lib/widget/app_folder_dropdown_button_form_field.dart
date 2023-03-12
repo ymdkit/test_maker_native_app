@@ -38,7 +38,7 @@ class AppFolderDropdownButtonFormField extends StatelessWidget {
       onChanged: (folderId) => onChanged(
         folders.firstWhereOrNull((folder) => folder.folderId == folderId),
       ),
-      labelText: 'フォルダ',
+      labelText: AppLocalizations.of(context)!.folder,
       hintText: AppLocalizations.of(context)!.hintSelectFolder,
     );
   }

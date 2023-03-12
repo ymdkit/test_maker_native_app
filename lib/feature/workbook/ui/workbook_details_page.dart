@@ -354,8 +354,7 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                       ),
                       sliver: SliverToBoxAdapter(
                         child: AppSectionTitle(
-                            title:
-                                AppLocalizations.of(context)!.sectionQuestion),
+                            title: AppLocalizations.of(context)!.question),
                       ),
                     ),
                     SliverList(

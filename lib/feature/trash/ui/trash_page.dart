@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
 import 'package:test_maker_native_app/feature/folder/ui/folder_list_item.dart';
@@ -25,7 +26,7 @@ class TrashPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ゴミ箱'),
+        title: Text(AppLocalizations.of(context)!.trash),
         actions: [
           trashUiState.maybeWhen(
             orElse: () => const SizedBox.shrink(),
@@ -77,7 +78,7 @@ class TrashPage extends HookConsumerWidget {
               SliverVisibility(
                 visible: folders.isNotEmpty,
                 sliver: AppSliverSection(
-                  title: 'フォルダ',
+                  title: AppLocalizations.of(context)!.folder,
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
@@ -106,7 +107,7 @@ class TrashPage extends HookConsumerWidget {
               SliverVisibility(
                 visible: workbooks.isNotEmpty,
                 sliver: AppSliverSection(
-                  title: '問題集',
+                  title: AppLocalizations.of(context)!.workbook,
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
@@ -135,7 +136,7 @@ class TrashPage extends HookConsumerWidget {
               SliverVisibility(
                 visible: questions.isNotEmpty,
                 sliver: AppSliverSection(
-                  title: '問題',
+                  title: AppLocalizations.of(context)!.question,
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {

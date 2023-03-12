@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
@@ -75,7 +76,7 @@ class SelectWorkbookPage extends HookConsumerWidget {
                   sliver: MultiSliver(
                     children: [
                       AppSliverSection(
-                        title: 'フォルダ',
+                        title: AppLocalizations.of(context)!.folder,
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
@@ -112,7 +113,7 @@ class SelectWorkbookPage extends HookConsumerWidget {
                 SliverVisibility(
                   visible: workbooks.isNotEmpty,
                   sliver: AppSliverSection(
-                    title: '問題集',
+                    title: AppLocalizations.of(context)!.workbook,
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {

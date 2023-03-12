@@ -207,7 +207,7 @@ class AnswerWorkbookResultContent extends HookConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 sliver: SliverToBoxAdapter(
                   child: AppSectionTitle(
-                    title: AppLocalizations.of(context)!.sectionQuestion,
+                    title: AppLocalizations.of(context)!.question,
                   ),
                 ),
               ),

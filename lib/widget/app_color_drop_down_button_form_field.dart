@@ -39,7 +39,7 @@ class AppColorDropdownButtonFormField extends StatelessWidget {
           )
           .toList(),
       onChanged: (colorTheme) => onChanged(colorTheme ?? AppThemeColor.blue),
-      labelText: 'カラー',
+      labelText: AppLocalizations.of(context)!.color,
       hintText: AppLocalizations.of(context)!.hintSelectColor,
     );
   }

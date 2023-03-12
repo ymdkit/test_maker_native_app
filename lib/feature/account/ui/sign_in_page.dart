@@ -12,7 +12,6 @@ import 'package:test_maker_native_app/widget/app_section_title.dart';
 import 'package:test_maker_native_app/widget/app_snack_bar.dart';
 import 'package:test_maker_native_app/widget/app_text_form_field.dart';
 import 'package:test_maker_native_app/widget/synchronized_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInPage extends HookConsumerWidget {
   const SignInPage({super.key});
@@ -25,7 +24,7 @@ class SignInPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ログイン'),
+        title: Text(AppLocalizations.of(context)!.signIn),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -72,7 +71,7 @@ class SignInPage extends HookConsumerWidget {
                           },
                         );
                       },
-                      child: const Text('ログイン'),
+                      child: Text(AppLocalizations.of(context)!.signIn),
                     ),
                   ],
                 ),
