@@ -93,7 +93,11 @@ class _OperateWorkbookSheet extends HookConsumerWidget {
                           workbookId: question.workbookId,
                         )).notifier)
                         .deleteQuestion(question);
-                    showAppSnackBar(context, '問題をゴミ箱に移動しました');
+                    showAppSnackBar(
+                      context,
+                      AppLocalizations.of(context)!
+                          .messageDeleteQuestionSuccess,
+                    );
                   },
                 );
               },

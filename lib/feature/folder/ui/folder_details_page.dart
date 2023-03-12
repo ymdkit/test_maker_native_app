@@ -85,7 +85,11 @@ class FolderDetailsPage extends HookConsumerWidget {
                         result.match(
                           (l) => showAppSnackBar(context, l.message),
                           (r) {
-                            showAppSnackBar(context, 'フォルダをゴミ箱に移動しました');
+                            showAppSnackBar(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .messageDeleteFolderSuccess,
+                            );
                             context.router.pop();
                           },
                         );

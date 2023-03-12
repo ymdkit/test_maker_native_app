@@ -321,7 +321,11 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                                     l.message,
                                   ),
                                   (success) {
-                                    showAppSnackBar(context, '問題集をゴミ箱に移動しました');
+                                    showAppSnackBar(
+                                      context,
+                                      AppLocalizations.of(context)!
+                                          .messageDeleteWorkbookSuccess,
+                                    );
                                     context.router.pop();
                                   },
                                 );

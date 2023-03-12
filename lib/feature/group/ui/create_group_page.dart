@@ -78,12 +78,19 @@ class CreateGroupPage extends HookConsumerWidget {
                         result.match(
                           (l) => showAppSnackBar(context, l.message),
                           (r) {
-                            showAppSnackBar(context, 'グループを作成しました');
+                            showAppSnackBar(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .messageCreateGroupSuccess,
+                            );
                             context.router.pop();
                           },
                         );
                       } else {
-                        showAppSnackBar(context, '入力内容に不備があります');
+                        showAppSnackBar(
+                          context,
+                          AppLocalizations.of(context)!.messageInvalidInput,
+                        );
                       }
                     },
                     child: Text(

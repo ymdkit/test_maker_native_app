@@ -81,12 +81,19 @@ class EditGroupPage extends HookConsumerWidget {
                         result.match(
                           (l) => showAppSnackBar(context, l.message),
                           (r) {
-                            showAppSnackBar(context, '編集内容を保存しました');
+                            showAppSnackBar(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .messageUpdateSuccess,
+                            );
                             context.router.pop();
                           },
                         );
                       } else {
-                        showAppSnackBar(context, '入力内容に不備があります');
+                        showAppSnackBar(
+                          context,
+                          AppLocalizations.of(context)!.messageInvalidInput,
+                        );
                       }
                     },
                     child: Text(AppLocalizations.of(context)!.buttonUpdate),

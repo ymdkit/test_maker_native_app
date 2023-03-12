@@ -61,7 +61,11 @@ class TrashPage extends HookConsumerWidget {
                       .destroyFolders();
 
                   // ignore: use_build_context_synchronously
-                  showAppSnackBar(context, '削除しました');
+                  showAppSnackBar(
+                    context,
+                    // ignore: use_build_context_synchronously
+                    AppLocalizations.of(context)!.messageDeleteSuccess,
+                  );
                 },
               ),
             ),
@@ -94,7 +98,11 @@ class TrashPage extends HookConsumerWidget {
                                           folders[index].location)
                                       .notifier)
                                   .restoreFolder(folders[index]);
-                              showAppSnackBar(context, 'フォルダを復元しました');
+                              showAppSnackBar(
+                                context,
+                                AppLocalizations.of(context)!
+                                    .messageRestoreFolderSuccess,
+                              );
                             },
                           ),
                         );
@@ -123,7 +131,11 @@ class TrashPage extends HookConsumerWidget {
                                           workbooks[index].location)
                                       .notifier)
                                   .restoreWorkbook(workbooks[index]);
-                              showAppSnackBar(context, '問題集を復元しました');
+                              showAppSnackBar(
+                                context,
+                                AppLocalizations.of(context)!
+                                    .messageRestoreWorkbookSuccess,
+                              );
                             },
                           ),
                         );
@@ -150,7 +162,11 @@ class TrashPage extends HookConsumerWidget {
                               ref
                                   .read(deletedQuestionsProvider.notifier)
                                   .restoreQuestion(questions[index]);
-                              showAppSnackBar(context, '問題を復元しました');
+                              showAppSnackBar(
+                                context,
+                                AppLocalizations.of(context)!
+                                    .messageRestoreQuestionSuccess,
+                              );
                             },
                           ),
                         );

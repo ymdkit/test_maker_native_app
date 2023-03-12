@@ -193,12 +193,19 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         result.match(
                           (l) => showAppSnackBar(context, l.message),
                           (r) async {
-                            showAppSnackBar(context, '問題集を作成しました');
+                            showAppSnackBar(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .messageCreateWorkbookSuccess,
+                            );
                             await context.router.pop();
                           },
                         );
                       } else {
-                        showAppSnackBar(context, '入力内容に不備があります');
+                        showAppSnackBar(
+                          context,
+                          AppLocalizations.of(context)!.messageInvalidInput,
+                        );
                       }
                     },
                     child: Text(

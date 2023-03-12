@@ -54,7 +54,8 @@ class EditQuestionForm extends HookConsumerWidget {
     required this.location,
   })  : title = '問題の作成',
         submitButtonText = AppLocalizations.of(context)!.buttonCreateQuestion,
-        completionMessage = '問題を作成しました',
+        completionMessage =
+            AppLocalizations.of(context)!.messageCreateQuestionSuccess,
         question = null;
 
   EditQuestionForm.edit({
@@ -66,7 +67,7 @@ class EditQuestionForm extends HookConsumerWidget {
     required this.location,
   })  : title = '問題の編集',
         submitButtonText = AppLocalizations.of(context)!.buttonUpdate,
-        completionMessage = '編集内容を保存しました';
+        completionMessage = AppLocalizations.of(context)!.messageUpdateSuccess;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -417,7 +418,10 @@ class EditQuestionForm extends HookConsumerWidget {
                             // フォーカスを問題文に戻す
                             firstFormFocusNode.requestFocus();
                           } else {
-                            showAppSnackBar(context, '入力内容に不備があります');
+                            showAppSnackBar(
+                              context,
+                              AppLocalizations.of(context)!.messageInvalidInput,
+                            );
                           }
                         },
                         child: Text(submitButtonText),

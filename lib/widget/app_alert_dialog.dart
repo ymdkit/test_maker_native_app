@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> showAlertDialog({
   required BuildContext context,
@@ -19,7 +20,7 @@ Future<void> showAlertDialog({
         actions: [
           TextButton(
             child: Text(
-              negativeButtonText ?? 'キャンセル',
+              negativeButtonText ?? AppLocalizations.of(context)!.buttonCancel,
             ),
             onPressed: () async {
               await dialogContext.router.pop();

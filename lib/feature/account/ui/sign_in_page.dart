@@ -66,7 +66,11 @@ class SignInPage extends HookConsumerWidget {
                         result.match(
                           (l) => showAppSnackBar(context, l.message),
                           (r) {
-                            showAppSnackBar(context, 'ログインに成功しました');
+                            showAppSnackBar(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .messageSignInSuccess,
+                            );
                             context.router.pop();
                           },
                         );
@@ -98,7 +102,10 @@ class SignInPage extends HookConsumerWidget {
                   result.match(
                     (l) => showAppSnackBar(context, l.message),
                     (r) {
-                      showAppSnackBar(context, 'ログインに成功しました');
+                      showAppSnackBar(
+                        context,
+                        AppLocalizations.of(context)!.messageSignInSuccess,
+                      );
                       context.router.pop();
                     },
                   );
@@ -119,7 +126,10 @@ class SignInPage extends HookConsumerWidget {
                       (l) =>
                           showAppSnackBar(context, l.rawException.toString()),
                       (r) {
-                        showAppSnackBar(context, 'ログインに成功しました');
+                        showAppSnackBar(
+                          context,
+                          AppLocalizations.of(context)!.messageSignInSuccess,
+                        );
                         context.router.pop();
                       },
                     );

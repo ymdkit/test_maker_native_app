@@ -85,10 +85,17 @@ class CreateFolderPage extends HookConsumerWidget {
                               title: folderTitleController.text,
                               color: selectedColor.value,
                             );
-                        showAppSnackBar(context, 'フォルダを作成しました');
+                        showAppSnackBar(
+                          context,
+                          AppLocalizations.of(context)!
+                              .messageCreateFolderSuccess,
+                        );
                         context.router.pop();
                       } else {
-                        showAppSnackBar(context, '入力内容に不備があります');
+                        showAppSnackBar(
+                          context,
+                          AppLocalizations.of(context)!.messageInvalidInput,
+                        );
                       }
                     },
                     child: Text(

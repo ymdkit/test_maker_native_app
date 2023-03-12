@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/group/state/group_state.dart';
 import 'package:test_maker_native_app/feature/group/state/group_workbooks_state.dart';
@@ -61,7 +62,10 @@ class GroupDetailsPage extends HookConsumerWidget {
                       (l) => showAppSnackBar(context, l.message),
                       (r) {
                         Clipboard.setData(ClipboardData(text: r));
-                        showAppSnackBar(context, '招待リンクをコピーしました');
+                        showAppSnackBar(
+                          context,
+                          AppLocalizations.of(context)!.messageCopyLink,
+                        );
                       },
                     );
                     break;
@@ -86,7 +90,11 @@ class GroupDetailsPage extends HookConsumerWidget {
                         result.match(
                           (l) => showAppSnackBar(context, l.message),
                           (success) {
-                            showAppSnackBar(context, 'グループから退出しました');
+                            showAppSnackBar(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .messageExitGroupSuccess,
+                            );
                             context.router.pop();
                           },
                         );

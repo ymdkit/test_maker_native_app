@@ -134,12 +134,19 @@ class EditWorkbookPage extends HookConsumerWidget {
                             l.message,
                           ),
                           (_) {
-                            showAppSnackBar(context, '問題集を編集しました');
+                            showAppSnackBar(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .messageUpdateSuccess,
+                            );
                             context.router.pop();
                           },
                         );
                       } else {
-                        showAppSnackBar(context, '入力内容に不備があります');
+                        showAppSnackBar(
+                          context,
+                          AppLocalizations.of(context)!.messageInvalidInput,
+                        );
                       }
                     },
                     child: Text(
