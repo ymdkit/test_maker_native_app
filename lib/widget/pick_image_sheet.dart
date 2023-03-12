@@ -143,7 +143,7 @@ class _PickImageSheet extends HookWidget {
                     onTap: () {
                       showAlertDialog(
                         context: sheetContext,
-                        title: '画像の削除',
+                        title: AppLocalizations.of(context)!.titleDeleteImage,
                         content:
                             AppLocalizations.of(context)!.confirmDeleteImage,
                         onPositive: () {

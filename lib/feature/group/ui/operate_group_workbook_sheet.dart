@@ -64,7 +64,8 @@ class _OperateSearchedWorkbookSheet extends HookConsumerWidget {
                 onTap: () async {
                   await showAlertDialog(
                       context: context,
-                      title: 'グループから削除',
+                      title: AppLocalizations.of(context)!
+                          .titleDeleteWorkbookFromGroup,
                       content: '問題集をグループから削除しますか？',
                       isDangerous: true,
                       positiveButtonText:

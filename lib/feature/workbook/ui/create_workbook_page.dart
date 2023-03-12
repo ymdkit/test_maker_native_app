@@ -51,7 +51,9 @@ class CreateWorkbookPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.createWorkbookBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('問題集の作成'),
+          title: Text(
+            AppLocalizations.of(context)!.titleCreateWorkbook,
+          ),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,7 +102,8 @@ class CreateWorkbookPage extends HookConsumerWidget {
                               onPressed: () => context.router.push(
                                 CreateFolderRoute(location: location),
                               ),
-                              label: const Text('フォルダ作成'),
+                              label: Text(AppLocalizations.of(context)!
+                                  .buttonCreateFolder),
                               icon: const Icon(Icons.add),
                             ),
                           ],

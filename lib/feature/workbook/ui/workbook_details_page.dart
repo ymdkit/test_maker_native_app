@@ -245,17 +245,21 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                           value: _PopupMenuItems.select,
                           child: Text('まとめて選択'),
                         ),
-                        const PopupMenuItem(
+                        PopupMenuItem(
                           value: _PopupMenuItems.edit,
-                          child: Text('問題集の編集'),
+                          child: Text(
+                            AppLocalizations.of(context)!.menuEditWorkbook,
+                          ),
                         ),
                         const PopupMenuItem(
                           value: _PopupMenuItems.export,
                           child: Text('問題集のエクスポート'),
                         ),
-                        const PopupMenuItem(
+                        PopupMenuItem(
                           value: _PopupMenuItems.delete,
-                          child: Text('問題集の削除'),
+                          child: Text(
+                            AppLocalizations.of(context)!.menuDeleteWorkbook,
+                          ),
                         ),
                       ],
                       onSelected: (value) {
@@ -302,7 +306,8 @@ class WorkbookDetailsPage extends HookConsumerWidget {
                           case _PopupMenuItems.delete:
                             showAlertDialog(
                               context: context,
-                              title: '問題集の削除',
+                              title: AppLocalizations.of(context)!
+                                  .titleDeleteWorkbook,
                               content: AppLocalizations.of(context)!
                                   .confirmDeleteWorkbook,
                               isDangerous: true,

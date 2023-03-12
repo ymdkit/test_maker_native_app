@@ -34,7 +34,7 @@ class TrashPage extends HookConsumerWidget {
               icon: const Icon(Icons.delete_forever),
               onPressed: () => showAlertDialog(
                 context: context,
-                title: 'ゴミ箱を空にする',
+                title: AppLocalizations.of(context)!.titleDestroyContents,
                 content: AppLocalizations.of(context)!.confirmDestroyContents,
                 isDangerous: true,
                 onPositive: () async {
@@ -90,7 +90,8 @@ class TrashPage extends HookConsumerWidget {
                           folder: folders[index],
                           onTap: (workbook) => showAlertDialog(
                             context: context,
-                            title: 'フォルダの復元',
+                            title: AppLocalizations.of(context)!
+                                .titleRestoreFolder,
                             content: AppLocalizations.of(context)!
                                 .confirmRestoreFolder,
                             onPositive: () {
@@ -124,7 +125,8 @@ class TrashPage extends HookConsumerWidget {
                           workbook: workbooks[index],
                           onTap: (workbook) => showAlertDialog(
                             context: context,
-                            title: '問題集の復元',
+                            title: AppLocalizations.of(context)!
+                                .titleRestoreWorkbook,
                             content: AppLocalizations.of(context)!
                                 .confirmRestoreWorkbook,
                             onPositive: () {
@@ -158,7 +160,8 @@ class TrashPage extends HookConsumerWidget {
                           question: questions[index],
                           onTap: (question) => showAlertDialog(
                             context: context,
-                            title: '問題の復元',
+                            title: AppLocalizations.of(context)!
+                                .titleRestoreQuestion,
                             content: AppLocalizations.of(context)!
                                 .confirmRestoreQuestion,
                             onPositive: () {

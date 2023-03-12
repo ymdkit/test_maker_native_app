@@ -31,7 +31,7 @@ class CreateFolderPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.createFolderBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('フォルダの作成'),
+          title: Text(AppLocalizations.of(context)!.titleCreateFolder),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

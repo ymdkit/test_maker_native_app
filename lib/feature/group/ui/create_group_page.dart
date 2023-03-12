@@ -25,7 +25,9 @@ class CreateGroupPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.createGroupBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('グループ作成'),
+          title: Text(
+            AppLocalizations.of(context)!.titleCreateGroup,
+          ),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

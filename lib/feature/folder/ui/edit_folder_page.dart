@@ -30,7 +30,9 @@ class EditFolderPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.editFolderBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('フォルダの編集'),
+          title: Text(
+            AppLocalizations.of(context)!.titleEditFolder,
+          ),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

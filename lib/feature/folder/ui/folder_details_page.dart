@@ -52,13 +52,17 @@ class FolderDetailsPage extends HookConsumerWidget {
             PopupMenuButton(
               icon: const Icon(Icons.more_vert),
               itemBuilder: (context) => [
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _PopupMenuItems.edit,
-                  child: Text('フォルダの編集'),
+                  child: Text(
+                    AppLocalizations.of(context)!.menuEditFolder,
+                  ),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _PopupMenuItems.delete,
-                  child: Text('フォルダの削除'),
+                  child: Text(
+                    AppLocalizations.of(context)!.menuDeleteFolder,
+                  ),
                 ),
               ],
               onSelected: (value) {
@@ -71,7 +75,7 @@ class FolderDetailsPage extends HookConsumerWidget {
                   case _PopupMenuItems.delete:
                     showAlertDialog(
                       context: context,
-                      title: 'フォルダの削除',
+                      title: AppLocalizations.of(context)!.titleDeleteFolder,
                       content:
                           AppLocalizations.of(context)!.confirmDeleteFolder,
                       isDangerous: true,

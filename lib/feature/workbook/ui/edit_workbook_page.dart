@@ -52,7 +52,9 @@ class EditWorkbookPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.editWorkbookBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('問題集の編集'),
+          title: Text(
+            AppLocalizations.of(context)!.titleEditWorkbook,
+          ),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

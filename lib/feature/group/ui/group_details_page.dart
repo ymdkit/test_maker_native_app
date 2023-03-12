@@ -39,17 +39,23 @@ class GroupDetailsPage extends HookConsumerWidget {
             PopupMenuButton(
               icon: const Icon(Icons.more_vert),
               itemBuilder: (context) => [
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _PopupMenuItems.invite,
-                  child: Text('グループへの招待'),
+                  child: Text(
+                    AppLocalizations.of(context)!.menuInviteGroup,
+                  ),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _PopupMenuItems.edit,
-                  child: Text('グループの編集'),
+                  child: Text(
+                    AppLocalizations.of(context)!.menuEditGroup,
+                  ),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _PopupMenuItems.exit,
-                  child: Text('グループから退出'),
+                  child: Text(
+                    AppLocalizations.of(context)!.menuExitGroup,
+                  ),
                 ),
               ],
               onSelected: (value) async {
@@ -82,7 +88,8 @@ class GroupDetailsPage extends HookConsumerWidget {
                       title: 'グループからの退出',
                       content: AppLocalizations.of(context)!.confirmExitGroup,
                       isDangerous: true,
-                      positiveButtonText: '退出する',
+                      positiveButtonText:
+                          AppLocalizations.of(context)!.buttonExit,
                       onPositive: () async {
                         final result = await ref
                             .read(groupsProvider.notifier)

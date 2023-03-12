@@ -27,7 +27,9 @@ class EditGroupPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.createGroupBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('グループ編集'),
+          title: Text(
+            AppLocalizations.of(context)!.titleEditGroup,
+          ),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

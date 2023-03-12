@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:test_maker_native_app/feature/account/state/account_state.dart';
@@ -22,7 +23,9 @@ class GroupListPage extends HookConsumerWidget {
       adUnitId: AppAdUnitId.groupListBanner,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('グループ一覧'),
+          title: Text(
+            AppLocalizations.of(context)!.tabGroup,
+          ),
         ),
         body: accountState.when(
           loading: () => const Center(child: CircularProgressIndicator()),
