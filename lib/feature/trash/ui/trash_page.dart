@@ -76,7 +76,9 @@ class TrashPage extends HookConsumerWidget {
         adUnitId: AppAdUnitId.settingBanner,
         child: trashUiState.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          empty: () => const AppEmptyContent.trash(),
+          empty: () => AppEmptyContent.trash(
+            context: context,
+          ),
           success: (folders, workbooks, questions) => CustomScrollView(
             slivers: [
               SliverVisibility(

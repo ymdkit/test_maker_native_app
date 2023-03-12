@@ -47,7 +47,9 @@ class SearchWorkbookPage extends HookConsumerWidget {
         body: workbooks.when(
           data: (workbooks) {
             if (workbooks.isEmpty) {
-              return const AppEmptyContent.search();
+              return AppEmptyContent.search(
+                context: context,
+              );
             }
             return RefreshIndicator(
               onRefresh: () async {

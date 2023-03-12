@@ -122,6 +122,7 @@ class GroupDetailsPage extends HookConsumerWidget {
                 ref.refresh(groupWorkbooksStateProvider(groupId)),
             child: groupWorkbooks.isEmpty
                 ? AppEmptyContent.groupWorkbook(
+                    context: context,
                     onPressedFallbackButton: () => context.router.push(
                       CreateGroupWorkbookRoute(groupId: groupId),
                     ),

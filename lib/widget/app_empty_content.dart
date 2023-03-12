@@ -20,7 +20,7 @@ class AppEmptyContent extends StatelessWidget {
     required BuildContext context,
     required this.onPressedFallbackButton,
   })  : icon = Icons.edit_document,
-        text = '保存されている問題集はありません\n問題集を作成してください',
+        text = AppLocalizations.of(context)!.messageNotExistsWorkbooks,
         fallbackButtonText = AppLocalizations.of(context)!.buttonCreateWorkbook;
 
   AppEmptyContent.question({
@@ -28,13 +28,14 @@ class AppEmptyContent extends StatelessWidget {
     required BuildContext context,
     required this.onPressedFallbackButton,
   })  : icon = Icons.edit,
-        text = '保存されている問題はありません\n問題を作成してください',
+        text = AppLocalizations.of(context)!.messageNotExistsQuestions,
         fallbackButtonText = AppLocalizations.of(context)!.buttonCreateQuestion;
 
-  const AppEmptyContent.search({
+  AppEmptyContent.search({
+    required BuildContext context,
     super.key,
   })  : icon = Icons.search,
-        text = 'キーワードが一致する問題集はありません\n検索キーワードを変更してください',
+        text = AppLocalizations.of(context)!.messageNotExistsSearchResult,
         fallbackButtonText = null,
         onPressedFallbackButton = null;
 
@@ -43,7 +44,8 @@ class AppEmptyContent extends StatelessWidget {
     required BuildContext context,
     required this.onPressedFallbackButton,
   })  : icon = Icons.group,
-        text = 'グループ機能を利用するにはログインが必要です\nログインしてください',
+        text =
+            AppLocalizations.of(context)!.messageRequireSignInForGroupFeature,
         fallbackButtonText = AppLocalizations.of(context)!.buttonSignIn;
 
   AppEmptyContent.group({
@@ -51,20 +53,23 @@ class AppEmptyContent extends StatelessWidget {
     required BuildContext context,
     required this.onPressedFallbackButton,
   })  : icon = Icons.group,
-        text = '所属しているグループはありません\nグループを作成してください',
+        text = AppLocalizations.of(context)!.messageNotExistsGroups,
         fallbackButtonText = AppLocalizations.of(context)!.buttonCreateGroup;
 
-  const AppEmptyContent.groupWorkbook({
+  AppEmptyContent.groupWorkbook({
     super.key,
+    required BuildContext context,
     required this.onPressedFallbackButton,
   })  : icon = Icons.edit_document,
-        text = '登録されている問題集はありません\n問題集を登録してください',
-        fallbackButtonText = '問題集を登録する';
+        text = AppLocalizations.of(context)!.messageNotExistsWorkbookInGroup,
+        fallbackButtonText =
+            AppLocalizations.of(context)!.buttonLinkWorkbookToGroup;
 
-  const AppEmptyContent.trash({
+  AppEmptyContent.trash({
+    required BuildContext context,
     super.key,
   })  : icon = Icons.delete,
-        text = 'ゴミ箱の中は空です',
+        text = AppLocalizations.of(context)!.messageNotExistsContentsInTrash,
         fallbackButtonText = '',
         onPressedFallbackButton = null;
 
