@@ -36,5 +36,10 @@
     "colorPurple": "パープル",
     "colorTeal": "ティール",
     "colorIndigo": "インディゴ",
-    "colorBrown": "ブラウン"
+    "colorBrown": "ブラウン",
+    "questionConditionAll": "全て",
+    "questionConditionOnlyWrong": "不正解のみ",
+    "questionConditionOnlyUnAnswered": "未出題のみ",
+    "questionConditionOnlyUnAnsweredAndWrong": "不正解 + 未出題",
+    "questionConditionWeekPoints": "ニガテ問題"
 }

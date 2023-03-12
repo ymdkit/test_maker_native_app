@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 enum QuestionCondition {
   all,
   onlyWrong,
@@ -5,19 +8,19 @@ enum QuestionCondition {
   wrongAndUnAnswered,
   weekPoints;
 
-  // TODO(ymdkit): ローカライズ
-  String displayString() {
+  String displayString(BuildContext context) {
     switch (this) {
       case QuestionCondition.all:
-        return '全て';
+        return AppLocalizations.of(context)!.questionConditionAll;
       case QuestionCondition.onlyWrong:
-        return '不正解のみ';
+        return AppLocalizations.of(context)!.questionConditionOnlyWrong;
       case QuestionCondition.onlyUnAnswered:
-        return '未出題のみ';
+        return AppLocalizations.of(context)!.questionConditionOnlyUnAnswered;
       case QuestionCondition.wrongAndUnAnswered:
-        return '不正解 + 未出題';
+        return AppLocalizations.of(context)!
+            .questionConditionOnlyUnAnsweredAndWrong;
       case QuestionCondition.weekPoints:
-        return 'ニガテ問題のみ';
+        return AppLocalizations.of(context)!.questionConditionWeekPoints;
     }
   }
 }

@@ -36,5 +36,10 @@
     "colorPurple": "Purple",
     "colorTeal": "Teal",
     "colorIndigo": "Indigo",
-    "colorBrown": "Brown"
+    "colorBrown": "Brown",
+    "questionConditionAll": "All",
+    "questionConditionOnlyWrong": "Only wrong",
+    "questionConditionOnlyUnAnswered": "Only un-answered",
+    "questionConditionOnlyUnAnsweredAndWrong": "Only un-answered and wrong",
+    "questionConditionWeekPoints": "Weekpoint"
 }

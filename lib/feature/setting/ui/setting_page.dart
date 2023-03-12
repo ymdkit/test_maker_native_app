@@ -312,14 +312,14 @@ class AnswerWorkbookSettings extends StatelessWidget {
             QuestionCondition.values
                 .elementAtOrDefault(
                     preferences.questionCondition.index, QuestionCondition.all)
-                .displayString(),
+                .displayString(context),
           ),
           onTap: () => showAppPickerSheet(
             context: context,
             title: '出題範囲',
             items: QuestionCondition.values
                 .map(
-                  (e) => PickerItem(label: e.displayString(), value: e),
+                  (e) => PickerItem(label: e.displayString(context), value: e),
                 )
                 .toList(),
             onChanged: (value) =>
