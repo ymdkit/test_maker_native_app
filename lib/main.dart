@@ -7,8 +7,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info/package_info.dart';
@@ -99,15 +99,8 @@ class MyApp extends HookConsumerWidget {
 
     return MaterialApp.router(
       // TODO(ymdkit): ローカライズ
-      locale: const Locale('ja', ''),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('ja', ''),
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData.light().copyWithSharedTheme(appThemeColor).copyWith(
             appBarTheme: const AppBarTheme(
               elevation: 0,
@@ -197,27 +190,27 @@ class RootPage extends HookConsumerWidget {
         _BottomNavigationPageRoute(
           pageRouteInfo: const HomeTabRoute(),
           iconData: Icons.home,
-          label: 'ホーム',
+          label: AppLocalizations.of(context)!.tabHome,
         ),
         _BottomNavigationPageRoute(
           pageRouteInfo: const SearchTabRoute(),
           iconData: Icons.search,
-          label: 'さがす',
+          label: AppLocalizations.of(context)!.tabSearch,
         ),
         _BottomNavigationPageRoute(
           pageRouteInfo: const GroupTabRoute(),
           iconData: Icons.group,
-          label: 'グループ',
+          label: AppLocalizations.of(context)!.tabGroup,
         ),
         _BottomNavigationPageRoute(
           pageRouteInfo: const RecordTabRoute(),
           iconData: Icons.history,
-          label: '学習記録',
+          label: AppLocalizations.of(context)!.tabRecord,
         ),
         _BottomNavigationPageRoute(
           pageRouteInfo: const SettingTabRoute(),
           iconData: Icons.settings,
-          label: '設定',
+          label: AppLocalizations.of(context)!.tabSetting,
         ),
       ],
     );
