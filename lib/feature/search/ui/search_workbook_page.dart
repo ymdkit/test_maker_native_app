@@ -29,7 +29,7 @@ class SearchWorkbookPage extends HookConsumerWidget {
             controller: queryController,
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.search),
-              hintText: '検索',
+              hintText: AppLocalizations.of(context)!.hintSearch,
               border: InputBorder.none,
               suffix: IconButton(
                 icon: const Icon(Icons.clear),

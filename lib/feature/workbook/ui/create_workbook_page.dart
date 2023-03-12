@@ -71,10 +71,11 @@ class CreateWorkbookPage extends HookConsumerWidget {
                         AppTextFormField(
                           autofocus: true,
                           controller: workbookTitleController,
-                          hintText: '問題集のタイトルを入力してください',
+                          hintText:
+                              AppLocalizations.of(context)!.hintWorkbookName,
                           labelText: '問題集のタイトル',
                           validator: (value) => value?.isEmpty ?? true
-                              ? '問題集のタイトルを入力してください'
+                              ? AppLocalizations.of(context)!.hintWorkbookName
                               : null,
                         ),
                         const SizedBox(height: 16),

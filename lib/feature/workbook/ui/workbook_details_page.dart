@@ -71,9 +71,9 @@ class WorkbookDetailsPage extends HookConsumerWidget {
               ? TextField(
                   autofocus: true,
                   controller: queryController,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: '検索',
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
+                    hintText: AppLocalizations.of(context)!.hintSearch,
                     border: InputBorder.none,
                   ),
                   onSubmitted: (query) =>

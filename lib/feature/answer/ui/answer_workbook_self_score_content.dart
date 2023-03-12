@@ -90,7 +90,7 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
                           question.rawQuestion, true);
                       await uiStateNotifier.forward();
                     },
-                    child: const Text('正解'),
+                    child: Text(AppLocalizations.of(context)!.correct),
                   ),
                   const SizedBox(height: 16),
                   SynchronizedButton.outlined(
@@ -99,7 +99,7 @@ class AnswerQuestionSelfScoreContent extends HookConsumerWidget {
                           question.rawQuestion, false);
                       await uiStateNotifier.forward();
                     },
-                    child: const Text('不正解'),
+                    child: Text(AppLocalizations.of(context)!.incorrect),
                   ),
                 ],
               ),

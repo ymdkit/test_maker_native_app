@@ -1,5 +1,6 @@
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/answer/model/answering_question.dart';
@@ -130,7 +131,7 @@ class _AnswerWriteQuestionContent extends HookWidget {
     return AppTextFormField(
       autofocus: true,
       controller: answerController,
-      hintText: '答えを入力してください',
+      hintText: AppLocalizations.of(context)!.hintQuestionAnswer,
       labelText: '答え',
       textInputAction: TextInputAction.next,
       onChanged: onChanged,
@@ -159,7 +160,8 @@ class _AnswerCompleteQuestionContent extends HookWidget {
             (index, answer) => AppTextFormField(
               autofocus: index == 0,
               controller: answerControllers.value[index],
-              hintText: '${index + 1}つ目の答えを入力してください',
+              hintText: AppLocalizations.of(context)!
+                  .hintQuestionIndexedAnswer(index + 1),
               labelText: '${index + 1}つ目の答え',
               textInputAction: TextInputAction.next,
               onChanged: (_) {

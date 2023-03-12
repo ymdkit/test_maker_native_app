@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/feature/setting/state/preferences_state.dart';
@@ -36,7 +37,9 @@ class AnswerEffectWidget extends HookConsumerWidget {
                       size: 120,
                     ),
                     Text(
-                      answerEffectState ? '正解' : '不正解',
+                      answerEffectState
+                          ? AppLocalizations.of(context)!.correct
+                          : AppLocalizations.of(context)!.incorrect,
                       style: TextStyle(
                         color: answerEffectState
                             ? themeColor.displayColor()

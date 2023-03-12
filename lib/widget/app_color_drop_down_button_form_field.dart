@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:test_maker_native_app/constants/color_theme.dart';
 import 'package:test_maker_native_app/widget/app_dropdown_button_form_field.dart';
 
@@ -39,7 +40,7 @@ class AppColorDropdownButtonFormField extends StatelessWidget {
           .toList(),
       onChanged: (colorTheme) => onChanged(colorTheme ?? AppThemeColor.blue),
       labelText: 'カラー',
-      hintText: 'カラーを選択してください',
+      hintText: AppLocalizations.of(context)!.hintSelectColor,
     );
   }
 }

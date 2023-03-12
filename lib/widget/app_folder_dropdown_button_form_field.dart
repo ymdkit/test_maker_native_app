@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:test_maker_native_app/feature/folder/model/folder.dart';
 import 'package:test_maker_native_app/widget/app_dropdown_button_form_field.dart';
 
@@ -38,7 +39,7 @@ class AppFolderDropdownButtonFormField extends StatelessWidget {
         folders.firstWhereOrNull((folder) => folder.folderId == folderId),
       ),
       labelText: 'フォルダ',
-      hintText: 'フォルダを選択してください',
+      hintText: AppLocalizations.of(context)!.hintSelectFolder,
     );
   }
 }

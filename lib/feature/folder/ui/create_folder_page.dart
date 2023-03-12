@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_maker_native_app/constants/app_data_location.dart';
@@ -48,10 +49,12 @@ class CreateFolderPage extends HookConsumerWidget {
                         AppTextFormField(
                           autofocus: true,
                           controller: folderTitleController,
-                          hintText: 'フォルダ名を入力してください',
+                          hintText:
+                              AppLocalizations.of(context)!.hintFolderName,
                           labelText: 'フォルダ名',
-                          validator: (value) =>
-                              value?.isEmpty ?? true ? 'フォルダ名を入力してください' : null,
+                          validator: (value) => value?.isEmpty ?? true
+                              ? AppLocalizations.of(context)!.hintFolderName
+                              : null,
                         ),
                         const SizedBox(height: 16),
                         AppColorDropdownButtonFormField(

@@ -121,67 +121,71 @@ class EditQuestionForm extends HookConsumerWidget {
                                   AppLocalizations.of(context)!.sectionRequired,
                             ),
                             AppDropdownButtonFormField<QuestionType>(
-                                value: questionType.value,
-                                items: QuestionType.values
-                                    .map(
-                                      (e) => DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e.toDisplayString()),
-                                      ),
-                                    )
-                                    .toList(),
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    questionType.value = value;
+                              value: questionType.value,
+                              items: QuestionType.values
+                                  .map(
+                                    (e) => DropdownMenuItem(
+                                      value: e,
+                                      child: Text(e.toDisplayString()),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (value) {
+                                if (value != null) {
+                                  questionType.value = value;
 
-                                    switch (value) {
-                                      case QuestionType.write:
-                                        answerControllers.value = [
-                                          TextEditingController(),
-                                        ];
-                                        wrongChoiceControllers.value = [];
-                                        break;
-                                      case QuestionType.select:
-                                        answerControllers.value = [
-                                          TextEditingController(),
-                                        ];
-                                        wrongChoiceControllers.value = [
-                                          TextEditingController(),
-                                          TextEditingController(),
-                                          TextEditingController(),
-                                        ];
-                                        break;
-                                      case QuestionType.complete:
-                                        answerControllers.value = [
-                                          TextEditingController(),
-                                          TextEditingController(),
-                                        ];
-                                        wrongChoiceControllers.value = [];
-                                        break;
-                                      case QuestionType.selectComplete:
-                                        answerControllers.value = [
-                                          TextEditingController(),
-                                          TextEditingController(),
-                                        ];
-                                        wrongChoiceControllers.value = [
-                                          TextEditingController(),
-                                          TextEditingController(),
-                                        ];
-                                        break;
-                                    }
+                                  switch (value) {
+                                    case QuestionType.write:
+                                      answerControllers.value = [
+                                        TextEditingController(),
+                                      ];
+                                      wrongChoiceControllers.value = [];
+                                      break;
+                                    case QuestionType.select:
+                                      answerControllers.value = [
+                                        TextEditingController(),
+                                      ];
+                                      wrongChoiceControllers.value = [
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                      ];
+                                      break;
+                                    case QuestionType.complete:
+                                      answerControllers.value = [
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                      ];
+                                      wrongChoiceControllers.value = [];
+                                      break;
+                                    case QuestionType.selectComplete:
+                                      answerControllers.value = [
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                      ];
+                                      wrongChoiceControllers.value = [
+                                        TextEditingController(),
+                                        TextEditingController(),
+                                      ];
+                                      break;
                                   }
-                                },
-                                labelText: '問題形式',
-                                hintText: '問題形式を選択してください'),
+                                }
+                              },
+                              labelText: '問題形式',
+                              hintText: AppLocalizations.of(context)!
+                                  .hintQuestionType,
+                            ),
                             const SizedBox(height: 16),
                             AppTextFormField(
                               focusNode: firstFormFocusNode,
                               autofocus: true,
                               controller: problemController,
-                              hintText: '問題文を入力してください',
+                              hintText: AppLocalizations.of(context)!
+                                  .hintQuestionProblem,
                               labelText: '問題文',
                               validator: (value) => value?.isEmpty ?? true
-                                  ? '問題文を入力してください'
+                                  ? AppLocalizations.of(context)!
+                                      .hintQuestionProblem
                                   : null,
                               maxLines: 5,
                             ),
@@ -203,10 +207,12 @@ class EditQuestionForm extends HookConsumerWidget {
                                 children: [
                                   AppTextFormField(
                                     controller: controller,
-                                    hintText: '答えを入力してください',
+                                    hintText: AppLocalizations.of(context)!
+                                        .hintQuestionAnswer,
                                     labelText: '答え',
                                     validator: (value) => value?.isEmpty ?? true
-                                        ? '答えを入力してください'
+                                        ? AppLocalizations.of(context)!
+                                            .hintQuestionAnswer
                                         : null,
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -222,12 +228,14 @@ class EditQuestionForm extends HookConsumerWidget {
                                       enabled:
                                           !isAutoGenerateWrongChoices.value,
                                       controller: controller,
-                                      hintText: '不正解の選択肢を入力してください',
+                                      hintText: AppLocalizations.of(context)!
+                                          .hintQuestionWrongChoice,
                                       labelText: '不正解の選択肢',
                                       validator: !isAutoGenerateWrongChoices
                                               .value
                                           ? (value) => value?.isEmpty ?? true
-                                              ? '不正解の選択肢を入力してください'
+                                              ? AppLocalizations.of(context)!
+                                                  .hintQuestionWrongChoice
                                               : null
                                           : null,
                                       textInputAction: TextInputAction.next,
@@ -241,33 +249,34 @@ class EditQuestionForm extends HookConsumerWidget {
                               child: Column(
                                 children: [
                                   AppDropdownButtonFormField<int>(
-                                      value: answerControllers.value.length,
-                                      items: List.generate(
-                                        11,
-                                        (index) => DropdownMenuItem(
-                                          value: index,
-                                          child: Text('$index'),
-                                        ),
+                                    value: answerControllers.value.length,
+                                    items: List.generate(
+                                      11,
+                                      (index) => DropdownMenuItem(
+                                        value: index,
+                                        child: Text('$index'),
                                       ),
-                                      onChanged: (value) {
-                                        if (value != null) {
-                                          answerControllers.value =
-                                              List.generate(
-                                            value,
-                                            (index) =>
-                                                TextEditingController.fromValue(
-                                              TextEditingValue(
-                                                text: answerControllers.value
-                                                        .elementAtOrNull(index)
-                                                        ?.text ??
-                                                    '',
-                                              ),
+                                    ),
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        answerControllers.value = List.generate(
+                                          value,
+                                          (index) =>
+                                              TextEditingController.fromValue(
+                                            TextEditingValue(
+                                              text: answerControllers.value
+                                                      .elementAtOrNull(index)
+                                                      ?.text ??
+                                                  '',
                                             ),
-                                          );
-                                        }
-                                      },
-                                      labelText: '答えの数',
-                                      hintText: '答えの数を選択してください'),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    labelText: '答えの数',
+                                    hintText: AppLocalizations.of(context)!
+                                        .hintQuestionAnswerCount,
+                                  ),
                                   const SizedBox(height: 16),
                                 ],
                               ),
@@ -301,7 +310,8 @@ class EditQuestionForm extends HookConsumerWidget {
                                   }
                                 },
                                 labelText: '不正解の数',
-                                hintText: '不正解の数を選択してください',
+                                hintText: AppLocalizations.of(context)!
+                                    .hintQuestionWrongChoiceCount,
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -313,7 +323,8 @@ class EditQuestionForm extends HookConsumerWidget {
                             ),
                             AppTextFormField(
                               controller: explanationController,
-                              hintText: '解説を入力してください',
+                              hintText: AppLocalizations.of(context)!
+                                  .hintQuestionExplanation,
                               labelText: '解説',
                               maxLines: 5,
                             ),
