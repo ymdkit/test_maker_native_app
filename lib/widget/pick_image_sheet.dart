@@ -54,29 +54,34 @@ class _PickImageSheet extends HookWidget {
         child: isPicking.value
             ? Column(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text('画像の設定中'),
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        AppLocalizations.of(context)!.titleImageSelecting,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 16),
-                  CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  const CircularProgressIndicator(),
                 ],
               )
             : Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Text('画像設定'),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      AppLocalizations.of(context)!.titleImageSetting,
+                    ),
                   ),
                   ListTile(
                       leading: const Icon(Icons.camera_alt),
-                      title: const Text('カメラで撮影'),
+                      title:
+                          Text(AppLocalizations.of(context)!.buttonTakePhoto),
                       onTap: () async {
                         try {
                           isPicking.value = true;
@@ -95,9 +100,10 @@ class _PickImageSheet extends HookWidget {
                           if (e.code == 'camera_access_denied') {
                             await showAlertDialog(
                               context: sheetContext,
-                              title: '権限エラー',
-                              content:
-                                  'カメラへのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
+                              title: AppLocalizations.of(context)!
+                                  .titlePermissionError,
+                              content: AppLocalizations.of(context)!
+                                  .messageCameraPermissionDenied,
                               positiveButtonText:
                                   AppLocalizations.of(context)!.buttonPermit,
                               onPositive: () => openAppSettings(),
@@ -107,7 +113,9 @@ class _PickImageSheet extends HookWidget {
                       }),
                   ListTile(
                     leading: const Icon(Icons.photo_library),
-                    title: const Text('ライブラリから選択'),
+                    title: Text(
+                      AppLocalizations.of(context)!.buttonSelectPhoto,
+                    ),
                     onTap: () async {
                       try {
                         isPicking.value = true;
@@ -126,9 +134,10 @@ class _PickImageSheet extends HookWidget {
                         if (e.code == 'photo_access_denied') {
                           await showAlertDialog(
                             context: sheetContext,
-                            title: '権限エラー',
-                            content:
-                                '端末内の画像へのアクセスが許可されていません。アプリの設定からアクセスを許可してください',
+                            title: AppLocalizations.of(context)!
+                                .titlePermissionError,
+                            content: AppLocalizations.of(context)!
+                                .messageLibraryPermissionDenied,
                             positiveButtonText:
                                 AppLocalizations.of(context)!.buttonPermit,
                             onPositive: () => openAppSettings(),
@@ -139,7 +148,8 @@ class _PickImageSheet extends HookWidget {
                   ),
                   ListTile(
                     leading: const Icon(Icons.delete),
-                    title: const Text('画像を削除'),
+                    title:
+                        Text(AppLocalizations.of(context)!.buttonDeleteImage),
                     onTap: () {
                       showAlertDialog(
                         context: sheetContext,

@@ -115,6 +115,9 @@
     "buttonStartAnswering": "解答を開始する",
     "buttonFinishAnswering": "終了",
     "buttonImport": "ファイルのインポート",
+    "buttonTakePhoto": "カメラで撮影",
+    "buttonSelectPhoto": "ライブラリから選択",
+    "buttonDeleteImage": "画像を削除する",
     "menuEditFolder": "フォルダの編集",
     "menuDeleteFolder": "フォルダの削除",
     "menuEditWorkbook": "問題集の編集",
@@ -171,6 +174,8 @@
     "messageNotExistsWorkbookInGroup": "登録されている問題集はありません\n問題集を登録してください",
     "messageNotExistsContentsInTrash": "ゴミ箱の中は空です",
     "messageAboutDeleteAccount": "退会すると、クラウド上に同期した問題集にアクセスすることは不可能になります。こちらをご理解した上で次に進んでください。",
+    "messageCameraPermissionDenied": "カメラへのアクセスが許可されていません。アプリの設定からアクセスを許可してください",
+    "messageLibraryPermissionDenied": "端末内の画像へのアクセスが許可されていません。アプリの設定からアクセスを許可してください",
     "labelYourAnswer": "解答",
     "labelGiveUp": "わからない",
     "labelFolderName": "フォルダ名",
@@ -234,5 +239,8 @@
     "titleShareError": "共有エラー",
     "titleAnswerError": "出題エラー",
     "titleAboutDeleteAccount": "退会について",
-    "titleDeleteAccountExactly": "退会の確認"
+    "titleDeleteAccountExactly": "退会の確認",
+    "titleImageSelecting": "画像の設定中",
+    "titleImageSetting": "画像設定",
+    "titlePermissionError": "権限エラー"
 }
