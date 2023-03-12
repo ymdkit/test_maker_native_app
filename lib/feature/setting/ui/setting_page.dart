@@ -61,7 +61,7 @@ class SettingPage extends HookConsumerWidget {
               ListTile(
                 title: const Text('テーマカラー'),
                 subtitle: Text(
-                  preferences.themeColor.displayString(),
+                  preferences.themeColor.displayString(context),
                 ),
                 onTap: () async => showAppColorPickerSheet(
                   context: context,

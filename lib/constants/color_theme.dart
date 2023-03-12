@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum AppThemeColor {
   blue('blue'),
@@ -17,29 +18,28 @@ enum AppThemeColor {
 
   const AppThemeColor(this.value);
 
-  // TODO(ymdkit): ローカライズ
-  String displayString() {
+  String displayString(BuildContext context) {
     switch (this) {
       case AppThemeColor.blue:
-        return 'ブルー';
+        return AppLocalizations.of(context)!.colorBlue;
       case AppThemeColor.red:
-        return 'レッド';
+        return AppLocalizations.of(context)!.colorRed;
       case AppThemeColor.green:
-        return 'グリーン';
+        return AppLocalizations.of(context)!.colorGreen;
       case AppThemeColor.orange:
-        return 'オレンジ';
+        return AppLocalizations.of(context)!.colorOrange;
       case AppThemeColor.yellow:
-        return 'イエロー';
+        return AppLocalizations.of(context)!.colorYellow;
       case AppThemeColor.pink:
-        return 'ピンク';
+        return AppLocalizations.of(context)!.colorPink;
       case AppThemeColor.purple:
-        return 'パープル';
+        return AppLocalizations.of(context)!.colorPurple;
       case AppThemeColor.teal:
-        return 'ティール';
+        return AppLocalizations.of(context)!.colorTeal;
       case AppThemeColor.indigo:
-        return 'インディゴ';
+        return AppLocalizations.of(context)!.colorIndigo;
       case AppThemeColor.brown:
-        return 'ブラウン';
+        return AppLocalizations.of(context)!.colorBrown;
     }
   }
 

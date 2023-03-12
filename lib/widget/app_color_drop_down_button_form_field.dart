@@ -31,7 +31,7 @@ class AppColorDropdownButtonFormField extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  Text(colorTheme.displayString()),
+                  Text(colorTheme.displayString(context)),
                 ],
               ),
             ),

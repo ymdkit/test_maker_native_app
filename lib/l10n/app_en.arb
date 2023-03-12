@@ -26,5 +26,15 @@
     "sectionSettingOther": "その他",
     "sectionSettingAnswer": "出題設定",
     "sectionCreateWorkbookInApp": "アプリから作成",
-    "sectionCreateWorkbookOther": "その他の方法で作成"
+    "sectionCreateWorkbookOther": "その他の方法で作成",
+    "colorBlue": "Blue",
+    "colorRed": "Red",
+    "colorGreen": "Green",
+    "colorOrange": "Orange",
+    "colorYellow": "Yellow",
+    "colorPink": "Pink",
+    "colorPurple": "Purple",
+    "colorTeal": "Teal",
+    "colorIndigo": "Indigo",
+    "colorBrown": "Brown"
 }

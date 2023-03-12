@@ -45,7 +45,7 @@ class _AppPickerSheet extends StatelessWidget {
                     color: item.displayColor(),
                   ),
                 ),
-                title: Text(item.displayString()),
+                title: Text(item.displayString(context)),
                 onTap: () {
                   sheetContext.router.pop();
                   onChanged(item);
